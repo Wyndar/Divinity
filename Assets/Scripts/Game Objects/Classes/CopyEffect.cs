@@ -3,16 +3,6 @@ public class CopyEffect:Effect
 {
     public CopyEffect(Effect copyEffect)
     {
-        //effectTypes = new(copyEffect.effectTypes);
-        //triggerEffects = new(copyEffect.triggerEffects);
-        //effectsUsed = new(copyEffect.effectsUsed);
-        //activationLocation = copyEffect.activationLocation;
-        //triggerLocation = new(copyEffect.triggerLocation);
-        //targetLocation = new(copyEffect.targetLocation);
-        //triggerState = new(copyEffect.triggerState);
-        //triggerPhase = new(copyEffect.triggerPhase);
-        //currentActivations = copyEffect.currentActivations;
-        //maxActivations = copyEffect.maxActivations;
         EffectType = new(copyEffect.EffectType);
         EffectUsed = new(copyEffect.EffectUsed);
         EffectAmount = new(copyEffect.EffectAmount);
@@ -24,8 +14,12 @@ public class CopyEffect:Effect
         if (copyEffect.TargetingType != null)
         {
             TargetingType = new(copyEffect.TargetingType);
-            EffectTargetType = new(copyEffect.EffectTargetType);
-            EffectTargetOwner = new(copyEffect.EffectTargetOwner);
+            if (copyEffect.EffectTargetType != null)
+                EffectTargetType = new(copyEffect.EffectTargetType);
+            if (copyEffect.effectTargetPlayType != null)
+                EffectTargetPlayType = new(copyEffect.EffectTargetPlayType);
+            if (copyEffect.EffectTargetOwner != null)
+                EffectTargetOwner = new(copyEffect.EffectTargetOwner);
             TargetLocation = new(copyEffect.TargetLocation);
             EffectTargetAmount = new(copyEffect.EffectTargetAmount);
             AllowSelfTarget = new(copyEffect.AllowSelfTarget);

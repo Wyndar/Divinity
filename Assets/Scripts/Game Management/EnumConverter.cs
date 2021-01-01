@@ -1,36 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using static Effect;
+using static CardLogic;
+using static Game_Manager;
+using static Card;
+using static Player;
 
 public class EnumConverter : MonoBehaviour
 {
-    public CardLogic.Location LocationStringToEnum(string location)
+    public Location LocationStringToEnum(string location)
     {
-        CardLogic.Location returnLocation;
+        Location returnLocation;
 
         //Deck,Hand,Field,Grave,Limbo,Outside, Undefined
         switch (location)
         {
             case "Deck":
-                returnLocation = CardLogic.Location.Deck;
+                returnLocation = Location.Deck;
                 break;
             case "Hero Deck":
-                returnLocation = CardLogic.Location.HeroDeck;
+                returnLocation = Location.HeroDeck;
                 break;
             case "Field":
-                returnLocation = CardLogic.Location.Field;
+                returnLocation = Location.Field;
                 break;
             case "Grave":
-                returnLocation = CardLogic.Location.Grave;
+                returnLocation = Location.Grave;
                 break;
             case "Hand":
-                returnLocation = CardLogic.Location.Hand;
+                returnLocation = Location.Hand;
                 break;
             case "Outside":
-                returnLocation = CardLogic.Location.Outside;
+                returnLocation = Location.Outside;
+                break;
+            case "Any":
+                returnLocation = Location.Any;
                 break;
             default:
-                returnLocation = CardLogic.Location.Undefined;
+                returnLocation = Location.Undefined;
                 break;
         }
         return returnLocation;
@@ -44,55 +51,55 @@ public class EnumConverter : MonoBehaviour
         switch (state)
         {
             case "Open":
-                returnState = Game_Manager.GameState.Open;
+                returnState = GameState.Open;
                 break;
             case "Damaged":
-                returnState = Game_Manager.GameState.Damaged;
+                returnState = GameState.Damaged;
                 break;
             case "Death":
-                returnState = Game_Manager.GameState.Death;
+                returnState = GameState.Death;
                 break;
             case "Grave":
-                returnState = Game_Manager.GameState.Grave;
+                returnState = GameState.Grave;
                 break;
             case "Summon":
-                returnState = Game_Manager.GameState.Summon;
+                returnState = GameState.Summon;
                 break;
             case "Activation":
-                returnState = Game_Manager.GameState.Activation;
+                returnState = GameState.Activation;
                 break;
             case "EffectActivation":
-                returnState = Game_Manager.GameState.EffectActivation;
+                returnState = GameState.EffectActivation;
                 break;
             case "Targeting":
-                returnState = Game_Manager.GameState.Targeting;
+                returnState = GameState.Targeting;
                 break;
             case "Reinforcement":
-                returnState = Game_Manager.GameState.Reinforcement;
+                returnState = GameState.Reinforcement;
                 break;
             case "Cost":
-                returnState = Game_Manager.GameState.Cost;
+                returnState = GameState.Cost;
                 break;
             case "ChainResolution":
-                returnState = Game_Manager.GameState.ChainResolution;
+                returnState = GameState.ChainResolution;
                 break;
             case "Playing":
-                returnState = Game_Manager.GameState.Playing;
+                returnState = GameState.Playing;
                 break;
             case "Deployment":
-                returnState = Game_Manager.GameState.Deployment;
+                returnState = GameState.Deployment;
                 break;
             case "Revive":
-                returnState = Game_Manager.GameState.Revive;
+                returnState = GameState.Revive;
                 break;
             case "EffectResolution":
-                returnState = Game_Manager.GameState.EffectResolution;
+                returnState = GameState.EffectResolution;
                 break;
             case "TurnEnd":
-                returnState = Game_Manager.GameState.TurnEnd;
+                returnState = GameState.TurnEnd;
                 break;
             default:
-                returnState = Game_Manager.GameState.Undefined;
+                returnState = GameState.Undefined;
                 break;
         }
         return returnState;
@@ -105,22 +112,22 @@ public class EnumConverter : MonoBehaviour
         switch (phase)
         {
             case "Draw Phase":
-                returnPhase = Game_Manager.Phase.DrawPhase;
+                returnPhase = Phase.DrawPhase;
                 break;
             case "Battle Phase":
-                returnPhase = Game_Manager.Phase.BattlePhase;
+                returnPhase = Phase.BattlePhase;
                 break;
             case "Cost Phase":
-                returnPhase =Game_Manager.Phase.CostPhase;
+                returnPhase =Phase.CostPhase;
                 break;
             case "Main Phase":
-                returnPhase = Game_Manager.Phase.MainPhase;
+                returnPhase = Phase.MainPhase;
                 break;
             case "End Phase":
-                returnPhase = Game_Manager.Phase.EndPhase;
+                returnPhase = Phase.EndPhase;
                 break;
             default:
-                returnPhase = Game_Manager.Phase.Undefined;
+                returnPhase = Phase.Undefined;
                 break;
         }
         return returnPhase;
@@ -237,66 +244,84 @@ public class EnumConverter : MonoBehaviour
         return returnEffectUsed;
     }
 
-    public List<Card.PlayType> PlayTypeStringToEnum(string type)
+    public List<PlayType> PlayTypeStringToEnumList(string type)
     {
-        List<Card.PlayType> returnPlayType = new();
+        List<PlayType> returnPlayType = new();
         switch (type)
         {
             case "spell":
-                returnPlayType.Add(Card.PlayType.Playable);
+                returnPlayType.Add(PlayType.Playable);
                 break;
             case "monster":
-                returnPlayType.Add(Card.PlayType.Playable);
-                returnPlayType.Add(Card.PlayType.Combatant);
+                returnPlayType.Add(PlayType.Playable);
+                returnPlayType.Add(PlayType.Combatant);
                 break;
             case "god":
-                returnPlayType.Add(Card.PlayType.Combatant);
+                returnPlayType.Add(PlayType.Combatant);
                 break;
             default:
-                returnPlayType.Add(Card.PlayType.Undefined);
+                returnPlayType.Add(PlayType.Undefined);
                 break;
         }
 
         return returnPlayType;
     }
 
-    public Card.Type TypeStringToEnum(string type)
+    public PlayType PlayTypeStringToEnum(string type)
     {
-        Card.Type returnType;
+        PlayType returnPlayType;
+        switch (type)
+        {
+            case "playable":
+                returnPlayType = PlayType.Playable;
+                break;
+            case "combatant":
+                returnPlayType = Card.PlayType.Combatant;
+                break;
+            default:
+                returnPlayType = Card.PlayType.Undefined;
+                break;
+        }
+        return returnPlayType;
+    }
+
+    public Type TypeStringToEnum(string type)
+    {
+        Type returnType;
         switch (type)
         {
             case "spell":
-                returnType = Card.Type.Spell;
+                returnType = Type.Spell;
                 break;
             case "monster":
-                returnType = Card.Type.Fighter;
+                returnType = Type.Fighter;
                 break;
             case "god":
-                returnType = Card.Type.God;
+                returnType = Type.God;
                 break;
             default:
-                returnType = Card.Type.Undefined;
+                returnType = Type.Undefined;
                 break;
         }
         return returnType;
     }
 
-    public Player.Controller OwnerStringToEnum(string player)
+    public Controller OwnerStringToEnum(string player)
     {
-        Player.Controller returnController;
+        Controller returnController;
         switch(player)
         {
             case "Player":
-                returnController = Player.Controller.Player;
+                returnController = Controller.Player;
                 break;
             case "Opponent":
-                returnController = Player.Controller.Opponent;
+                returnController = Controller.Opponent;
                 break;
-            case"Any":
-                returnController = Player.Controller.Any;
+            case "Any":
+                returnController = Controller.Any;
                 break;
             default:
-                returnController = Player.Controller.Undefined;
+                returnController = Controller.Undefined;
                 break;
         }
         return returnController;

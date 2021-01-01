@@ -176,6 +176,10 @@ public class DeckManager : MonoBehaviour
                     effect.triggerState = new();
                     effect.triggerPhase = new();
                     effect.maxActivations = effect.MaxActivations;
+                    effect.effectTargetController = new();
+                    effect.targetingTypes = new();
+                    effect.effectTargetPlayType = new();
+                    effect.effectTargetType = new();
                     foreach (string effectUsed in effect.EffectUsed)
                         effect.effectsUsed.Add(enumConverter.EffectUsedStringToEnum(effectUsed));
                     if (effect.TriggerType != null)
@@ -186,11 +190,22 @@ public class DeckManager : MonoBehaviour
                     if (effect.TriggerLocation != null)
                         foreach (string location in effect.TriggerLocation)
                             effect.triggerLocation.Add(enumConverter.LocationStringToEnum(location));
-                            effect.activationLocation=enumConverter.LocationStringToEnum (effect.ActivationLocation);
+                    effect.activationLocation = enumConverter.LocationStringToEnum(effect.ActivationLocation);
                     if (effect.TargetLocation != null)
                         foreach (string location in effect.TargetLocation)
                             effect.targetLocation.Add(enumConverter.LocationStringToEnum(location));
-
+                    if (effect.EffectTargetOwner != null)
+                        foreach (string owner in effect.EffectTargetOwner)
+                            effect.effectTargetController.Add(enumConverter.OwnerStringToEnum(owner));
+                    if (effect.TargetingType != null)
+                        foreach (string targetType in effect.TargetingType)
+                            effect.targetingTypes.Add(enumConverter.TargetingTypeStringToEnum(targetType));
+                    if (effect.EffectTargetType != null)
+                        foreach (string type in effect.EffectTargetType)
+                            effect.effectTargetType.Add(enumConverter.TypeStringToEnum(type));
+                    if (effect.EffectTargetPlayType != null)
+                        foreach (string playType in effect.EffectTargetPlayType)
+                            effect.effectTargetPlayType.Add(enumConverter.PlayTypeStringToEnum(playType));
                     if (effect.TriggerState != null)
                         foreach (string state in effect.TriggerState)
                             effect.triggerState.Add(enumConverter.StateStringToEnum(state));
@@ -201,7 +216,7 @@ public class DeckManager : MonoBehaviour
 
                 //sets enums
                 cardCloneCardLogic.type = enumConverter.TypeStringToEnum(cardCloneCardLogic.cardType);
-                cardCloneCardLogic.playTypes = new(enumConverter.PlayTypeStringToEnum(cardCloneCardLogic.cardType));
+                cardCloneCardLogic.playTypes = new(enumConverter.PlayTypeStringToEnumList(cardCloneCardLogic.cardType));
 
                 if (cardCloneCardLogic.cardType != "god")
                     returnList.Add(cardCloneCardLogic);

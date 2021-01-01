@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static Card;
+using static Effect;
 using static Game_Manager;
+using static Player;
 
 public class CardLogic : MonoBehaviour
 {
@@ -24,7 +26,7 @@ public class CardLogic : MonoBehaviour
 
     public enum Location
     {
-        Deck,HeroDeck,Hand,Field,Grave,Limbo,Outside,Undefined
+        Deck, HeroDeck, Hand, Field, Grave, Limbo, Outside, Any, Undefined
     }
 
     public Location currentLocation;
@@ -72,18 +74,21 @@ GameManager.StateChange(GameState.EffectActivation);
 
     public List<CardLogic> GetValidTargets(int effectNumber, int subEffectNumber)
     {
-        List<CardLogic> allTargetsList = new List<CardLogic>(FindObjectsOfType<CardLogic>());
+        List<CardLogic> allTargetsList = new(FindObjectsOfType<CardLogic>());
         List<CardLogic> returnList = new();
         Effect targetingEffect = effects[effectNumber];
-        if (targetingEffect.TargetLocation == null)
+        if (targetingEffect.targetLocation == null)
             return returnList;
 
-        string effectUsed = targetingEffect.EffectUsed[subEffectNumber];
-        string targetLocation = targetingEffect.TargetLocation[subEffectNumber];
-        if (targetLocation == "none")
-            return returnList;
-        string controller = targetingEffect.EffectTargetOwner[subEffectNumber];
-        string targetType = targetingEffect.EffectTargetType[subEffectNumber];
+        EffectsUsed effectUsed = targetingEffect.effectsUsed[subEffectNumber];
+        Location targetLocation = targetingEffect.targetLocation[subEffectNumber];
+        Controller controller = targetingEffect.effectTargetController[subEffectNumber];
+        Type type = Type.Undefined;
+        PlayType playType = PlayType.Undefined;
+        if (targetingEffect.effectTargetType != null)
+            type = targetingEffect.effectTargetType[subEffectNumber];
+        if (targetingEffect.effectTargetPlayType != null)
+            playType = targetingEffect.effectTargetPlayType[subEffectNumber];
         for (int i = 0; i < allTargetsList.Count; i++)
         {
             CardLogic target = allTargetsList[i];
@@ -92,30 +97,27 @@ GameManager.StateChange(GameState.EffectActivation);
             // basic targeting requirements... don't target wrong location, don't target wrong owner or wrong card types
             if (target == this && targetingEffect.AllowSelfTarget[subEffectNumber] == false)
                 continue;
-            if (target.currentLocation != enumConverter.LocationStringToEnum(targetLocation) && targetLocation != "any")
+            if (target.currentLocation != targetLocation && targetLocation != Location.Undefined)
                 continue;
-            if (target.cardController == cardController && controller == "Opponent")
+            if (target.cardController == cardController && controller == Controller.Opponent)
                 continue;
-            if (target.cardController != cardController && controller == "Player")
+            if (target.cardController != cardController && controller == Controller.Player)
                 continue;
 
-            //I know it looks funny and wasteful but believe me when I say this is the best way to write these next few lines, I tried everything
-            if (target.cardType != targetType && targetType != "any" && targetType != "playable" && targetType != "combatant")
+            //successfully cleaned up the bloody nightmare code by splitting into two seperate types
+            if (target.type != type && type != Type.Undefined)
                 continue;
-            if (targetType == "combatant" && target.cardType == "spell")
+            if (!target.playTypes.Contains(playType) && playType != PlayType.Undefined)
                 continue;
-            if (targetType == "playable" && target.cardType == "god")
-                continue;
-            //do NOT edit this nightmare, do NOT attempt to optimize...EVER!
 
             // don't target max hp with healing effects
-            if (effectUsed == "Regeneration" && (combatantStats == null || combatantStats.maxHp == combatantStats.currentHp))
+            if (effectUsed == EffectsUsed.Regeneration && (combatantStats == null || combatantStats.maxHp == combatantStats.currentHp))
                 continue;
             // don't target no hp with damage effects
-            if (effectUsed == "Damage" && (combatantStats == null || combatantStats.currentHp <= 0))
+            if (effectUsed == EffectsUsed.Damage && (combatantStats == null || combatantStats.currentHp <= 0))
                 continue;
             //don't add targets with higher cost when paying for revive or deploy cost
-            if ((effectUsed == "Revive"|| effectUsed=="Deploy") && cardController.costCount < playableStats.cost)
+            if ((effectUsed == EffectsUsed.Revive|| effectUsed==EffectsUsed.Deploy) && cardController.costCount < playableStats.cost)
                 continue;
 
             if (targetingEffect.TargetStat != null)
@@ -169,20 +171,20 @@ GameManager.StateChange(GameState.EffectActivation);
     private void EffectActivationAfterAnimation(int countNumber, int subCount)
     {
         Effect activatingEffect = effects[countNumber];
-        switch (activatingEffect.EffectType[subCount])
+        switch (activatingEffect.effectTypes[subCount])
         {
             //on play
-            case "Deployment":
+            case EffectTypes.Deployment:
             //in response to
-            case "Chain":
+            case EffectTypes.Chain:
             //continuous on field
-            case "While Deployed":
+            case EffectTypes.WhileDeployed:
                 TargetCheck(countNumber, subCount);
                 break;
             //while on field, manual trigger
-            case "Deployed":
+            case EffectTypes.Deployed:
             //while in gy manual trigger
-            case "Vengeance":
+            case EffectTypes.Vengeance:
                 if (currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation))
                     TargetCheck(countNumber, subCount);
                 break;

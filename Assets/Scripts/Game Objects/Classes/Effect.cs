@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using static UnityEngine.GraphicsBuffer;
 using static CardLogic;
 using static Game_Manager;
+using static Player;
+using static Card;
 
 [System.Serializable]
 public class Effect
@@ -29,6 +31,10 @@ public class Effect
     public List<Location> targetLocation;
     public List<GameState> triggerState;
     public List<Phase> triggerPhase;
+    public List<Controller> effectTargetController;
+    public List<TargetingTypes> targetingTypes;
+    public List<Type> effectTargetType;
+    public List<PlayType> effectTargetPlayType;
 
     public int currentActivations = new();
     public int maxActivations = new();
@@ -45,6 +51,7 @@ public class Effect
     //if needs targets
     public List<string> TargetingType { get; set; }
     public List<string> EffectTargetType { get; set; }
+    public List<string> EffectTargetPlayType { get; set; }
     public List<string> EffectTargetOwner { get; set; }
     public List<string> TargetLocation { get; set; }
     public List<int> EffectTargetAmount { get; set; }
