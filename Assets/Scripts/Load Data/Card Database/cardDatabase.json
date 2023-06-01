@@ -1,0 +1,465 @@
+[
+    {
+        "Id": "GP-01",
+        "CardName": "Overflowing Ambrosia",
+        "CardType": "spell",
+        "CardText": "Deployment: Reinforce 2",
+        "CardFlavorText": "It's a Kantharos. A vase. *Vase!*",
+        "Cost": 2,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Reinforce" ],
+                "EffectAmount": [ 2 ],
+                "EffectActivationIsMandatory": [ true ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-02",
+        "CardType": "monster",
+        "CardName": "Foot Soldier",
+        "CardText": "Deployment: (Optional) Reinforce 1",
+        "CardFlavorText": "If you see one, there's three more nearby.",
+        "Cost": 1,
+        "Atk": 1,
+        "Hp": 3,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Reinforce" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-03",
+        "CardType": "spell",
+        "CardName": "Warning Strike",
+        "CardText": "Deployment: Damage 2 to one opposing fighter.",
+        "CardFlavorText": "People die to this, you know?",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Damage" ],
+                "EffectAmount": [ 2 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Opponent" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-04",
+        "CardType": "monster",
+        "CardName": "War Veteran Cerberus",
+        "CardText": "Deployment: You can Revive 1 2 cost or lower fighter from either Underworld ignoring cost",
+        "CardFlavorText": "He lost two heads in battle.",
+        "Cost": 2,
+        "Atk": 2,
+        "Hp": 2,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Free Revive" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ false ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "any" ],
+                "TargetLocation": [ "Grave" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ],
+                "TargetStat": [ "cost" ],
+                "TargetStatCondition": [ "<=" ],
+                "TargetStatAmount": [ 2 ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-05",
+        "CardType": "monster",
+        "CardName": "Combat Medic",
+        "CardText": "Deployed - 1: Regeneration  2 Ally Fighter or God",
+        "CardFlavorText": "Dropped out of med school.",
+        "Cost": 1,
+        "Atk": 0,
+        "Hp": 4,
+        "Effects": [
+            {
+                "EffectType": [ "Deployed" ],
+                "EffectUsed": [ "Regeneration" ],
+                "EffectAmount": [ 2 ],
+                "EffectActivationIsMandatory": [ false ],
+                "ActivationLocation": "Field",
+                "MaxActivations": 1,
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ true ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-06",
+        "CardType": "monster",
+        "CardName": "Rookie Sniper",
+        "CardText": "Deployed - 1: Damage 1 Enemy Fighter or God",
+        "CardFlavorText": "Weapon heavily nerfed by popular demand during last patch update",
+        "Cost": 1,
+        "Atk": 0,
+        "Hp": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployed" ],
+                "EffectUsed": [ "Damage" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ false ],
+                "ActivationLocation": "Field",
+                "MaxActivations": 1,
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Opponent" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-07",
+        "CardType": "monster",
+        "CardName": "Big Beat",
+        "CardText": "Deployment: Recruit a 1 cost fighter from your Reserve then you can deploy it ignoring cost.",
+        "CardFlavorText": "Makes a killing through connections with average skills",
+        "Cost": 3,
+        "Atk": 2,
+        "Hp": 5,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment", "Deployment" ],
+                "EffectUsed": [ "Recruit", "Free Deploy" ],
+                "EffectAmount": [ 1, 0 ],
+                "EffectActivationIsMandatory": [ true, false ],
+                "TargetingType": [ "manual", "none" ],
+                "EffectTargetType": ["monster", "none"],
+                "EffectTargetOwner": [ "Player", "none" ],
+                "TargetLocation": [ "Deck", "none" ],
+                "EffectTargetAmount": [ 1 , 99],
+                "AllowSelfTarget": [ false, false ],
+                "TargetStat": [ "cost", "none" ],
+                "TargetStatCondition": [ "==" , "none"],
+                "TargetStatAmount": [ 1 , 0]
+            }
+        ]
+    },
+    {
+        "Id": "GP-ZE",
+        "CardType": "god",
+        "CardName": "Zeus",
+        "CardText": "Chain - Reinforcement: Rally 1 | Chain - Deployment(Strike): Zeus gains 1ATK then Damage 1 opponent fighter",
+        "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
+        "Atk": 0,
+        "Hp": 15,
+        "Effects": [
+            {
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Rally" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "combatant" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 99 ],
+                "AllowSelfTarget": [ true ],
+                "TriggerLocation": [ "Field" ],
+                "TriggerState": [ "Reinforcement" ]
+            },
+            {
+                "EffectType": [ "Chain", "Chain" ],
+                "EffectUsed": [ "Rally", "Damage" ],
+                "EffectAmount": [ 1, 1 ],
+                "EffectActivationIsMandatory": [ true, false ],
+                "TargetingType": [ "auto", "manual" ],
+                "EffectTargetType": [ "god", "monster" ],
+                "EffectTargetOwner": ["Player", "Opponent" ],
+                "TargetLocation": [ "Field","Field" ],
+                "EffectTargetAmount": [ 1,1 ],
+                "AllowSelfTarget": [ true, false ],
+                "TriggerType": [ "Deployment", "none" ],
+                "TriggerInfo": [ "Strike","none" ],
+                "TriggerLocation": [ "Field","none" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-Z1",
+        "CardType": "spell",
+        "CardName": "Final Strike",
+        "CardText": "Deployment: Damage equal to Zeus' current Attack to any opposing fighter or God.",
+        "CardFlavorText": "It's over now. Everything will return to ash. There will be no survivors.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Damage" ],
+                "EffectAmount": [ 99 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetOwner": [ "Opponent" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ],
+                "EffectScalingType": [ "god" ],
+                "EffectScalingCount": [ "atk" ],
+                "EffectScalingCountModifier": [ 1.0 ],
+                "EffectScalingVariable": [ "effectAmount" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-Z2",
+        "CardType": "spell",
+        "CardName": "Light Rain Thunder Strike",
+        "CardText": "Deployment: Damage 2 to any opposing fighter or God.",
+        "CardFlavorText": "Triple zig, triple zag... hit a twig, just a drag.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Damage" ],
+                "EffectAmount": [ 2 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetOwner": [ "Opponent" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-Z3",
+        "CardType": "spell",
+        "CardName": "Signal Lightning Strike",
+        "CardText": "Deployment: Vigor 2 all ally fighters",
+        "CardFlavorText": "Have no fear, Zeus is with you... a bolt of lightning streaking across the sky has a powerful effect on his ardent followers.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Vigor" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 99 ],
+                "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-Z4",
+        "CardType": "spell",
+        "CardName": "Crimson Devastation Strike",
+        "CardText": "Deployment: Intimidate 2 then Shatter 0 Atk fighters of opposing side.",
+        "CardFlavorText": "The feeble-hearts fail at the sound of this intimidating strike.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment", "Deployment" ],
+                "EffectUsed": [ "Intimidate", "Shatter" ],
+                "EffectAmount": [ 99, 99 ],
+                "EffectActivationIsMandatory": [ true, false ],
+                "TargetingType": [ "auto", "auto" ],
+                "EffectTargetType": [ "monster", "monster" ],
+                "EffectTargetOwner": [ "Opponent", "Opponent" ],
+                "TargetLocation": [ "Field", "Field" ],
+                "EffectTargetAmount": [ 99, 99 ],
+                "AllowSelfTarget": [ false, false ],
+                "TargetStat": [ "none", "atk" ],
+                "TargetStatCondition": [ "none", "==" ],
+                "TargetStatAmount": [ 0, 0 ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-Z5",
+        "CardType": "spell",
+        "CardName": "Verdant Strike of Invigoration",
+        "CardText": "Deployment: Regeneration 4 ally fighter or Zeus.",
+        "CardFlavorText": "Clear!",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Regeneration" ],
+                "EffectAmount": [ 4 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-HA",
+        "CardType": "god",
+        "CardName": "Hades",
+        "CardText": "Chain - Death: Blood Recovery 1 | Chain - Revive: Reinforcement 1",
+        "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
+        "Atk": 0,
+        "Hp": 25,
+        "Effects": [
+            {
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Blood Recovery" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ false ],
+                "TriggerType": [ "Death" ],
+                "TriggerCard": [ "monster" ],
+                "TriggerLocation": [ "Field" ]
+            },
+            {
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Reinforcement" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ false ],
+                "TriggerType": [ "Revive" ],
+                "TriggerCard": [ "monster" ],
+                "TriggerLocation": [ "Field" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-H1",
+        "CardType": "spell",
+        "CardName": "Winter Plague, Spring Healing",
+        "CardText": "Deployment: Shatter all fighters on both sides then both Gods Revives a fighter of their choice from their Underworld for each fighter shattered this way starting with Hades",
+        "CardFlavorText": "A retelling of legend, he brings disaster to all for his own desires.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment", "Deployment", "Deployment" ],
+                "EffectUsed": [ "Shatter", "Revive", "Revive" ],
+                "EffectAmount": [ 99, 98, 98 ],
+                "EffectActivationIsMandatory": [ true, true, true ],
+                "TargetingType": [ "auto", "manual", "enemy" ],
+                "EffectTargetType": [ "monster", "monster", "monster" ],
+                "EffectTargetOwner": [ "any", "Player", "Opponent" ],
+                "TargetLocation": [ "Field", "Grave", "Grave" ],
+                "EffectTargetAmount": [ 99, 98, 98 ],
+                "AllowSelfTarget": [ false, false, false ],
+                "EffectScalingType": [ "none", "monster", "monster" ],
+                "EffectScalingCount": [ "", "first sub effect count self targets", "first sub effect count enemy targets" ],
+                "EffectScalingCountModifier": [ 0.25 ],
+                "EffectScalingVariable": [ "effectAmount" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-H2",
+        "CardType": "spell",
+        "CardName": "Terror Plague",
+        "CardText": "Deployment: Intimidate 3 all fighters of the opposing side then draw a card",
+        "CardFlavorText": "It's just a minor fever, all effects are placebo.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment", "Deployment" ],
+                "EffectUsed": [ "Intimidate", "Reinforcement" ],
+                "EffectAmount": [ 99, 1 ],
+                "EffectActivationIsMandatory": [ true, true ],
+                "TargetingType": [ "auto", "none" ],
+                "EffectTargetType": [ "monster", "none" ],
+                "EffectTargetOwner": [ "Opponent", "none" ],
+                "TargetLocation": [ "Field", "none" ],
+                "EffectTargetAmount": [ 99, 0 ],
+                "AllowSelfTarget": [ false, false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-H3",
+        "CardType": "spell",
+        "CardName": "Plague Doctor's Assistance'",
+        "CardText": "Deployment: Heal 1 for every 4 cards in both Underworld",
+        "CardFlavorText": "If it hurts, it means it's working",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Regeneration" ],
+                "EffectAmount": [ 99 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "god" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ],
+                "EffectScalingType": [ "any" ],
+                "EffectScalingCount": [ "total grave count" ],
+                "EffectScalingCountModifier": [ 0.25 ],
+                "EffectScalingVariable": [ "effectAmount" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-H4",
+        "CardType": "spell",
+        "CardName": "Underworld Robber, Zombie Plague Revival",
+        "CardText": "Deployment: Select 1 Fighter in the Underworld then Life Cost - Selected fighter's Cost: Revive the fighter",
+        "CardFlavorText": "Full spec lethality(?)... no infectivity.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment", "Life Cost" ],
+                "EffectUsed": [ "Target", "Revive" ],
+                "EffectAmount": [ 99, 98 ],
+                "EffectActivationIsMandatory": [ true, true ],
+                "TargetingType": [ "auto", "none" ],
+                "EffectTargetType": [ "monster", "none" ],
+                "EffectTargetOwner": [ "any", "none" ],
+                "TargetLocation": [ "Grave", "none" ],
+                "EffectTargetAmount": [ 99, 0 ],
+                "AllowSelfTarget": [ false, false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-H5",
+        "CardType": "spell",
+        "CardName": "Underworld Merchant, Soul Exchange",
+        "CardText": "Deployment: Select 2 Fighters in the Underworld, add them to your Reserve.",
+        "CardFlavorText": "Everything has a price but the price doesn't have to be paid.",
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment", "Deployment" ],
+                "EffectUsed": [ "Target", "Recovery" ],
+                "EffectAmount": [ 99, 1 ],
+                "EffectActivationIsMandatory": [ true, true ],
+                "TargetingType": [ "auto", "none" ],
+                "EffectTargetType": [ "monster", "none" ],
+                "EffectTargetOwner": [ "any", "none" ],
+                "TargetLocation": [ "Grave", "none" ],
+                "EffectTargetAmount": [ 99, 0 ],
+                "AllowSelfTarget": [ false, false ]
+            }
+        ]
+    }
+]
