@@ -40,6 +40,7 @@ public class UXManager : MonoBehaviour
     private int activeEffectButton, activeAttackButton;
     private PlayerManager effectActivatingPlayer, attackDeclaringPlayer;
     private bool hasRaycast;
+    private bool mustClickNo;
 
     private void OnEnable()
     {
@@ -169,10 +170,10 @@ public class UXManager : MonoBehaviour
     private void CurrentClickedGameObject(GameObject gameObject)
     {
         Debug.Log(gameObject.name + " " + gameObject.tag);
-        if (gameObject.CompareTag("Active UI panel") || gameObject.CompareTag("Button")|| gameObject.CompareTag("deck"))
-            return;
         DisableAllPopups();
-        if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open)
+        if (gameObject.CompareTag("deck")||gameObject.CompareTag("Active UI panel"))
+            return;
+        if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open && !mustClickNo)
             gm.currentFocusCardLogic = null;
         CardLogic focusCard = gm.currentFocusCardLogic;
         gameObject.TryGetComponent(out PlayableLogic playableLogic);
@@ -185,8 +186,8 @@ public class UXManager : MonoBehaviour
             {
                 if (clickedCard.currentLocation == CardLogic.Location.Deck || clickedCard.currentLocation == CardLogic.Location.HeroDeck)
                     return;
-
-                gm.currentFocusCardLogic = clickedCard;
+                if(!mustClickNo)
+                    gm.currentFocusCardLogic = clickedCard;
                 focusCard = gm.currentFocusCardLogic;
                 focusCard.cardOutline.gameObject.SetActive(true);
                 if (focusCard.currentLocation == CardLogic.Location.Field && gm.turnPlayer == focusCard.cardOwner && focusCard.cardType != "god")
@@ -213,7 +214,7 @@ public class UXManager : MonoBehaviour
             else if (gm.gameState == Game_Manager.GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == CardLogic.Location.Field)
                 combatant.AttackTargetAcquisition();
         }
-        rayBlocker.SetActive(false);
+        DisableRayBlocker();
         infoPanelSpell.SetActive(false);
         infoPanelMonster.SetActive(false);
         infoPanelGod.SetActive(false);
@@ -281,7 +282,6 @@ public class UXManager : MonoBehaviour
 
     public void EffectActivation(int num)
     {
-        rayBlocker.SetActive(false);
         effectPanel.SetActive(false);
         gm.currentFocusCardLogic.EffectActivation(num, 0);
     }
@@ -335,7 +335,10 @@ public class UXManager : MonoBehaviour
 
     public void ActivateOptionalEffect()
     {
-        gm.currentFocusCardLogic.OptionalEffectResolution();
+        if (gm.currentFocusCardLogic == null)
+            Debug.Log("null focus");
+        else
+            gm.currentFocusCardLogic.OptionalEffectResolution();
         DisableEffectActivationPanel();
     }
 
@@ -343,6 +346,11 @@ public class UXManager : MonoBehaviour
     {
         DisableEffectActivationPanel();
         gm.StateReset();
+    }
+
+    public void DisableRayBlocker()
+    {
+        rayBlocker.SetActive(false);
     }
 
     private static Vector3 ScreenToWorld(Vector3 position)

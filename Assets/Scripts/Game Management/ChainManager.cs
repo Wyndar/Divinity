@@ -152,12 +152,15 @@ public class ChainManager : MonoBehaviour
     }
 
     //chain resolution backwards
+    //!!???? why backwards?????
+    //changing to in order of addition
     public void ChainResolution()
     {
         gm.StateChange(Game_Manager.GameState.ChainResolution);
 
-        for (int i = gm.activationChainList.Count - 1; i > -1; i--)
+        for (int i = 0; i< gm.activationChainList.Count; i++)
         {
+            Debug.Log(gm.activationChainList[i].cardName);
 gm.activationChainList[i].EffectActivation(gm.activationChainNumber[i], gm.activationChainSubNumber[i]);
             gm.activationChainList.RemoveAt(i);
             gm.activationChainNumber.RemoveAt(i);

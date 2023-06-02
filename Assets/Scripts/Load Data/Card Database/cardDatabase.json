@@ -112,7 +112,7 @@
         "Id": "GP-06",
         "CardType": "monster",
         "CardName": "Rookie Sniper",
-        "CardText": "Deployed - 1: Damage 1 Enemy Fighter or God",
+        "CardText": "Deployed - 1: Do 1 Damage to 1 Enemy Fighter or God",
         "CardFlavorText": "Weapon heavily nerfed by popular demand during last patch update",
         "Cost": 1,
         "Atk": 0,
@@ -150,14 +150,14 @@
                 "EffectAmount": [ 1, 0 ],
                 "EffectActivationIsMandatory": [ true, false ],
                 "TargetingType": [ "manual", "none" ],
-                "EffectTargetType": ["monster", "none"],
+                "EffectTargetType": [ "monster", "none" ],
                 "EffectTargetOwner": [ "Player", "none" ],
                 "TargetLocation": [ "Deck", "none" ],
-                "EffectTargetAmount": [ 1 , 99],
+                "EffectTargetAmount": [ 1, 99 ],
                 "AllowSelfTarget": [ false, false ],
                 "TargetStat": [ "cost", "none" ],
-                "TargetStatCondition": [ "==" , "none"],
-                "TargetStatAmount": [ 1 , 0]
+                "TargetStatCondition": [ "==", "none" ],
+                "TargetStatAmount": [ 1, 0 ]
             }
         ]
     },
@@ -165,7 +165,7 @@
         "Id": "GP-ZE",
         "CardType": "god",
         "CardName": "Zeus",
-        "CardText": "Chain - Reinforcement: Rally 1 | Chain - Deployment(Strike): Zeus gains 1ATK then Damage 1 opponent fighter",
+        "CardText": "Chain - Reinforcement: Rally 1 - all your combatants| Chain - Deployment(Strike): Rally 1 Zeus then do 1 Damage to 1 opponent fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
         "Atk": 0,
         "Hp": 15,
@@ -191,13 +191,13 @@
                 "EffectActivationIsMandatory": [ true, false ],
                 "TargetingType": [ "auto", "manual" ],
                 "EffectTargetType": [ "god", "monster" ],
-                "EffectTargetOwner": ["Player", "Opponent" ],
-                "TargetLocation": [ "Field","Field" ],
-                "EffectTargetAmount": [ 1,1 ],
+                "EffectTargetOwner": [ "Player", "Opponent" ],
+                "TargetLocation": [ "Field", "Field" ],
+                "EffectTargetAmount": [ 1, 1 ],
                 "AllowSelfTarget": [ true, false ],
                 "TriggerType": [ "Deployment", "none" ],
-                "TriggerInfo": [ "Strike","none" ],
-                "TriggerLocation": [ "Field","none" ]
+                "TriggerInfo": [ "Strike", "none" ],
+                "TriggerLocation": [ "Field", "none" ]
             }
         ]
     },
@@ -205,24 +205,24 @@
         "Id": "GP-Z1",
         "CardType": "spell",
         "CardName": "Final Strike",
-        "CardText": "Deployment: Damage equal to Zeus' current Attack to any opposing fighter or God.",
+        "CardText": "Deployment: Do Damage equal to Zeus' current Attack to any opposing combatant.",
         "CardFlavorText": "It's over now. Everything will return to ash. There will be no survivors.",
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Damage" ],
-                "EffectAmount": [ 99 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ],
-                "EffectScalingType": [ "god" ],
-                "EffectScalingCount": [ "atk" ],
-                "EffectScalingCountModifier": [ 1.0 ],
-                "EffectScalingVariable": [ "effectAmount" ]
+                "EffectType": [ "Deployment", "Deployment" ],
+                "EffectUsed": [ "Target", "Damage" ],
+                "EffectAmount": [ 1, 99 ],
+                "EffectActivationIsMandatory": [ true, true ],
+                "TargetingType": [ "auto", "manual" ],
+                "EffectTargetType": [ "god", "combatant" ],
+                "EffectTargetOwner": [ "Player", "Opponent" ],
+                "TargetLocation": [ "Field", "Field" ],
+                "EffectTargetAmount": [ 1, 1 ],
+                "AllowSelfTarget": [ false, false ],
+                "TargetStat": [ "current atk", "none" ],
+                "TargetStatCondition": [ ">=", "none" ],
+                "TargetStatAmount": [ 0, 0 ]
             }
         ]
     },
@@ -230,16 +230,17 @@
         "Id": "GP-Z2",
         "CardType": "spell",
         "CardName": "Light Rain Thunder Strike",
-        "CardText": "Deployment: Damage 2 to any opposing fighter or God.",
+        "CardText": "Deployment: Do 3 Damage to any opposing combatant.",
         "CardFlavorText": "Triple zig, triple zag... hit a twig, just a drag.",
         "Cost": 1,
         "Effects": [
             {
                 "EffectType": [ "Deployment" ],
                 "EffectUsed": [ "Damage" ],
-                "EffectAmount": [ 2 ],
+                "EffectAmount": [ 3 ],
                 "EffectActivationIsMandatory": [ true ],
                 "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "combatant" ],
                 "EffectTargetOwner": [ "Opponent" ],
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 1 ],
@@ -258,7 +259,7 @@
             {
                 "EffectType": [ "Deployment" ],
                 "EffectUsed": [ "Vigor" ],
-                "EffectAmount": [ 1 ],
+                "EffectAmount": [ 2 ],
                 "EffectActivationIsMandatory": [ true ],
                 "TargetingType": [ "auto" ],
                 "EffectTargetType": [ "monster" ],
@@ -280,8 +281,8 @@
             {
                 "EffectType": [ "Deployment", "Deployment" ],
                 "EffectUsed": [ "Intimidate", "Shatter" ],
-                "EffectAmount": [ 99, 99 ],
-                "EffectActivationIsMandatory": [ true, false ],
+                "EffectAmount": [ 2, 99 ],
+                "EffectActivationIsMandatory": [ true, true ],
                 "TargetingType": [ "auto", "auto" ],
                 "EffectTargetType": [ "monster", "monster" ],
                 "EffectTargetOwner": [ "Opponent", "Opponent" ],
@@ -298,7 +299,7 @@
         "Id": "GP-Z5",
         "CardType": "spell",
         "CardName": "Verdant Strike of Invigoration",
-        "CardText": "Deployment: Regeneration 4 ally fighter or Zeus.",
+        "CardText": "Deployment: Regenerate 4 for one ally combatant.",
         "CardFlavorText": "Clear!",
         "Cost": 1,
         "Effects": [
@@ -308,6 +309,7 @@
                 "EffectAmount": [ 4 ],
                 "EffectActivationIsMandatory": [ true ],
                 "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "combatant" ],
                 "EffectTargetOwner": [ "Player" ],
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 1 ],
@@ -315,6 +317,8 @@
             }
         ]
     },
+    //works fine above here
+    //something is horribly wrong with hades
     {
         "Id": "GP-HA",
         "CardType": "god",
@@ -328,7 +332,7 @@
                 "EffectType": [ "Chain" ],
                 "EffectUsed": [ "Blood Recovery" ],
                 "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ false ],
+                "EffectActivationIsMandatory": [ true ],
                 "TriggerType": [ "Death" ],
                 "TriggerCard": [ "monster" ],
                 "TriggerLocation": [ "Field" ]

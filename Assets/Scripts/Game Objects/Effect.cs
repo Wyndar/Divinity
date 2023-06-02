@@ -14,13 +14,13 @@ public class Effect
     public int MaxActivations { get; set; }
 
     //if needs targets
-    public List<string> TargetingType{ get; set; }
+    public List<string> TargetingType { get; set; }
     public List<string> EffectTargetType { get; set; }
     public List<string> EffectTargetOwner { get; set; }
     public List<string> TargetLocation { get; set; }
     public List<int> EffectTargetAmount { get; set; }
     public List<bool> AllowSelfTarget { get; set; }
-    
+
     //if needs target stats
     public List<string> TargetStat { get; set; }
     public List<string> TargetStatCondition { get; set; }
@@ -34,9 +34,5 @@ public class Effect
     public List<string> TriggerState { get; set; }
     public List<string> TriggerPhase { get; set; }
 
-    //if needs scaling
-    public List<string> EffectScalingType { get; set; }
-    public List<string> EffectScalingCount { get; set; }
-    public List<float> EfectScalingCountModifier { get; set; }
-    public List<string> EffectScalingVariable { get; set; }
+    //if needs scaling... needs rework
 }

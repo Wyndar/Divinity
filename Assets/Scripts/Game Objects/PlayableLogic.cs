@@ -52,7 +52,10 @@ public class PlayableLogic : MonoBehaviour
             if (playString == "deploy")
                 logic.cardOwner.isEmptyHandSlot[logic.locationOrderNumber] = true;
             if (playString == "revive")
+            {
                 logic.cardOwner.graveLogicList.Remove(logic);
+                gm.StateChange(Game_Manager.GameState.Revive);
+            }
             hasBeenPlayed = true;
             gm.ShuffleHand(logic.cardOwner);
             logic.cardOwner.handSize--;
@@ -89,10 +92,13 @@ public class PlayableLogic : MonoBehaviour
         {
             for (int i = 0; i < logic.effects.Count; i++)
             {
+                
                 for (int j = 0; j < logic.effects[i].EffectUsed.Count; j++)
                 {
                     Effect activatingEffect = logic.effects[i];
-                    if (activatingEffect.EffectType[j] != "Deployment" || activatingEffect.EffectActivationIsMandatory[j] == false)
+                    if (j > 0 && activatingEffect.EffectUsed[j - 1] == "Target")
+                        continue;
+                        if (activatingEffect.EffectType[j] != "Deployment" || activatingEffect.EffectActivationIsMandatory[j] == false)
                         continue;
                     if (activatingEffect.EffectTargetAmount == null)
                         continue;
@@ -101,13 +107,6 @@ public class PlayableLogic : MonoBehaviour
                     List<CardLogic> allTargetsList = logic.GetValidTargets(i, j);
                     if (allTargetsList.Count == 0)
                         return "No valid targets";
-                    if (activatingEffect.EffectScalingCount == null)
-                        continue;
-                    if (activatingEffect.EffectScalingCount[j] == "none")
-                        continue;
-                    List<CardLogic> allScalersList = logic.GetValidScaling(i, j);
-                    if (allScalersList.Count == 0)
-                        return "No valid scalers";
                 }
             }
         }
@@ -137,10 +136,6 @@ public class PlayableLogic : MonoBehaviour
                 }
             }
         }
-        if(gm.gameState!=Game_Manager.GameState.Targeting)
-            gm.ChainResolution();
-        else
-            gm.currentFocusCardLogic = logic;
         return;
     }
 
@@ -151,7 +146,6 @@ public class PlayableLogic : MonoBehaviour
         logic.cardOwner.graveLogicList.Add(logic);
         logic.locationOrderNumber = logic.cardOwner.graveCount - 1;
         gm.StateChange(Game_Manager.GameState.Grave);
-        gm.ChainResolution();
         return;
     }
 }

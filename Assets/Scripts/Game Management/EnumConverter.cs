@@ -80,6 +80,9 @@ public class EnumConverter : MonoBehaviour
             case "Deployment":
                 returnState = Game_Manager.GameState.Deployment;
                 break;
+            case "Revive":
+                returnState = Game_Manager.GameState.Revive;
+                break;
             case "EffectResolution":
                 returnState = Game_Manager.GameState.EffectResolution;
                 break;

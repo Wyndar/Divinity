@@ -27,6 +27,8 @@ public class CardLogic : MonoBehaviour
 
     public List<CardLogic> targets = new();
     public List<CardLogic> validTargets = new();
+    public List<CardLogic> scalers = new();
+    public List<CardLogic> validScalers = new();
     public List<Effect> effects;
     public List<int> currentActivations = new();
     public int effectCountNumber;
@@ -34,6 +36,8 @@ public class CardLogic : MonoBehaviour
 
     private IEnumerator ActivationCoroutine(int effectNumber, int subEffectNumber)
     {
+        GameManager.StateChange(Game_Manager.GameState.EffectActivation);
+        GameManager.DisableRayBlocker();
         Vector3 originalPosition = transform.localPosition;
         transform.position = cardOwner.activationZone.position;
         Vector3 originalScale = this.transform.localScale;
@@ -48,6 +52,7 @@ public class CardLogic : MonoBehaviour
 
     private IEnumerator ResolutionCoroutine(int effectNumber, int subEffectNumber)
     {
+        GameManager.DisableRayBlocker(); GameManager.StateChange(Game_Manager.GameState.EffectResolution);
         Vector3 originalPosition = transform.localPosition;
         transform.position = cardOwner.activationZone.position;
         Vector3 originalScale = this.transform.localScale;
@@ -63,7 +68,7 @@ public class CardLogic : MonoBehaviour
     public List<CardLogic> GetValidTargets(int effectNumber, int subEffectNumber)
     {
         List<CardLogic> allTargetsList = new List<CardLogic>(FindObjectsOfType<CardLogic>());
-        List<CardLogic> returnList = new List<CardLogic>();
+        List<CardLogic> returnList = new();
         for (int i = 0; i< allTargetsList.Count; i++)
         {
             CardLogic target = allTargetsList[i];
@@ -81,7 +86,7 @@ public class CardLogic : MonoBehaviour
                 continue;
             if (targetingEffect.EffectTargetType != null && target.cardType != targetingEffect.EffectTargetType[subEffectNumber] && targetingEffect.EffectTargetType[subEffectNumber] != "any" && targetingEffect.EffectTargetType[subEffectNumber] !="combatant")
                 continue;
-            if (targetingEffect.EffectTargetType[subEffectNumber] == "combatant" && target.cardType == "spell")
+            if (targetingEffect.EffectTargetType != null && targetingEffect.EffectTargetType[subEffectNumber] == "combatant" && target.cardType == "spell")
                 continue;
             // don't target max hp with healing effects
             if (targetingEffect.EffectUsed[subEffectNumber] == "Regeneration" && (combatantStats == null || combatantStats.maxHp == combatantStats.currentHp))
@@ -98,12 +103,15 @@ public class CardLogic : MonoBehaviour
                 int stat = 0;
                 //as more types of effects are added, more checks will be needed
                 if (checkedStat == "none")
+                {
+                    returnList.Add(target);
                     continue;
-                if (checkedStat == "atk")
+                }
+                if (checkedStat == "current atk")
                 {
                     if (combatantStats == null)
                         continue;
-                    stat = combatantStats.atk;
+                    stat = combatantStats.currentAtk;
                 }
 
                 if(checkedStat == "cost")
@@ -128,26 +136,8 @@ public class CardLogic : MonoBehaviour
             returnList.Add(target);
         }
         if (returnList.Count < 1)
-            Debug.Log("No valid targets" + allTargetsList.Count);
-        else
-            foreach (CardLogic t in returnList)
-                Debug.Log(t.cardName);
+            Debug.Log("No valid targets");
         return returnList;
-    }
-
-    //a lot of work needs to be done here later on
-    public List<CardLogic> GetValidScaling(int effectNumber, int subEffectNumber)
-    {
-        List<CardLogic> scaler = new List<CardLogic>(FindObjectsOfType<CardLogic>());
-        for (int i = scaler.Count - 1; i > -1; i--)
-        {
-            CardLogic scaleTarget = scaler[i];
-            Effect scalingEffect = effects[effectNumber];
-            //remove anything that doesn't meet the required card type for scaling if needed
-            if (scalingEffect.EffectScalingType[subEffectNumber] != "" && scalingEffect.EffectScalingType[subEffectNumber] != scaleTarget.cardType)
-                scaler.Remove(scaleTarget);
-        }
-        return scaler;
     }
 
     public void EffectActivation(int countNumber, int subCount)=>StartCoroutine(ActivationCoroutine(countNumber,subCount));
@@ -155,7 +145,6 @@ public class CardLogic : MonoBehaviour
     private void EffectActivationAfterAnimation(int countNumber, int subCount)
     {
         Effect activatingEffect = effects[countNumber];
-        GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         switch (activatingEffect.EffectType[subCount])
         {
             case "Deployment":
@@ -179,7 +168,6 @@ public class CardLogic : MonoBehaviour
     private void EffectResolutionAfterAnimation(int countNumber, int subCount)
     {
         Effect resolvingEffect = effects[countNumber];
-        GameManager.StateChange(Game_Manager.GameState.EffectResolution);
        
         switch (resolvingEffect.EffectUsed[subCount])
         {
@@ -234,6 +222,48 @@ public class CardLogic : MonoBehaviour
                     targets[i].GetComponent<PlayableLogic>().PlayCard("deploy", true);
                 }
                 break;
+            case "Target":
+                string checkedStat = resolvingEffect.TargetStat[subCount];
+                targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
+                targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
+                if (checkedStat == "current atk")
+                {
+                    resolvingEffect.EffectAmount[subCount + 1] = combatantStats.currentAtk;
+                }
+
+                if (checkedStat == "cost")
+                {
+                    resolvingEffect.EffectAmount[subCount + 1] = playableStats.cost;
+                }
+                break;
+            case "Vigor":
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    if (targets[i] == null)
+                        continue;
+                    targets[i].GetComponent<CombatantLogic>().ATKAdjustment(resolvingEffect.EffectAmount[subCount], true);
+                    targets[i].GetComponent<CombatantLogic>().MaxHPAdjustment(resolvingEffect.EffectAmount[subCount], true);
+                }
+                break;
+            case "Intimidate":
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    if (targets[i] == null)
+                        continue;
+                    targets[i].GetComponent<CombatantLogic>().ATKAdjustment(resolvingEffect.EffectAmount[subCount], false);
+                }
+                break;
+            case "Shatter":
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    if (targets[i] == null)
+                        continue;
+                    targets[i].GetComponent<MonsterLogic>().MonsterDeath();
+                }
+                break;
+            case "Blood Recovery":
+                cardOwner.costCount += resolvingEffect.EffectAmount[subCount];
+                break;
 
         }
 
@@ -247,8 +277,13 @@ public class CardLogic : MonoBehaviour
         {
             if (targets != null)
                 targets.Clear();
+            if (validTargets != null)
+                validTargets.Clear();
             if (cardType == "spell")
                 gameObject.GetComponent<PlayableLogic>().MoveToGrave();
+
+            //resolve chain after all possible effect chains are linked
+            GameManager.ChainResolution();
         };
     }
 
@@ -277,13 +312,10 @@ public class CardLogic : MonoBehaviour
         {
             if (targets != null)
                 targets.Clear();
+            if (validTargets != null)
+                validTargets.Clear();
             TargetCheck(countNumber, subCount + 1);
         }
-        if (cardType == "spell")
-            gameObject.GetComponent<PlayableLogic>().MoveToGrave();
-
-        //resolve chain after all possible effect chains are linked
-        GameManager.ChainResolution();
         return false;
     }
 
@@ -378,6 +410,8 @@ public class CardLogic : MonoBehaviour
             EffectResolution(effectCountNumber, subCountNumber);
         else
         {
+            targets.Clear();
+            validTargets.Clear();
             EffectActivation(effectCountNumber, subCountNumber);
         }
         //otherwise activate effect afresh

@@ -32,7 +32,6 @@ public class MonsterLogic : CardLogic
         }
         gameObject.GetComponent<CombatantLogic>().attacksLeft = gameObject.GetComponent<CombatantLogic>().maxAttacks;
         gm.StateChange(Game_Manager.GameState.Summon);
-        gm.ChainResolution();
     }
 
     public void DeathCheck()
@@ -50,7 +49,6 @@ public class MonsterLogic : CardLogic
         cardOwner.isEmptyCardSlot[locationOrderNumber] = true;
         playLogic.MoveToGrave();
         gm.StateChange(Game_Manager.GameState.Death);
-        gm.ChainResolution();
     }
 }
 

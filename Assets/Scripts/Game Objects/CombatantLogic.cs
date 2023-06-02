@@ -23,7 +23,6 @@ public class CombatantLogic : MonoBehaviour
     {
         currentHp -= damage;
         gm.StateChange(Game_Manager.GameState.Damaged);
-        gm.ChainResolution();
         if (logic.cardType == "monster")
         {
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
@@ -83,6 +82,7 @@ public class CombatantLogic : MonoBehaviour
         attacker.hasAttacked = true;
         attacker.hasAttackedThisTurn = true;
         TakeDamage(attacker.currentAtk);
+        gm.ChainResolution();
     }
 
     public List<CombatantLogic> GetValidAttackTargets()

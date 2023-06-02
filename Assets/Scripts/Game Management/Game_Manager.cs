@@ -21,11 +21,9 @@ public class Game_Manager : MonoBehaviour
 
     public bool isNotLoading;
 
-    public delegate void OnStateChange(GameState state);
-
     public enum GameState
     {
-        Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, EffectResolution, AttackDeclaration, Shielded, TurnEnd, Undefined
+        Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, TurnEnd, Undefined
     }
     public enum Phase
     {
@@ -40,8 +38,6 @@ public class Game_Manager : MonoBehaviour
 
     public CardLogic currentFocusCardLogic;
     public GameObject phaseChangeButton;
-
-    public bool isGettingTargets;
 
     public TMP_Text bluePlayerText, redPlayerText, turnCountText, turnPhaseText;
 
@@ -124,7 +120,8 @@ public class Game_Manager : MonoBehaviour
         ShuffleHand(player);
         if(isNotLoading)
             StateChange(GameState.Reinforcement);
-        ChainResolution();
+        if(currentPhase == Phase.DrawPhase)
+            ChainResolution();
     }
 
 
@@ -152,7 +149,6 @@ public class Game_Manager : MonoBehaviour
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
-        ChainResolution();
     }
 
     public void GetShieldCard(int drawAmount, PlayerManager player)
@@ -184,7 +180,6 @@ public class Game_Manager : MonoBehaviour
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
-        ChainResolution();
     }
 
     public void ShuffleHand(PlayerManager player)
@@ -308,6 +303,8 @@ public class Game_Manager : MonoBehaviour
         turnPhaseText.gameObject.SetActive(true);
         turnCountText.gameObject.SetActive(true);
     }
+
+    public void DisableRayBlocker() => UXManager.DisableRayBlocker();
 
     public void EnableActivationPanel() => UXManager.EnableEffectActivationPanel();
 
