@@ -19,7 +19,7 @@ public class Game_Manager : MonoBehaviour
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotLoading;
+    public bool isNotLoading, isActivatingEffect;
 
     public enum GameState
     {
@@ -285,8 +285,9 @@ public class Game_Manager : MonoBehaviour
         StateReset();
         if (activationChainList.Count == 0)
             return;
-        else
-            ChainManager.ChainResolution();
+        if (isActivatingEffect)
+            return;
+        ChainManager.ChainResolution();
         StateReset();
     }
 

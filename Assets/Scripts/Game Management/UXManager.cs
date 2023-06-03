@@ -183,7 +183,11 @@ public class UXManager : MonoBehaviour
             CardLogic clickedCard = gameObject.GetComponent<CardLogic>();
             if (gm.gameState == Game_Manager.GameState.Open)
             {
-                if (clickedCard.currentLocation == CardLogic.Location.Deck || clickedCard.currentLocation == CardLogic.Location.HeroDeck)
+                if (clickedCard.currentLocation == CardLogic.Location.Deck)
+                    return;
+                if(clickedCard.currentLocation == CardLogic.Location.HeroDeck)
+                    return;
+                if (gm.isActivatingEffect)
                     return;
                 gm.currentFocusCardLogic = clickedCard;
                 focusCard = gm.currentFocusCardLogic;
@@ -319,6 +323,7 @@ public class UXManager : MonoBehaviour
     public void EnableEffectActivationPanel()
     {
         effectActivationPanel.SetActive(true);
+        gm.isActivatingEffect = true;
         rayBlocker.SetActive(true);
         effectActivationPanelText.text = effectActivationText + gm.currentFocusCardLogic.cardName + "?";
         gm.DisableTurnUI();
@@ -340,6 +345,7 @@ public class UXManager : MonoBehaviour
     {
         DisableEffectActivationPanel();
         DisableRayBlocker();
+        gm.isActivatingEffect = false;
         gm.StateReset();
     }
 

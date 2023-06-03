@@ -120,26 +120,18 @@ public class PlayableLogic : MonoBehaviour
             gameObject.GetComponent<MonsterLogic>().MonsterSummon();
         logic.EffectRefresh();
         gm.StateChange(Game_Manager.GameState.Deployment);
-        bool activatedEffect = false;
         for (int i = 0; i < logic.effects.Count; i++)
         {
             if (logic.effects[i].EffectType.Contains("Deployment"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "Deployment");
-                activatedEffect = true;
-                if (logic.effects[i].EffectActivationIsMandatory[j] == true)
-                    logic.EffectActivation(i, j);
-                else
-                {
-                    gm.currentFocusCardLogic = logic;
-                    logic.effectCountNumber = i;
-                    logic.subCountNumber = j;
-                    gm.EnableActivationPanel();
-                }
+                    gm.activationChainList.Add(logic);
+                    gm.activationChainNumber.Add(i);
+                    gm.activationChainSubNumber.Add(j);
+                    break;
             }
         }
-        if (!activatedEffect)
-            gm.ChainResolution();
+        gm.ChainResolution();
         return;
     }
 

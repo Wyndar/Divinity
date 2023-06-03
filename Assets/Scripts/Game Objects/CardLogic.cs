@@ -36,7 +36,8 @@ public class CardLogic : MonoBehaviour
 
     private IEnumerator ActivationCoroutine(int effectNumber, int subEffectNumber)
     {
-        GameManager.StateChange(Game_Manager.GameState.EffectActivation);
+        GameManager.isActivatingEffect = true;
+GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         GameManager.DisableRayBlocker();
         Vector3 originalPosition = transform.localPosition;
         transform.position = cardOwner.activationZone.position;
@@ -267,7 +268,7 @@ public class CardLogic : MonoBehaviour
                 break;
 
         }
-
+        GameManager.isActivatingEffect = false;
         if (resolvingEffect.MaxActivations != 0 && currentActivations[countNumber] != 0)
             currentActivations[countNumber] -= 1;
 
@@ -301,6 +302,7 @@ public class CardLogic : MonoBehaviour
         {
             effectCountNumber = countNumber;
             subCountNumber = subCount + 1;
+            GameManager.currentFocusCardLogic = this;
             GameManager.EnableActivationPanel();
             return false;
         }

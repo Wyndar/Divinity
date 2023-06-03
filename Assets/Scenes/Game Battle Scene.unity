@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 18612326}
   - component: {fileID: 18612325}
   m_Layer: 0
-  m_Name: Reinforcement Red
+  m_Name: Underworld Red
   m_TagString: deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -400,7 +400,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &30175188
 GameObject:
@@ -4365,8 +4365,8 @@ MonoBehaviour:
   graveLogicList: []
   heroCardLogic: {fileID: 0}
   activationZone: {fileID: 1285124117}
-  deck: {fileID: 18612324}
-  grave: {fileID: 1865804221}
+  deck: {fileID: 1865804221}
+  grave: {fileID: 18612324}
   hero: {fileID: 774783118}
   shield: {fileID: 1333814781}
   shieldPanel: {fileID: 1863333442}
@@ -4416,8 +4416,8 @@ MonoBehaviour:
   - {fileID: 49921852}
   isEmptyCardSlot: 0101010101
   isEmptyHandSlot: 01010101010101010101
-  deckCountText: {fileID: 1752193615}
-  graveCountText: {fileID: 1988993918}
+  deckCountText: {fileID: 1988993918}
+  graveCountText: {fileID: 1752193615}
   heroHpText: {fileID: 1570264531}
   heroAtkText: {fileID: 189975420}
   shieldText: {fileID: 1360749724}
@@ -14392,6 +14392,7 @@ MonoBehaviour:
   turnPlayer: {fileID: 0}
   turnOpponent: {fileID: 0}
   isNotLoading: 0
+  isActivatingEffect: 0
   gameState: 0
   currentPhase: 0
   activationChainList: []
@@ -14399,7 +14400,6 @@ MonoBehaviour:
   activationChainSubNumber: 
   currentFocusCardLogic: {fileID: 0}
   phaseChangeButton: {fileID: 342968765}
-  isGettingTargets: 0
   bluePlayerText: {fileID: 448636787}
   redPlayerText: {fileID: 2005315151}
   turnCountText: {fileID: 1229322082}
@@ -15890,7 +15890,7 @@ GameObject:
   - component: {fileID: 1752193616}
   - component: {fileID: 1752193615}
   m_Layer: 5
-  m_Name: Reinforcement Count Red
+  m_Name: Underworld Count Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16859,7 +16859,7 @@ GameObject:
   - component: {fileID: 1865804223}
   - component: {fileID: 1865804222}
   m_Layer: 0
-  m_Name: Underworld Red
+  m_Name: Reinforcement Red
   m_TagString: deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16956,7 +16956,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &1868694038
 GameObject:
@@ -19034,7 +19034,7 @@ GameObject:
   - component: {fileID: 1988993919}
   - component: {fileID: 1988993918}
   m_Layer: 5
-  m_Name: Underworld Count Red
+  m_Name: Reinforcement Count Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
