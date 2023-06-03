@@ -317,13 +317,11 @@
             }
         ]
     },
-    //works fine above here
-    //something is horribly wrong with hades
     {
         "Id": "GP-HA",
         "CardType": "god",
         "CardName": "Hades",
-        "CardText": "Chain - Death: Blood Recovery 1 | Chain - Revive: Reinforcement 1",
+        "CardText": "Chain - Death: Blood Recovery 1 | Chain - Revive: Reinforce 1",
         "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
         "Atk": 0,
         "Hp": 25,
@@ -333,21 +331,20 @@
                 "EffectUsed": [ "Blood Recovery" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
-                "TriggerType": [ "Death" ],
-                "TriggerCard": [ "monster" ],
-                "TriggerLocation": [ "Field" ]
+                "TriggerLocation": [ "Field" ],
+                "TriggerState": [ "Death" ]
             },
             {
                 "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Reinforcement" ],
+                "EffectUsed": [ "Reinforce" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ false ],
-                "TriggerType": [ "Revive" ],
-                "TriggerCard": [ "monster" ],
-                "TriggerLocation": [ "Field" ]
+                "TriggerLocation": [ "Field" ],
+                "TriggerState": [ "Revive" ]
             }
         ]
     },
+    //works fine above here
     {
         "Id": "GP-H1",
         "CardType": "spell",

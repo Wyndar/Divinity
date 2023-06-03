@@ -35,4 +35,5 @@ public class Effect
     public List<string> TriggerPhase { get; set; }
 
     //if needs scaling... needs rework
+    //for now my scalers are actually stat needers 
 }

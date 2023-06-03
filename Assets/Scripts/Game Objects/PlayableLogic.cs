@@ -120,11 +120,13 @@ public class PlayableLogic : MonoBehaviour
             gameObject.GetComponent<MonsterLogic>().MonsterSummon();
         logic.EffectRefresh();
         gm.StateChange(Game_Manager.GameState.Deployment);
+        bool activatedEffect = false;
         for (int i = 0; i < logic.effects.Count; i++)
         {
             if (logic.effects[i].EffectType.Contains("Deployment"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "Deployment");
+                activatedEffect = true;
                 if (logic.effects[i].EffectActivationIsMandatory[j] == true)
                     logic.EffectActivation(i, j);
                 else
@@ -136,6 +138,8 @@ public class PlayableLogic : MonoBehaviour
                 }
             }
         }
+        if (!activatedEffect)
+            gm.ChainResolution();
         return;
     }
 
@@ -144,7 +148,7 @@ public class PlayableLogic : MonoBehaviour
         transform.position = logic.cardOwner.grave.transform.position;
         logic.currentLocation = CardLogic.Location.Grave;
         logic.cardOwner.graveLogicList.Add(logic);
-        logic.locationOrderNumber = logic.cardOwner.graveCount - 1;
+        logic.locationOrderNumber = logic.cardOwner.graveLogicList.FindIndex(a=> a==logic);
         gm.StateChange(Game_Manager.GameState.Grave);
         return;
     }

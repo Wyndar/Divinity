@@ -140,7 +140,8 @@ public class CardLogic : MonoBehaviour
         return returnList;
     }
 
-    public void EffectActivation(int countNumber, int subCount)=>StartCoroutine(ActivationCoroutine(countNumber,subCount));
+    public void EffectActivation(int countNumber, int subCount)=>
+        StartCoroutine(ActivationCoroutine(countNumber, subCount));
 
     private void EffectActivationAfterAnimation(int countNumber, int subCount)
     {

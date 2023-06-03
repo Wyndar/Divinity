@@ -118,9 +118,9 @@ public class Game_Manager : MonoBehaviour
             player.handSize++;
         }
         ShuffleHand(player);
-        if(isNotLoading)
+        if (isNotLoading)
             StateChange(GameState.Reinforcement);
-        if(currentPhase == Phase.DrawPhase)
+        if (currentPhase == Phase.DrawPhase)
             ChainResolution();
     }
 
@@ -185,7 +185,7 @@ public class Game_Manager : MonoBehaviour
     public void ShuffleHand(PlayerManager player)
     {
         //resets hand to zero transform and empty
-        for (int i = 0; i<player.handSlots.Length; i++)
+        for (int i = 0; i < player.handSlots.Length; i++)
         {
             player.handSlots[i].transform.localPosition = Vector3.zero;
             player.isEmptyHandSlot[i] = true;
@@ -205,9 +205,9 @@ public class Game_Manager : MonoBehaviour
         }
 
         //reattaches cards to handslots
-        foreach(CardLogic logic in handCards)
+        foreach (CardLogic logic in handCards)
         {
-            for(int i = 0; i< player.handSlots.Length;i++)
+            for (int i = 0; i < player.handSlots.Length; i++)
             {
                 if (player.isEmptyHandSlot[i] == true)
                 {
@@ -248,11 +248,11 @@ public class Game_Manager : MonoBehaviour
         gameState = state;
         if (gameState == GameState.Open)
             return;
-        if(gameState == GameState.EffectActivation)
+        if (gameState == GameState.EffectActivation)
             return;
-        if(gameState == GameState.Targeting)
+        if (gameState == GameState.Targeting)
             return;
-        if(gameState == GameState.ChainResolution)
+        if (gameState == GameState.ChainResolution)
             return;
         ChainManager.GetEmptyStateTriggers();
         if (currentFocusCardLogic == null)
@@ -308,7 +308,11 @@ public class Game_Manager : MonoBehaviour
 
     public void EnableActivationPanel() => UXManager.EnableEffectActivationPanel();
 
-    public void DisableActivationPanel() => UXManager.DisableEffectActivationPanel();
+    public void DisableActivationPanel()
+    {
+        UXManager.DisableEffectActivationPanel();
+        ChainResolution();
+    }
 
     public void ShowShieldPrompt(PlayerManager cardOwner) => UXManager.ShowShieldPrompt(cardOwner);
 

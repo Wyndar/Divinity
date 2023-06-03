@@ -157,14 +157,24 @@ public class ChainManager : MonoBehaviour
     public void ChainResolution()
     {
         gm.StateChange(Game_Manager.GameState.ChainResolution);
-
         for (int i = 0; i< gm.activationChainList.Count; i++)
         {
-            Debug.Log(gm.activationChainList[i].cardName);
-gm.activationChainList[i].EffectActivation(gm.activationChainNumber[i], gm.activationChainSubNumber[i]);
+            CardLogic resolvingCard = gm.activationChainList[i];
+            int resolvingEffectNumber = gm.activationChainNumber[i];
+            int resolvingSubEffectNumber = gm.activationChainSubNumber[i];
             gm.activationChainList.RemoveAt(i);
             gm.activationChainNumber.RemoveAt(i);
             gm.activationChainSubNumber.RemoveAt(i);
+            if (resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] == false)
+            {
+                resolvingCard.effectCountNumber = resolvingEffectNumber;
+                resolvingCard.subCountNumber = resolvingSubEffectNumber;
+                gm.currentFocusCardLogic = resolvingCard;
+                gm.EnableActivationPanel();
+                break;
+            }
+            resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
+            
         }
     }
 }

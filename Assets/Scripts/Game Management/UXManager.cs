@@ -40,7 +40,6 @@ public class UXManager : MonoBehaviour
     private int activeEffectButton, activeAttackButton;
     private PlayerManager effectActivatingPlayer, attackDeclaringPlayer;
     private bool hasRaycast;
-    private bool mustClickNo;
 
     private void OnEnable()
     {
@@ -173,7 +172,7 @@ public class UXManager : MonoBehaviour
         DisableAllPopups();
         if (gameObject.CompareTag("deck")||gameObject.CompareTag("Active UI panel"))
             return;
-        if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open && !mustClickNo)
+        if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open)
             gm.currentFocusCardLogic = null;
         CardLogic focusCard = gm.currentFocusCardLogic;
         gameObject.TryGetComponent(out PlayableLogic playableLogic);
@@ -186,8 +185,7 @@ public class UXManager : MonoBehaviour
             {
                 if (clickedCard.currentLocation == CardLogic.Location.Deck || clickedCard.currentLocation == CardLogic.Location.HeroDeck)
                     return;
-                if(!mustClickNo)
-                    gm.currentFocusCardLogic = clickedCard;
+                gm.currentFocusCardLogic = clickedCard;
                 focusCard = gm.currentFocusCardLogic;
                 focusCard.cardOutline.gameObject.SetActive(true);
                 if (focusCard.currentLocation == CardLogic.Location.Field && gm.turnPlayer == focusCard.cardOwner && focusCard.cardType != "god")
@@ -320,8 +318,8 @@ public class UXManager : MonoBehaviour
 
     public void EnableEffectActivationPanel()
     {
-        rayBlocker.SetActive(true);
         effectActivationPanel.SetActive(true);
+        rayBlocker.SetActive(true);
         effectActivationPanelText.text = effectActivationText + gm.currentFocusCardLogic.cardName + "?";
         gm.DisableTurnUI();
     }
@@ -329,29 +327,23 @@ public class UXManager : MonoBehaviour
     public void DisableEffectActivationPanel()
     {
         effectActivationPanel.SetActive(false);
-        rayBlocker.SetActive(false);
         gm.EnableTurnUI();
     }
 
     public void ActivateOptionalEffect()
     {
-        if (gm.currentFocusCardLogic == null)
-            Debug.Log("null focus");
-        else
-            gm.currentFocusCardLogic.OptionalEffectResolution();
+        gm.currentFocusCardLogic.OptionalEffectResolution();
         DisableEffectActivationPanel();
     }
 
     public void PassOptionalEffect()
     {
         DisableEffectActivationPanel();
+        DisableRayBlocker();
         gm.StateReset();
     }
 
-    public void DisableRayBlocker()
-    {
-        rayBlocker.SetActive(false);
-    }
+    public void DisableRayBlocker() => rayBlocker.SetActive(false);
 
     private static Vector3 ScreenToWorld(Vector3 position)
     {
