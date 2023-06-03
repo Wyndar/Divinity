@@ -8,10 +8,10 @@ public class ScrollingCardPaneHandler : MonoBehaviour
     private Game_Manager Game_Manager;
 
     [SerializeField]
-    private UXManager UXManager;
+    private Transform content;
 
     [SerializeField]
-    private Transform content;
+    private List<GameObject> cardImages = new();
 
     [SerializeField]
     private GameObject spriteHolder;
@@ -27,11 +27,9 @@ public class ScrollingCardPaneHandler : MonoBehaviour
 
     public void RemoveContentCards()
     {
-        foreach (Transform transform in content)
-        {
-            transform.SetParent(null);
-            Destroy(transform.gameObject);
-        }
+        foreach (GameObject image in cardImages)
+            Destroy(image);
+        cardImages.Clear();
     }
 
     public void AddContentCards()
@@ -39,11 +37,11 @@ public class ScrollingCardPaneHandler : MonoBehaviour
         foreach (CardLogic cardLogic in scrollCards)
         {
             GameObject cardImage = Instantiate(spriteHolder, content);
+            cardImages.Add(cardImage);
             cardImage.GetComponent<Image>().sprite = cardLogic.image;
             ScrollCardImage scrollCardImage = cardImage.AddComponent<ScrollCardImage>();
             scrollCardImage.cardLogic = cardLogic;
             scrollCardImage.Game_Manager = Game_Manager;
-            scrollCardImage.UXManager = UXManager;
         }
     }
 }

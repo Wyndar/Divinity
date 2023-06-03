@@ -349,25 +349,21 @@
         "Id": "GP-H1",
         "CardType": "spell",
         "CardName": "Winter Plague, Spring Healing",
-        "CardText": "Deployment: Shatter all fighters on both sides then both Gods Revives a fighter of their choice from their Underworld for each fighter shattered this way starting with Hades",
+        "CardText": "Deployment: Shatter all fighters on both sides then Revive fighters of your choice from either Underworld ignoring cost.",
         "CardFlavorText": "A retelling of legend, he brings disaster to all for his own desires.",
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment", "Deployment" ],
-                "EffectUsed": [ "Shatter", "Revive", "Revive" ],
-                "EffectAmount": [ 99, 98, 98 ],
-                "EffectActivationIsMandatory": [ true, true, true ],
-                "TargetingType": [ "auto", "manual", "enemy" ],
-                "EffectTargetType": [ "monster", "monster", "monster" ],
-                "EffectTargetOwner": [ "any", "Player", "Opponent" ],
-                "TargetLocation": [ "Field", "Grave", "Grave" ],
-                "EffectTargetAmount": [ 99, 98, 98 ],
-                "AllowSelfTarget": [ false, false, false ],
-                "EffectScalingType": [ "none", "monster", "monster" ],
-                "EffectScalingCount": [ "", "first sub effect count self targets", "first sub effect count enemy targets" ],
-                "EffectScalingCountModifier": [ 0.25 ],
-                "EffectScalingVariable": [ "effectAmount" ]
+                "EffectType": [ "Deployment", "Deployment"],
+                "EffectUsed": [ "Shatter", "Free Revive"],
+                "EffectAmount": [ 99, 99 ],
+                "EffectActivationIsMandatory": [ true, true],
+                "TargetingType": [ "auto", "manual"],
+                "EffectTargetType": [ "monster", "monster"],
+                "EffectTargetOwner": [ "any", "any"],
+                "TargetLocation": [ "Field", "Grave" ],
+                "EffectTargetAmount": [ 99, 99 ],
+                "AllowSelfTarget": [ false, false ]
             }
         ]
     },

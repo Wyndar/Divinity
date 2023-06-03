@@ -208,6 +208,14 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                     targets[i].GetComponent<PlayableLogic>().PlayCard("revive", true);
                 }
                     break;
+            case "Revive":
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    if (targets[i] == null)
+                        continue;
+                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false);
+                }
+                break;
             case "Recruit":
                 for (int i = 0; i < targets.Count; i++)
                 {
@@ -391,6 +399,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             //if you hit the needed amount of targets or all valid targets are taken, resolve
             if (targeter.targets.Count == targeter.effects[countNumber].EffectTargetAmount[subCount] || targeter.targets.Count == targeter.validTargets.Count)
             {
+                GameManager.DisableCardScrollScreen();
                 GameManager.StateReset();
                 targeter.EffectResolution(countNumber, subCount);
                 return;
