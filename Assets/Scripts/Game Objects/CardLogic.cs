@@ -205,7 +205,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 {
                     if (targets[i] == null)
                         continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", true);
+                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", true, cardOwner);
                 }
                     break;
             case "Revive":
@@ -213,7 +213,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 {
                     if (targets[i] == null)
                         continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false);
+                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardOwner);
                 }
                 break;
             case "Recruit":
@@ -229,7 +229,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 {
                     if (targets[i] == null)
                         continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("deploy", true);
+                    targets[i].GetComponent<PlayableLogic>().PlayCard("deploy", true, cardOwner);
                 }
                 break;
             case "Target":

@@ -38,27 +38,27 @@ public class PlayableLogic : MonoBehaviour
         }
     }
 
-    public void PlayCard(string playString, bool ignoreCost)
+    public void PlayCard(string playString, bool ignoreCost, PlayerManager player)
     {
-        playError = LegalPlayCheck(ignoreCost);
+        playError = LegalPlayCheck(ignoreCost, player);
         if (playError == null)
         {
             gm.currentFocusCardLogic = logic;
             gm.StateChange(Game_Manager.GameState.Activation);
             if(!ignoreCost)
-                logic.cardOwner.costCount -= cost;
+                player.costCount -= cost;
             transform.SetParent(null);
             logic.currentLocation = CardLogic.Location.Limbo;
             if (playString == "deploy")
-                logic.cardOwner.isEmptyHandSlot[logic.locationOrderNumber] = true;
+                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
+            gm.ShuffleHand(player);
+            logic.cardOwner.handSize--;
             if (playString == "revive")
             {
                 logic.cardOwner.graveLogicList.Remove(logic);
                 gm.StateChange(Game_Manager.GameState.Revive);
             }
             hasBeenPlayed = true;
-            gm.ShuffleHand(logic.cardOwner);
-            logic.cardOwner.handSize--;
             PlayCoroutineHandler();
             //the coroutine will call cardPlayed, don't worry
         }
@@ -75,15 +75,15 @@ public class PlayableLogic : MonoBehaviour
         }
     }
 
-    public string LegalPlayCheck(bool ignoreCost)
+    public string LegalPlayCheck(bool ignoreCost, PlayerManager player)
     {
-        if (cost > logic.cardOwner.costCount && !ignoreCost)
+        if (cost > player.costCount && !ignoreCost)
             return "Insufficient blood";
         if (logic.cardType == "monster")
         {
-            for (int i = 0; i < logic.cardOwner.isEmptyCardSlot.Length; i++)
+            for (int i = 0; i < player.isEmptyCardSlot.Length; i++)
             {
-                if (logic.cardOwner.isEmptyCardSlot[i] == true)
+                if (player.isEmptyCardSlot[i] == true)
                     return null;
             }
             return "No fighter zones";

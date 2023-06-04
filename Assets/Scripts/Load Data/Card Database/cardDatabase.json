@@ -349,7 +349,7 @@
         "Id": "GP-H1",
         "CardType": "spell",
         "CardName": "Winter Plague, Spring Healing",
-        "CardText": "Deployment: Shatter all fighters on both sides then Revive fighters of your choice from either Underworld ignoring cost.",
+        "CardText": "Deployment: Shatter all fighters on both sides then you can Revive fighters of your choice from either Underworld ignoring cost.",
         "CardFlavorText": "A retelling of legend, he brings disaster to all for his own desires.",
         "Cost": 1,
         "Effects": [
@@ -357,7 +357,7 @@
                 "EffectType": [ "Deployment", "Deployment"],
                 "EffectUsed": [ "Shatter", "Free Revive"],
                 "EffectAmount": [ 99, 99 ],
-                "EffectActivationIsMandatory": [ true, true],
+                "EffectActivationIsMandatory": [ true, false],
                 "TargetingType": [ "auto", "manual"],
                 "EffectTargetType": [ "monster", "monster"],
                 "EffectTargetOwner": [ "any", "any"],
