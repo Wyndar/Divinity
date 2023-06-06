@@ -79,7 +79,7 @@ public class UXManager : MonoBehaviour
         {
             trail.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             if (gm.currentFocusCardLogic != null)
-                if (gm.currentFocusCardLogic.currentLocation == CardLogic.Location.Hand && gm.currentPhase == Game_Manager.Phase.MainPhase && gm.turnPlayer == gm.currentFocusCardLogic.cardOwner)
+                if (gm.currentFocusCardLogic.currentLocation == CardLogic.Location.Hand && gm.currentPhase == Game_Manager.Phase.MainPhase && gm.turnPlayer == gm.currentFocusCardLogic.cardController)
                     gm.currentFocusCardLogic.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             yield return null;
         }
@@ -106,7 +106,7 @@ public class UXManager : MonoBehaviour
                 if (playDist > 3f && gm.currentPhase == Game_Manager.Phase.MainPhase && playableLogic != null)
                 {
                     playableLogic.DisableHover();
-                    playableLogic.PlayCard("deploy", false, gm.currentFocusCardLogic.cardOwner);
+                    playableLogic.PlayCard("deploy", false, gm.currentFocusCardLogic.cardController);
                 }
                 gm.currentFocusCardLogic.cardOutline.gameObject.SetActive(false);
                 gm.currentFocusCardLogic = null;
@@ -192,18 +192,18 @@ public class UXManager : MonoBehaviour
                 gm.currentFocusCardLogic = clickedCard;
                 focusCard = gm.currentFocusCardLogic;
                 focusCard.cardOutline.gameObject.SetActive(true);
-                if (focusCard.currentLocation == CardLogic.Location.Field && gm.turnPlayer == focusCard.cardOwner && focusCard.cardType != "god")
+                if (focusCard.currentLocation == CardLogic.Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
                 {
                     if (gm.currentPhase == Game_Manager.Phase.MainPhase)
                     {
-                        EnableOnFieldEffectActivationPopupButton(monsterLogic.cardOwner, monsterLogic.locationOrderNumber);
+                        EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                         return;
                     }
                     else if (gm.currentPhase == Game_Manager.Phase.BattlePhase)
                     {
-                        EnableOnFieldEffectActivationPopupButton(monsterLogic.cardOwner, monsterLogic.locationOrderNumber);
+                        EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                         if (combatant.attacksLeft > 0)
-                            EnableOnFieldAttackPopupButton(monsterLogic.cardOwner, monsterLogic.locationOrderNumber);
+                            EnableOnFieldAttackPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                         return;
                     }
                 }

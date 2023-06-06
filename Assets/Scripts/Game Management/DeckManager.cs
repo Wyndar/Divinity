@@ -156,6 +156,7 @@ public class DeckManager : MonoBehaviour
 
                 //populates more generic data
                 cardCloneCardLogic.cardOwner = playerManager;
+                cardCloneCardLogic.cardController = playerManager;
                 cardCloneCardLogic.cardText = cards[i].CardText;
                 cardCloneCardLogic.flavorText = cards[i].CardFlavorText;
                 cardCloneCardLogic.effects = new List<Effect>(cards[i].Effects);

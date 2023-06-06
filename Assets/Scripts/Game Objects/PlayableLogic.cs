@@ -30,7 +30,7 @@ public class PlayableLogic : MonoBehaviour
     {
         if (hasBeenPlayed == false && logic.currentLocation == CardLogic.Location.Hand && hasDoneHoverEffect == false && gm.gameState == Game_Manager.GameState.Open)
         {
-            if (logic.cardOwner == gm.BluePlayerManager)
+            if (logic.cardController == gm.BluePlayerManager)
                 transform.position += Vector3.up * 3;
             else
                 transform.position -= Vector3.up * 3;
@@ -43,6 +43,8 @@ public class PlayableLogic : MonoBehaviour
         playError = LegalPlayCheck(ignoreCost, player);
         if (playError == null)
         {
+            if (logic.cardController != player)
+                logic.ControllerSwap(player);
             gm.currentFocusCardLogic = logic;
             gm.StateChange(Game_Manager.GameState.Activation);
             if(!ignoreCost)
@@ -50,9 +52,11 @@ public class PlayableLogic : MonoBehaviour
             transform.SetParent(null);
             logic.currentLocation = CardLogic.Location.Limbo;
             if (playString == "deploy")
+            {
                 player.isEmptyHandSlot[logic.locationOrderNumber] = true;
-            gm.ShuffleHand(player);
-            logic.cardOwner.handSize--;
+                gm.ShuffleHand(player);
+                logic.cardController.handSize--;
+            }
             if (playString == "revive")
             {
                 logic.cardOwner.graveLogicList.Remove(logic);

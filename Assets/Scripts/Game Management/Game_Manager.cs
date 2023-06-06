@@ -196,7 +196,7 @@ public class Game_Manager : MonoBehaviour
         List<CardLogic> handCards = new();
         foreach (CardLogic cardLogic in cardLogics)
         {
-            if (cardLogic.cardOwner != player)
+            if (cardLogic.cardController != player)
                 continue;
             if (cardLogic.currentLocation != CardLogic.Location.Hand)
                 continue;
@@ -322,7 +322,7 @@ public class Game_Manager : MonoBehaviour
         List<CardLogic> cardLogics = new(FindObjectsOfType<CardLogic>());
         foreach (CardLogic cardLogic in cardLogics)
         {
-            if (player != cardLogic.cardOwner)
+            if (player != cardLogic.cardController)
                 continue;
             if (cardLogic.currentLocation == CardLogic.Location.Deck || cardLogic.currentLocation == CardLogic.Location.HeroDeck)
                 continue;
@@ -335,7 +335,7 @@ public class Game_Manager : MonoBehaviour
         List<CombatantLogic> combatantLogics = new(FindObjectsOfType<CombatantLogic>());
         foreach (CombatantLogic combatantLogic in combatantLogics)
         {
-            if (combatantLogic.logic.cardOwner != player)
+            if (combatantLogic.logic.cardController != player)
                 continue;
             if (combatantLogic.logic.currentLocation != CardLogic.Location.Field)
                 continue;
@@ -363,7 +363,7 @@ public class Game_Manager : MonoBehaviour
         { 
             if (cardLogic.currentLocation != CardLogic.Location.Hand)
                 continue;
-            if (player != cardLogic.cardOwner)
+            if (player != cardLogic.cardController)
             {
                 cardLogic.FlipFaceDown();
                 continue;

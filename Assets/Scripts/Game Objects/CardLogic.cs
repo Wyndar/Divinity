@@ -40,7 +40,7 @@ public class CardLogic : MonoBehaviour
 GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         GameManager.DisableRayBlocker();
         Vector3 originalPosition = transform.localPosition;
-        transform.position = cardOwner.activationZone.position;
+        transform.position = cardController.activationZone.position;
         Vector3 originalScale = this.transform.localScale;
         transform.localScale = new Vector3(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);
@@ -55,7 +55,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     {
         GameManager.DisableRayBlocker(); GameManager.StateChange(Game_Manager.GameState.EffectResolution);
         Vector3 originalPosition = transform.localPosition;
-        transform.position = cardOwner.activationZone.position;
+        transform.position = cardController.activationZone.position;
         Vector3 originalScale = this.transform.localScale;
         transform.localScale = new Vector3(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);
@@ -81,9 +81,9 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 continue;
             if (targetingEffect.TargetLocation != null && target.currentLocation != enumConverter.LocationStringToEnum(targetingEffect.TargetLocation[subEffectNumber]) && targetingEffect.TargetLocation[subEffectNumber] != "any")
                 continue;
-            if (target.cardOwner == cardOwner && targetingEffect.EffectTargetOwner[subEffectNumber] == "Opponent")
+            if (target.cardController == cardController && targetingEffect.EffectTargetOwner[subEffectNumber] == "Opponent")
                 continue;
-            if (target.cardOwner != cardOwner && targetingEffect.EffectTargetOwner[subEffectNumber] == "Player")
+            if (target.cardController != cardController && targetingEffect.EffectTargetOwner[subEffectNumber] == "Player")
                 continue;
             if (targetingEffect.EffectTargetType != null && target.cardType != targetingEffect.EffectTargetType[subEffectNumber] && targetingEffect.EffectTargetType[subEffectNumber] != "any" && targetingEffect.EffectTargetType[subEffectNumber] !="combatant")
                 continue;
@@ -174,7 +174,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         switch (resolvingEffect.EffectUsed[subCount])
         {
             case "Reinforce":
-                GameManager.DrawCard(resolvingEffect.EffectAmount[subCount], cardOwner);
+                GameManager.DrawCard(resolvingEffect.EffectAmount[subCount], cardController);
                 break;
             case "Damage":
                 for (int targetCountNumber = 0; targetCountNumber < targets.Count; targetCountNumber++)
@@ -205,7 +205,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 {
                     if (targets[i] == null)
                         continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", true, cardOwner);
+                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", true, cardController);
                 }
                     break;
             case "Revive":
@@ -213,7 +213,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 {
                     if (targets[i] == null)
                         continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardOwner);
+targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardController);
                 }
                 break;
             case "Recruit":
@@ -221,7 +221,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 {
                     if (targets[i] == null)
                         continue;
-                    GameManager.SearchCard(targets[i], targets[i].cardOwner);
+                    GameManager.SearchCard(targets[i], targets[i].cardController);
                 }
                 break;
             case "Free Deploy":
@@ -229,7 +229,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 {
                     if (targets[i] == null)
                         continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("deploy", true, cardOwner);
+                    targets[i].GetComponent<PlayableLogic>().PlayCard("deploy", true, cardController);
                 }
                 break;
             case "Target":
@@ -272,7 +272,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 }
                 break;
             case "Blood Recovery":
-                cardOwner.costCount += resolvingEffect.EffectAmount[subCount];
+                cardController.costCount += resolvingEffect.EffectAmount[subCount];
                 break;
 
         }
@@ -451,5 +451,11 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         cardBack.gameObject.SetActive(true);
         cardFace.gameObject.SetActive(false);
         cardImage.gameObject.SetActive(false);
+    }
+
+    public void ControllerSwap(PlayerManager player)
+    {
+        cardController = player;
+        gameObject.transform.rotation = player.deck.transform.rotation;
     }
 }

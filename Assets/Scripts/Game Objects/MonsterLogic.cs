@@ -6,8 +6,8 @@ public class MonsterLogic : CardLogic
     public CombatantLogic combatLogic;
     public PlayableLogic playLogic;
 
-    public void OnFieldAtkRefresh() => cardOwner.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentAtk.ToString();
-    public void OnFieldHpRefresh() => cardOwner.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentHp.ToString();
+    public void OnFieldAtkRefresh() => cardController.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentAtk.ToString();
+    public void OnFieldHpRefresh() => cardController.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentHp.ToString();
 
     public void MonsterSummon(PlayerManager player)
     {
@@ -26,7 +26,6 @@ public class MonsterLogic : CardLogic
                 player.hpIcons[locationOrderNumber].SetActive(true);
                 OnFieldAtkRefresh();
                 OnFieldHpRefresh();
-                gm.ShuffleHand(cardOwner);
                 break;
             }
         }
@@ -44,9 +43,9 @@ public class MonsterLogic : CardLogic
     public void MonsterDeath()
     {
         combatLogic.currentHp = 0;
-        cardOwner.atkIcons[locationOrderNumber].SetActive(false);
-        cardOwner.hpIcons[locationOrderNumber].SetActive(false);
-        cardOwner.isEmptyCardSlot[locationOrderNumber] = true;
+        cardController.atkIcons[locationOrderNumber].SetActive(false);
+        cardController.hpIcons[locationOrderNumber].SetActive(false);
+        cardController.isEmptyCardSlot[locationOrderNumber] = true;
         playLogic.MoveToGrave();
         gm.StateChange(Game_Manager.GameState.Death);
     }

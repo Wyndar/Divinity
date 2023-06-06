@@ -93,7 +93,7 @@ public class CombatantLogic : MonoBehaviour
         {
             CardLogic target = logic[i].GetComponent<CardLogic>();
             //remove ally cards
-            if (target.cardOwner == gameObject.GetComponent<CardLogic>().cardOwner)
+            if (target.cardController == gameObject.GetComponent<CardLogic>().cardController)
                 continue;
             //remove cards not on field
             if (target.currentLocation != CardLogic.Location.Field)
