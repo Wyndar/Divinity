@@ -12,17 +12,17 @@ public class PlayableLogic : MonoBehaviour
 
     private string playError;
 
-    public void PlayCoroutineHandler() => StartCoroutine(PlayCoroutine());
+    public void PlayCoroutineHandler(PlayerManager player) => StartCoroutine(PlayCoroutine(player));
 
-    private IEnumerator PlayCoroutine()
+    private IEnumerator PlayCoroutine(PlayerManager player)
     {
-        transform.position = logic.cardOwner.activationZone.position;
+        transform.position = player.activationZone.position;
         Vector3 originalScale = transform.localScale;
         transform.localScale = new Vector3(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);
 
         transform.localScale = originalScale;
-        CardPlayed();
+        CardPlayed(player);
         yield break;
     }
 
@@ -59,7 +59,7 @@ public class PlayableLogic : MonoBehaviour
                 gm.StateChange(Game_Manager.GameState.Revive);
             }
             hasBeenPlayed = true;
-            PlayCoroutineHandler();
+            PlayCoroutineHandler(player);
             //the coroutine will call cardPlayed, don't worry
         }
         else
@@ -113,11 +113,11 @@ public class PlayableLogic : MonoBehaviour
         return null;
     }
 
-    public void CardPlayed()
+    public void CardPlayed(PlayerManager player)
     {
         gm.StateChange(Game_Manager.GameState.Playing);
         if (logic.cardType == "monster")
-            gameObject.GetComponent<MonsterLogic>().MonsterSummon();
+            gameObject.GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
         gm.StateChange(Game_Manager.GameState.Deployment);
         for (int i = 0; i < logic.effects.Count; i++)

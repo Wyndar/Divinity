@@ -9,7 +9,7 @@ public class CardLogic : MonoBehaviour
 
     public EnumConverter enumConverter;
 
-    public PlayerManager cardOwner;
+    public PlayerManager cardOwner, cardController;
     public Transform cardFace, cardBack, cardImage, cardOutline;
     public Sprite image;
 

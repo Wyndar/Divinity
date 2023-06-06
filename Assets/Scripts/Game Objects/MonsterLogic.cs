@@ -9,21 +9,21 @@ public class MonsterLogic : CardLogic
     public void OnFieldAtkRefresh() => cardOwner.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentAtk.ToString();
     public void OnFieldHpRefresh() => cardOwner.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentHp.ToString();
 
-    public void MonsterSummon()
+    public void MonsterSummon(PlayerManager player)
     {
-        for (int slotNumber = 0; slotNumber < cardOwner.isEmptyCardSlot.Length; slotNumber++)
+        for (int slotNumber = 0; slotNumber < player.isEmptyCardSlot.Length; slotNumber++)
         {
-            if (cardOwner.isEmptyCardSlot[slotNumber] == true)
+            if (player.isEmptyCardSlot[slotNumber] == true)
             {
-                transform.position = cardOwner.cardSlots[slotNumber].transform.position;
-                cardOwner.isEmptyCardSlot[slotNumber] = false;
+                transform.position = player.cardSlots[slotNumber].transform.position;
+                player.isEmptyCardSlot[slotNumber] = false;
                 currentLocation = Location.Field;
                 locationOrderNumber = slotNumber;
                 combatLogic.currentAtk = combatLogic.atk;
                 combatLogic.maxHp = combatLogic.hp;
                 combatLogic.currentHp = combatLogic.hp;
-                cardOwner.atkIcons[locationOrderNumber].SetActive(true);
-                cardOwner.hpIcons[locationOrderNumber].SetActive(true);
+                player.atkIcons[locationOrderNumber].SetActive(true);
+                player.hpIcons[locationOrderNumber].SetActive(true);
                 OnFieldAtkRefresh();
                 OnFieldHpRefresh();
                 gm.ShuffleHand(cardOwner);
