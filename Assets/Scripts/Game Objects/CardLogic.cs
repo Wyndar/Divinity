@@ -27,8 +27,6 @@ public class CardLogic : MonoBehaviour
 
     public List<CardLogic> targets = new();
     public List<CardLogic> validTargets = new();
-    public List<CardLogic> scalers = new();
-    public List<CardLogic> validScalers = new();
     public List<Effect> effects;
     public List<int> currentActivations = new();
     public int effectCountNumber;

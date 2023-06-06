@@ -141,6 +141,7 @@ public class PlayableLogic : MonoBehaviour
 
     public void MoveToGrave()
     {
+        logic.ControllerSwap(logic.cardOwner);
         transform.position = logic.cardOwner.grave.transform.position;
         logic.currentLocation = CardLogic.Location.Grave;
         logic.cardOwner.graveLogicList.Add(logic);
