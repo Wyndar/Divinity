@@ -348,7 +348,7 @@
         "Id": "GP-H1",
         "CardType": "spell",
         "CardName": "Winter Plague, Spring Healing",
-        "CardText": "Deployment: Shatter All Fighters then you can Free Revive Fighters of your choice from either Underworld.",
+        "CardText": "Deployment: Shatter All Fighters then you can Free Revive up to 5 Fighters from either Underworld.",
         "CardFlavorText": "A retelling of legend, he brings disaster to all for his own desires.",
         "Cost": 1,
         "Effects": [
@@ -361,12 +361,11 @@
                 "EffectTargetType": [ "monster", "monster" ],
                 "EffectTargetOwner": [ "any", "any" ],
                 "TargetLocation": [ "Field", "Grave" ],
-                "EffectTargetAmount": [ 99, 99 ],
+                "EffectTargetAmount": [ 99, 5 ],
                 "AllowSelfTarget": [ false, false ]
             }
         ]
     },
-    //works fine above here
     {
         "Id": "GP-H2",
         "CardType": "spell",
@@ -389,6 +388,7 @@
             }
         ]
     },
+    //works fine above here
     {
         "Id": "GP-H3",
         "CardType": "spell",

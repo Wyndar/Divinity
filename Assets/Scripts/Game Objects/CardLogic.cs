@@ -261,6 +261,23 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
                     targets[i].GetComponent<CombatantLogic>().ATKAdjustment(resolvingEffect.EffectAmount[subCount], false);
                 }
                 break;
+            case "Weaken":
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    if (targets[i] == null)
+                        continue;
+                    targets[i].GetComponent<CombatantLogic>().MaxHPAdjustment(resolvingEffect.EffectAmount[subCount], false);
+                }
+                break;
+            case "Terrify":
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    if (targets[i] == null)
+                        continue;
+                    targets[i].GetComponent<CombatantLogic>().ATKAdjustment(resolvingEffect.EffectAmount[subCount], false);
+                    targets[i].GetComponent<CombatantLogic>().MaxHPAdjustment(resolvingEffect.EffectAmount[subCount], false);
+                }
+                break;
             case "Shatter":
                 for (int i = 0; i < targets.Count; i++)
                 {
@@ -367,6 +384,11 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
                 AutoTargetAcquisition(countNumber, subCount);
                 return;
             }
+            if (targetingEffect.TargetingType[subCount] == "random")
+            {
+                RandomTargetAcquisition(countNumber, subCount);
+                return;
+            }
             if (targetingEffect.TargetingType[countNumber] == "enemy")
             {
                 Debug.Log("Need to implement AI");
@@ -420,6 +442,21 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
     public void AutoTargetAcquisition(int countNumber, int subCount)
     {
         targets = new(validTargets);
+        EffectResolution(countNumber, subCount);
+        return;
+    }
+
+    public void RandomTargetAcquisition(int countNumber, int subCount)
+    {
+        int targetsLeft = effects[countNumber].EffectTargetAmount[subCount];
+        while (targetsLeft > 0 && validTargets.Count>targets.Count)
+        {
+            int randomNumber = Random.Range(0, validTargets.Count);
+            if (targets.Contains(validTargets[randomNumber]))
+                continue;
+            targets.Add(validTargets[randomNumber]);
+            targetsLeft--;
+        }
         EffectResolution(countNumber, subCount);
         return;
     }
