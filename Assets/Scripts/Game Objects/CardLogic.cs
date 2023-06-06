@@ -313,7 +313,7 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
             return false;
         }
         //dependent on targets of previous effect
-        if (resolvingEffect.EffectTargetAmount[subCount + 1] == 99)
+        if (resolvingEffect.EffectTargetAmount[subCount + 1] == 98)
         {
             EffectResolution(countNumber, subCount + 1);
         }
@@ -359,7 +359,8 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
                 effectCountNumber = countNumber;
                 subCountNumber = subCount;
                 if (targetingEffect.TargetLocation[subCount] != "Field")
-                    GameManager.EnableCardScrollScreen(validTargets);
+                    GameManager.EnableCardScrollScreen(validTargets, !targetingEffect.EffectActivationIsMandatory[subCount]);
+                return;
             }
             if (targetingEffect.TargetingType[subCount] == "auto")
             {
@@ -383,26 +384,36 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
     //called by ux manager clicked GameObject method with current focus card logic count and subcount
     public void ManualTargetAcquisition(int countNumber, int subCount)
     {
-        if (GameManager.gameState == Game_Manager.GameState.Targeting)
+        if (GameManager.gameState != Game_Manager.GameState.Targeting)
+            return;
+
+        CardLogic targeter = GameManager.currentFocusCardLogic;
+        if (!targeter.validTargets.Contains(this))
+            return;
+        if (targeter.targets == null)
+            targeter.targets = new();
+        else if (targeter.targets.Contains(this))
+            return;
+        targeter.targets.Add(this);
+        //if you hit the needed amount of targets or all valid targets are taken, resolve
+        if (targeter.targets.Count == targeter.effects[countNumber].EffectTargetAmount[subCount] || targeter.targets.Count == targeter.validTargets.Count)
         {
-            CardLogic targeter = GameManager.currentFocusCardLogic;
-            for (int j = 0; j < targeter.validTargets.Count; j++)
-            {
-                if (targeter.validTargets[j] != this)
-                    continue;
-                if (targeter.targets == null)
-                    targeter.targets = new ();
-                targeter.targets.Add(this);
-            }
-            //if you hit the needed amount of targets or all valid targets are taken, resolve
-            if (targeter.targets.Count == targeter.effects[countNumber].EffectTargetAmount[subCount] || targeter.targets.Count == targeter.validTargets.Count)
-            {
-                GameManager.DisableCardScrollScreen();
-                GameManager.StateReset();
-                targeter.EffectResolution(countNumber, subCount);
-                return;
-            }
+            GameManager.DisableCardScrollScreen();
+            GameManager.StateReset();
+            targeter.EffectResolution(countNumber, subCount);
+            return;
         }
+    }
+
+    public void ManualTargetRemoval(int countNumber, int subCount)
+    {
+        if (GameManager.gameState != Game_Manager.GameState.Targeting)
+            return;
+        CardLogic targeter = GameManager.currentFocusCardLogic;
+        if (targeter.targets == null)
+            return;
+        if (targeter.targets.Contains(this))
+            targeter.targets.Remove(this);
     }
 
     //less auto more all target
@@ -416,7 +427,7 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
     public void OptionalEffectResolution()
     {
         //if you need the targets from previous effect to resolve
-        if (effects[effectCountNumber].TargetingType != null && effects[effectCountNumber].EffectTargetAmount[subCountNumber] == 99)
+        if (effects[effectCountNumber].TargetingType != null && effects[effectCountNumber].EffectTargetAmount[subCountNumber] == 98)
             EffectResolution(effectCountNumber, subCountNumber);
         else
         {

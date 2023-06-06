@@ -372,7 +372,7 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
-    public void EnableCardScrollScreen(List<CardLogic> cardLogics) =>
-        UXManager.EnableCardScrollScreen(cardLogics);
+    public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton) =>
+        UXManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
     public void DisableCardScrollScreen() => UXManager.DisableCardScrollScreen();
 }

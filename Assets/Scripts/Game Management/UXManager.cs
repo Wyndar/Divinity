@@ -18,7 +18,7 @@ public class UXManager : MonoBehaviour
     private ScrollingCardPaneHandler scrollingCardPaneHandler;
 
     [SerializeField]
-    private GameObject trail, effectPanel, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, effectActivationPanel;
+    private GameObject trail, effectPanel, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, effectActivationPanel, cardScrollScreenButton;
 
     [SerializeField]
     private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
@@ -304,9 +304,10 @@ public class UXManager : MonoBehaviour
         player.heroCardLogic.ShieldPass();
     }
 
-    public void EnableCardScrollScreen(List<CardLogic> cardLogics)
+    public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton)
     {
         cardScrollScreen.SetActive(true);
+        cardScrollScreenButton.SetActive(shouldShowButton);
         scrollingCardPaneHandler.ClearScrollCardsList();
         scrollingCardPaneHandler.RemoveContentCards();
  scrollingCardPaneHandler.AddCardListToScrollCards(cardLogics);
@@ -339,6 +340,12 @@ public class UXManager : MonoBehaviour
     {
         gm.currentFocusCardLogic.OptionalEffectResolution();
         DisableEffectActivationPanel();
+    }
+
+    public void ResolveOptionalTargeting()
+    {
+    gm.currentFocusCardLogic.EffectResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+        DisableCardScrollScreen();
     }
 
     public void PassOptionalEffect()

@@ -1,15 +1,32 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
 {
 	public CardLogic cardLogic;
 	public Game_Manager Game_Manager;
+    public Image highlightImage;
+    public Image image;
+    private bool isTargeted;
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        CardLogic focusCard = Game_Manager.currentFocusCardLogic;
-        cardLogic.ManualTargetAcquisition(focusCard.effectCountNumber, focusCard.subCountNumber);
+        int effectNum = Game_Manager.currentFocusCardLogic.effectCountNumber;
+        int subEffectNum = Game_Manager.currentFocusCardLogic.subCountNumber;
+        
+        if (isTargeted)
+        {
+            highlightImage.color = Color.clear;
+            isTargeted = false;
+            cardLogic.ManualTargetRemoval(effectNum, subEffectNum);
+        }
+        else
+        {
+            isTargeted = true;
+            highlightImage.color = Color.yellow;
+            cardLogic.ManualTargetAcquisition(effectNum, subEffectNum);
+        }
     }
 }
 
