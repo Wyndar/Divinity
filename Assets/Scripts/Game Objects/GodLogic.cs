@@ -25,7 +25,7 @@
     public void ActivateShield()
     {
         cardOwner.shieldCount -= 1;
-        gm.gameState = Game_Manager.GameState.Shielded;
+        gm.StateChange(Game_Manager.GameState.Shielded);
         gm.GetShieldCard(1, cardOwner);
         hasUsedShield = true;
         hasUsedShieldThisTurn = true;

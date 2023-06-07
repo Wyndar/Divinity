@@ -1,7 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+
+public static class EM
+{
+    public static int[] FindAllIndexof<T>(this IEnumerable<T> values, T val)
+    {
+        return values.Select((b, i) => object.Equals(b, val) ? i : -1).Where(i => i != -1).ToArray();
+    }
+}
 
 public class CardLogic : MonoBehaviour
 {
@@ -68,27 +77,40 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     {
         List<CardLogic> allTargetsList = new List<CardLogic>(FindObjectsOfType<CardLogic>());
         List<CardLogic> returnList = new();
-        for (int i = 0; i< allTargetsList.Count; i++)
+        Effect targetingEffect = effects[effectNumber];
+        if (targetingEffect.TargetLocation == null)
+            return returnList;
+
+        string effectUsed = targetingEffect.EffectUsed[subEffectNumber];
+        string targetLocation = targetingEffect.TargetLocation[subEffectNumber];
+        if (targetLocation == "none")
+            return returnList;
+        string controller = targetingEffect.EffectTargetOwner[subEffectNumber];
+        string targetType = targetingEffect.EffectTargetType[subEffectNumber];
+        for (int i = 0; i < allTargetsList.Count; i++)
         {
             CardLogic target = allTargetsList[i];
-            Effect targetingEffect = effects[effectNumber];
             allTargetsList[i].TryGetComponent<CombatantLogic>(out var combatantStats);
             allTargetsList[i].TryGetComponent<PlayableLogic>(out var playableStats);
             // basic targeting requirements... don't target wrong location, don't target wrong owner or wrong card types
             if (target == this && targetingEffect.AllowSelfTarget[subEffectNumber] == false)
                 continue;
-            if (targetingEffect.TargetLocation != null && target.currentLocation != enumConverter.LocationStringToEnum(targetingEffect.TargetLocation[subEffectNumber]) && targetingEffect.TargetLocation[subEffectNumber] != "any")
+            if (target.currentLocation != enumConverter.LocationStringToEnum(targetLocation) && targetLocation != "any")
                 continue;
-            if (target.cardController == cardController && targetingEffect.EffectTargetOwner[subEffectNumber] == "Opponent")
+            if (target.cardController == cardController && controller == "Opponent")
                 continue;
-            if (target.cardController != cardController && targetingEffect.EffectTargetOwner[subEffectNumber] == "Player")
+            if (target.cardController != cardController && controller == "Player")
                 continue;
-            if (targetingEffect.EffectTargetType != null && target.cardType != targetingEffect.EffectTargetType[subEffectNumber] && targetingEffect.EffectTargetType[subEffectNumber] != "any" && targetingEffect.EffectTargetType[subEffectNumber] !="combatant" && targetingEffect.EffectTargetType[subEffectNumber]!= "playable")
+
+            //I know it looks funny and wasteful but believe me when I say this is the best way to write these next few lines, I tried everything
+            if (target.cardType != targetType && targetType != "any" && targetType != "playable" && targetType != "combatant")
                 continue;
-            if (targetingEffect.EffectTargetType != null && targetingEffect.EffectTargetType[subEffectNumber] == "combatant" && target.cardType == "spell")
+            if (targetType == "combatant" && target.cardType == "spell")
                 continue;
-            if (targetingEffect.EffectTargetType != null && targetingEffect.EffectTargetType[subEffectNumber] == "playable" && target.cardType == "god")
+            if (targetType == "playable" && target.cardType == "god")
                 continue;
+            //do NOT edit this nightmare, do NOT attempt to optimize...EVER!
+
             // don't target max hp with healing effects
             if (targetingEffect.EffectUsed[subEffectNumber] == "Regeneration" && (combatantStats == null || combatantStats.maxHp == combatantStats.currentHp))
                 continue;
@@ -247,7 +269,12 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         //chainlist for effect triggers
         GameManager.GetEffectTriggers(countNumber, subCount, this);
 
-       if( ResolveSubsequentSubeffects(countNumber, subCount))
+        CheckSubsequentEffects(countNumber,subCount);
+    }
+
+    private void CheckSubsequentEffects(int countNumber, int subCount)
+    {
+        if (ResolveSubsequentSubeffects(countNumber, subCount))
         {
             if (targets != null)
                 targets.Clear();
@@ -297,24 +324,32 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     private void TargetEffectLogic(int countNumber, int subCount)
     {
         Effect resolvingEffect = effects[countNumber];
-        string checkedStat = resolvingEffect.TargetStat[subCount];
-        int nextEffectAmount = resolvingEffect.EffectAmount[subCount + 1];
+        int[] effectAmountIndexesToChange = resolvingEffect.EffectAmount.FindAllIndexof(98);
         targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
         targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
-        if (resolvingEffect.TargetCountModifier != null)
+
+        foreach (int index in effectAmountIndexesToChange)
         {
-            nextEffectAmount = Mathf.CeilToInt(targets.Count * resolvingEffect.TargetCountModifier[subCount]);
-            return;
+            Debug.Log(index);
+            if (resolvingEffect.TargetCountModifier != null && resolvingEffect.TargetCountModifier[subCount]!=0)
+            {
+                resolvingEffect.EffectAmount[index] = Mathf.CeilToInt(targets.Count * resolvingEffect.TargetCountModifier[subCount]);
+                Debug.Log(resolvingEffect.EffectAmount[index]);
+                continue;
+            }
+
+            string checkedStat = resolvingEffect.TargetStat[subCount];
+            int amount = resolvingEffect.EffectAmount[index];
+            switch (checkedStat)
+            {
+                case "current atk":
+                    amount = combatantStats.currentAtk;
+                    break;
+                case "cost":
+                    amount = playableStats.cost;
+                    break;
+            }
         }
-        switch (checkedStat)
-        {
-            case "current atk":
-                nextEffectAmount = combatantStats.currentAtk;
-                break;
-            case "cost":
-                nextEffectAmount = playableStats.cost;
-                break;
-        }  
     }
 
     public void TargetCheck(int countNumber, int subCount)
@@ -343,6 +378,8 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 if (validTargets.Count == 0)
                 {
                     GameManager.StateReset();
+                    if (cardType == "spell")
+                        GetComponent<PlayableLogic>().MoveToGrave();
                     return;
                 }
                 effectCountNumber = countNumber;
@@ -433,8 +470,13 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         return;
     }
 
-    public void OptionalEffectResolution()
+    public void OptionalEffectResolution(bool used)
     {
+        if(!used)
+        {
+            CheckSubsequentEffects(effectCountNumber, subCountNumber);
+            return;
+        }
         //if you need the targets from previous effect to resolve
         if (effects[effectCountNumber].TargetingType != null && effects[effectCountNumber].EffectTargetAmount[subCountNumber] == 98)
             EffectResolution(effectCountNumber, subCountNumber);

@@ -388,7 +388,6 @@
             }
         ]
     },
-    //works fine above here
     {
         "Id": "GP-H3",
         "CardType": "spell",
@@ -404,14 +403,15 @@
                 "EffectActivationIsMandatory": [ true, true ],
                 "TargetingType": [ "auto", "manual" ],
                 "EffectTargetType": [ "playable", "combatant" ],
-                "EffectTargetOwner": [ "any", "Opponent" ],
+                "EffectTargetOwner": [ "any", "Player" ],
                 "TargetLocation": [ "Grave", "Field" ],
                 "EffectTargetAmount": [ 99, 1 ],
                 "AllowSelfTarget": [ false, false ],
-                "TargetCountModifier": [0.25, 0]
+                "TargetCountModifier": [ 0.25, 0 ]
             }
         ]
     },
+    //works fine above here
     {
         "Id": "GP-H4",
         "CardType": "spell",

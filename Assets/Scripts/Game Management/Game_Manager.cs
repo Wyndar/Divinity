@@ -180,6 +180,7 @@ public class Game_Manager : MonoBehaviour
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
+        ChainResolution();
     }
 
     public void ShuffleHand(PlayerManager player)
@@ -309,12 +310,6 @@ public class Game_Manager : MonoBehaviour
 
     public void EnableActivationPanel() => UXManager.EnableEffectActivationPanel();
 
-    public void DisableActivationPanel()
-    {
-        UXManager.DisableEffectActivationPanel();
-        ChainResolution();
-    }
-
     public void ShowShieldPrompt(PlayerManager cardOwner) => UXManager.ShowShieldPrompt(cardOwner);
 
     public void AllEffectsRefresh(PlayerManager player)
@@ -374,5 +369,6 @@ public class Game_Manager : MonoBehaviour
 
     public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton) =>
         UXManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
+
     public void DisableCardScrollScreen() => UXManager.DisableCardScrollScreen();
 }

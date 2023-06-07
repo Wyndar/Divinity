@@ -40,6 +40,8 @@ public class UXManager : MonoBehaviour
     private int activeEffectButton, activeAttackButton;
     private PlayerManager effectActivatingPlayer, attackDeclaringPlayer;
     private bool hasRaycast;
+    private bool allowCardLogicSwap = true;
+    private bool isUsingshield;
 
     private void OnEnable()
     {
@@ -170,6 +172,8 @@ public class UXManager : MonoBehaviour
     {
         Debug.Log(gameObject.name + " " + gameObject.tag);
         DisableAllPopups();
+        if (isUsingshield)
+            return;
         if (gameObject.CompareTag("deck")||gameObject.CompareTag("Active UI panel"))
             return;
         if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open)
@@ -188,6 +192,8 @@ public class UXManager : MonoBehaviour
                 if(clickedCard.currentLocation == CardLogic.Location.HeroDeck)
                     return;
                 if (gm.isActivatingEffect)
+                    return;
+                if (!allowCardLogicSwap)
                     return;
                 gm.currentFocusCardLogic = clickedCard;
                 focusCard = gm.currentFocusCardLogic;
@@ -220,7 +226,7 @@ public class UXManager : MonoBehaviour
         infoPanelSpell.SetActive(false);
         infoPanelMonster.SetActive(false);
         infoPanelGod.SetActive(false);
-        effectPanel.SetActive(false);
+        DisableEffectPanel();
         gm.EnableTurnUI();
     }
 
@@ -233,6 +239,7 @@ public class UXManager : MonoBehaviour
 
     public void ShowShieldPrompt(PlayerManager player)
     {
+        isUsingshield = true;
         gm.DisableTurnUI();
         player.shieldPanel.SetActive(true);
         player.raycastBlocker.SetActive(true);
@@ -240,6 +247,7 @@ public class UXManager : MonoBehaviour
 
     public void ShowEffectPanel()
     {
+        allowCardLogicSwap = false;
         effectPanel.SetActive(true);
         rayBlocker.SetActive(true);
         effectPanelNameText.text = gm.currentFocusCardLogic.cardName;
@@ -255,13 +263,14 @@ public class UXManager : MonoBehaviour
     {
         CardLogic activatingCard = gm.currentFocusCardLogic;
         Effect activatingEffect = activatingCard.effects[effectCount];
+        List<CardLogic>validTargets = new(activatingCard.GetValidTargets(effectCount,0));
         for (int i = 0; i < effectPanelTexts.Length; i++)
         {
             if (i != effectCount)
             {
                 effects[i].SetActive(false);
                 activateButtons[i].SetActive(false);
-                if (i >= effectText.Count)
+                if (i >= effectText.Count )
                     switchButtons[i].SetActive(false);
                 else
                     switchButtons[i].SetActive(true);
@@ -270,7 +279,7 @@ public class UXManager : MonoBehaviour
         effects[effectCount].SetActive(true);
         effectPanelTexts[effectCount].text = effectText[effectCount];
         switchButtons[effectCount].SetActive(false);
-        if (activatingEffect.ActivationLocation == null || activatingCard.currentActivations[effectCount] < 1)
+        if (activatingEffect.ActivationLocation == null || activatingCard.currentActivations[effectCount] < 1 || validTargets.Count == 0)
         {
             activateButtons[effectCount].SetActive(false);
             return;
@@ -284,8 +293,15 @@ public class UXManager : MonoBehaviour
 
     public void EffectActivation(int num)
     {
-        effectPanel.SetActive(false);
+        gm.isActivatingEffect = true;
         gm.currentFocusCardLogic.EffectActivation(num, 0);
+        DisableEffectPanel();
+    }
+
+    private void DisableEffectPanel()
+    {
+        effectPanel.SetActive(false);
+        allowCardLogicSwap = true;
     }
 
     public void ShieldActivation(PlayerManager player)
@@ -293,6 +309,7 @@ public class UXManager : MonoBehaviour
         player.shieldPanel.SetActive(false);
         player.raycastBlocker.SetActive(false);
         gm.EnableTurnUI();
+        isUsingshield = false;
         player.heroCardLogic.ActivateShield();
     }
 
@@ -301,6 +318,7 @@ public class UXManager : MonoBehaviour
         player.shieldPanel.SetActive(false);
         player.raycastBlocker.SetActive(false);
         gm.EnableTurnUI();
+        isUsingshield = false;
         player.heroCardLogic.ShieldPass();
     }
 
@@ -330,30 +348,20 @@ public class UXManager : MonoBehaviour
         gm.DisableTurnUI();
     }
 
-    public void DisableEffectActivationPanel()
+    public void OptionalEffectHandler(bool used)
     {
+        rayBlocker.SetActive(used);
+        gm.isActivatingEffect = used;
+        gm.currentFocusCardLogic.OptionalEffectResolution(used);
         effectActivationPanel.SetActive(false);
         gm.EnableTurnUI();
-    }
-
-    public void ActivateOptionalEffect()
-    {
-        gm.currentFocusCardLogic.OptionalEffectResolution();
-        DisableEffectActivationPanel();
+        gm.StateReset();
     }
 
     public void ResolveOptionalTargeting()
     {
     gm.currentFocusCardLogic.EffectResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
         DisableCardScrollScreen();
-    }
-
-    public void PassOptionalEffect()
-    {
-        DisableEffectActivationPanel();
-        DisableRayBlocker();
-        gm.isActivatingEffect = false;
-        gm.StateReset();
     }
 
     public void DisableRayBlocker() => rayBlocker.SetActive(false);

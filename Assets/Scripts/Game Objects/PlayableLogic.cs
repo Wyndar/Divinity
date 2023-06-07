@@ -100,8 +100,6 @@ public class PlayableLogic : MonoBehaviour
                 for (int j = 0; j < logic.effects[i].EffectUsed.Count; j++)
                 {
                     Effect activatingEffect = logic.effects[i];
-                    if (j > 0 && activatingEffect.EffectUsed[j - 1] == "Target")
-                        continue;
                         if (activatingEffect.EffectType[j] != "Deployment" || activatingEffect.EffectActivationIsMandatory[j] == false)
                         continue;
                     if (activatingEffect.EffectTargetAmount == null)
