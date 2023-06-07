@@ -212,7 +212,7 @@
             {
                 "EffectType": [ "Deployment", "Deployment" ],
                 "EffectUsed": [ "Target", "Damage" ],
-                "EffectAmount": [ 1, 99 ],
+                "EffectAmount": [ 1, 98 ],
                 "EffectActivationIsMandatory": [ true, true ],
                 "TargetingType": [ "auto", "manual" ],
                 "EffectTargetType": [ "god", "combatant" ],
@@ -393,25 +393,22 @@
         "Id": "GP-H3",
         "CardType": "spell",
         "CardName": "Plague Doctor's Assistance'",
-        "CardText": "Deployment: Heal 1 for every 4 cards in both Underworld",
+        "CardText": "Deployment: Regeneration-1 for every 4 cards in both Underworld",
         "CardFlavorText": "If it hurts, it means it's working",
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Regeneration" ],
-                "EffectAmount": [ 99 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "god" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ],
-                "EffectScalingType": [ "any" ],
-                "EffectScalingCount": [ "total grave count" ],
-                "EffectScalingCountModifier": [ 0.25 ],
-                "EffectScalingVariable": [ "effectAmount" ]
+                "EffectType": [ "Deployment", "Deployment" ],
+                "EffectUsed": [ "Target", "Regeneration" ],
+                "EffectAmount": [ 1, 98 ],
+                "EffectActivationIsMandatory": [ true, true ],
+                "TargetingType": [ "auto", "manual" ],
+                "EffectTargetType": [ "playable", "combatant" ],
+                "EffectTargetOwner": [ "any", "Opponent" ],
+                "TargetLocation": [ "Grave", "Field" ],
+                "EffectTargetAmount": [ 99, 1 ],
+                "AllowSelfTarget": [ false, false ],
+                "TargetCountModifier": [0.25, 0]
             }
         ]
     },

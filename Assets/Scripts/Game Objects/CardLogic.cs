@@ -83,9 +83,11 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 continue;
             if (target.cardController != cardController && targetingEffect.EffectTargetOwner[subEffectNumber] == "Player")
                 continue;
-            if (targetingEffect.EffectTargetType != null && target.cardType != targetingEffect.EffectTargetType[subEffectNumber] && targetingEffect.EffectTargetType[subEffectNumber] != "any" && targetingEffect.EffectTargetType[subEffectNumber] !="combatant")
+            if (targetingEffect.EffectTargetType != null && target.cardType != targetingEffect.EffectTargetType[subEffectNumber] && targetingEffect.EffectTargetType[subEffectNumber] != "any" && targetingEffect.EffectTargetType[subEffectNumber] !="combatant" && targetingEffect.EffectTargetType[subEffectNumber]!= "playable")
                 continue;
             if (targetingEffect.EffectTargetType != null && targetingEffect.EffectTargetType[subEffectNumber] == "combatant" && target.cardType == "spell")
+                continue;
+            if (targetingEffect.EffectTargetType != null && targetingEffect.EffectTargetType[subEffectNumber] == "playable" && target.cardType == "god")
                 continue;
             // don't target max hp with healing effects
             if (targetingEffect.EffectUsed[subEffectNumber] == "Regeneration" && (combatantStats == null || combatantStats.maxHp == combatantStats.currentHp))
@@ -148,16 +150,12 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         switch (activatingEffect.EffectType[subCount])
         {
             case "Deployment":
-                TargetCheck(countNumber, subCount);
-                break;
             case "Chain":
                 TargetCheck(countNumber, subCount);
                 break;
             case "Deployed":
                 if (currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation))
-                {
                     TargetCheck(countNumber, subCount);
-                }
                 break;
         }
         GameManager.currentFocusCardLogic = this;
@@ -168,126 +166,77 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     private void EffectResolutionAfterAnimation(int countNumber, int subCount)
     {
         Effect resolvingEffect = effects[countNumber];
-       
-        switch (resolvingEffect.EffectUsed[subCount])
+        string effectUsed = resolvingEffect.EffectUsed[subCount];
+        int effectAmount = resolvingEffect.EffectAmount[subCount];
+
+        switch (effectUsed)
         {
             case "Reinforce":
-                GameManager.DrawCard(resolvingEffect.EffectAmount[subCount], cardController);
-                break;
-            case "Damage":
-                for (int targetCountNumber = 0; targetCountNumber < targets.Count; targetCountNumber++)
-                {
-                    if (targets[targetCountNumber] == null)
-                        break;
-                    targets[targetCountNumber].gameObject.GetComponent<CombatantLogic>().TakeDamage(resolvingEffect.EffectAmount[subCount]);
-                }
-                break;
-            case "Regeneration":
-                for(int i = 0; i<targets.Count;i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<CombatantLogic>().Heal(resolvingEffect.EffectAmount[subCount]);
-                }
-                break;
-            case "Rally":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<CombatantLogic>().ATKAdjustment(1, true);
-                }
-                break;
-            case "Free Revive":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("revive", true, cardController);
-                }
-                    break;
-            case "Revive":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardController);
-                }
+                GameManager.DrawCard(effectAmount, cardController);
                 break;
             case "Recruit":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    GameManager.SearchCard(targets[i], targets[i].cardController);
-                }
+                foreach (CardLogic target in targets)
+                    GameManager.SearchCard(target, target.cardController);
+                break;
+            case "Damage":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().TakeDamage(effectAmount);
+                break;
+            case "Regeneration":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().Heal(effectAmount);
+                break;
+            case "Rally":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().ATKAdjustment(1, true);
+                break;
+            case "Free Revive":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<PlayableLogic>().PlayCard("revive", true, cardController);
+                    break;
+            case "Revive":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<PlayableLogic>().PlayCard("revive", false, cardController);
                 break;
             case "Free Deploy":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<PlayableLogic>().PlayCard("deploy", true, cardController);
-                }
+                foreach (CardLogic target in targets)
+                    target.GetComponent<PlayableLogic>().PlayCard("deploy", true, cardController);
                 break;
-            case "Target":
-                string checkedStat = resolvingEffect.TargetStat[subCount];
-                targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
-                targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
-                if (checkedStat == "current atk")
-                {
-                    resolvingEffect.EffectAmount[subCount + 1] = combatantStats.currentAtk;
-                }
-
-                if (checkedStat == "cost")
-                {
-                    resolvingEffect.EffectAmount[subCount + 1] = playableStats.cost;
-                }
+            case "Deploy":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<PlayableLogic>().PlayCard("deploy", false, cardController);
                 break;
             case "Vigor":
-                for (int i = 0; i < targets.Count; i++)
+                foreach (CardLogic target in targets)
                 {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<CombatantLogic>().ATKAdjustment(resolvingEffect.EffectAmount[subCount], true);
-                    targets[i].GetComponent<CombatantLogic>().MaxHPAdjustment(resolvingEffect.EffectAmount[subCount], true);
-                }
-                break;
-            case "Intimidate":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<CombatantLogic>().ATKAdjustment(resolvingEffect.EffectAmount[subCount], false);
-                }
-                break;
-            case "Weaken":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<CombatantLogic>().MaxHPAdjustment(resolvingEffect.EffectAmount[subCount], false);
+                    target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, true);
+                    target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, true);
                 }
                 break;
             case "Terrify":
-                for (int i = 0; i < targets.Count; i++)
+                foreach (CardLogic target in targets)
                 {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<CombatantLogic>().ATKAdjustment(resolvingEffect.EffectAmount[subCount], false);
-                    targets[i].GetComponent<CombatantLogic>().MaxHPAdjustment(resolvingEffect.EffectAmount[subCount], false);
+                    target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, false);
+                    target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, false);
                 }
+                break;
+            case "Intimidate":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, false);
+                break;
+            case "Weaken":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, false);
                 break;
             case "Shatter":
-                for (int i = 0; i < targets.Count; i++)
-                {
-                    if (targets[i] == null)
-                        continue;
-                    targets[i].GetComponent<MonsterLogic>().MonsterDeath();
-                }
+                foreach (CardLogic target in targets)
+                    target.GetComponent<MonsterLogic>().MonsterDeath();
                 break;
             case "Blood Recovery":
-                cardController.costCount += resolvingEffect.EffectAmount[subCount];
+                cardController.costCount += effectAmount;
+                break;
+            case "Target":
+                TargetEffectLogic(countNumber, subCount);
                 break;
 
         }
@@ -312,7 +261,7 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
         };
     }
 
-    public bool ResolveSubsequentSubeffects(int countNumber, int subCount)
+    private bool ResolveSubsequentSubeffects(int countNumber, int subCount)
     {
         Effect resolvingEffect = effects[countNumber];
 
@@ -343,6 +292,29 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
             TargetCheck(countNumber, subCount + 1);
         }
         return false;
+    }
+
+    private void TargetEffectLogic(int countNumber, int subCount)
+    {
+        Effect resolvingEffect = effects[countNumber];
+        string checkedStat = resolvingEffect.TargetStat[subCount];
+        int nextEffectAmount = resolvingEffect.EffectAmount[subCount + 1];
+        targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
+        targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
+        if (resolvingEffect.TargetCountModifier != null)
+        {
+            nextEffectAmount = Mathf.CeilToInt(targets.Count * resolvingEffect.TargetCountModifier[subCount]);
+            return;
+        }
+        switch (checkedStat)
+        {
+            case "current atk":
+                nextEffectAmount = combatantStats.currentAtk;
+                break;
+            case "cost":
+                nextEffectAmount = playableStats.cost;
+                break;
+        }  
     }
 
     public void TargetCheck(int countNumber, int subCount)
@@ -451,7 +423,7 @@ targets[i].GetComponent<PlayableLogic>().PlayCard("revive", false, cardControlle
         int targetsLeft = effects[countNumber].EffectTargetAmount[subCount];
         while (targetsLeft > 0 && validTargets.Count>targets.Count)
         {
-            int randomNumber = Random.Range(0, validTargets.Count);
+            int randomNumber = UnityEngine.Random.Range(0, validTargets.Count);
             if (targets.Contains(validTargets[randomNumber]))
                 continue;
             targets.Add(validTargets[randomNumber]);

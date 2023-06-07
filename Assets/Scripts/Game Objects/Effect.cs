@@ -21,6 +21,9 @@ public class Effect
     public List<int> EffectTargetAmount { get; set; }
     public List<bool> AllowSelfTarget { get; set; }
 
+    //if should count target
+    public List<float> TargetCountModifier { get; set; }
+
     //if needs target stats
     public List<string> TargetStat { get; set; }
     public List<string> TargetStatCondition { get; set; }
