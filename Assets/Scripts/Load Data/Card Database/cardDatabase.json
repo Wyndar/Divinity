@@ -411,48 +411,48 @@
             }
         ]
     },
-    //works fine above here
     {
         "Id": "GP-H4",
         "CardType": "spell",
         "CardName": "Underworld Robber, Zombie Plague Revival",
-        "CardText": "Deployment: Select 1 Fighter in the Underworld then Life Cost - Selected fighter's Cost: Revive the fighter",
-        "CardFlavorText": "Full spec lethality(?)... no infectivity.",
+        "CardText": "Deployment: Revive one fighter from either Underworld.",
+        "CardFlavorText": "A thriller, A cinematic masterpiece.",
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Life Cost" ],
-                "EffectUsed": [ "Target", "Revive" ],
-                "EffectAmount": [ 99, 98 ],
-                "EffectActivationIsMandatory": [ true, true ],
-                "TargetingType": [ "auto", "none" ],
-                "EffectTargetType": [ "monster", "none" ],
-                "EffectTargetOwner": [ "any", "none" ],
-                "TargetLocation": [ "Grave", "none" ],
-                "EffectTargetAmount": [ 99, 0 ],
-                "AllowSelfTarget": [ false, false ]
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Revive" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "any" ],
+                "TargetLocation": [ "Grave" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ]
             }
         ]
     },
+    //works fine above here
     {
         "Id": "GP-H5",
         "CardType": "spell",
         "CardName": "Underworld Merchant, Soul Exchange",
-        "CardText": "Deployment: Select 2 Fighters in the Underworld, add them to your Reserve.",
+        "CardText": "Deployment: Recover two Fighters from either Underworld.",
         "CardFlavorText": "Everything has a price but the price doesn't have to be paid.",
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Target", "Recovery" ],
-                "EffectAmount": [ 99, 1 ],
-                "EffectActivationIsMandatory": [ true, true ],
-                "TargetingType": [ "auto", "none" ],
-                "EffectTargetType": [ "monster", "none" ],
-                "EffectTargetOwner": [ "any", "none" ],
-                "TargetLocation": [ "Grave", "none" ],
-                "EffectTargetAmount": [ 99, 0 ],
-                "AllowSelfTarget": [ false, false ]
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Recover" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "any" ],
+                "TargetLocation": [ "Grave" ],
+                "EffectTargetAmount": [ 2 ],
+                "AllowSelfTarget": [ false ]
             }
         ]
     }

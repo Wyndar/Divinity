@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
+//thank you random stackoverflow user
 public static class EM
 {
     public static int[] FindAllIndexof<T>(this IEnumerable<T> values, T val)
@@ -112,10 +113,13 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             //do NOT edit this nightmare, do NOT attempt to optimize...EVER!
 
             // don't target max hp with healing effects
-            if (targetingEffect.EffectUsed[subEffectNumber] == "Regeneration" && (combatantStats == null || combatantStats.maxHp == combatantStats.currentHp))
+            if (effectUsed == "Regeneration" && (combatantStats == null || combatantStats.maxHp == combatantStats.currentHp))
                 continue;
             // don't target no hp with damage effects
-            if (targetingEffect.EffectUsed[subEffectNumber] == "Damage" && (combatantStats == null || combatantStats.currentHp <= 0))
+            if (effectUsed == "Damage" && (combatantStats == null || combatantStats.currentHp <= 0))
+                continue;
+            //don't add targets with higher cost when paying for revive or deploy cost
+            if ((effectUsed == "Revive"|| effectUsed=="Deploy") && cardController.costCount < playableStats.cost)
                 continue;
 
             if (targetingEffect.TargetStat != null)
@@ -199,6 +203,10 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             case "Recruit":
                 foreach (CardLogic target in targets)
                     GameManager.SearchCard(target, target.cardController);
+                break;
+            case "Recover":
+                foreach (CardLogic target in targets)
+                    GameManager.RecoverCard(target, cardController);
                 break;
             case "Damage":
                 foreach (CardLogic target in targets)
@@ -352,7 +360,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         }
     }
 
-    public void TargetCheck(int countNumber, int subCount)
+    private void TargetCheck(int countNumber, int subCount)
     {
         Effect targetingEffect = effects[countNumber];
         if (targetingEffect.EffectTargetAmount == null)
@@ -377,9 +385,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 //if no valid targets, end effect
                 if (validTargets.Count == 0)
                 {
-                    GameManager.StateReset();
-                    if (cardType == "spell")
-                        GetComponent<PlayableLogic>().MoveToGrave();
+                    EffectResolution(countNumber, subCount);
                     return;
                 }
                 effectCountNumber = countNumber;

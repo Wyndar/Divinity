@@ -14,7 +14,7 @@ public class CombatantLogic : MonoBehaviour
     {
         bool blockDamage = false;
         if (logic.cardType == "god")
-            blockDamage = gameObject.GetComponent<GodLogic>().ShieldTrigger(damage);
+            blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage);
         if (!blockDamage)
             DamageResolution(damage);    
     }
@@ -55,7 +55,7 @@ public class CombatantLogic : MonoBehaviour
             maxHp -= value;
             currentHp -= value;
             if (logic.cardType == "monster")
-                gameObject.GetComponent<MonsterLogic>().DeathCheck();
+                GetComponent<MonsterLogic>().DeathCheck();
         }
         if (logic.cardType == "monster")
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
@@ -87,13 +87,13 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> GetValidAttackTargets()
     {
-        List<CombatantLogic> logic = new List<CombatantLogic>(FindObjectsOfType<CombatantLogic>());
-        List<CombatantLogic> returnList = new List<CombatantLogic>();
-        for (int i = 0; i < logic.Count; i++)
+        List<CombatantLogic> logics = new(FindObjectsOfType<CombatantLogic>());
+        List<CombatantLogic> returnList = new();
+        foreach(CombatantLogic logic in logics)
         {
-            CardLogic target = logic[i].GetComponent<CardLogic>();
+            CardLogic target = logic.GetComponent<CardLogic>();
             //remove ally cards
-            if (target.cardController == gameObject.GetComponent<CardLogic>().cardController)
+            if (target.cardController == GetComponent<CardLogic>().cardController)
                 continue;
             //remove cards not on field
             if (target.currentLocation != CardLogic.Location.Field)
@@ -101,23 +101,18 @@ public class CombatantLogic : MonoBehaviour
             //implement taunt type effects here
 
             //if it passes all tests, add it to the list
-            returnList.Add(logic[i]);
+            returnList.Add(logic);
         }
-        return logic;
+        return returnList;
     }
 
     public void AttackTargetAcquisition()
     {
         if (gm.gameState == Game_Manager.GameState.AttackDeclaration)
         {
-            List<CombatantLogic> allTargetsList = GetValidAttackTargets();
-            for (int j = 0; j < allTargetsList.Count; j++)
-            {
-                if (allTargetsList[j] == this)
-                {
+            List<CombatantLogic> allTargetsList = gm.currentFocusCardLogic.GetComponent<CombatantLogic>().GetValidAttackTargets();
+           if(allTargetsList.Contains(this))
                     AttackResolution();
-                }
-            }
             if (gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>().attacksLeft == 0)
             {
                 gm.StateChange(Game_Manager.GameState.Open);

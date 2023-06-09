@@ -115,7 +115,7 @@ public class Game_Manager : MonoBehaviour
             player.isEmptyHandSlot[i] = false;
             player.deckLogicList.Remove(randomCardDraw);
             drawAmount--;
-            player.handSize++;
+            player.handSize=player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
         }
         ShuffleHand(player);
         if (isNotLoading)
@@ -123,7 +123,6 @@ public class Game_Manager : MonoBehaviour
         if (currentPhase == Phase.DrawPhase)
             ChainResolution();
     }
-
 
     public void SearchCard(CardLogic logic, PlayerManager player)
     {
@@ -134,7 +133,7 @@ public class Game_Manager : MonoBehaviour
         {
             if (player.isEmptyHandSlot[i] == false)
                 continue;
-            if (player.deckLogicList.Count <= 0)
+            if (player.handSize >= 10)
                 break;
             logic.gameObject.SetActive(true);
             logic.currentLocation = CardLogic.Location.Hand;
@@ -145,7 +144,35 @@ public class Game_Manager : MonoBehaviour
                 logic.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             player.deckLogicList.Remove(logic);
-            player.handSize++;
+            player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
+
+        }
+        ShuffleHand(player);
+        StateChange(GameState.Reinforcement);
+    }
+
+    public void RecoverCard(CardLogic logic, PlayerManager player)
+    {
+        if (player.handSize >= 10)
+            return;
+
+        for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
+        {
+            if (player.isEmptyHandSlot[i] == false)
+                continue;
+            if (player.handSize >= 10)
+                break;
+            logic.gameObject.SetActive(true);
+            logic.currentLocation = CardLogic.Location.Hand;
+            logic.locationOrderNumber = i;
+            logic.transform.position = Vector3.zero;
+            logic.cardController = player;
+            logic.transform.SetParent(player.handSlots[i].transform, false);
+            if (player.isLocal && player.isAI == false && player == turnPlayer)
+                logic.FlipFaceUp();
+            player.isEmptyHandSlot[i] = false;
+            logic.cardOwner.graveLogicList.Remove(logic);
+            player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
@@ -176,12 +203,14 @@ public class Game_Manager : MonoBehaviour
             player.isEmptyHandSlot[i] = false;
             player.heroDeckLogicList.Remove(randomCardDraw);
             drawAmount--;
-            player.handSize++;
+            player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
+
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
         ChainResolution();
     }
+
 
     public void ShuffleHand(PlayerManager player)
     {
