@@ -55,7 +55,6 @@ public class PlayableLogic : MonoBehaviour
             {
                 player.isEmptyHandSlot[logic.locationOrderNumber] = true;
                 gm.ShuffleHand(player);
-                logic.cardController.handSize--;
             }
             if (playString == "revive")
             {

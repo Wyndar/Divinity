@@ -103,6 +103,8 @@ public class Game_Manager : MonoBehaviour
                 break;
             if (drawAmount <= 0)
                 break;
+            if (player.handSize >= 10)
+                break;
             int randomNumber = Random.Range(0, player.deckLogicList.Count);
             CardLogic randomCardDraw = player.deckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
@@ -166,7 +168,7 @@ public class Game_Manager : MonoBehaviour
             logic.currentLocation = CardLogic.Location.Hand;
             logic.locationOrderNumber = i;
             logic.transform.position = Vector3.zero;
-            logic.cardController = player;
+            logic.ControllerSwap(player);
             logic.transform.SetParent(player.handSlots[i].transform, false);
             if (player.isLocal && player.isAI == false && player == turnPlayer)
                 logic.FlipFaceUp();
@@ -190,6 +192,8 @@ public class Game_Manager : MonoBehaviour
             if (player.heroDeckLogicList.Count <= 0)
                 break;
             if (drawAmount <= 0)
+                break;
+            if (player.handSize >= 10)
                 break;
             int randomNumber = Random.Range(0, player.heroDeckLogicList.Count);
             CardLogic randomCardDraw = player.heroDeckLogicList[randomNumber];
@@ -269,6 +273,7 @@ public class Game_Manager : MonoBehaviour
                 }
             }
         }
+        player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
     }
 
     public void StateReset() => StateChange(GameState.Open);

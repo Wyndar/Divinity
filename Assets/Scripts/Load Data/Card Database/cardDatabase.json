@@ -433,7 +433,6 @@
             }
         ]
     },
-    //works fine above here
     {
         "Id": "GP-H5",
         "CardType": "spell",
@@ -457,3 +456,4 @@
         ]
     }
 ]
+//it's all working fine. let's move on to AI
