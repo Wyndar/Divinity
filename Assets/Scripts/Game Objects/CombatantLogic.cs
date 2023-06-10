@@ -82,6 +82,7 @@ public class CombatantLogic : MonoBehaviour
         attacker.hasAttacked = true;
         attacker.hasAttackedThisTurn = true;
         TakeDamage(attacker.currentAtk);
+        gm.ClearAttackTargetImages();
         gm.ChainResolution();
     }
 
@@ -111,8 +112,8 @@ public class CombatantLogic : MonoBehaviour
         if (gm.gameState == Game_Manager.GameState.AttackDeclaration)
         {
             List<CombatantLogic> allTargetsList = gm.currentFocusCardLogic.GetComponent<CombatantLogic>().GetValidAttackTargets();
-           if(allTargetsList.Contains(this))
-                    AttackResolution();
+            if (allTargetsList.Contains(this))
+                AttackResolution();
             if (gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>().attacksLeft == 0)
             {
                 gm.StateChange(Game_Manager.GameState.Open);
@@ -121,7 +122,18 @@ public class CombatantLogic : MonoBehaviour
         }
     }
 
-    public void DeclareAttack() => gm.gameState = Game_Manager.GameState.AttackDeclaration;
+    public void DeclareAttack()
+    {
+        gm.gameState =Game_Manager.GameState.AttackDeclaration;
+        List<CombatantLogic> combatantLogics = new(GetValidAttackTargets());
+        foreach(CombatantLogic combatantLogic in combatantLogics)
+        {
+            if (combatantLogic.logic.cardType == "monster")
+                combatantLogic.logic.cardController.attackTargets[combatantLogic.logic.locationOrderNumber].SetActive(true);
+            if (combatantLogic.logic.cardType == "god")
+                combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
+        }
+    }
 
     public void AttackRefresh()
     {

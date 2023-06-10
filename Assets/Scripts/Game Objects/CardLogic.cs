@@ -275,6 +275,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     {
         if (ResolveSubsequentSubeffects(countNumber, subCount))
         {
+            GameManager.ClearEffectTargetImages();
             if (targets != null)
                 targets.Clear();
             if (validTargets != null)
@@ -379,6 +380,17 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 }
                 effectCountNumber = countNumber;
                 subCountNumber = subCount;
+                foreach(CardLogic target in validTargets)
+                {
+                    if (target.cardType == "monster" && target.currentLocation == Location.Field)
+                        target.cardController.effectTargets[target.locationOrderNumber].SetActive(true);
+                    if (target.cardType == "god" && target.currentLocation == Location.Field)
+                        target.cardController.heroEffectTarget.SetActive(true);
+                    if (target.currentLocation == Location.Grave)
+                        target.cardController.graveTarget.SetActive(true);
+                    if (target.currentLocation == Location.Deck)
+                        target.cardController.graveTarget.SetActive(true);
+                }
                 if (targetingEffect.TargetLocation[subCount] != "Field")
                     GameManager.EnableCardScrollScreen(validTargets, !targetingEffect.EffectActivationIsMandatory[subCount]);
                 return;

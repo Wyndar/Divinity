@@ -388,6 +388,30 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
+    public void ClearEffectTargetImages()
+    {
+        foreach (GameObject image in BluePlayerManager.effectTargets)
+            image.SetActive(false);
+        foreach (GameObject image in RedPlayerManager.effectTargets)
+            image.SetActive(false);
+        RedPlayerManager.heroEffectTarget.SetActive(false);
+        RedPlayerManager.deckTarget.SetActive(false);
+        RedPlayerManager.graveTarget.SetActive(false);
+        BluePlayerManager.heroEffectTarget.SetActive(false);
+        BluePlayerManager.deckTarget.SetActive(false);
+        BluePlayerManager.graveTarget.SetActive(false);
+    }
+
+    public void ClearAttackTargetImages()
+    {
+        foreach (GameObject image in BluePlayerManager.attackTargets)
+            image.SetActive(false);
+        foreach (GameObject image in RedPlayerManager.attackTargets)
+            image.SetActive(false);
+        RedPlayerManager.heroAttackTarget.SetActive(false);
+        BluePlayerManager.heroAttackTarget.SetActive(false);
+    }
+
     public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton) =>
         UXManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
 
