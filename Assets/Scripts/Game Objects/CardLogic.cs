@@ -1,17 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
-
-//thank you random stackoverflow user
-public static class EM
-{
-    public static int[] FindAllIndexof<T>(this IEnumerable<T> values, T val)
-    {
-        return values.Select((b, i) => object.Equals(b, val) ? i : -1).Where(i => i != -1).ToArray();
-    }
-}
 
 public class CardLogic : MonoBehaviour
 {
@@ -25,7 +16,7 @@ public class CardLogic : MonoBehaviour
 
     public string id, cardName, cardType, cardText, flavorText;
 
-    public bool isFaceDown, isTargeted, hasGottenTargets;
+    public bool isFaceDown, isNormalColour;
 
     public enum Location
     {
@@ -365,13 +356,11 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         Effect targetingEffect = effects[countNumber];
         if (targetingEffect.EffectTargetAmount == null)
         {
-            hasGottenTargets = true;
             EffectResolution(countNumber, subCount);
             return;
         }
         if (targetingEffect.EffectTargetAmount[subCount] == 0)
         {
-            hasGottenTargets = true;
             EffectResolution(countNumber, subCount);
             return;
         }
@@ -412,7 +401,6 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         }
         if (GameManager.gameState != Game_Manager.GameState.Targeting && targets.Count == 0)
         {
-            hasGottenTargets = true;
             EffectResolution(countNumber, subCount);
             return;
         }
@@ -517,6 +505,20 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         cardBack.gameObject.SetActive(true);
         cardFace.gameObject.SetActive(false);
         cardImage.gameObject.SetActive(false);
+    }
+
+    public void GreyScaleEffect()
+    {
+        isNormalColour = false;
+        cardFace.GetComponent<SpriteRenderer>().color = Color.grey;
+        cardImage.GetComponent<SpriteRenderer>().color = Color.grey;
+    }
+
+    public void NormalColour()
+    {
+        isNormalColour = true;
+        cardFace.GetComponent<SpriteRenderer>().color = Color.white;
+        cardImage.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     public void ControllerSwap(PlayerManager player)

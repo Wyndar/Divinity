@@ -918,6 +918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gm: {fileID: 1600093227}
   SaveManager: {fileID: 1600093225}
+  enemy: {fileID: 432537827}
   PlayerName: 
   PlayerID: 
   DeckPath: 
@@ -929,9 +930,12 @@ MonoBehaviour:
   heroDeckListID: []
   deckList: []
   heroDeckList: []
+  handLogicList: []
+  fieldLogicList: []
   deckLogicList: []
   heroDeckLogicList: []
   graveLogicList: []
+  playableLogicList: []
   heroCardLogic: {fileID: 0}
   activationZone: {fileID: 1285124117}
   deck: {fileID: 592893483}
@@ -4349,6 +4353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gm: {fileID: 1600093227}
   SaveManager: {fileID: 1600093225}
+  enemy: {fileID: 104160277}
   PlayerName: 
   PlayerID: 
   DeckPath: 
@@ -4360,9 +4365,12 @@ MonoBehaviour:
   heroDeckListID: []
   deckList: []
   heroDeckList: []
+  handLogicList: []
+  fieldLogicList: []
   deckLogicList: []
   heroDeckLogicList: []
   graveLogicList: []
+  playableLogicList: []
   heroCardLogic: {fileID: 0}
   activationZone: {fileID: 1285124117}
   deck: {fileID: 1865804221}

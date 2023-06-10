@@ -6,8 +6,8 @@ public class MonsterLogic : CardLogic
     public CombatantLogic combatLogic;
     public PlayableLogic playLogic;
 
-    public void OnFieldAtkRefresh() => cardController.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentAtk.ToString();
-    public void OnFieldHpRefresh() => cardController.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = GetComponent<CombatantLogic>().currentHp.ToString();
+    public void OnFieldAtkRefresh() => cardController.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = combatLogic.currentAtk.ToString();
+    public void OnFieldHpRefresh() => cardController.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = combatLogic.currentHp.ToString();
 
     public void MonsterSummon(PlayerManager player)
     {
@@ -19,6 +19,7 @@ public class MonsterLogic : CardLogic
                 player.isEmptyCardSlot[slotNumber] = false;
                 currentLocation = Location.Field;
                 locationOrderNumber = slotNumber;
+                player.fieldLogicList.Add(this);
                 combatLogic.currentAtk = combatLogic.atk;
                 combatLogic.maxHp = combatLogic.hp;
                 combatLogic.currentHp = combatLogic.hp;
@@ -29,7 +30,7 @@ public class MonsterLogic : CardLogic
                 break;
             }
         }
-        gameObject.GetComponent<CombatantLogic>().attacksLeft = gameObject.GetComponent<CombatantLogic>().maxAttacks;
+        combatLogic.attacksLeft = combatLogic.maxAttacks;
         gm.StateChange(Game_Manager.GameState.Summon);
     }
 
@@ -46,9 +47,8 @@ public class MonsterLogic : CardLogic
         cardController.atkIcons[locationOrderNumber].SetActive(false);
         cardController.hpIcons[locationOrderNumber].SetActive(false);
         cardController.isEmptyCardSlot[locationOrderNumber] = true;
+        cardController.fieldLogicList.Remove(this);
         playLogic.MoveToGrave();
         gm.StateChange(Game_Manager.GameState.Death);
     }
 }
-
-

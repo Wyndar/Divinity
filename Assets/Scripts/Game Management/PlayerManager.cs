@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
 	public Game_Manager gm;
     public SaveManager SaveManager;
+    public PlayerManager enemy;
 
     public string PlayerName, PlayerID, DeckPath, HeroDeckPath;
 
@@ -17,9 +18,12 @@ public class PlayerManager : MonoBehaviour
     public List<Card> deckList = new();
     public List<Card> heroDeckList = new();
 
+    public List<CardLogic> handLogicList = new();
+    public List<CardLogic> fieldLogicList = new();
     public List<CardLogic> deckLogicList = new();
     public List<CardLogic> heroDeckLogicList = new();
     public List<CardLogic> graveLogicList = new();
+    public List<CardLogic> playableLogicList = new();
 
     public GodLogic heroCardLogic;
 

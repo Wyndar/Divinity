@@ -116,8 +116,9 @@ public class Game_Manager : MonoBehaviour
                 randomCardDraw.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             player.deckLogicList.Remove(randomCardDraw);
+            player.handLogicList.Add(randomCardDraw);
             drawAmount--;
-            player.handSize=player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
+            player.handSize = player.handLogicList.Count;
         }
         ShuffleHand(player);
         if (isNotLoading)
@@ -146,7 +147,8 @@ public class Game_Manager : MonoBehaviour
                 logic.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             player.deckLogicList.Remove(logic);
-            player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
+            player.handLogicList.Add(logic);
+            player.handSize = player.handLogicList.Count;
 
         }
         ShuffleHand(player);
@@ -174,7 +176,8 @@ public class Game_Manager : MonoBehaviour
                 logic.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             logic.cardOwner.graveLogicList.Remove(logic);
-            player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
+            player.handLogicList.Add(logic);
+            player.handSize = player.handLogicList.Count;
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
@@ -206,8 +209,9 @@ public class Game_Manager : MonoBehaviour
                 randomCardDraw.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             player.heroDeckLogicList.Remove(randomCardDraw);
+            player.handLogicList.Add(randomCardDraw);
             drawAmount--;
-            player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
+            player.handSize = player.handLogicList.Count;
 
         }
         ShuffleHand(player);
@@ -225,18 +229,11 @@ public class Game_Manager : MonoBehaviour
             player.isEmptyHandSlot[i] = true;
         }
 
-        //gets list of all cards to filter for ones in player hand then set parent to null and hold a reference to it;
-        List<CardLogic> cardLogics = new(FindObjectsOfType<CardLogic>());
-        List<CardLogic> handCards = new();
-        foreach (CardLogic cardLogic in cardLogics)
-        {
-            if (cardLogic.cardController != player)
-                continue;
-            if (cardLogic.currentLocation != CardLogic.Location.Hand)
-                continue;
-            cardLogic.transform.SetParent(null);
-            handCards.Add(cardLogic);
-        }
+        //gets list of all cards in player hand then set parent to null and hold a reference to it;
+
+        List<CardLogic> handCards = new(player.handLogicList);
+        foreach(CardLogic logic in handCards)
+            logic.transform.SetParent(null);
 
         //reattaches cards to handslots
         foreach (CardLogic logic in handCards)
@@ -255,28 +252,23 @@ public class Game_Manager : MonoBehaviour
         }
 
         //gets reference to all taken slots
-        List<int> handSlotsTaken = new();
-        for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
-        {
-            if (player.isEmptyHandSlot[i] == false)
-                handSlotsTaken.Add(i);
-        }
+        int[] handSlotsTaken = player.isEmptyHandSlot.FindAllIndexof<bool>(false);
         //if list isn't empty, arrange handslots
         if (handSlotsTaken != null)
         {
-            for (int i = 0; i < handSlotsTaken.Count; i++)
+            for(int i = 0;i< handSlotsTaken.Length;i++)
             {
-                if (player.handSlots[handSlotsTaken[i]] != null)
-                {
-                    float xPosition = 15f / handSlotsTaken.Count;
+                    float xPosition = 15f / handSlotsTaken.Length;
                     player.handSlots[handSlotsTaken[i]].transform.localPosition += new Vector3(i * xPosition, 0, 0);
-                }
             }
         }
-        player.handSize = player.isEmptyHandSlot.FindAllIndexof<bool>(false).Length;
+        player.handSize = player.handLogicList.Count;
     }
 
-    public void StateReset() => StateChange(GameState.Open);
+    public void StateReset() {
+        StateChange(GameState.Open);
+        ShowValidMoves(turnPlayer);
+    }
 
     public void StateChange(GameState state)
     {
@@ -348,38 +340,22 @@ public class Game_Manager : MonoBehaviour
 
     public void AllEffectsRefresh(PlayerManager player)
     {
-        List<CardLogic> cardLogics = new(FindObjectsOfType<CardLogic>());
-        foreach (CardLogic cardLogic in cardLogics)
-        {
-            if (player != cardLogic.cardController)
-                continue;
-            if (cardLogic.currentLocation == CardLogic.Location.Deck || cardLogic.currentLocation == CardLogic.Location.HeroDeck)
-                continue;
+        foreach (CardLogic cardLogic in player.handLogicList)
             cardLogic.EffectRefresh();
-        }
+        foreach (CardLogic cardLogic in player.fieldLogicList)
+            cardLogic.EffectRefresh();
+        foreach (CardLogic cardLogic in player.graveLogicList)
+            cardLogic.EffectRefresh();
     }
 
     public void AllAttacksRefresh(PlayerManager player)
     {
-        List<CombatantLogic> combatantLogics = new(FindObjectsOfType<CombatantLogic>());
-        foreach (CombatantLogic combatantLogic in combatantLogics)
-        {
-            if (combatantLogic.logic.cardController != player)
-                continue;
-            if (combatantLogic.logic.currentLocation != CardLogic.Location.Field)
-                continue;
-            combatantLogic.AttackRefresh();
-            combatantLogic.hasAttackedThisTurn = false;
-        }
+        foreach (CardLogic cardLogic in player.fieldLogicList)
+            cardLogic.GetComponent<CombatantLogic>().AttackRefresh();
+        player.heroCardLogic.GetComponent<CombatantLogic>().AttackRefresh();
     }
 
-    public void ShieldRefresh(PlayerManager player)
-    {
-        List<GodLogic> godLogics = new(FindObjectsOfType<GodLogic>());
-        foreach(GodLogic godLogic in godLogics)
-            if (godLogic.cardOwner == player)
-                godLogic.ShieldRefresh();
-    }
+    public void ShieldRefresh(PlayerManager player) => player.heroCardLogic.ShieldRefresh();
 
     public void SwitchControl(PlayerManager player)
     {
@@ -387,17 +363,28 @@ public class Game_Manager : MonoBehaviour
             return;
         if (!player.isLocal)
             return;
-        List<CardLogic> cardLogics = new(FindObjectsOfType<CardLogic>());
-        foreach (CardLogic cardLogic in cardLogics)
-        { 
-            if (cardLogic.currentLocation != CardLogic.Location.Hand)
-                continue;
-            if (player != cardLogic.cardController)
-            {
+        foreach (CardLogic cardLogic in player.enemy.handLogicList)
                 cardLogic.FlipFaceDown();
-                continue;
-            }
+        foreach (CardLogic cardLogic in player.handLogicList)
             cardLogic.FlipFaceUp();
+    }
+
+    public void ShowValidMoves(PlayerManager player)
+    {
+        foreach(CardLogic cardLogic in player.handLogicList)
+        {
+            if (cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) == null)
+            {
+                if (!player.playableLogicList.Contains(cardLogic))
+                    player.playableLogicList.Add(cardLogic);
+                cardLogic.NormalColour();
+            }
+            else
+            {
+                if (player.playableLogicList.Contains(cardLogic))
+                    player.playableLogicList.Remove(cardLogic);
+                cardLogic.GreyScaleEffect();
+            }
         }
     }
 

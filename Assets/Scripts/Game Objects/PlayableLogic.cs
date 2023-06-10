@@ -53,7 +53,7 @@ public class PlayableLogic : MonoBehaviour
             logic.currentLocation = CardLogic.Location.Limbo;
             if (playString == "deploy")
             {
-                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
+                player.handLogicList.Remove(logic);                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
                 gm.ShuffleHand(player);
             }
             if (playString == "revive")
