@@ -3858,7 +3858,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 345238201}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1600093222}
+        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
+        m_MethodName: ShowCardList
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1567230713}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &345238201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5213,7 +5225,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 444066594}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1600093222}
+        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
+        m_MethodName: ShowCardList
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 592893483}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &444066594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6981,7 +7005,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &548103957
 GameObject:
@@ -7065,7 +7089,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 548103960}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1600093222}
+        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
+        m_MethodName: ShowCardList
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 18612324}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &548103960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8126,6 +8162,103 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674899267}
   m_CullTransparentMesh: 1
+--- !u!1 &680208561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680208565}
+  - component: {fileID: 680208564}
+  - component: {fileID: 680208563}
+  - component: {fileID: 680208562}
+  m_Layer: 5
+  m_Name: 'Card Scroll Raycast Blocker '
+  m_TagString: Active UI panel
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!65 &680208562
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680208561}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &680208563
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680208561}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &680208564
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680208561}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &680208565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680208561}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -7.86, z: 0}
+  m_LocalScale: {x: 17, y: 6, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &681954907
 GameObject:
   m_ObjectHideFlags: 0
@@ -11164,11 +11297,11 @@ GameObject:
   - component: {fileID: 1002558414}
   m_Layer: 5
   m_Name: Card Scroll
-  m_TagString: Untagged
+  m_TagString: Active UI panel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1002558413
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11631,7 +11764,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1077900831
 BoxCollider:
@@ -12328,7 +12461,7 @@ GameObject:
   - component: {fileID: 1150665693}
   m_Layer: 5
   m_Name: All Targets Selected Button
-  m_TagString: Untagged
+  m_TagString: Active UI panel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12461,7 +12594,7 @@ GameObject:
   - component: {fileID: 1173158820}
   m_Layer: 5
   m_Name: Viewport
-  m_TagString: Untagged
+  m_TagString: Active UI panel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14847,7 +14980,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449315776
 GameObject:
@@ -14931,7 +15064,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1449315779}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1600093222}
+        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
+        m_MethodName: ShowCardList
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1865804221}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1449315779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16450,6 +16595,7 @@ MonoBehaviour:
   cardScrollScreen: {fileID: 1002558412}
   effectActivationPanel: {fileID: 616809329}
   cardScrollScreenButton: {fileID: 1150665691}
+  cardScrollRayBlocker: {fileID: 680208561}
   infoPanelSpellNameText: {fileID: 1905486790}
   infoPanelSpellCostText: {fileID: 2010252051}
   infoPanelSpellEffectText: {fileID: 1556842300}
@@ -16563,6 +16709,7 @@ MonoBehaviour:
   turnOpponent: {fileID: 0}
   isNotLoading: 0
   isActivatingEffect: 0
+  isChecking: 0
   gameState: 0
   currentPhase: 0
   activationChainList: []
@@ -21071,7 +21218,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 6, y: 2}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1963955621
 MonoBehaviour:

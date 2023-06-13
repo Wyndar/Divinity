@@ -18,7 +18,7 @@ public class UXManager : MonoBehaviour
     private ScrollingCardPaneHandler scrollingCardPaneHandler;
 
     [SerializeField]
-    private GameObject trail, effectPanel, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, effectActivationPanel, cardScrollScreenButton;
+    private GameObject trail, effectPanel, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, effectActivationPanel, cardScrollScreenButton, cardScrollRayBlocker;
 
     [SerializeField]
     private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
@@ -58,7 +58,7 @@ public class UXManager : MonoBehaviour
     {
         if (gm.currentFocusCardLogic != null)
         {
-            if (gm.currentFocusCardLogic.gameObject.TryGetComponent(out PlayableLogic playableLogic))
+            if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
                 playableLogic.DisableHover();
             gm.currentFocusCardLogic.cardOutline.gameObject.SetActive(false);
         }
@@ -100,7 +100,7 @@ public class UXManager : MonoBehaviour
         }
         if (gm.currentFocusCardLogic != null)
         {
-            gm.currentFocusCardLogic.gameObject.TryGetComponent(out PlayableLogic playableLogic);
+            gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);
             //swipe check to play
             if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && Vector2.Distance(touchEndPosition, touchStartPosition) >= 3f)
             {
@@ -116,41 +116,8 @@ public class UXManager : MonoBehaviour
             //hold check to show card information
             else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f)
             {
-                string cost = "";
-                CombatantLogic combatantLogic = gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>();
-                rayBlocker.SetActive(true);
-                gm.DisableTurnUI();
-                if (gm.currentFocusCardLogic.cardType != "god")
-                {
-                    cost = playableLogic.cost.ToString();
-                }
-                switch (gm.currentFocusCardLogic.cardType)
-                {
-                    case "spell":
-                        infoPanelSpell.SetActive(true);
-                        infoPanelSpellCostText.text = cost;
-                        infoPanelSpellEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
-                        infoPanelSpellFlavourText.text = gm.currentFocusCardLogic.flavorText;
-                        infoPanelSpellNameText.text = gm.currentFocusCardLogic.cardName;
-                        break;
-                    case "monster":
-                        infoPanelMonster.SetActive(true);
-                        infoPanelMonsterAtkText.text = combatantLogic.currentAtk.ToString();
-                        infoPanelMonsterCostText.text = cost;
-                        infoPanelMonsterHpText.text = combatantLogic.currentHp.ToString();
-                        infoPanelMonsterEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
-                        infoPanelMonsterFlavourText.text = gm.currentFocusCardLogic.flavorText;
-                        infoPanelMonsterNameText.text = gm.currentFocusCardLogic.cardName;
-                        break;
-                    case "god":
-                        infoPanelGod.SetActive(true);
-                        infoPanelGodAtkText.text = combatantLogic.currentAtk.ToString();
-                        infoPanelGodHpText.text = combatantLogic.currentHp.ToString();
-                        infoPanelGodEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
-                        infoPanelGodFlavourText.text = gm.currentFocusCardLogic.flavorText;
-                        infoPanelGodNameText.text = gm.currentFocusCardLogic.cardName;
-                        break;
-                }
+                if(!gm.currentFocusCardLogic.isFaceDown)
+                    ShowEffectInfoPanel();
             }
             else
                 if (playableLogic != null)
@@ -178,7 +145,8 @@ public class UXManager : MonoBehaviour
             return;
         if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open)
             gm.currentFocusCardLogic = null;
-        if (gameObject.CompareTag("deck") && gm.gameState == Game_Manager.GameState.Open)
+        DisableDeckSearchButtons();
+        if (gameObject.CompareTag("deck") && gm.gameState == Game_Manager.GameState.Open && cardScrollScreen.activeInHierarchy==false)
         {
             if (gameObject == gm.RedPlayerManager.deck)
                 gm.RedPlayerManager.deckSearchButton.SetActive(true);
@@ -235,15 +203,65 @@ public class UXManager : MonoBehaviour
                 combatant.AttackTargetAcquisition();
         }
         DisableRayBlocker();
+        DisableEffectInfoPanels();
+        DisableEffectPanel();
+        if (gm.isChecking)
+            DisableCardScrollScreen();
+        gm.EnableTurnUI();
+    }
+
+    public void DisableEffectInfoPanels()
+    {
         infoPanelSpell.SetActive(false);
         infoPanelMonster.SetActive(false);
         infoPanelGod.SetActive(false);
+    }
+
+    public void DisableDeckSearchButtons()
+    {
         gm.RedPlayerManager.deckSearchButton.SetActive(false);
         gm.BluePlayerManager.deckSearchButton.SetActive(false);
         gm.RedPlayerManager.graveSearchButton.SetActive(false);
         gm.BluePlayerManager.graveSearchButton.SetActive(false);
-        DisableEffectPanel();
-        gm.EnableTurnUI();
+    }
+
+    public void ShowEffectInfoPanel()
+    { 
+        string cost = "";
+  gm.currentFocusCardLogic.TryGetComponent(out CombatantLogic combatantLogic);
+        
+        rayBlocker.SetActive(true);
+        gm.DisableTurnUI();
+        if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
+            cost = playableLogic.cost.ToString();
+        
+        switch (gm.currentFocusCardLogic.cardType)
+        {
+            case "spell":
+                infoPanelSpell.SetActive(true);
+                infoPanelSpellCostText.text = cost;
+                infoPanelSpellEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
+                infoPanelSpellFlavourText.text = gm.currentFocusCardLogic.flavorText;
+                infoPanelSpellNameText.text = gm.currentFocusCardLogic.cardName;
+                break;
+            case "monster":
+                infoPanelMonster.SetActive(true);
+                infoPanelMonsterAtkText.text = combatantLogic.currentAtk.ToString();
+                infoPanelMonsterCostText.text = cost;
+                infoPanelMonsterHpText.text = combatantLogic.currentHp.ToString();
+                infoPanelMonsterEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
+                infoPanelMonsterFlavourText.text = gm.currentFocusCardLogic.flavorText;
+                infoPanelMonsterNameText.text = gm.currentFocusCardLogic.cardName;
+                break;
+            case "god":
+                infoPanelGod.SetActive(true);
+                infoPanelGodAtkText.text = combatantLogic.currentAtk.ToString();
+                infoPanelGodHpText.text = combatantLogic.currentHp.ToString();
+                infoPanelGodEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
+                infoPanelGodFlavourText.text = gm.currentFocusCardLogic.flavorText;
+                infoPanelGodNameText.text = gm.currentFocusCardLogic.cardName;
+                break;
+        }
     }
 
     public void DeclareAttack()
@@ -341,11 +359,13 @@ public class UXManager : MonoBehaviour
     public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton)
     {
         cardScrollScreen.SetActive(true);
+        cardScrollRayBlocker.SetActive(true);
         cardScrollScreenButton.SetActive(shouldShowButton);
         scrollingCardPaneHandler.ClearScrollCardsList();
         scrollingCardPaneHandler.RemoveContentCards();
  scrollingCardPaneHandler.AddCardListToScrollCards(cardLogics);
         scrollingCardPaneHandler.AddContentCards();
+        gm.isChecking = false;
     }
 
     public void DisableCardScrollScreen()
@@ -353,6 +373,39 @@ public class UXManager : MonoBehaviour
         scrollingCardPaneHandler.ClearScrollCardsList();
         scrollingCardPaneHandler.RemoveContentCards();
         cardScrollScreen.SetActive(false);
+        cardScrollRayBlocker.SetActive(false);
+    }
+
+    public void ShowCardList(GameObject gameObject)
+    {
+        cardScrollScreen.SetActive(true);
+        cardScrollRayBlocker.SetActive(true);
+        cardScrollScreenButton.SetActive(false);
+        scrollingCardPaneHandler.ClearScrollCardsList();
+        scrollingCardPaneHandler.RemoveContentCards();
+        gm.isChecking = true;
+        if (gameObject == gm.RedPlayerManager.deck)
+        {
+            scrollingCardPaneHandler.AddCardListToScrollCards(gm.RedPlayerManager.deckLogicList);
+            scrollingCardPaneHandler.AddContentCards();
+        }
+        if (gameObject == gm.BluePlayerManager.deck)
+        {
+            scrollingCardPaneHandler.AddCardListToScrollCards(gm.BluePlayerManager.deckLogicList);
+            scrollingCardPaneHandler.AddContentCards();
+        }
+        if (gameObject == gm.RedPlayerManager.grave)
+        {
+            scrollingCardPaneHandler.AddCardListToScrollCards(gm.RedPlayerManager.graveLogicList);
+            scrollingCardPaneHandler.AddContentCards();
+        }
+        if (gameObject == gm.BluePlayerManager.grave)
+        {
+            scrollingCardPaneHandler.AddCardListToScrollCards(gm.BluePlayerManager.graveLogicList);
+            scrollingCardPaneHandler.AddContentCards();
+        }
+        DisableDeckSearchButtons();
+        return;
     }
 
     public void EnableEffectActivationPanel()

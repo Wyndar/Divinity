@@ -19,7 +19,7 @@ public class Game_Manager : MonoBehaviour
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotLoading, isActivatingEffect;
+    public bool isNotLoading, isActivatingEffect, isChecking;
 
     public enum GameState
     {
@@ -333,6 +333,10 @@ public class Game_Manager : MonoBehaviour
     }
 
     public void DisableRayBlocker() => UXManager.DisableRayBlocker();
+
+    public void ShowEffectInfoPanel() => UXManager.ShowEffectInfoPanel();
+
+    public void DisableEffectInfoPanels() => UXManager.DisableEffectInfoPanels();
 
     public void EnableActivationPanel() => UXManager.EnableEffectActivationPanel();
 

@@ -12,6 +12,14 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
+        if (Game_Manager.isChecking)
+        {
+            Game_Manager.DisableEffectInfoPanels();
+            Game_Manager.currentFocusCardLogic = cardLogic;
+            Game_Manager.ShowEffectInfoPanel();
+            return;
+        }
+
         int effectNum = Game_Manager.currentFocusCardLogic.effectCountNumber;
         int subEffectNum = Game_Manager.currentFocusCardLogic.subCountNumber;
         
