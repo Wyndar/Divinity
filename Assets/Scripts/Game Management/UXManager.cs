@@ -174,10 +174,22 @@ public class UXManager : MonoBehaviour
         DisableAllPopups();
         if (isUsingshield)
             return;
-        if (gameObject.CompareTag("deck")||gameObject.CompareTag("Active UI panel"))
+        if (gameObject.CompareTag("Active UI panel"))
             return;
         if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open)
             gm.currentFocusCardLogic = null;
+        if (gameObject.CompareTag("deck") && gm.gameState == Game_Manager.GameState.Open)
+        {
+            if (gameObject == gm.RedPlayerManager.deck)
+                gm.RedPlayerManager.deckSearchButton.SetActive(true);
+            if (gameObject == gm.BluePlayerManager.deck)
+                gm.BluePlayerManager.deckSearchButton.SetActive(true);
+            if (gameObject == gm.RedPlayerManager.grave)
+                gm.RedPlayerManager.graveSearchButton.SetActive(true);
+            if (gameObject == gm.BluePlayerManager.grave)
+                gm.BluePlayerManager.graveSearchButton.SetActive(true);
+            return;
+        }
         CardLogic focusCard = gm.currentFocusCardLogic;
         gameObject.TryGetComponent(out PlayableLogic playableLogic);
         gameObject.TryGetComponent(out MonsterLogic monsterLogic);
@@ -189,7 +201,7 @@ public class UXManager : MonoBehaviour
             {
                 if (clickedCard.currentLocation == CardLogic.Location.Deck)
                     return;
-                if(clickedCard.currentLocation == CardLogic.Location.HeroDeck)
+                if (clickedCard.currentLocation == CardLogic.Location.HeroDeck)
                     return;
                 if (gm.isActivatingEffect)
                     return;
@@ -226,6 +238,10 @@ public class UXManager : MonoBehaviour
         infoPanelSpell.SetActive(false);
         infoPanelMonster.SetActive(false);
         infoPanelGod.SetActive(false);
+        gm.RedPlayerManager.deckSearchButton.SetActive(false);
+        gm.BluePlayerManager.deckSearchButton.SetActive(false);
+        gm.RedPlayerManager.graveSearchButton.SetActive(false);
+        gm.BluePlayerManager.graveSearchButton.SetActive(false);
         DisableEffectPanel();
         gm.EnableTurnUI();
     }

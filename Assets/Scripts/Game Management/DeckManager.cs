@@ -118,8 +118,7 @@ public class DeckManager : MonoBehaviour
                     else
                         cardCloneCardLogic.currentLocation = CardLogic.Location.Deck;
                     cardCloneCardLogic.locationOrderNumber = i;
-                    cardCloneCardLogic.transform.position = deckObject.transform.position;
-                    cardCloneCardLogic.transform.rotation = deckObject.transform.rotation;
+                    cardCloneCardLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x,deckObject.transform.position.y,deckObject.transform.position.z+0.5f), deckObject.transform.rotation);
                     cardCloneCardLogic.isFaceDown = true;
                     cardCloneCardLogic.cardImage.gameObject.SetActive(false);
                     cardCloneCardLogic.cardBack.gameObject.SetActive(true);
