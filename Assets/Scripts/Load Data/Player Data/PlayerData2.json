@@ -3,6 +3,6 @@
     "PlayerID": "BT2",
     "DeckPath": "/Scripts/Load Data/Deck Data/enemyDeck.json",
     "HeroDeckPath": "/Scripts/Load Data/Deck Data/enemyHerodeck.json",
-    "IsAI": false,
+    "IsAI": true,
     "IsLocal": true
 }

@@ -69,6 +69,8 @@ public class Game_Manager : MonoBehaviour
         playerManager.HeroDeckPath = player.HeroDeckPath;
         playerManager.isAI = player.IsAI;
         playerManager.isLocal = player.IsLocal;
+        if (playerManager.isAI)
+            playerManager.transform.GetChild(0).gameObject.SetActive(true);
         LoadDeckID(playerManager);
     }
 
@@ -80,9 +82,12 @@ public class Game_Manager : MonoBehaviour
         playerManager.heroDeckLogicList.AddRange(DeckManager.LoadDeck(playerManager.heroDeckListID, playerManager.heroDeckList, playerManager.shield, playerManager, true));
     }
 
-    public void CostChange(int changeAmount, PlayerManager player)
+    public void CostChange(int changeAmount, PlayerManager player, bool add)
     {
-        player.costCount += changeAmount;
+        if (add)
+            player.costCount += changeAmount;
+        else
+            player.costCount -= changeAmount;
         if (player.costCount > 10)
             player.costCount = 10;
         if (player.costCount < 0)
@@ -112,8 +117,10 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.locationOrderNumber = i;
             randomCardDraw.transform.position = Vector3.zero;
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
-            if (player.isLocal && player.isAI == false && player == turnPlayer)
+            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 randomCardDraw.FlipFaceUp();
+          
             player.isEmptyHandSlot[i] = false;
             player.deckLogicList.Remove(randomCardDraw);
             player.handLogicList.Add(randomCardDraw);
@@ -268,6 +275,8 @@ public class Game_Manager : MonoBehaviour
     public void StateReset() {
         StateChange(GameState.Open);
         ShowValidMoves(turnPlayer);
+        if (turnPlayer.isAI)
+            turnPlayer.AIManager.MakeDecision();
     }
 
     public void StateChange(GameState state)
@@ -298,13 +307,11 @@ public class Game_Manager : MonoBehaviour
     public void GetEffectTriggers(int triggerEffectNumber, int triggerSubEffectNumber, CardLogic triggerCard)
     {
         ChainManager.GetEffectTriggers(triggerEffectNumber, triggerSubEffectNumber, triggerCard);
-        StateReset();
     }
 
     public void GetStateTriggers(CardLogic triggerCard)
     {
         ChainManager.GetStateTriggers(triggerCard);
-        StateReset();
     }
 
     public void ChainResolution()
@@ -350,6 +357,7 @@ public class Game_Manager : MonoBehaviour
             cardLogic.EffectRefresh();
         foreach (CardLogic cardLogic in player.graveLogicList)
             cardLogic.EffectRefresh();
+        player.heroCardLogic.EffectRefresh();
     }
 
     public void AllAttacksRefresh(PlayerManager player)
@@ -366,6 +374,10 @@ public class Game_Manager : MonoBehaviour
         if (player.isAI)
             return;
         if (!player.isLocal)
+            return;
+        if (player.enemy.isAI)
+            return;
+        if (!player.enemy.isLocal)
             return;
         foreach (CardLogic cardLogic in player.enemy.handLogicList)
                 cardLogic.FlipFaceDown();
@@ -389,6 +401,27 @@ public class Game_Manager : MonoBehaviour
                     player.playableLogicList.Remove(cardLogic);
                 cardLogic.GreyScaleEffect();
             }
+        }
+        foreach (CardLogic cardLogic in player.fieldLogicList)
+        {
+            foreach (Effect effect in cardLogic.effects)
+            {
+                if (!effect.EffectUsed.Contains("Deployed"))
+                    continue;
+                int subNum = effect.EffectUsed.FindIndex(a => a == "Deployed");
+                int effNum = cardLogic.effects.FindIndex(a => a == effect);
+                if (cardLogic.GetValidTargets(effNum, subNum).Count > 0)
+                    player.canUseEffectLogicList.Add(cardLogic);
+            }
+        }
+        foreach (Effect effect in player.heroCardLogic.effects)
+        {
+            if (!effect.EffectUsed.Contains("Deployed"))
+                continue;
+            int subNum = effect.EffectUsed.FindIndex(a => a == "Deployed");
+            int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);
+            if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count > 0)
+                player.canUseEffectLogicList.Add(player.heroCardLogic);
         }
     }
 

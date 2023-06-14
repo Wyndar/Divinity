@@ -151,21 +151,21 @@ public class ChainManager : MonoBehaviour
         }
     }
 
-    //chain resolution backwards
-    //!!???? why backwards?????
-    //changing to in order of addition
+    //chain resolution in order of addition
     public void ChainResolution()
     {
         gm.StateChange(Game_Manager.GameState.ChainResolution);
         for (int i = 0; i< gm.activationChainList.Count; i++)
         {
+            //get reference to each so that they can be safely removed then activated before coroutines ruin call sequence
             CardLogic resolvingCard = gm.activationChainList[i];
             int resolvingEffectNumber = gm.activationChainNumber[i];
             int resolvingSubEffectNumber = gm.activationChainSubNumber[i];
             gm.activationChainList.RemoveAt(i);
             gm.activationChainNumber.RemoveAt(i);
             gm.activationChainSubNumber.RemoveAt(i);
-            if (resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] == false)
+            //for non ai players to decide to use optionals
+            if (!resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] && !resolvingCard.cardController.isAI)
             {
                 resolvingCard.effectCountNumber = resolvingEffectNumber;
                 resolvingCard.subCountNumber = resolvingSubEffectNumber;
@@ -173,7 +173,10 @@ public class ChainManager : MonoBehaviour
                 gm.EnableActivationPanel();
                 break;
             }
-            resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
+            if (!resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] && resolvingCard.cardController.isAI)
+                if (!resolvingCard.cardController.AIManager.ActivateOptionalEffect())
+                    continue;
+                resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
             
         }
     }

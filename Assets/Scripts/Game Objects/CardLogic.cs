@@ -254,7 +254,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                     target.GetComponent<MonsterLogic>().MonsterDeath();
                 break;
             case "Blood Recovery":
-                cardController.costCount += effectAmount;
+                GameManager.CostChange(effectAmount, cardController, true);
                 break;
             case "Target":
                 TargetEffectLogic(countNumber, subCount);
@@ -391,6 +391,11 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                     if (target.currentLocation == Location.Deck)
                         target.cardController.graveTarget.SetActive(true);
                 }
+                if(cardController.isAI)
+                {
+                    cardController.AIManager.GetEffectTarget();
+                    return;
+                }
                 if (targetingEffect.TargetLocation[subCount] != "Field")
                     GameManager.EnableCardScrollScreen(validTargets, !targetingEffect.EffectActivationIsMandatory[subCount]);
                 return;
@@ -466,7 +471,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         int targetsLeft = effects[countNumber].EffectTargetAmount[subCount];
         while (targetsLeft > 0 && validTargets.Count>targets.Count)
         {
-            int randomNumber = UnityEngine.Random.Range(0, validTargets.Count);
+            int randomNumber = Random.Range(0, validTargets.Count);
             if (targets.Contains(validTargets[randomNumber]))
                 continue;
             targets.Add(validTargets[randomNumber]);

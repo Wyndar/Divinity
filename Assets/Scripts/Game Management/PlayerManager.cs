@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
 	public Game_Manager gm;
     public SaveManager SaveManager;
     public PlayerManager enemy;
+    public AIManager AIManager;
 
     public string PlayerName, PlayerID, DeckPath, HeroDeckPath;
 
@@ -24,6 +25,8 @@ public class PlayerManager : MonoBehaviour
     public List<CardLogic> heroDeckLogicList = new();
     public List<CardLogic> graveLogicList = new();
     public List<CardLogic> playableLogicList = new();
+    public List<CardLogic> canAttackLogicList = new();
+    public List<CardLogic> canUseEffectLogicList = new();
 
     public GodLogic heroCardLogic;
 

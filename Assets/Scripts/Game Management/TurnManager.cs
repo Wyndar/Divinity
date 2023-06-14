@@ -75,7 +75,7 @@ public class TurnManager : MonoBehaviour
         gm.turnPhaseText.text = "Recovery";
         gm.PhaseChange(Game_Manager.Phase.CostPhase);
         int amount = player.costPhaseGain;
-        gm.CostChange(amount, player);
+        gm.CostChange(amount, player, true);
         player.costPhaseGain++;
         gm.currentFocusCardLogic = null;
         gm.StateChange(Game_Manager.GameState.Cost);
@@ -97,7 +97,6 @@ public class TurnManager : MonoBehaviour
         gm.turnPhaseText.text = "Combat";
         PhaseButtonCheck(player);
         gm.PhaseChange(Game_Manager.Phase.BattlePhase);
-        gm.StateChange(Game_Manager.GameState.Open);
         gm.currentFocusCardLogic = null;
         gm.StateReset();
     }

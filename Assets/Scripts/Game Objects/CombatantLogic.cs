@@ -6,6 +6,8 @@ public class CombatantLogic : MonoBehaviour
 	public Game_Manager gm;
     public CardLogic logic;
 
+    public List<CombatantLogic> validTargets = new();
+
     public int atk, hp, maxHp, currentAtk, currentHp, maxAttacks, attacksLeft;
 
     public bool hasAttacked, hasAttackedThisTurn;
@@ -88,50 +90,44 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> GetValidAttackTargets()
     {
-        List<CombatantLogic> logics = new(FindObjectsOfType<CombatantLogic>());
-        List<CombatantLogic> returnList = new();
-        foreach(CombatantLogic logic in logics)
-        {
-            CardLogic target = logic.GetComponent<CardLogic>();
-            //remove ally cards
-            if (target.cardController == GetComponent<CardLogic>().cardController)
-                continue;
-            //remove cards not on field
-            if (target.currentLocation != CardLogic.Location.Field)
-                continue;
-            //implement taunt type effects here
-
-            //if it passes all tests, add it to the list
-            returnList.Add(logic);
-        }
-        return returnList;
+        List<CombatantLogic> logics = new();
+        foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
+            logics.Add(cardLogic.GetComponent<CombatantLogic>());
+        logics.Add(logic.cardController.enemy.heroCardLogic.GetComponent<CombatantLogic>());
+        return logics;
     }
 
     public void AttackTargetAcquisition()
     {
-        if (gm.gameState == Game_Manager.GameState.AttackDeclaration)
-        {
-            List<CombatantLogic> allTargetsList = gm.currentFocusCardLogic.GetComponent<CombatantLogic>().GetValidAttackTargets();
-            if (allTargetsList.Contains(this))
-                AttackResolution();
-            if (gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>().attacksLeft == 0)
-            {
-                gm.StateChange(Game_Manager.GameState.Open);
-                return;
-            }
-        }
+        if (gm.gameState != Game_Manager.GameState.AttackDeclaration)
+            return;
+        CombatantLogic attacker = gm.currentFocusCardLogic.GetComponent<CombatantLogic>();
+        if (attacker.validTargets.Contains(this))
+            AttackResolution();
+        //slow down attack stack trace for AI till coroutine for atk animation is done
+        if (logic.cardController.isAI)
+            logic.cardController.AIManager.isPerformingAction = false;
+        if (attacker.attacksLeft == 0)
+            gm.StateReset();
     }
 
     public void DeclareAttack()
     {
         gm.gameState =Game_Manager.GameState.AttackDeclaration;
-        List<CombatantLogic> combatantLogics = new(GetValidAttackTargets());
-        foreach(CombatantLogic combatantLogic in combatantLogics)
+        validTargets = new(GetValidAttackTargets());
+        foreach(CombatantLogic combatantLogic in validTargets)
         {
             if (combatantLogic.logic.cardType == "monster")
                 combatantLogic.logic.cardController.attackTargets[combatantLogic.logic.locationOrderNumber].SetActive(true);
             if (combatantLogic.logic.cardType == "god")
                 combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
+        }
+        gm.currentFocusCardLogic = logic;
+        //handle attacks randomly for AI, needs work
+        if(logic.cardController.isAI)
+        {
+            int ranNum = Random.Range(0, validTargets.Count);
+            validTargets[ranNum].AttackTargetAcquisition();
         }
     }
 

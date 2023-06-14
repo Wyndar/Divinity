@@ -45,6 +45,8 @@ public class PlayableLogic : MonoBehaviour
         {
             if (logic.cardController != player)
                 logic.ControllerSwap(player);
+            if (logic.isFaceDown)
+                logic.FlipFaceUp();
             gm.currentFocusCardLogic = logic;
             gm.StateChange(Game_Manager.GameState.Activation);
             if(!ignoreCost)
@@ -132,6 +134,8 @@ public class PlayableLogic : MonoBehaviour
                     break;
             }
         }
+        if (logic.cardController.isAI)
+            logic.cardController.AIManager.isPerformingAction = false;
         gm.ChainResolution();
         return;
     }
