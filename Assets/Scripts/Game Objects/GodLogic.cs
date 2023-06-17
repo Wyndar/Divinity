@@ -37,6 +37,7 @@
     {
         cardOwner.shieldCount -= 1;
         gm.StateChange(Game_Manager.GameState.Shielded);
+        gm.ClearAttackTargetImages();
         cardController.AIManager.isPerformingAction = false;
         cardController.enemy.AIManager.isPerformingAction = false;
         hasUsedShield = true;

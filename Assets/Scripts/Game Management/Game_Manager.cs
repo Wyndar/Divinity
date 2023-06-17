@@ -157,7 +157,7 @@ public class Game_Manager : MonoBehaviour
             player.deckLogicList.Remove(logic);
             player.handLogicList.Add(logic);
             player.handSize = player.handLogicList.Count;
-
+            break;
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
@@ -187,6 +187,7 @@ public class Game_Manager : MonoBehaviour
             logic.cardOwner.graveLogicList.Remove(logic);
             player.handLogicList.Add(logic);
             player.handSize = player.handLogicList.Count;
+            break;
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
