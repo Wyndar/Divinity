@@ -47,6 +47,8 @@ public class PlayableLogic : MonoBehaviour
                 logic.ControllerSwap(player);
             if (logic.isFaceDown)
                 logic.FlipFaceUp();
+            if (!logic.isNormalColour)
+                logic.NormalColour();
             gm.currentFocusCardLogic = logic;
             gm.StateChange(Game_Manager.GameState.Activation);
             if(!ignoreCost)

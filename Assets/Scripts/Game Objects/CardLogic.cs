@@ -304,7 +304,10 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             effectCountNumber = countNumber;
             subCountNumber = subCount + 1;
             GameManager.currentFocusCardLogic = this;
-            GameManager.EnableActivationPanel();
+            if (cardController.isAI)
+                OptionalEffectResolution(cardController.AIManager.ActivateOptionalEffect());
+            else
+                GameManager.EnableActivationPanel();
             return false;
         }
         //dependent on targets of previous effect
@@ -392,7 +395,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                     if (target.currentLocation == Location.Grave)
                         target.cardController.graveTarget.SetActive(true);
                     if (target.currentLocation == Location.Deck)
-                        target.cardController.graveTarget.SetActive(true);
+                        target.cardController.deckTarget.SetActive(true);
                 }
                 if(cardController.isAI)
                 {

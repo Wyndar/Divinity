@@ -150,7 +150,8 @@ public class Game_Manager : MonoBehaviour
             logic.locationOrderNumber = i;
             logic.transform.position = Vector3.zero;
             logic.transform.SetParent(player.handSlots[i].transform, false);
-            if (player.isLocal && player.isAI == false && player == turnPlayer)
+            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 logic.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             player.deckLogicList.Remove(logic);
@@ -179,7 +180,8 @@ public class Game_Manager : MonoBehaviour
             logic.transform.position = Vector3.zero;
             logic.ControllerSwap(player);
             logic.transform.SetParent(player.handSlots[i].transform, false);
-            if (player.isLocal && player.isAI == false && player == turnPlayer)
+            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 logic.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             logic.cardOwner.graveLogicList.Remove(logic);
@@ -212,7 +214,8 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.locationOrderNumber = i;
             randomCardDraw.transform.position = Vector3.zero;
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
-            if (player.isLocal && player.isAI == false && player == turnPlayer)
+            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 randomCardDraw.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
             player.heroDeckLogicList.Remove(randomCardDraw);
