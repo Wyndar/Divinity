@@ -16,7 +16,7 @@ public class CombatantLogic : MonoBehaviour
     {
         bool blockDamage = false;
         if (logic.cardType == "god")
-            blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage);
+            blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage, wasAttack);
         if (!blockDamage)
             DamageResolution(damage, true);
     }

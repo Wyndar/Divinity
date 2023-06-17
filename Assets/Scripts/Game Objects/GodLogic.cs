@@ -10,14 +10,18 @@
     public int shieldUsesLeft;
 
     private int incomingDamage;
+    private bool wasAttack;
 
-    public bool ShieldTrigger(int damage)
+    public bool ShieldTrigger(int damage, bool wasAttack)
     {
         if (cardOwner.shieldCount == 0)
             return false;
         if (shieldUsesLeft == 0)
             return false;
         incomingDamage = damage;
+        this.wasAttack = wasAttack;
+        if (!wasAttack)
+            gm.isWaitingForResponse = true;
         if (cardOwner.isAI)
             HandleAIShield();
         else
@@ -27,7 +31,7 @@
 
     private void HandleAIShield()
     {
-        if (cardOwner.AIManager.UseShield(incomingDamage))
+        if (cardOwner.AIManager.UseShield(incomingDamage, wasAttack))
             ActivateShield();
         else
             ShieldPass();
@@ -44,9 +48,20 @@
         hasUsedShieldThisTurn = true;
         shieldUsesLeft -= 1;
         gm.GetShieldCard(1, cardOwner);
+        if (!wasAttack)
+        {
+            gm.isWaitingForResponse = false; gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+        }
     }
 
-    public void ShieldPass() => combatantLogic.DamageResolution(incomingDamage, true);
+    public void ShieldPass()
+    {
+        combatantLogic.DamageResolution(incomingDamage, true);
+        if (wasAttack)
+            return;
+        gm.isWaitingForResponse = false;
+        gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+    }
 
     public void ShieldRefresh()
     {

@@ -32,7 +32,7 @@ public class AIManager : MonoBehaviour
             UseLegalEffects();
         if (gm.gameState != Game_Manager.GameState.Open)
             return;
-        turnManager.TriggerPhaseChange();
+        //turnManager.TriggerPhaseChange();
     }
 
     //indiscriminate attack spam
@@ -71,15 +71,16 @@ public class AIManager : MonoBehaviour
     {
         if (AIPlayer.canUseEffectLogicList.Count == 0)
             return;
+        if (gm.isActivatingEffect)
+            return;
         CardLogic cardLogic = AIPlayer.canUseEffectLogicList[0];
         int effNum = AIPlayer.canUseEffectNumber[0];
         int subNum = AIPlayer.canUseEffectSubNumber[0];
-        Debug.Log(cardLogic.cardName);
         isPerformingAction = true;
         cardLogic.EffectActivation(effNum, subNum);
     }
 
-    public bool UseShield(int damage)
+    public bool UseShield(int damage, bool wasAttack)
     {
         //use shield if about to die, highest priority
         if (AIPlayer.heroCardLogic.GetComponent<CombatantLogic>().currentHp <= damage)
@@ -87,11 +88,14 @@ public class AIManager : MonoBehaviour
         //ignore damage less than a fifth of current hp
         if (damage < AIPlayer.heroCardLogic.GetComponent<CombatantLogic>().currentHp / 5)
             return false;
+        //anything else if it's an attack is a bust, take the damage
+        if (wasAttack)
+            return false;
         //use shield if about to get hit by highest atk otherwise
         if (BestAtkSort(AIPlayer.enemy.canAttackLogicList).GetComponent<CombatantLogic>().currentAtk == damage)
             return true;
-        //anything else is a bust, take the damage
-        return false;  
+        //else if not attack and nothing else
+        return false;
     }
 
     public bool ActivateOptionalEffect()

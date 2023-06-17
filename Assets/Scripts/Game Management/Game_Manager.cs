@@ -19,7 +19,7 @@ public class Game_Manager : MonoBehaviour
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotLoading, isActivatingEffect, isChecking;
+    public bool isNotLoading, isActivatingEffect, isChecking, isWaitingForResponse;
 
     public enum GameState
     {
@@ -227,7 +227,8 @@ public class Game_Manager : MonoBehaviour
         }
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
-        ChainResolution();
+        if (!isWaitingForResponse)
+            ChainResolution();
     }
 
 
@@ -326,6 +327,8 @@ public class Game_Manager : MonoBehaviour
         //nothing to do if in middle of effect
         if (isActivatingEffect)
             return;
+        if (isWaitingForResponse)
+            return;
         //if empty chain, reset and get new decision
         if (activationChainList.Count == 0)
         {
@@ -402,7 +405,6 @@ public class Game_Manager : MonoBehaviour
         player.canUseEffectLogicList.Clear();
         player.canUseEffectNumber.Clear();
         player.canUseEffectSubNumber.Clear();
-
         foreach (CardLogic cardLogic in player.handLogicList)
         {
             if (cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) != null)
@@ -417,9 +419,9 @@ public class Game_Manager : MonoBehaviour
         {
             foreach (Effect effect in cardLogic.effects)
             {
-                if (!effect.EffectUsed.Contains("Deployed"))
+                if (!effect.EffectType.Contains("Deployed"))
                     continue;
-                int subNum = effect.EffectUsed.FindIndex(a => a == "Deployed");
+                int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
                 int effNum = cardLogic.effects.FindIndex(a => a == effect);
                 if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
                     continue;
@@ -431,9 +433,9 @@ public class Game_Manager : MonoBehaviour
         }
         foreach (Effect effect in player.heroCardLogic.effects)
         {
-            if (!effect.EffectUsed.Contains("Deployed"))
+            if (!effect.EffectType.Contains("Deployed"))
                 continue;
-            int subNum = effect.EffectUsed.FindIndex(a => a == "Deployed");
+            int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
             int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);
             if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count == 0)
                 continue;

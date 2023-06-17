@@ -185,6 +185,9 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         Effect resolvingEffect = effects[countNumber];
         string effectUsed = resolvingEffect.EffectUsed[subCount];
         int effectAmount = resolvingEffect.EffectAmount[subCount];
+        effectCountNumber = countNumber;
+        subCountNumber = subCount;
+        GameManager.currentFocusCardLogic = this;
 
         switch (effectUsed)
         {
@@ -259,8 +262,14 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             case "Target":
                 TargetEffectLogic(countNumber, subCount);
                 break;
-
         }
+        if (!GameManager.isWaitingForResponse)
+            FinishResolution(countNumber, subCount);
+    }
+
+    public void FinishResolution(int countNumber, int subCount)
+    {
+        Effect resolvingEffect = effects[countNumber];
         GameManager.isActivatingEffect = false;
         if (resolvingEffect.MaxActivations != 0 && currentActivations[countNumber] != 0)
             currentActivations[countNumber] -= 1;
@@ -268,7 +277,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         //chainlist for effect triggers
         GameManager.GetEffectTriggers(countNumber, subCount, this);
 
-        CheckSubsequentEffects(countNumber,subCount);
+        CheckSubsequentEffects(countNumber, subCount);
     }
 
     private void CheckSubsequentEffects(int countNumber, int subCount)
