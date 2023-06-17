@@ -28,6 +28,9 @@ public class PlayerManager : MonoBehaviour
     public List<CardLogic> canAttackLogicList = new();
     public List<CardLogic> canUseEffectLogicList = new();
 
+    public List<int> canUseEffectNumber = new();
+    public List<int> canUseEffectSubNumber = new();
+
     public GodLogic heroCardLogic;
 
     public Transform activationZone;

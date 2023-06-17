@@ -154,7 +154,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             returnList.Add(target);
         }
         if (returnList.Count < 1)
-            Debug.Log("No valid targets");
+            Debug.Log("No valid targets for "+ cardName+"'s "+ effectUsed+ " effect at "+ GameManager.turnPlayer.PlayerName+"'s turn at phase " + GameManager.currentPhase);
         return returnList;
     }
 
@@ -201,7 +201,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 break;
             case "Damage":
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().TakeDamage(effectAmount);
+                    target.GetComponent<CombatantLogic>().TakeDamage(effectAmount, false);
                 break;
             case "Regeneration":
                 foreach (CardLogic target in targets)
@@ -284,6 +284,8 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 gameObject.GetComponent<PlayableLogic>().MoveToGrave();
 
             //resolve chain after all possible effect chains are linked
+            if (cardController.isAI)
+                cardController.AIManager.isPerformingAction = false;
             GameManager.ChainResolution();
         };
     }
@@ -380,6 +382,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 }
                 effectCountNumber = countNumber;
                 subCountNumber = subCount;
+                GameManager.currentFocusCardLogic = this;
                 foreach(CardLogic target in validTargets)
                 {
                     if (target.cardType == "monster" && target.currentLocation == Location.Field)
@@ -441,7 +444,6 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         if (targeter.targets.Count == targeter.effects[countNumber].EffectTargetAmount[subCount] || targeter.targets.Count == targeter.validTargets.Count)
         {
             GameManager.DisableCardScrollScreen();
-            GameManager.StateReset();
             targeter.EffectResolution(countNumber, subCount);
             return;
         }

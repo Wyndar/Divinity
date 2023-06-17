@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -29,7 +30,8 @@ public class AIManager : MonoBehaviour
             PlayLegalCard();
         if (AIPlayer.canUseEffectLogicList.Count > 0)
             UseLegalEffects();
-        isPerformingAction = false;
+        if (gm.gameState != Game_Manager.GameState.Open)
+            return;
         turnManager.TriggerPhaseChange();
     }
 
@@ -38,26 +40,25 @@ public class AIManager : MonoBehaviour
     {
         if (isPerformingAction == true)
             return;
-        foreach (CardLogic cardLogic in gm.turnPlayer.fieldLogicList)
+        if (AIPlayer.canAttackLogicList.Count > 0)
         {
+            CombatantLogic combatant = AIPlayer.canAttackLogicList[0].GetComponent<CombatantLogic>();
             isPerformingAction = true;
-cardLogic.GetComponent<CombatantLogic>().DeclareAttack();
+            combatant.DeclareAttack();
         }
+        if (gm.gameState != Game_Manager.GameState.Open)
+            return;
         turnManager.TriggerPhaseChange();
-        isPerformingAction = false;
+       
     }
 
     private void PlayLegalCard()
     {
         CardLogic highestAttack = BestAtkSort(AIPlayer.playableLogicList);
-        CardLogic highestHp = BestHpSort(AIPlayer.playableLogicList);
-        if (highestHp == null && highestAttack == null)
+        if (highestAttack == null)
             return;
         isPerformingAction = true;
-        if (highestHp.GetComponent<CombatantLogic>().currentAtk >= highestAttack.GetComponent<CombatantLogic>().currentAtk)
-            highestHp.GetComponent<PlayableLogic>().PlayCard("deploy", false, AIPlayer);
-        else
-            highestAttack.GetComponent<PlayableLogic>().PlayCard("deploy", false, AIPlayer);
+        highestAttack.GetComponent<PlayableLogic>().PlayCard("deploy", false, AIPlayer);
     }
 
     //for now, just using random targets. will write logic later
@@ -68,27 +69,28 @@ cardLogic.GetComponent<CombatantLogic>().DeclareAttack();
 
     private void UseLegalEffects()
     {
-        foreach(CardLogic cardLogic in AIPlayer.canUseEffectLogicList)
-        {
-            foreach (Effect effect in cardLogic.effects)
-            {
-                if (!effect.EffectUsed.Contains("Deployed"))
-                    continue;
-                Debug.Log(cardLogic.cardName);
-                isPerformingAction = true;
-                int subNum = effect.EffectUsed.FindIndex(a => a == "Deployed");
-                int effNum = cardLogic.effects.FindIndex(a => a == effect);
-                cardLogic.EffectActivation(effNum, subNum);
-            }
-        }
+        if (AIPlayer.canUseEffectLogicList.Count == 0)
+            return;
+        CardLogic cardLogic = AIPlayer.canUseEffectLogicList[0];
+        int effNum = AIPlayer.canUseEffectNumber[0];
+        int subNum = AIPlayer.canUseEffectSubNumber[0];
+        Debug.Log(cardLogic.cardName);
+        isPerformingAction = true;
+        cardLogic.EffectActivation(effNum, subNum);
     }
 
     public bool UseShield(int damage)
     {
-        if (BestAtkSort(AIPlayer.enemy.canAttackLogicList).GetComponent<CombatantLogic>().currentAtk <= damage)
-            return true;
+        //use shield if about to die, highest priority
         if (AIPlayer.heroCardLogic.GetComponent<CombatantLogic>().currentHp <= damage)
             return true;
+        //ignore damage less than a fifth of current hp
+        if (damage < AIPlayer.heroCardLogic.GetComponent<CombatantLogic>().currentHp / 5)
+            return false;
+        //use shield if about to get hit by highest atk otherwise
+        if (BestAtkSort(AIPlayer.enemy.canAttackLogicList).GetComponent<CombatantLogic>().currentAtk == damage)
+            return true;
+        //anything else is a bust, take the damage
         return false;  
     }
 
@@ -103,11 +105,18 @@ cardLogic.GetComponent<CombatantLogic>().DeclareAttack();
         CardLogic bestStats = null;
         foreach (CardLogic cardLogic in sortList)
         {
-            cardLogic.TryGetComponent<CombatantLogic>(out CombatantLogic combatantLogic);
+            cardLogic.TryGetComponent(out CombatantLogic combatantLogic);
+            //ignore non combatants
             if (combatantLogic == null)
                 continue;
+            //ignore lower atk than highest
             if (highestAtk > combatantLogic.currentAtk)
                 continue;
+            //in event of a tie, use higher hp as fallback
+            if (highestAtk == combatantLogic.currentAtk)
+                if (bestStats.GetComponent<CombatantLogic>().maxHp > combatantLogic.maxHp)
+                    continue;
+            //if hp of new card is higher or tied, it's safe to swap...
             highestAtk = combatantLogic.currentAtk;
             bestStats = cardLogic;
         }
@@ -120,7 +129,7 @@ cardLogic.GetComponent<CombatantLogic>().DeclareAttack();
         CardLogic bestStats = null;
         foreach (CardLogic cardLogic in sortList)
         {
-            cardLogic.TryGetComponent<CombatantLogic>(out CombatantLogic combatantLogic);
+            cardLogic.TryGetComponent(out CombatantLogic combatantLogic);
             if (combatantLogic == null)
                 continue;
             if (highestHP >= combatantLogic.maxHp)

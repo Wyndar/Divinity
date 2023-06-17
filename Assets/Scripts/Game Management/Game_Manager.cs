@@ -274,9 +274,12 @@ public class Game_Manager : MonoBehaviour
 
     public void StateReset() {
         StateChange(GameState.Open);
-        ShowValidMoves(turnPlayer);
-        if (turnPlayer.isAI)
-            turnPlayer.AIManager.MakeDecision();
+        if (currentPhase == Phase.MainPhase)
+            ShowValidMoves(turnPlayer);
+        if (currentPhase == Phase.BattlePhase)
+            ShowValidAttackers(turnPlayer);
+        if(turnPlayer.isAI)
+           turnPlayer.AIManager.MakeDecision();
     }
 
     public void StateChange(GameState state)
@@ -316,13 +319,17 @@ public class Game_Manager : MonoBehaviour
 
     public void ChainResolution()
     {
-        StateReset();
-        if (activationChainList.Count == 0)
-            return;
+        //nothing to do if in middle of effect
         if (isActivatingEffect)
             return;
+        //if empty chain, reset and get new decision
+        if (activationChainList.Count == 0)
+        {
+            StateReset();
+            return;
+        }
+        //else, resolve chain
         ChainManager.ChainResolution();
-        StateReset();
     }
 
     public void DisableTurnUI()
@@ -387,20 +394,20 @@ public class Game_Manager : MonoBehaviour
 
     public void ShowValidMoves(PlayerManager player)
     {
-        foreach(CardLogic cardLogic in player.handLogicList)
+        player.playableLogicList.Clear();
+        player.canUseEffectLogicList.Clear();
+        player.canUseEffectNumber.Clear();
+        player.canUseEffectSubNumber.Clear();
+
+        foreach (CardLogic cardLogic in player.handLogicList)
         {
-            if (cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) == null)
+            if (cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) != null)
             {
-                if (!player.playableLogicList.Contains(cardLogic))
-                    player.playableLogicList.Add(cardLogic);
-                cardLogic.NormalColour();
-            }
-            else
-            {
-                if (player.playableLogicList.Contains(cardLogic))
-                    player.playableLogicList.Remove(cardLogic);
                 cardLogic.GreyScaleEffect();
+                continue;
             }
+            player.playableLogicList.Add(cardLogic);
+            cardLogic.NormalColour();
         }
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
@@ -410,8 +417,12 @@ public class Game_Manager : MonoBehaviour
                     continue;
                 int subNum = effect.EffectUsed.FindIndex(a => a == "Deployed");
                 int effNum = cardLogic.effects.FindIndex(a => a == effect);
-                if (cardLogic.GetValidTargets(effNum, subNum).Count > 0)
-                    player.canUseEffectLogicList.Add(cardLogic);
+                if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
+                    continue;
+                player.canUseEffectLogicList.Add(cardLogic);
+                player.canUseEffectNumber.Add(effNum);
+                player.canUseEffectSubNumber.Add(subNum);
+
             }
         }
         foreach (Effect effect in player.heroCardLogic.effects)
@@ -420,9 +431,24 @@ public class Game_Manager : MonoBehaviour
                 continue;
             int subNum = effect.EffectUsed.FindIndex(a => a == "Deployed");
             int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);
-            if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count > 0)
-                player.canUseEffectLogicList.Add(player.heroCardLogic);
+            if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count == 0)
+                continue;
+            player.canUseEffectLogicList.Add(player.heroCardLogic);
+            player.canUseEffectNumber.Add(effNum);
+            player.canUseEffectSubNumber.Add(subNum);
         }
+    }
+
+    public void ShowValidAttackers(PlayerManager player)
+    {
+        player.canAttackLogicList.Clear();
+        foreach (CardLogic cardLogic in player.fieldLogicList)
+        {
+            CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
+            if (combatantLogic.attacksLeft > 0 && combatantLogic.currentAtk > 0)
+                player.canAttackLogicList.Add(cardLogic);
+        }
+        //implement atk for god???
     }
 
     public void ClearEffectTargetImages()

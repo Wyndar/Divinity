@@ -12,16 +12,16 @@ public class CombatantLogic : MonoBehaviour
 
     public bool hasAttacked, hasAttackedThisTurn;
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool wasAttack)
     {
         bool blockDamage = false;
         if (logic.cardType == "god")
             blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage);
         if (!blockDamage)
-            DamageResolution(damage);    
+            DamageResolution(damage, true);
     }
 
-    public void DamageResolution(int damage)
+    public void DamageResolution(int damage, bool wasAttack)
     {
         currentHp -= damage;
         gm.StateChange(Game_Manager.GameState.Damaged);
@@ -30,6 +30,14 @@ public class CombatantLogic : MonoBehaviour
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
             GetComponent<MonsterLogic>().DeathCheck();
         }
+        if (!wasAttack)
+            return;
+        //slow down attack stack trace for AI till coroutine for atk animation is done
+
+        logic.cardController.AIManager.isPerformingAction = false;
+        logic.cardController.enemy.AIManager.isPerformingAction = false;
+        gm.ClearAttackTargetImages();
+        gm.ChainResolution();
         return;
     }
 
@@ -83,9 +91,7 @@ public class CombatantLogic : MonoBehaviour
         attacker.attacksLeft -= 1;
         attacker.hasAttacked = true;
         attacker.hasAttackedThisTurn = true;
-        TakeDamage(attacker.currentAtk);
-        gm.ClearAttackTargetImages();
-        gm.ChainResolution();
+        TakeDamage(attacker.currentAtk, true);
     }
 
     public List<CombatantLogic> GetValidAttackTargets()
@@ -104,11 +110,6 @@ public class CombatantLogic : MonoBehaviour
         CombatantLogic attacker = gm.currentFocusCardLogic.GetComponent<CombatantLogic>();
         if (attacker.validTargets.Contains(this))
             AttackResolution();
-        //slow down attack stack trace for AI till coroutine for atk animation is done
-        if (logic.cardController.isAI)
-            logic.cardController.AIManager.isPerformingAction = false;
-        if (attacker.attacksLeft == 0)
-            gm.StateReset();
     }
 
     public void DeclareAttack()
