@@ -54,11 +54,12 @@ public class AIManager : MonoBehaviour
 
     private void PlayLegalCard()
     {
-        CardLogic highestAttack = BestAtkSort(AIPlayer.playableLogicList);
-        if (highestAttack == null)
-            return;
+        CardLogic cardToPlay = BestAtkSort(AIPlayer.playableLogicList);
+        //if no fighters, play a spell
+        if (cardToPlay == null)
+            cardToPlay = BestCostSort(AIPlayer.playableLogicList);
         isPerformingAction = true;
-        highestAttack.GetComponent<PlayableLogic>().PlayCard("deploy", false, AIPlayer);
+        cardToPlay.GetComponent<PlayableLogic>().PlayCard("deploy", false, AIPlayer);
     }
 
     //for now, just using random targets. will write logic later
@@ -139,6 +140,23 @@ public class AIManager : MonoBehaviour
             if (highestHP >= combatantLogic.maxHp)
                 continue;
             highestHP = combatantLogic.maxHp;
+            bestStats = cardLogic;
+        }
+        return bestStats;
+    }
+
+    private CardLogic BestCostSort(List<CardLogic> sortList)
+    {
+        int highestCost = -1;
+        CardLogic bestStats = null;
+        foreach (CardLogic cardLogic in sortList)
+        {
+            cardLogic.TryGetComponent(out PlayableLogic playableLogic);
+            if (playableLogic == null)
+                continue;
+            if (highestCost >= playableLogic.cost)
+                continue;
+            highestCost = playableLogic.cost;
             bestStats = cardLogic;
         }
         return bestStats;
