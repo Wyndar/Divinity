@@ -421,8 +421,10 @@ public class Game_Manager : MonoBehaviour
             {
                 if (!effect.EffectType.Contains("Deployed"))
                     continue;
-                int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
+                    int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
                 int effNum = cardLogic.effects.FindIndex(a => a == effect);
+                if (cardLogic.currentActivations[effNum] < 1)
+                    continue;
                 if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
                     continue;
                 player.canUseEffectLogicList.Add(cardLogic);

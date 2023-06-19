@@ -32,7 +32,7 @@ public class AIManager : MonoBehaviour
             UseLegalEffects();
         if (gm.gameState != Game_Manager.GameState.Open)
             return;
-        //turnManager.TriggerPhaseChange();
+        turnManager.TriggerPhaseChange();
     }
 
     //indiscriminate attack spam
