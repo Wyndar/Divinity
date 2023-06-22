@@ -454,6 +454,41 @@
                 "AllowSelfTarget": [ false ]
             }
         ]
+    },
+    //working fine above here
+    {
+        "Id": "GP-08",
+        "CardType": "monster",
+        "CardName": "Defender",
+        "CardText": "While Deployed: Taunt | While Deployed: Armor 1",
+        "CardFlavorText": "Will guard your life with everything he has.",
+        "Cost": 1,
+        "Atk": 0,
+        "Hp": 2,
+        "Effects": [
+            {
+                "EffectType": [ "While Deployed" ],
+                "EffectUsed": [ "Taunt" ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ true ]
+            },
+            {
+                "EffectType": [ "While Deployed" ],
+                "EffectUsed": [ "Armor" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ true ]
+            }
+        ]
     }
 ]
-//it's all working fine. let's move on to AI

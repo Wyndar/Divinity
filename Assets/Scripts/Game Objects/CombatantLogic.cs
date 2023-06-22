@@ -8,7 +8,7 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> validTargets = new();
 
-    public int atk, hp, maxHp, currentAtk, currentHp, maxAttacks, attacksLeft;
+    public int atk, hp, maxHp, currentAtk, currentHp, armor, maxAttacks, attacksLeft;
 
     public bool hasAttacked, hasAttackedThisTurn, isTaunt, isStealth;
 
@@ -97,8 +97,30 @@ public class CombatantLogic : MonoBehaviour
     public List<CombatantLogic> GetValidAttackTargets()
     {
         List<CombatantLogic> logics = new();
+        bool tauntEnemy = false;
+        int stealthEnemyCount = 0;
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
-            logics.Add(cardLogic.GetComponent<CombatantLogic>());
+        {
+            CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
+            if (combatantLogic.isTaunt)
+            {
+                tauntEnemy = true;
+                logics.Add(combatantLogic);
+            }
+            if (tauntEnemy)
+                continue;
+            if(combatantLogic.isStealth)
+                stealthEnemyCount++;
+         logics.Add(combatantLogic);
+        }
+        if (stealthEnemyCount > 0 && logics.Count > stealthEnemyCount)
+        {
+            foreach (CombatantLogic combatant in logics)
+                if (combatant.isStealth)
+                    logics.Remove(combatant);
+        }
+        if (tauntEnemy)
+            return logics;
         logics.Add(logic.cardController.enemy.heroCardLogic.GetComponent<CombatantLogic>());
         return logics;
     }

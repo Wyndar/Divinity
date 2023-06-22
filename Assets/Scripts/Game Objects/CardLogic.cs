@@ -273,6 +273,10 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 foreach (CardLogic target in targets)
                     target.GetComponent<CombatantLogic>().isStealth = true;
                 break;
+            case "Armor":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().armor = effectAmount;
+                break;
         }
         if (!GameManager.isWaitingForResponse)
             FinishResolution(countNumber, subCount);
@@ -486,7 +490,15 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     //less auto more all target
     public void AutoTargetAcquisition(int countNumber, int subCount)
     {
-        targets = new(validTargets);
+        Effect targetingEffect = effects[countNumber];
+        //auto self target effects
+        if (targetingEffect.AllowSelfTarget[subCount] == true && targetingEffect.EffectTargetAmount[subCount] == 1)
+        {
+            targets = new();
+            targets.Add(this);
+        }
+        else
+            targets = new(validTargets);
         EffectResolution(countNumber, subCount);
         return;
     }
