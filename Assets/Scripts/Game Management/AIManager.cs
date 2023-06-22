@@ -89,13 +89,13 @@ public class AIManager : MonoBehaviour
         //ignore damage less than a fifth of current hp
         if (damage < AIPlayer.heroCardLogic.GetComponent<CombatantLogic>().currentHp / 5)
             return false;
-        //anything else if it's an attack is a bust, take the damage
-        if (wasAttack)
-            return false;
+        //anything else if it's not an attack is a bust,do NOT take the damage
+        if (!wasAttack)
+            return true;
         //use shield if about to get hit by highest atk otherwise
         if (BestAtkSort(AIPlayer.enemy.canAttackLogicList).GetComponent<CombatantLogic>().currentAtk == damage)
             return true;
-        //else if not attack and nothing else
+        //else failsafe default
         return false;
     }
 

@@ -130,10 +130,10 @@ public class PlayableLogic : MonoBehaviour
             if (logic.effects[i].EffectType.Contains("Deployment"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "Deployment");
-                    gm.activationChainList.Add(logic);
-                    gm.activationChainNumber.Add(i);
-                    gm.activationChainSubNumber.Add(j);
-                    break;
+                gm.activationChainList.Insert(0, logic);
+                gm.activationChainNumber.Insert(0, i);
+                gm.activationChainSubNumber.Insert(0, j);
+                break;
             }
         }
         if (logic.cardController.isAI)

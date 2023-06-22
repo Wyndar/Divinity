@@ -10,7 +10,7 @@ public class CombatantLogic : MonoBehaviour
 
     public int atk, hp, maxHp, currentAtk, currentHp, maxAttacks, attacksLeft;
 
-    public bool hasAttacked, hasAttackedThisTurn;
+    public bool hasAttacked, hasAttackedThisTurn, isTaunt, isStealth;
 
     public void TakeDamage(int damage, bool wasAttack)
     {

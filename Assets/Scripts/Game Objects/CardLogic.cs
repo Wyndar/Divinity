@@ -269,6 +269,10 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             case "Target":
                 TargetEffectLogic(countNumber, subCount);
                 break;
+            case "Taunt":
+                foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().isStealth = true;
+                break;
         }
         if (!GameManager.isWaitingForResponse)
             FinishResolution(countNumber, subCount);
