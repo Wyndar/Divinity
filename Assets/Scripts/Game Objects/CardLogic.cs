@@ -166,11 +166,18 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         Effect activatingEffect = effects[countNumber];
         switch (activatingEffect.EffectType[subCount])
         {
+            //on play
             case "Deployment":
+            //in response to
             case "Chain":
                 TargetCheck(countNumber, subCount);
                 break;
+            //while on field, manual trigger
             case "Deployed":
+            //continuous on field
+            case "While Deployed":
+            //while in gy manual trigger
+            case "Vengeance":
                 if (currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation))
                     TargetCheck(countNumber, subCount);
                 break;
