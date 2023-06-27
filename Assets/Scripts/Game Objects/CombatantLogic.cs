@@ -23,12 +23,16 @@ public class CombatantLogic : MonoBehaviour
 
     public void DamageResolution(int damage, bool wasAttack)
     {
-        currentHp -= damage;
-        gm.StateChange(Game_Manager.GameState.Damaged);
-        if (logic.cardType == "monster")
+        damage -= armor;
+        if (damage != 0)
         {
-            GetComponent<MonsterLogic>().OnFieldHpRefresh();
-            GetComponent<MonsterLogic>().DeathCheck();
+            currentHp -= damage;
+            gm.StateChange(Game_Manager.GameState.Damaged);
+            if (logic.cardType == "monster")
+            {
+                GetComponent<MonsterLogic>().OnFieldHpRefresh();
+                GetComponent<MonsterLogic>().DeathCheck();
+            }
         }
         if (!wasAttack)
             return;
