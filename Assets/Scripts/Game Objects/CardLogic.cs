@@ -271,6 +271,10 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 break;
             case "Taunt":
                 foreach (CardLogic target in targets)
+                    target.GetComponent<CombatantLogic>().isTaunt = true;
+                break;
+            case "Stealth":
+                foreach (CardLogic target in targets)
                     target.GetComponent<CombatantLogic>().isStealth = true;
                 break;
             case "Armor":

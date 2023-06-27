@@ -135,13 +135,16 @@ public class PlayableLogic : MonoBehaviour
                 gm.activationChainSubNumber.Insert(0, j);
                 break;
             }
+        }
+        for (int i = 0; i < logic.effects.Count; i++)
+        { 
             if (logic.effects[i].EffectType.Contains("While Deployed"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "While Deployed");
                 gm.activationChainList.Insert(0, logic);
                 gm.activationChainNumber.Insert(0, i);
                 gm.activationChainSubNumber.Insert(0, j);
-                break;
+                continue;
             }
         }
         if (logic.cardController.isAI)

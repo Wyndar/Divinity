@@ -469,7 +469,9 @@
             {
                 "EffectType": [ "While Deployed" ],
                 "EffectUsed": [ "Taunt" ],
+                "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
+                "ActivationLocation": "Field",
                 "TargetingType": [ "auto" ],
                 "EffectTargetType": [ "monster" ],
                 "EffectTargetOwner": [ "Player" ],
@@ -482,6 +484,7 @@
                 "EffectUsed": [ "Armor" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
+                "ActivationLocation": "Field",
                 "TargetingType": [ "auto" ],
                 "EffectTargetType": [ "monster" ],
                 "EffectTargetOwner": [ "Player" ],
