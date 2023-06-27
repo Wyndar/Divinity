@@ -33,6 +33,8 @@ public class CombatantLogic : MonoBehaviour
                 GetComponent<MonsterLogic>().OnFieldHpRefresh();
                 GetComponent<MonsterLogic>().DeathCheck();
             }
+            else
+                GetComponent<GodLogic>().LoseCheck();
         }
         if (!wasAttack)
             return;
@@ -146,6 +148,7 @@ public class CombatantLogic : MonoBehaviour
 
     public void DeclareAttack()
     {
+        Debug.Log(logic.cardName);
         gm.gameState =Game_Manager.GameState.AttackDeclaration;
         validTargets = new(GetValidAttackTargets());
         foreach(CombatantLogic combatantLogic in validTargets)

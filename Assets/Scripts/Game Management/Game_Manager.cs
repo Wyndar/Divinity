@@ -473,6 +473,12 @@ public class Game_Manager : MonoBehaviour
         BluePlayerManager.graveTarget.SetActive(false);
     }
 
+    public void GameOver(PlayerManager winner)
+    {
+        UXManager.GameOver(winner);
+        isNotLoading = false;
+    }
+
     public void ClearAttackTargetImages()
     {
         foreach (GameObject image in BluePlayerManager.attackTargets)

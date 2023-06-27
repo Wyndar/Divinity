@@ -18,11 +18,11 @@ public class UXManager : MonoBehaviour
     private ScrollingCardPaneHandler scrollingCardPaneHandler;
 
     [SerializeField]
-    private GameObject trail, effectPanel, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, effectActivationPanel, cardScrollScreenButton, cardScrollRayBlocker;
+    private GameObject trail, effectPanel, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, effectActivationPanel, cardScrollScreenButton, cardScrollRayBlocker, gameOverPanel;
 
     [SerializeField]
     private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
-    infoPanelMonsterNameText, infoPanelMonsterAtkText, infoPanelMonsterHpText, infoPanelMonsterCostText, infoPanelMonsterEffectText, infoPanelMonsterFlavourText, infoPanelGodNameText, infoPanelGodAtkText, infoPanelGodHpText, infoPanelGodEffectText, infoPanelGodFlavourText, effectPanelNameText, effectActivationPanelText;
+    infoPanelMonsterNameText, infoPanelMonsterAtkText, infoPanelMonsterHpText, infoPanelMonsterCostText, infoPanelMonsterEffectText, infoPanelMonsterFlavourText, infoPanelGodNameText, infoPanelGodAtkText, infoPanelGodHpText, infoPanelGodEffectText, infoPanelGodFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
 
     [SerializeField]
     private TMP_Text[] effectPanelTexts;
@@ -431,6 +431,12 @@ public class UXManager : MonoBehaviour
     {
     gm.currentFocusCardLogic.EffectResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
         DisableCardScrollScreen();
+    }
+
+    public void GameOver(PlayerManager winner)
+    {
+        gameOverPanel.SetActive(true);
+        gameOverWinnerText.text = winner.PlayerName + " wins";
     }
 
     public void DisableRayBlocker() => rayBlocker.SetActive(false);

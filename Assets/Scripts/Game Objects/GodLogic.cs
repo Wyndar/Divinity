@@ -68,5 +68,12 @@
         if (maxShieldUsesPerTurn > shieldUsesLeft)
             shieldUsesLeft = maxShieldUsesPerTurn;
     }
+
+    public void LoseCheck()
+    {
+        if (combatantLogic.currentHp <= 0)
+            GameManager.GameOver(cardController.enemy);
+    }
+
 }
 
