@@ -165,7 +165,7 @@
         "Id": "GP-ZE",
         "CardType": "god",
         "CardName": "Zeus",
-        "CardText": "Chain - Reinforcement: Rally-1 Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
+        "CardText": "Chain - Reinforce: Rally-1 Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
         "Atk": 0,
         "Hp": 15,
@@ -455,11 +455,10 @@
             }
         ]
     },
-    //working fine above here
     {
         "Id": "GP-08",
         "CardType": "monster",
-        "CardName": "Defender",
+        "CardName": "Minotaunt",
         "CardText": "While Deployed: Taunt | While Deployed: Armor 1",
         "CardFlavorText": "Will guard your life with everything he has.",
         "Cost": 1,
@@ -471,7 +470,6 @@
                 "EffectUsed": [ "Taunt" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
-                "ActivationLocation": "Field",
                 "TargetingType": [ "auto" ],
                 "EffectTargetType": [ "monster" ],
                 "EffectTargetOwner": [ "Player" ],
@@ -484,13 +482,51 @@
                 "EffectUsed": [ "Armor" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
-                "ActivationLocation": "Field",
                 "TargetingType": [ "auto" ],
                 "EffectTargetType": [ "monster" ],
                 "EffectTargetOwner": [ "Player" ],
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ true ]
+            }
+        ]
+    },
+    //working fine above here
+    {
+        "Id": "GP-09",
+        "CardType": "monster",
+        "CardName": "Shadowless Bloom",
+        "CardText": "Deployment: Stealth | Chain - Reinforcement: Stealth",
+        "CardFlavorText": "He's brave enough to go into enemy defenses alone but can't hold a conversation.",
+        "Cost": 1,
+        "Atk": 3,
+        "Hp": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Stealth" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ true ]
+            },
+            {
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Stealth" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ true ],
+                "TriggerLocation": [ "Field" ],
+                "TriggerPhase": [ "Draw Phase" ]
             }
         ]
     }

@@ -113,15 +113,21 @@ public class CombatantLogic : MonoBehaviour
             }
             if (tauntEnemy)
                 continue;
-            if(combatantLogic.isStealth)
+            if (combatantLogic.isStealth)
+            {
                 stealthEnemyCount++;
+                continue;
+            }
          logics.Add(combatantLogic);
         }
-        if (stealthEnemyCount > 0 && logics.Count > stealthEnemyCount)
+        //if all ally fghters are stealthed, then they are basically all free targets
+        if (stealthEnemyCount > 0 && logics.Count == 0)
         {
-            foreach (CombatantLogic combatant in logics)
-                if (combatant.isStealth)
-                    logics.Remove(combatant);
+            foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
+            {
+                CombatantLogic combatant = cardLogic.GetComponent<CombatantLogic>();
+                    logics.Add(combatant);
+            }
         }
         if (tauntEnemy)
             return logics;

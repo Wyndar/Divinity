@@ -170,12 +170,12 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             case "Deployment":
             //in response to
             case "Chain":
+            //continuous on field
+            case "While Deployed":
                 TargetCheck(countNumber, subCount);
                 break;
             //while on field, manual trigger
             case "Deployed":
-            //continuous on field
-            case "While Deployed":
             //while in gy manual trigger
             case "Vengeance":
                 if (currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation))
@@ -271,11 +271,16 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 break;
             case "Taunt":
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().isTaunt = true;
+                //cannot be taunt and stealth simultaneously
+                { target.GetComponent<CombatantLogic>().isStealth = false;
+                    target.GetComponent<CombatantLogic>().isTaunt = true; }
                 break;
             case "Stealth":
+                //cannot be taunt and stealth simultaneously
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().isStealth = true;
+                {
+                    target.GetComponent<CombatantLogic>().isTaunt = false;
+                    target.GetComponent<CombatantLogic>().isStealth = true; }
                 break;
             case "Armor":
                 foreach (CardLogic target in targets)
