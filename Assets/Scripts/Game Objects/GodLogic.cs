@@ -72,7 +72,10 @@
     public void LoseCheck()
     {
         if (combatantLogic.currentHp <= 0)
+        {
+            combatantLogic.currentHp = 0;
             GameManager.GameOver(cardController.enemy);
+        }
     }
 
 }

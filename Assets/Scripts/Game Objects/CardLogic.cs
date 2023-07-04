@@ -30,6 +30,8 @@ public class CardLogic : MonoBehaviour
     public List<CardLogic> validTargets = new();
     public List<Effect> effects;
     public List<int> currentActivations = new();
+    public List<BuffHistoryEntry> buffHistoryEntries = new();
+    public List<DebuffHistoryEntry> debuffHistoryEntries = new();
     public int effectCountNumber;
     public int subCountNumber;
 
