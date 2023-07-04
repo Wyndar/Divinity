@@ -8,9 +8,12 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> validTargets = new();
 
+    public Buff buffs = new();
+    public Debuff debuffs = new();
+
     public int atk, hp, maxHp, currentAtk, currentHp, armor, maxAttacks, attacksLeft;
 
-    public bool hasAttacked, hasAttackedThisTurn, isTaunt, isStealth;
+    public bool hasAttacked, hasAttackedThisTurn;
 
     public void TakeDamage(int damage, bool wasAttack)
     {
@@ -108,14 +111,14 @@ public class CombatantLogic : MonoBehaviour
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-            if (combatantLogic.isTaunt)
+            if (combatantLogic.buffs.hasTaunt)
             {
                 tauntEnemy = true;
                 logics.Add(combatantLogic);
             }
             if (tauntEnemy)
                 continue;
-            if (combatantLogic.isStealth)
+            if (combatantLogic.buffs.hasStealth)
             {
                 stealthEnemyCount++;
                 continue;

@@ -154,6 +154,8 @@ public class ChainManager : MonoBehaviour
     //chain resolution in order of addition
     public void ChainResolution()
     {
+        if (gm.isActivatingEffect)
+            return;
         gm.StateChange(Game_Manager.GameState.ChainResolution);
         for (int i = 0; i< gm.activationChainList.Count; i++)
         {

@@ -272,15 +272,15 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
             case "Taunt":
                 foreach (CardLogic target in targets)
                 //cannot be taunt and stealth simultaneously
-                { target.GetComponent<CombatantLogic>().isStealth = false;
-                    target.GetComponent<CombatantLogic>().isTaunt = true; }
+                { target.GetComponent<CombatantLogic>().buffs.hasStealth = false;
+                    target.GetComponent<CombatantLogic>().buffs.hasTaunt = true; }
                 break;
             case "Stealth":
                 //cannot be taunt and stealth simultaneously
                 foreach (CardLogic target in targets)
                 {
-                    target.GetComponent<CombatantLogic>().isTaunt = false;
-                    target.GetComponent<CombatantLogic>().isStealth = true; }
+                    target.GetComponent<CombatantLogic>().buffs.hasTaunt = false;
+                    target.GetComponent<CombatantLogic>().buffs.hasStealth = true; }
                 break;
             case "Armor":
                 foreach (CardLogic target in targets)
