@@ -111,14 +111,14 @@ public class CombatantLogic : MonoBehaviour
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-            if (combatantLogic.buffs.hasTaunt)
+            if (combatantLogic.buffs.targetState==Buff.TargetState.Taunt)
             {
                 tauntEnemy = true;
                 logics.Add(combatantLogic);
             }
             if (tauntEnemy)
                 continue;
-            if (combatantLogic.buffs.hasStealth)
+            if (combatantLogic.buffs.targetState==Buff.TargetState.Stealth)
             {
                 stealthEnemyCount++;
                 continue;

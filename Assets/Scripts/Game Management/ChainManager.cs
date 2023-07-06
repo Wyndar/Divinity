@@ -56,7 +56,7 @@ public class ChainManager : MonoBehaviour
                     for (int l = 0; l < triggerEffect.TriggerType.Count; l++)
                     {
                         //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is either defined and correct or undefined
-                        if (trigger.EffectType[subCount] != triggerEffect.TriggerType[l])
+                        if (trigger.EffectTypes[subCount] != triggerEffect.TriggerType[l])
                             continue;
                         if (triggerEffect.TriggerCard != null && triggerEffect.TriggerCard[l] != cardLogic.cardType)
                             continue;

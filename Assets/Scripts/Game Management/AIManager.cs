@@ -11,25 +11,34 @@ public class AIManager : MonoBehaviour
     public TurnManager turnManager;
     public bool isPerformingAction;
 
+    public IEnumerator Decision()
+    {
+        isPerformingAction = true;
+        yield return new WaitForSeconds(1f);
+
+        if (gm.currentPhase == Game_Manager.Phase.MainPhase && gm.turnPlayer == AIPlayer)
+            MainPhase();
+        if (gm.currentPhase == Game_Manager.Phase.BattlePhase && gm.turnPlayer == AIPlayer)
+            BattlePhase();
+        isPerformingAction = false;
+        yield break;
+    }
+
     public void MakeDecision()
     {
         if (isPerformingAction == true)
             return;
-        if (gm.currentPhase == Game_Manager.Phase.MainPhase)
-            MainPhase();
-        if (gm.currentPhase == Game_Manager.Phase.BattlePhase)
-            BattlePhase();
+        StartCoroutine(Decision());
     }
 
     //indiscriminate summon of best stats and effect activation, work is needed here
     public void MainPhase()
     {
-        if (isPerformingAction == true)
-            return;
         if (AIPlayer.costCount > 0 && AIPlayer.playableLogicList.Count > 0)
             PlayLegalCard();
         if (AIPlayer.canUseEffectLogicList.Count > 0)
             UseLegalEffects();
+        isPerformingAction = false;
         if (gm.gameState != Game_Manager.GameState.Open)
             return;
         turnManager.TriggerPhaseChange();
@@ -38,14 +47,12 @@ public class AIManager : MonoBehaviour
     //indiscriminate attack spam
     public void BattlePhase()
     {
-        if (isPerformingAction == true)
-            return;
         if (AIPlayer.canAttackLogicList.Count > 0)
         {
             CombatantLogic combatant = AIPlayer.canAttackLogicList[0].GetComponent<CombatantLogic>();
-            isPerformingAction = true;
             combatant.DeclareAttack();
         }
+        isPerformingAction = false;
         if (gm.gameState != Game_Manager.GameState.Open)
             return;
         turnManager.TriggerPhaseChange();
@@ -58,7 +65,6 @@ public class AIManager : MonoBehaviour
         //if no fighters, play a spell
         if (cardToPlay == null)
             cardToPlay = BestCostSort(AIPlayer.playableLogicList);
-        isPerformingAction = true;
         cardToPlay.GetComponent<PlayableLogic>().PlayCard("deploy", false, AIPlayer);
     }
 
@@ -77,7 +83,6 @@ public class AIManager : MonoBehaviour
         CardLogic cardLogic = AIPlayer.canUseEffectLogicList[0];
         int effNum = AIPlayer.canUseEffectNumber[0];
         int subNum = AIPlayer.canUseEffectSubNumber[0];
-        isPerformingAction = true;
         cardLogic.EffectActivation(effNum, subNum);
     }
 
@@ -99,6 +104,7 @@ public class AIManager : MonoBehaviour
         return false;
     }
 
+    //for now always use
     public bool ActivateOptionalEffect()
     {
         return true;

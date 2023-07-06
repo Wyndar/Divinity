@@ -313,7 +313,7 @@ public class UXManager : MonoBehaviour
         effects[effectCount].SetActive(true);
         effectPanelTexts[effectCount].text = effectText[effectCount];
         switchButtons[effectCount].SetActive(false);
-        if (activatingEffect.ActivationLocation == null || activatingCard.currentActivations[effectCount] < 1 || validTargets.Count == 0)
+        if (activatingEffect.ActivationLocation == null || activatingCard.effects[effectCount].currentActivations < 1 || validTargets.Count == 0)
         {
             activateButtons[effectCount].SetActive(false);
             return;
@@ -321,7 +321,7 @@ public class UXManager : MonoBehaviour
         if (activatingCard.currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation))
         {
             activateButtons[effectCount].SetActive(true);
-            activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = activatingCard.currentActivations[effectCount].ToString();
+            activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = activatingCard.effects[effectCount].currentActivations.ToString();
         }
     }
 

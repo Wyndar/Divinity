@@ -103,7 +103,7 @@ public class PlayableLogic : MonoBehaviour
                 for (int j = 0; j < logic.effects[i].EffectUsed.Count; j++)
                 {
                     Effect activatingEffect = logic.effects[i];
-                        if (activatingEffect.EffectType[j] != "Deployment" || activatingEffect.EffectActivationIsMandatory[j] == false)
+                        if (activatingEffect.EffectTypes[j] != "Deployment" || activatingEffect.EffectActivationIsMandatory[j] == false)
                         continue;
                     if (activatingEffect.EffectTargetAmount == null)
                         continue;
@@ -127,9 +127,9 @@ public class PlayableLogic : MonoBehaviour
         gm.StateChange(Game_Manager.GameState.Deployment);
         for (int i = 0; i < logic.effects.Count; i++)
         {
-            if (logic.effects[i].EffectType.Contains("Deployment"))
+            if (logic.effects[i].EffectTypes.Contains("Deployment"))
             {
-                int j = logic.effects[i].EffectType.FindIndex(a => a == "Deployment");
+                int j = logic.effects[i].EffectTypes.FindIndex(a => a == "Deployment");
                 gm.activationChainList.Insert(0, logic);
                 gm.activationChainNumber.Insert(0, i);
                 gm.activationChainSubNumber.Insert(0, j);
@@ -138,9 +138,9 @@ public class PlayableLogic : MonoBehaviour
         }
         for (int i = 0; i < logic.effects.Count; i++)
         { 
-            if (logic.effects[i].EffectType.Contains("While Deployed"))
+            if (logic.effects[i].EffectTypes.Contains("While Deployed"))
             {
-                int j = logic.effects[i].EffectType.FindIndex(a => a == "While Deployed");
+                int j = logic.effects[i].EffectTypes.FindIndex(a => a == "While Deployed");
                 gm.activationChainList.Insert(0, logic);
                 gm.activationChainNumber.Insert(0, i);
                 gm.activationChainSubNumber.Insert(0, j);

@@ -419,11 +419,11 @@ public class Game_Manager : MonoBehaviour
         {
             foreach (Effect effect in cardLogic.effects)
             {
-                if (!effect.EffectType.Contains("Deployed"))
+                if (!effect.EffectTypes.Contains("Deployed"))
                     continue;
-                    int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
+                    int subNum = effect.EffectTypes.FindIndex(a => a == "Deployed");
                 int effNum = cardLogic.effects.FindIndex(a => a == effect);
-                if (cardLogic.currentActivations[effNum] < 1)
+                if (cardLogic.effects[effNum].currentActivations < 1)
                     continue;
                 if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
                     continue;
@@ -435,9 +435,9 @@ public class Game_Manager : MonoBehaviour
         }
         foreach (Effect effect in player.heroCardLogic.effects)
         {
-            if (!effect.EffectType.Contains("Deployed"))
+            if (!effect.EffectTypes.Contains("Deployed"))
                 continue;
-            int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
+            int subNum = effect.EffectTypes.FindIndex(a => a == "Deployed");
             int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);
             if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count == 0)
                 continue;

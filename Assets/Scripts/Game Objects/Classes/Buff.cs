@@ -1,9 +1,17 @@
 ﻿using System;
 public class Buff
 {
-    public bool hasStealth = false;
-    public bool hasTaunt = false;
-    public bool hasCamouflage = false;
-    public bool hasArmor = false;
-    public bool hasShield = false;
+    public enum TargetState
+    {
+        Default, Stealth, Taunt, Camouflage
+    }
+    public TargetState targetState;
+    public bool hasArmor;
+    public bool hasShield;
+    public Buff()
+    {
+        targetState = default;
+        hasArmor = false;
+        hasShield = false;
+    }
 }

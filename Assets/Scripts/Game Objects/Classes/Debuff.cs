@@ -8,4 +8,5 @@ public class Debuff
     public bool isBurned = false;
     public bool isPoisoned = false;
     public bool isBombed = false;
+    public bool isSpotted = false;
 }

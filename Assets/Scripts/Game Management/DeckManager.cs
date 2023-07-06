@@ -159,6 +159,20 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardText = cards[i].CardText;
                 cardCloneCardLogic.flavorText = cards[i].CardFlavorText;
                 cardCloneCardLogic.effects = new List<Effect>(cards[i].Effects);
+                foreach (Effect effect in cardCloneCardLogic.effects)
+                {
+                    foreach (string effectUsed in effect.EffectUsed)
+                        effect.effectsUsed.Add(enumConverter.EffectUsedStringToEnum(effectUsed));
+                    foreach (string effectType in effect.EffectTypes)
+                        effect.effectTypes.Add(enumConverter.EffectTypeStringToEnum(effectType));
+                    foreach (string location in effect.TriggerLocation)
+                        effect.triggerLocation.Add(enumConverter.LocationStringToEnum(location));
+                    foreach (string state in effect.TriggerState)
+                        effect.triggerState.Add(enumConverter.StateStringToEnum(state));
+                    foreach (string phase in effect.TriggerPhase)
+                        effect.triggerPhase.Add(enumConverter.PhaseStringToEnum(phase));
+
+                }
                 if(cardCloneCardLogic.cardType != "god")
                     returnList.Add(cardCloneCardLogic);
             }

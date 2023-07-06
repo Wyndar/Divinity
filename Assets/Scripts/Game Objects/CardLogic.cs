@@ -29,7 +29,6 @@ public class CardLogic : MonoBehaviour
     public List<CardLogic> targets = new();
     public List<CardLogic> validTargets = new();
     public List<Effect> effects;
-    public List<int> currentActivations = new();
     public List<BuffHistoryEntry> buffHistoryEntries = new();
     public List<DebuffHistoryEntry> debuffHistoryEntries = new();
     public int effectCountNumber;
@@ -166,7 +165,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     private void EffectActivationAfterAnimation(int countNumber, int subCount)
     {
         Effect activatingEffect = effects[countNumber];
-        switch (activatingEffect.EffectType[subCount])
+        switch (activatingEffect.EffectTypes[subCount])
         {
             //on play
             case "Deployment":
@@ -273,16 +272,12 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
                 break;
             case "Taunt":
                 foreach (CardLogic target in targets)
-                //cannot be taunt and stealth simultaneously
-                { target.GetComponent<CombatantLogic>().buffs.hasStealth = false;
-                    target.GetComponent<CombatantLogic>().buffs.hasTaunt = true; }
+                { target.GetComponent<CombatantLogic>().buffs.targetState = Buff.TargetState.Default; }
                 break;
             case "Stealth":
-                //cannot be taunt and stealth simultaneously
                 foreach (CardLogic target in targets)
                 {
-                    target.GetComponent<CombatantLogic>().buffs.hasTaunt = false;
-                    target.GetComponent<CombatantLogic>().buffs.hasStealth = true; }
+                    target.GetComponent<CombatantLogic>().buffs.targetState=Buff.TargetState.Stealth; }
                 break;
             case "Armor":
                 foreach (CardLogic target in targets)
@@ -297,8 +292,8 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     {
         Effect resolvingEffect = effects[countNumber];
         GameManager.isActivatingEffect = false;
-        if (resolvingEffect.MaxActivations != 0 && currentActivations[countNumber] != 0)
-            currentActivations[countNumber] -= 1;
+        if (resolvingEffect.MaxActivations != 0 && resolvingEffect.currentActivations != 0)
+            resolvingEffect.currentActivations -= 1;
 
         //chainlist for effect triggers
         GameManager.GetEffectTriggers(countNumber, subCount, this);
@@ -332,7 +327,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         //resolve subsequent subeffects in the same effect if there is any
         if (resolvingEffect.EffectUsed.Count <= subCount + 1)
             return true;
-        if (resolvingEffect.EffectType[subCount] != resolvingEffect.EffectType[subCount + 1])
+        if (resolvingEffect.EffectTypes[subCount] != resolvingEffect.EffectTypes[subCount + 1])
             return true;
         if (resolvingEffect.EffectActivationIsMandatory[subCount + 1] == false)
         {
@@ -551,9 +546,8 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     //reset activation count for effects usually at turn start
     public void EffectRefresh()
     {
-        currentActivations.Clear();
         foreach (Effect effect in effects)
-            currentActivations.Add(effect.MaxActivations);
+            effect.currentActivations = effect.MaxActivations;
     }
 
     public void FlipFaceUp()

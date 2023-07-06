@@ -3,10 +3,17 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Card
 {
-       
+    public enum Type
+    {
+        Spell, God, Fighter
+    }
+
+    public Type type;
+
     public string Id { get; set; }
     public string CardName { get; set; }
     public string CardType { get; set; }
+
     public string CardText { get; set; }
     public string CardFlavorText { get; set; }
 
