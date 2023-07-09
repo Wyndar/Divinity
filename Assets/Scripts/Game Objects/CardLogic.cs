@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
+using static Card;
+using static Game_Manager;
 
 public class CardLogic : MonoBehaviour
 {
     public Game_Manager GameManager;
 
     public EnumConverter enumConverter;
+
+    public Type type;
+    public List<PlayType> playTypes;
 
     public PlayerManager cardOwner, cardController;
     public Transform cardFace, cardBack, cardImage, cardOutline;
@@ -37,7 +40,7 @@ public class CardLogic : MonoBehaviour
     private IEnumerator ActivationCoroutine(int effectNumber, int subEffectNumber)
     {
         GameManager.isActivatingEffect = true;
-GameManager.StateChange(Game_Manager.GameState.EffectActivation);
+GameManager.StateChange(GameState.EffectActivation);
         GameManager.DisableRayBlocker();
         Vector3 originalPosition = transform.localPosition;
         transform.position = cardController.activationZone.position;
@@ -165,7 +168,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
     private void EffectActivationAfterAnimation(int countNumber, int subCount)
     {
         Effect activatingEffect = effects[countNumber];
-        switch (activatingEffect.EffectTypes[subCount])
+        switch (activatingEffect.EffectType[subCount])
         {
             //on play
             case "Deployment":
@@ -327,7 +330,7 @@ GameManager.StateChange(Game_Manager.GameState.EffectActivation);
         //resolve subsequent subeffects in the same effect if there is any
         if (resolvingEffect.EffectUsed.Count <= subCount + 1)
             return true;
-        if (resolvingEffect.EffectTypes[subCount] != resolvingEffect.EffectTypes[subCount + 1])
+        if (resolvingEffect.EffectType[subCount] != resolvingEffect.EffectType[subCount + 1])
             return true;
         if (resolvingEffect.EffectActivationIsMandatory[subCount + 1] == false)
         {

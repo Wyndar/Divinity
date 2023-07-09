@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using static UnityEngine.GraphicsBuffer;
+using static CardLogic;
+using static Game_Manager;
 
 [System.Serializable]
 public class Effect
 {
-
-    public enum EffectType
+    public enum EffectTypes
     {
         Deployment, Chain, WhileDeployed, Deployed, Vengeance, Undefined
     }
@@ -15,16 +16,23 @@ public class Effect
         Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor, Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep, Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Undefined
     }
 
-    public List<EffectType> effectTypes;
+    public enum TargetingTypes
+    {
+        Auto, Manual, Random, Undefined
+    }
+
+    public List<EffectTypes> effectTypes;
+    public List<EffectsUsed> triggerEffects;
     public List<EffectsUsed> effectsUsed;
-    public List<CardLogic.Location> activationLocation;
-    public List<CardLogic.Location> triggerLocation;
-    public List<Game_Manager.GameState> triggerState;
-    public List<Game_Manager.Phase> triggerPhase;
+    public Location activationLocation;
+    public List<Location> triggerLocation;
+    public List<Location> targetLocation;
+    public List<GameState> triggerState;
+    public List<Phase> triggerPhase;
 
     public int currentActivations;
 
-    public List<string> EffectTypes { get; set; }
+    public List<string> EffectType { get; set; }
     public List<string> EffectUsed { get; set; }
     public List<int> EffectAmount { get; set; }
     public List<bool> EffectActivationIsMandatory { get; set; }

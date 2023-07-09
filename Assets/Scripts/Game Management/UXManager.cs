@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using static Game_Manager;
+using static CardLogic;
 
 public class UXManager : MonoBehaviour
 {
@@ -81,7 +83,7 @@ public class UXManager : MonoBehaviour
         {
             trail.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             if (gm.currentFocusCardLogic != null)
-                if (gm.currentFocusCardLogic.currentLocation == CardLogic.Location.Hand && gm.currentPhase == Game_Manager.Phase.MainPhase && gm.turnPlayer == gm.currentFocusCardLogic.cardController)
+                if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase && gm.turnPlayer == gm.currentFocusCardLogic.cardController)
                     gm.currentFocusCardLogic.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             yield return null;
         }
@@ -93,7 +95,7 @@ public class UXManager : MonoBehaviour
         StopCoroutine(trailCoroutine);
         touchEndPosition = ScreenToWorld(screenPosition);
         touchEndTime = time;
-        if (gm.gameState != Game_Manager.GameState.Open)
+        if (gm.gameState != GameState.Open)
         {
             hasRaycast = false;
             return;
@@ -105,7 +107,7 @@ public class UXManager : MonoBehaviour
             if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && Vector2.Distance(touchEndPosition, touchStartPosition) >= 3f)
             {
                 float playDist = Mathf.Abs(touchEndPosition.y - touchStartPosition.y);
-                if (playDist > 3f && gm.currentPhase == Game_Manager.Phase.MainPhase && playableLogic != null)
+                if (playDist > 3f && gm.currentPhase == Phase.MainPhase && playableLogic != null)
                 {
                     playableLogic.DisableHover();
                     playableLogic.PlayCard("deploy", false, gm.currentFocusCardLogic.cardController);
@@ -143,10 +145,10 @@ public class UXManager : MonoBehaviour
             return;
         if (gameObject.CompareTag("Active UI panel"))
             return;
-        if (gameObject.CompareTag("Background") && gm.gameState == Game_Manager.GameState.Open)
+        if (gameObject.CompareTag("Background") && gm.gameState == GameState.Open)
             gm.currentFocusCardLogic = null;
         DisableDeckSearchButtons();
-        if (gameObject.CompareTag("deck") && gm.gameState == Game_Manager.GameState.Open && cardScrollScreen.activeInHierarchy==false)
+        if (gameObject.CompareTag("deck") && gm.gameState == GameState.Open && cardScrollScreen.activeInHierarchy==false)
         {
             if (gameObject == gm.RedPlayerManager.deck)
                 gm.RedPlayerManager.deckSearchButton.SetActive(true);
@@ -165,11 +167,11 @@ public class UXManager : MonoBehaviour
         if (gameObject.CompareTag("card"))
         {
             CardLogic clickedCard = gameObject.GetComponent<CardLogic>();
-            if (gm.gameState == Game_Manager.GameState.Open)
+            if (gm.gameState == GameState.Open)
             {
-                if (clickedCard.currentLocation == CardLogic.Location.Deck)
+                if (clickedCard.currentLocation == Location.Deck)
                     return;
-                if (clickedCard.currentLocation == CardLogic.Location.HeroDeck)
+                if (clickedCard.currentLocation == Location.HeroDeck)
                     return;
                 if (gm.isActivatingEffect)
                     return;
@@ -178,14 +180,14 @@ public class UXManager : MonoBehaviour
                 gm.currentFocusCardLogic = clickedCard;
                 focusCard = gm.currentFocusCardLogic;
                 focusCard.cardOutline.gameObject.SetActive(true);
-                if (focusCard.currentLocation == CardLogic.Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
+                if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
                 {
-                    if (gm.currentPhase == Game_Manager.Phase.MainPhase)
+                    if (gm.currentPhase == Phase.MainPhase)
                     {
                         EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                         return;
                     }
-                    else if (gm.currentPhase == Game_Manager.Phase.BattlePhase)
+                    else if (gm.currentPhase == Phase.BattlePhase)
                     {
                         EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                         if (combatant.attacksLeft > 0)
@@ -195,11 +197,11 @@ public class UXManager : MonoBehaviour
                 }
             }
             //targeting for effect
-            else if (gm.gameState == Game_Manager.GameState.Targeting && focusCard != null && clickedCard.currentLocation == CardLogic.Location.Field)
+            else if (gm.gameState == GameState.Targeting && focusCard != null && clickedCard.currentLocation == Location.Field)
                 clickedCard.ManualTargetAcquisition(focusCard.effectCountNumber, focusCard.subCountNumber);
 
             //targeting for attack
-            else if (gm.gameState == Game_Manager.GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == CardLogic.Location.Field)
+            else if (gm.gameState == GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == Location.Field)
                 combatant.AttackTargetAcquisition();
         }
         DisableRayBlocker();

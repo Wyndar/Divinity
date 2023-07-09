@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static Effect;
+using static Game_Manager;
 
 public class DeckManager : MonoBehaviour
 {
@@ -161,19 +163,42 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.effects = new List<Effect>(cards[i].Effects);
                 foreach (Effect effect in cardCloneCardLogic.effects)
                 {
+                    effect.effectTypes = new();
+                    effect.triggerEffects = new();
+                    effect.effectsUsed = new();
+                    effect.activationLocation = new();
+                    effect.triggerLocation = new();
+                    effect.targetLocation = new();
+                    effect.triggerState = new();
+                    effect.triggerPhase = new();
                     foreach (string effectUsed in effect.EffectUsed)
                         effect.effectsUsed.Add(enumConverter.EffectUsedStringToEnum(effectUsed));
-                    foreach (string effectType in effect.EffectTypes)
+                    if (effect.TriggerType != null)
+                        foreach (string triggerType in effect.TriggerType)
+                            effect.triggerEffects.Add(enumConverter.EffectUsedStringToEnum(triggerType));
+                    foreach (string effectType in effect.EffectType)
                         effect.effectTypes.Add(enumConverter.EffectTypeStringToEnum(effectType));
-                    foreach (string location in effect.TriggerLocation)
-                        effect.triggerLocation.Add(enumConverter.LocationStringToEnum(location));
-                    foreach (string state in effect.TriggerState)
-                        effect.triggerState.Add(enumConverter.StateStringToEnum(state));
-                    foreach (string phase in effect.TriggerPhase)
-                        effect.triggerPhase.Add(enumConverter.PhaseStringToEnum(phase));
+                    if (effect.TriggerLocation != null)
+                        foreach (string location in effect.TriggerLocation)
+                            effect.triggerLocation.Add(enumConverter.LocationStringToEnum(location));
+                            effect.activationLocation=enumConverter.LocationStringToEnum (effect.ActivationLocation);
+                    if (effect.TargetLocation != null)
+                        foreach (string location in effect.TargetLocation)
+                            effect.targetLocation.Add(enumConverter.LocationStringToEnum(location));
 
+                    if (effect.TriggerState != null)
+                        foreach (string state in effect.TriggerState)
+                            effect.triggerState.Add(enumConverter.StateStringToEnum(state));
+                    if (effect.TriggerPhase != null)
+                        foreach (string phase in effect.TriggerPhase)
+                            effect.triggerPhase.Add(enumConverter.PhaseStringToEnum(phase));
                 }
-                if(cardCloneCardLogic.cardType != "god")
+
+                //sets enums
+                cardCloneCardLogic.type = enumConverter.TypeStringToEnum(cardCloneCardLogic.cardType);
+                cardCloneCardLogic.playTypes = new(enumConverter.PlayTypeStringToEnum(cardCloneCardLogic.cardType));
+
+                if (cardCloneCardLogic.cardType != "god")
                     returnList.Add(cardCloneCardLogic);
             }
         }

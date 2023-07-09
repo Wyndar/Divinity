@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using static Effect;
 
 public class EnumConverter : MonoBehaviour
 {
@@ -124,28 +126,28 @@ public class EnumConverter : MonoBehaviour
         return returnPhase;
     }
 
-    public Effect.EffectType EffectTypeStringToEnum(string effectType)
+    public Effect.EffectTypes EffectTypeStringToEnum(string effectType)
     {
-        Effect.EffectType returnEffectType;
+        Effect.EffectTypes returnEffectType;
         switch(effectType)
         {
             case "Deployment":
-                returnEffectType = Effect.EffectType.Deployment;
+                returnEffectType = Effect.EffectTypes.Deployment;
                 break;
             case "Chain":
-                returnEffectType = Effect.EffectType.Chain;
+                returnEffectType = Effect.EffectTypes.Chain;
                 break;
             case "While Deployed":
-                returnEffectType = Effect.EffectType.WhileDeployed;
+                returnEffectType = Effect.EffectTypes.WhileDeployed;
                 break;
             case "Deployed":
-                returnEffectType = Effect.EffectType.Deployed;
+                returnEffectType = Effect.EffectTypes.Deployed;
                 break;
             case "Vengeance":
-                returnEffectType = Effect.EffectType.Vengeance;
+                returnEffectType = Effect.EffectTypes.Vengeance;
                 break;
             default:
-                returnEffectType = Effect.EffectType.Undefined;
+                returnEffectType = Effect.EffectTypes.Undefined;
                 break;
         }
         return returnEffectType;
@@ -233,6 +235,92 @@ public class EnumConverter : MonoBehaviour
                 break;
         }
         return returnEffectUsed;
+    }
+
+    public List<Card.PlayType> PlayTypeStringToEnum(string type)
+    {
+        List<Card.PlayType> returnPlayType = new();
+        switch (type)
+        {
+            case "spell":
+                returnPlayType.Add(Card.PlayType.Playable);
+                break;
+            case "monster":
+                returnPlayType.Add(Card.PlayType.Playable);
+                returnPlayType.Add(Card.PlayType.Combatant);
+                break;
+            case "god":
+                returnPlayType.Add(Card.PlayType.Combatant);
+                break;
+            default:
+                returnPlayType.Add(Card.PlayType.Undefined);
+                break;
+        }
+
+        return returnPlayType;
+    }
+
+    public Card.Type TypeStringToEnum(string type)
+    {
+        Card.Type returnType;
+        switch (type)
+        {
+            case "spell":
+                returnType = Card.Type.Spell;
+                break;
+            case "monster":
+                returnType = Card.Type.Fighter;
+                break;
+            case "god":
+                returnType = Card.Type.God;
+                break;
+            default:
+                returnType = Card.Type.Undefined;
+                break;
+        }
+        return returnType;
+    }
+
+    public Player.Controller OwnerStringToEnum(string player)
+    {
+        Player.Controller returnController;
+        switch(player)
+        {
+            case "Player":
+                returnController = Player.Controller.Player;
+                break;
+            case "Opponent":
+                returnController = Player.Controller.Opponent;
+                break;
+            case"Any":
+                returnController = Player.Controller.Any;
+                break;
+            default:
+                returnController = Player.Controller.Undefined;
+                break;
+        }
+        return returnController;
+    }
+
+    public TargetingTypes TargetingTypeStringToEnum(string targetingType)
+    {
+        TargetingTypes returnTargetingType;
+        switch(targetingType)
+        {
+            case "manual":
+                returnTargetingType = TargetingTypes.Manual;
+                break;
+            case "auto":
+                returnTargetingType = TargetingTypes.Auto;
+                break;
+            case "random":
+                returnTargetingType = TargetingTypes.Random;
+                break;
+            default:
+                returnTargetingType = TargetingTypes.Undefined;
+                break;
+        }
+        return returnTargetingType;
     }
 }
 

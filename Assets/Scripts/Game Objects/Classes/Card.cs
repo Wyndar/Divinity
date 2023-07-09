@@ -5,10 +5,13 @@ public class Card
 {
     public enum Type
     {
-        Spell, God, Fighter
+        Spell, God, Fighter, Undefined
     }
 
-    public Type type;
+    public enum PlayType
+    {
+        Combatant, Playable, Undefined
+    }
 
     public string Id { get; set; }
     public string CardName { get; set; }

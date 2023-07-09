@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static Game_Manager;
+using static Buff;
 
 public class CombatantLogic : MonoBehaviour
 {
@@ -30,7 +32,7 @@ public class CombatantLogic : MonoBehaviour
         if (damage != 0)
         {
             currentHp -= damage;
-            gm.StateChange(Game_Manager.GameState.Damaged);
+            gm.StateChange(GameState.Damaged);
             if (logic.cardType == "monster")
             {
                 GetComponent<MonsterLogic>().OnFieldHpRefresh();
@@ -111,14 +113,14 @@ public class CombatantLogic : MonoBehaviour
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-            if (combatantLogic.buffs.targetState==Buff.TargetState.Taunt)
+            if (combatantLogic.buffs.targetState==TargetState.Taunt)
             {
                 tauntEnemy = true;
                 logics.Add(combatantLogic);
             }
             if (tauntEnemy)
                 continue;
-            if (combatantLogic.buffs.targetState==Buff.TargetState.Stealth)
+            if (combatantLogic.buffs.targetState==TargetState.Stealth)
             {
                 stealthEnemyCount++;
                 continue;
@@ -142,7 +144,7 @@ public class CombatantLogic : MonoBehaviour
 
     public void AttackTargetAcquisition()
     {
-        if (gm.gameState != Game_Manager.GameState.AttackDeclaration)
+        if (gm.gameState != GameState.AttackDeclaration)
             return;
         CombatantLogic attacker = gm.currentFocusCardLogic.GetComponent<CombatantLogic>();
         if (attacker.validTargets.Contains(this))
@@ -152,7 +154,7 @@ public class CombatantLogic : MonoBehaviour
     public void DeclareAttack()
     {
         Debug.Log(logic.cardName);
-        gm.gameState =Game_Manager.GameState.AttackDeclaration;
+        gm.StateChange(GameState.AttackDeclaration);
         validTargets = new(GetValidAttackTargets());
         foreach(CombatantLogic combatantLogic in validTargets)
         {
