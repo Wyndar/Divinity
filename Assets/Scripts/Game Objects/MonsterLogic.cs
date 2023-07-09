@@ -46,6 +46,7 @@ public class MonsterLogic : CardLogic
         combatLogic.currentHp = 0;
         cardController.atkIcons[locationOrderNumber].SetActive(false);
         cardController.hpIcons[locationOrderNumber].SetActive(false);
+        cardController.armorIcons[locationOrderNumber].SetActive(false);
         cardController.isEmptyCardSlot[locationOrderNumber] = true;
         cardController.fieldLogicList.Remove(this);
         playLogic.MoveToGrave();

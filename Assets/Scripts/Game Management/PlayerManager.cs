@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject deck, grave, hero, shield, shieldPanel, activateShieldButton, ignoreShieldButton, raycastBlocker, graveTarget, deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton;
 
-    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets;
+    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, armorIcons, stealthIcons,tauntIcons,provokeIcons,spotIcons,bombIcons,burnIcons,poisonIcons,blindIcons,stunIcons,sleepIcons,camouflageIcons,shieldIcons;
 
     public bool[] isEmptyCardSlot, isEmptyHandSlot;
 

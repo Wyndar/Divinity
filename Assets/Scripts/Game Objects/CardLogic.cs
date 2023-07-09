@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using static Card;
 using static Game_Manager;
@@ -31,7 +32,7 @@ public class CardLogic : MonoBehaviour
 
     public List<CardLogic> targets = new();
     public List<CardLogic> validTargets = new();
-    public List<Effect> effects;
+    public List<Effect> effects = new();
     public List<BuffHistoryEntry> buffHistoryEntries = new();
     public List<DebuffHistoryEntry> debuffHistoryEntries = new();
     public int effectCountNumber;
@@ -284,7 +285,13 @@ GameManager.StateChange(GameState.EffectActivation);
                 break;
             case "Armor":
                 foreach (CardLogic target in targets)
+                {
                     target.GetComponent<CombatantLogic>().armor = effectAmount;
+                    GameObject icon = target.cardController.armorIcons[locationOrderNumber];
+                    icon.SetActive(true);
+                    icon.GetComponentInChildren<TMP_Text>().text = effectAmount.ToString();
+
+                }
                 break;
         }
         if (!GameManager.isWaitingForResponse)
@@ -293,10 +300,10 @@ GameManager.StateChange(GameState.EffectActivation);
 
     public void FinishResolution(int countNumber, int subCount)
     {
-        Effect resolvingEffect = effects[countNumber];
+        Effect resolvingEffect = this.effects[countNumber];
         GameManager.isActivatingEffect = false;
-        if (resolvingEffect.MaxActivations != 0 && resolvingEffect.currentActivations != 0)
-            resolvingEffect.currentActivations -= 1;
+        if (resolvingEffect.currentActivations < resolvingEffect.maxActivations)
+            resolvingEffect.currentActivations++;
 
         //chainlist for effect triggers
         GameManager.GetEffectTriggers(countNumber, subCount, this);
@@ -550,7 +557,7 @@ GameManager.StateChange(GameState.EffectActivation);
     public void EffectRefresh()
     {
         foreach (Effect effect in effects)
-            effect.currentActivations = effect.MaxActivations;
+            effect.currentActivations = 0;
     }
 
     public void FlipFaceUp()

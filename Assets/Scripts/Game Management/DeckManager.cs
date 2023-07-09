@@ -160,7 +160,11 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardController = playerManager;
                 cardCloneCardLogic.cardText = cards[i].CardText;
                 cardCloneCardLogic.flavorText = cards[i].CardFlavorText;
-                cardCloneCardLogic.effects = new List<Effect>(cards[i].Effects);
+                cardCloneCardLogic.effects = new();
+                foreach(Effect effect in cards[i].Effects)
+                {
+                    Effect newEffect = new CopyEffect(effect); cardCloneCardLogic.effects.Add(newEffect);
+                }
                 foreach (Effect effect in cardCloneCardLogic.effects)
                 {
                     effect.effectTypes = new();
@@ -171,6 +175,7 @@ public class DeckManager : MonoBehaviour
                     effect.targetLocation = new();
                     effect.triggerState = new();
                     effect.triggerPhase = new();
+                    effect.maxActivations = effect.MaxActivations;
                     foreach (string effectUsed in effect.EffectUsed)
                         effect.effectsUsed.Add(enumConverter.EffectUsedStringToEnum(effectUsed));
                     if (effect.TriggerType != null)

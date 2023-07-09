@@ -30,7 +30,8 @@ public class Effect
     public List<GameState> triggerState;
     public List<Phase> triggerPhase;
 
-    public int currentActivations;
+    public int currentActivations = new();
+    public int maxActivations = new();
 
     public List<string> EffectType { get; set; }
     public List<string> EffectUsed { get; set; }
@@ -66,5 +67,5 @@ public class Effect
     public List<string> TriggerPhase { get; set; }
 
     //if needs scaling... needs rework
-    //for now my scalers are actually stat needers 
+    //for now my scalers are actually stat needers
 }

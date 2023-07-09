@@ -423,7 +423,7 @@ public class Game_Manager : MonoBehaviour
                     continue;
                     int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
                 int effNum = cardLogic.effects.FindIndex(a => a == effect);
-                if (cardLogic.effects[effNum].currentActivations < 1)
+                if (cardLogic.effects[effNum].currentActivations >= cardLogic.effects[effNum].maxActivations)
                     continue;
                 if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
                     continue;
