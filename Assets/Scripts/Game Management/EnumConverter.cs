@@ -105,9 +105,9 @@ public class EnumConverter : MonoBehaviour
         return returnState;
     }
 
-    public Game_Manager.Phase PhaseStringToEnum(string phase)
+    public Phase PhaseStringToEnum(string phase)
     {
-        Game_Manager.Phase returnPhase;
+        Phase returnPhase;
         //DrawPhase,CostPhase,MainPhase,BattlePhase,EndPhase,Undefined
         switch (phase)
         {

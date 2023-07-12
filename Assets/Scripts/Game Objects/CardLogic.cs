@@ -37,6 +37,9 @@ public class CardLogic : MonoBehaviour
     public List<Effect> effects = new();
     public List<BuffHistoryEntry> buffHistoryEntries = new();
     public List<DebuffHistoryEntry> debuffHistoryEntries = new();
+    public List<LocationHistoryEntry> locationHistoryEntries = new();
+    public List<DamageHistoryEntry> damageHistoryentries = new();
+
     public int effectCountNumber;
     public int subCountNumber;
 
@@ -85,9 +88,9 @@ GameManager.StateChange(GameState.EffectActivation);
         Controller controller = targetingEffect.effectTargetController[subEffectNumber];
         Type type = Type.Undefined;
         PlayType playType = PlayType.Undefined;
-        if (targetingEffect.effectTargetType != null)
+        if (targetingEffect.effectTargetType.Count > 0)
             type = targetingEffect.effectTargetType[subEffectNumber];
-        if (targetingEffect.effectTargetPlayType != null)
+        if (targetingEffect.effectTargetPlayType.Count > 0)
             playType = targetingEffect.effectTargetPlayType[subEffectNumber];
         for (int i = 0; i < allTargetsList.Count; i++)
         {
@@ -197,7 +200,7 @@ GameManager.StateChange(GameState.EffectActivation);
     private void EffectResolutionAfterAnimation(int countNumber, int subCount)
     {
         Effect resolvingEffect = effects[countNumber];
-        string effectUsed = resolvingEffect.EffectUsed[subCount];
+        EffectsUsed effectUsed = resolvingEffect.effectsUsed[subCount];
         int effectAmount = resolvingEffect.EffectAmount[subCount];
         effectCountNumber = countNumber;
         subCountNumber = subCount;
@@ -205,87 +208,89 @@ GameManager.StateChange(GameState.EffectActivation);
 
         switch (effectUsed)
         {
-            case "Reinforce":
+            case EffectsUsed.Reinforce:
                 GameManager.DrawCard(effectAmount, cardController);
                 break;
-            case "Recruit":
+            case EffectsUsed.Recruit:
                 foreach (CardLogic target in targets)
                     GameManager.SearchCard(target, target.cardController);
                 break;
-            case "Recover":
+            case EffectsUsed.Recover:
                 foreach (CardLogic target in targets)
                     GameManager.RecoverCard(target, cardController);
                 break;
-            case "Damage":
+            case EffectsUsed.Damage:
                 foreach (CardLogic target in targets)
+                {
                     target.GetComponent<CombatantLogic>().TakeDamage(effectAmount, false);
+                }
                 break;
-            case "Regeneration":
+            case EffectsUsed.Regeneration:
                 foreach (CardLogic target in targets)
                     target.GetComponent<CombatantLogic>().Heal(effectAmount);
                 break;
-            case "Rally":
+            case EffectsUsed.Rally:
                 foreach (CardLogic target in targets)
                     target.GetComponent<CombatantLogic>().ATKAdjustment(1, true);
                 break;
-            case "Free Revive":
+            case EffectsUsed.FreeRevive:
                 foreach (CardLogic target in targets)
                     target.GetComponent<PlayableLogic>().PlayCard("revive", true, cardController);
                     break;
-            case "Revive":
+            case EffectsUsed.Revive:
                 foreach (CardLogic target in targets)
                     target.GetComponent<PlayableLogic>().PlayCard("revive", false, cardController);
                 break;
-            case "Free Deploy":
+            case EffectsUsed.FreeDeploy:
                 foreach (CardLogic target in targets)
                     target.GetComponent<PlayableLogic>().PlayCard("deploy", true, cardController);
                 break;
-            case "Deploy":
+            case EffectsUsed.Deploy:
                 foreach (CardLogic target in targets)
                     target.GetComponent<PlayableLogic>().PlayCard("deploy", false, cardController);
                 break;
-            case "Vigor":
+            case EffectsUsed.Vigor:
                 foreach (CardLogic target in targets)
                 {
                     target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, true);
                     target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, true);
                 }
                 break;
-            case "Terrify":
+            case EffectsUsed.Terrify:
                 foreach (CardLogic target in targets)
                 {
                     target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, false);
                     target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, false);
                 }
                 break;
-            case "Intimidate":
+            case EffectsUsed.Intimidate:
                 foreach (CardLogic target in targets)
                     target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, false);
                 break;
-            case "Weaken":
+            case EffectsUsed.Weaken:
                 foreach (CardLogic target in targets)
                     target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, false);
                 break;
-            case "Shatter":
+            case EffectsUsed.Shatter:
                 foreach (CardLogic target in targets)
                     target.GetComponent<MonsterLogic>().MonsterDeath();
                 break;
-            case "Blood Recovery":
+            case EffectsUsed.BloodRecovery:
                 GameManager.CostChange(effectAmount, cardController, true);
                 break;
-            case "Target":
+            case EffectsUsed.Target:
                 TargetEffectLogic(countNumber, subCount);
                 break;
-            case "Taunt":
+            case EffectsUsed.Taunt:
                 foreach (CardLogic target in targets)
                 { target.GetComponent<CombatantLogic>().buffs.targetState = Buff.TargetState.Default; }
                 break;
-            case "Stealth":
+            case EffectsUsed.Stealth:
                 foreach (CardLogic target in targets)
                 {
                     target.GetComponent<CombatantLogic>().buffs.targetState=Buff.TargetState.Stealth; }
                 break;
-            case "Armor":
+            case EffectsUsed.Armor:
                 foreach (CardLogic target in targets)
                 {
                     target.GetComponent<CombatantLogic>().armor = effectAmount;

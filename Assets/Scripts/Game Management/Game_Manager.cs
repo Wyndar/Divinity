@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static CardLogic;
 
 public class Game_Manager : MonoBehaviour
 {
@@ -116,6 +117,12 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.currentLocation = CardLogic.Location.Hand;
             randomCardDraw.locationOrderNumber = i;
             randomCardDraw.transform.position = Vector3.zero;
+
+            //implementing a battle log
+            if (isActivatingEffect)
+                randomCardDraw.locationHistoryEntries.Add(new LocationHistoryEntry(currentFocusCardLogic, Effect.EffectsUsed.Reinforce, Location.Hand, Location.Deck));
+            else
+                randomCardDraw.locationHistoryEntries.Add(new LocationHistoryEntry(null, Effect.EffectsUsed.Undefined, Location.Hand, Location.Deck));
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
             //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
@@ -149,6 +156,9 @@ public class Game_Manager : MonoBehaviour
             logic.currentLocation = CardLogic.Location.Hand;
             logic.locationOrderNumber = i;
             logic.transform.position = Vector3.zero;
+
+            //implementing a battle log
+            logic.locationHistoryEntries.Add(new LocationHistoryEntry(currentFocusCardLogic, Effect.EffectsUsed.Recruit, Location.Hand, Location.Deck));
             logic.transform.SetParent(player.handSlots[i].transform, false);
             //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
@@ -178,6 +188,8 @@ public class Game_Manager : MonoBehaviour
             logic.currentLocation = CardLogic.Location.Hand;
             logic.locationOrderNumber = i;
             logic.transform.position = Vector3.zero;
+            //implementing a battle log
+            logic.locationHistoryEntries.Add(new LocationHistoryEntry(currentFocusCardLogic, Effect.EffectsUsed.Recover, Location.Hand, Location.Deck));
             logic.ControllerSwap(player);
             logic.transform.SetParent(player.handSlots[i].transform, false);
             //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
@@ -214,6 +226,13 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.currentLocation = CardLogic.Location.Hand;
             randomCardDraw.locationOrderNumber = i;
             randomCardDraw.transform.position = Vector3.zero;
+
+            //implementing a battle log
+            //effect is still undefined
+            if (isActivatingEffect)
+                randomCardDraw.locationHistoryEntries.Add(new LocationHistoryEntry(currentFocusCardLogic, Effect.EffectsUsed.Undefined, Location.Hand, Location.Deck));
+            else
+                randomCardDraw.locationHistoryEntries.Add(new LocationHistoryEntry(null, Effect.EffectsUsed.Undefined, Location.Hand, Location.Deck));
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
             //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))

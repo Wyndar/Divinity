@@ -1,14 +1,15 @@
 ﻿using System;
 using static CardLogic;
+using static Effect;
 
 public class DebuffHistoryEntry
 {
 	CardLogic debuffLogic;
-	string debuffEffect;
+	Effect debuffEffect;
 	int debuffAmount;
 	Location debuffLocation;
 
-	public DebuffHistoryEntry(CardLogic cardLogic, string value, int amount, Location location)
+	public DebuffHistoryEntry(CardLogic cardLogic, Effect value, int amount, Location location)
 	{
 		debuffLogic = cardLogic;
 		debuffEffect = value;
@@ -16,4 +17,3 @@ public class DebuffHistoryEntry
 		debuffLocation = location;
 	}
 }
-

@@ -1,12 +1,13 @@
 ﻿using System;
+using static CardLogic;
 public class BuffHistoryEntry
 {
 	CardLogic buffLogic;
-	string buffEffect;
+	Effect buffEffect;
 	int buffAmount;
 	CardLogic.Location buffLocation;
 
-	public BuffHistoryEntry(CardLogic cardLogic, string value, int amount, CardLogic.Location location)
+	public BuffHistoryEntry(CardLogic cardLogic, Effect value, int amount, Location location)
 	{
 		buffLogic = cardLogic;
 		buffEffect = value;

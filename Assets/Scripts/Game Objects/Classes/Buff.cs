@@ -10,7 +10,7 @@ public class Buff
     public bool hasShield;
     public Buff()
     {
-        targetState = default;
+        targetState = TargetState.Default;
         hasArmor = false;
         hasShield = false;
     }
