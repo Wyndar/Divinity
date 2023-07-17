@@ -16,7 +16,13 @@ public class PlayableLogic : MonoBehaviour
 
     private IEnumerator PlayCoroutine(PlayerManager player)
     {
-        transform.position = player.activationZone.position;
+        float distance = Vector3.Distance(transform.position, player.activationZone.position);
+        Vector3 direction = (transform.position - player.activationZone.position).normalized;
+        while (distance > 0)
+        {
+            transform.Translate(direction * 5, Space.World);
+            yield return null;
+        }
         Vector3 originalScale = transform.localScale;
         transform.localScale = new Vector3(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);

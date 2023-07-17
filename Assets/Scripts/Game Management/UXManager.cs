@@ -24,7 +24,10 @@ public class UXManager : MonoBehaviour
 
     [SerializeField]
     private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
-    infoPanelMonsterNameText, infoPanelMonsterAtkText, infoPanelMonsterHpText, infoPanelMonsterCostText, infoPanelMonsterEffectText, infoPanelMonsterFlavourText, infoPanelGodNameText, infoPanelGodAtkText, infoPanelGodHpText, infoPanelGodEffectText, infoPanelGodFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
+    infoPanelMonsterNameText, infoPanelMonsterAtkText, infoPanelMonsterHpText, infoPanelMonsterCostText,
+    infoPanelMonsterEffectText, infoPanelMonsterFlavourText, infoPanelGodNameText, infoPanelGodAtkText,
+    infoPanelGodHpText, infoPanelGodEffectText, infoPanelGodFlavourText, effectPanelNameText,
+    effectActivationPanelText, gameOverWinnerText;
 
     [SerializeField]
     private TMP_Text[] effectPanelTexts;
