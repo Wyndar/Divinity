@@ -14,6 +14,7 @@ public class AIManager : MonoBehaviour
     public IEnumerator Decision()
     {
         isPerformingAction = true;
+        AIPlayer.hourglassIcon.SetActive(true);
         yield return new WaitForSeconds(1f);
 
         if (gm.currentPhase == Game_Manager.Phase.MainPhase && gm.turnPlayer == AIPlayer)
@@ -21,6 +22,7 @@ public class AIManager : MonoBehaviour
         if (gm.currentPhase == Game_Manager.Phase.BattlePhase && gm.turnPlayer == AIPlayer)
             BattlePhase();
         isPerformingAction = false;
+        AIPlayer.hourglassIcon.SetActive(false);
         yield break;
     }
 

@@ -5,6 +5,7 @@ using static CardLogic;
 using static Game_Manager;
 using static Card;
 using static Player;
+using Unity.VisualScripting;
 
 public class EnumConverter : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class EnumConverter : MonoBehaviour
     {
         Game_Manager.GameState returnState;
 
-        //Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, EffectResolution,TurnEnd, Undefined
+        //Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, EffectResolution, TurnEnd, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison, Provoke, Sleep, Blind, Stun,Buff,Debuff, Clear, Undefined
         switch (state)
         {
             case "Open":
@@ -98,6 +99,48 @@ public class EnumConverter : MonoBehaviour
             case "TurnEnd":
                 returnState = GameState.TurnEnd;
                 break;
+            case "AttackDeclaration":
+                returnState = GameState.AttackDeclaration;
+                break;
+            case "Shielded":
+                returnState = GameState.Shielded;
+                break;
+            case "Bomb":
+                returnState = GameState.Bomb;
+                break;
+            case "Burn":
+                returnState = GameState.Burn;
+                break;
+            case "Detonate":
+                returnState = GameState.Detonate;
+                break;
+            case "Bounce":
+                returnState = GameState.Bounce;
+                break;
+            case "Poison":
+                returnState = GameState.Poison;
+                break;
+            case "Stun":
+                returnState = GameState.Stun;
+                break;
+            case "Provoke":
+                returnState = GameState.Provoke;
+                break;
+            case "Blind":
+                returnState = GameState.Blind;
+                break;
+            case "Sleep":
+                returnState = GameState.Sleep;
+                break;
+            case "Buff":
+                returnState = GameState.Buff;
+                break;
+            case "Debuff":
+                returnState = GameState.Debuff;
+                break;
+            case "Clear":
+                returnState = GameState.Clear;
+                break;
             default:
                 returnState = GameState.Undefined;
                 break;
@@ -133,28 +176,28 @@ public class EnumConverter : MonoBehaviour
         return returnPhase;
     }
 
-    public Effect.EffectTypes EffectTypeStringToEnum(string effectType)
+    public EffectTypes EffectTypeStringToEnum(string effectType)
     {
-        Effect.EffectTypes returnEffectType;
+        EffectTypes returnEffectType;
         switch(effectType)
         {
             case "Deployment":
-                returnEffectType = Effect.EffectTypes.Deployment;
+                returnEffectType = EffectTypes.Deployment;
                 break;
             case "Chain":
-                returnEffectType = Effect.EffectTypes.Chain;
+                returnEffectType = EffectTypes.Chain;
                 break;
             case "While Deployed":
-                returnEffectType = Effect.EffectTypes.WhileDeployed;
+                returnEffectType = EffectTypes.WhileDeployed;
                 break;
             case "Deployed":
-                returnEffectType = Effect.EffectTypes.Deployed;
+                returnEffectType = EffectTypes.Deployed;
                 break;
             case "Vengeance":
-                returnEffectType = Effect.EffectTypes.Vengeance;
+                returnEffectType = EffectTypes.Vengeance;
                 break;
             default:
-                returnEffectType = Effect.EffectTypes.Undefined;
+                returnEffectType = EffectTypes.Undefined;
                 break;
         }
         return returnEffectType;
@@ -163,82 +206,104 @@ public class EnumConverter : MonoBehaviour
     public Effect.EffectsUsed EffectUsedStringToEnum(string effectType)
     {
         Effect.EffectsUsed returnEffectUsed;
+        //  Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor, Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep, Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, Undefined
         switch (effectType)
         {
             case "Reinforce":
-                returnEffectUsed = Effect.EffectsUsed.Reinforce;
+                returnEffectUsed = EffectsUsed.Reinforce;
                 break;
             case "Recruit":
-                returnEffectUsed = Effect.EffectsUsed.Recruit;
+                returnEffectUsed = EffectsUsed.Recruit;
                 break;
             case "Recover":
-                returnEffectUsed = Effect.EffectsUsed.Recover;
+                returnEffectUsed = EffectsUsed.Recover;
                 break;
             case "Damage":
-                returnEffectUsed = Effect.EffectsUsed.Damage;
+                returnEffectUsed = EffectsUsed.Damage;
                 break;
             case "Regeneration":
-                returnEffectUsed = Effect.EffectsUsed.Regeneration;
+                returnEffectUsed = EffectsUsed.Regeneration;
                 break;
             case "Rally":
-                returnEffectUsed = Effect.EffectsUsed.Rally;
+                returnEffectUsed = EffectsUsed.Rally;
                 break;
             case "Free Revive":
-                returnEffectUsed = Effect.EffectsUsed.FreeRevive;
+                returnEffectUsed = EffectsUsed.FreeRevive;
                 break;
             case "Revive":
-                returnEffectUsed = Effect.EffectsUsed.Revive;
+                returnEffectUsed = EffectsUsed.Revive;
                 break;
             case "Free Deploy":
-                returnEffectUsed = Effect.EffectsUsed.FreeDeploy;
+                returnEffectUsed = EffectsUsed.FreeDeploy;
                 break;
             case "Deploy":
-                returnEffectUsed = Effect.EffectsUsed.Deploy;
+                returnEffectUsed = EffectsUsed.Deploy;
                 break;
             case "Vigor":
-                returnEffectUsed = Effect.EffectsUsed.Vigor;
+                returnEffectUsed = EffectsUsed.Vigor;
                 break;
             case "Terrify":
-                returnEffectUsed = Effect.EffectsUsed.Terrify;
+                returnEffectUsed = EffectsUsed.Terrify;
                 break;
             case "Intimidate":
-                returnEffectUsed = Effect.EffectsUsed.Intimidate;
+                returnEffectUsed = EffectsUsed.Intimidate;
                 break;
             case "Weaken":
-                returnEffectUsed = Effect.EffectsUsed.Weaken;
+                returnEffectUsed = EffectsUsed.Weaken;
                 break;
             case "Shatter":
-                returnEffectUsed = Effect.EffectsUsed.Shatter;
+                returnEffectUsed = EffectsUsed.Shatter;
                 break;
             case "Blood Recovery":
-                returnEffectUsed = Effect.EffectsUsed.BloodRecovery;
+                returnEffectUsed = EffectsUsed.BloodRecovery;
                 break;
             case "Target":
-                returnEffectUsed = Effect.EffectsUsed.Target;
+                returnEffectUsed = EffectsUsed.Target;
                 break;
             case "Taunt":
-                returnEffectUsed = Effect.EffectsUsed.Taunt;
+                returnEffectUsed = EffectsUsed.Taunt;
                 break;
             case "Stealth":
-                returnEffectUsed = Effect.EffectsUsed.Stealth;
+                returnEffectUsed = EffectsUsed.Stealth;
+                break;
+            case "Camouflage":
+                returnEffectUsed = EffectsUsed.Camouflage;
                 break;
             case "Armor":
-                returnEffectUsed = Effect.EffectsUsed.Armor;
+                returnEffectUsed = EffectsUsed.Armor;
                 break;
             case "Sleep":
-                returnEffectUsed = Effect.EffectsUsed.Sleep;
+                returnEffectUsed = EffectsUsed.Sleep;
                 break;
             case "Stun":
-                returnEffectUsed = Effect.EffectsUsed.Stun;
+                returnEffectUsed = EffectsUsed.Stun;
                 break;
             case "Provoke":
-                returnEffectUsed = Effect.EffectsUsed.Provoke;
+                returnEffectUsed = EffectsUsed.Provoke;
+                break;
+            case "Blind":
+                returnEffectUsed = EffectsUsed.Blind;
+                break;
+            case "Burn":
+                returnEffectUsed = EffectsUsed.Burn;
+                break;
+            case "Poison":
+                returnEffectUsed = EffectsUsed.Poison;
+                break;
+            case "Bomb":
+                returnEffectUsed = EffectsUsed.Bomb;
                 break;
             case "Spot":
-                returnEffectUsed = Effect.EffectsUsed.Spot;
+                returnEffectUsed = EffectsUsed.Spot;
+                break;
+            case "Bounce":
+                returnEffectUsed = EffectsUsed.Bounce;
+                break;
+            case "Detonate":
+                returnEffectUsed = EffectsUsed.Detonate;
                 break;
             default:
-                returnEffectUsed = Effect.EffectsUsed.Undefined;
+                returnEffectUsed = EffectsUsed.Undefined;
                 break;
         }
         return returnEffectUsed;
@@ -276,10 +341,10 @@ public class EnumConverter : MonoBehaviour
                 returnPlayType = PlayType.Playable;
                 break;
             case "combatant":
-                returnPlayType = Card.PlayType.Combatant;
+                returnPlayType = PlayType.Combatant;
                 break;
             default:
-                returnPlayType = Card.PlayType.Undefined;
+                returnPlayType = PlayType.Undefined;
                 break;
         }
         return returnPlayType;
@@ -346,6 +411,48 @@ public class EnumConverter : MonoBehaviour
                 break;
         }
         return returnTargetingType;
+    }
+    public Trait TraitStringToEnum(string trait)
+    {
+        // Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Undefined
+        Trait returnTrait;
+        switch(trait)
+        {
+            case"Food":
+                returnTrait = Trait.Food;
+                break;
+            case "Military":
+                returnTrait = Trait.Military;
+                break;
+            case "Weather":
+                returnTrait = Trait.Weather;
+                break;
+            case "Animal":
+                returnTrait = Trait.Animal;
+                break;
+            case "Undead":
+                returnTrait = Trait.Undead;
+                break;
+            case "Medicine":
+                returnTrait = Trait.Medicine;
+                break;
+            case "Music":
+                returnTrait = Trait.Music;
+                break;
+            case "Head of Pantheon":
+                returnTrait = Trait.HeadOfPantheon;
+                break;
+            case "Commerce":
+                returnTrait = Trait.Commerce;
+                break;
+            case "Plant":
+                returnTrait = Trait.Plant;
+                break;
+            default:
+                returnTrait = Trait.Undefined;
+                break;
+        }
+        return returnTrait;
     }
 }
 

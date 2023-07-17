@@ -13,12 +13,19 @@ public class Card
         Combatant, Playable, Undefined
     }
 
+    public enum Trait
+    {
+        Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Undefined
+    }
+
     public string Id { get; set; }
     public string CardName { get; set; }
     public string CardType { get; set; }
 
     public string CardText { get; set; }
     public string CardFlavorText { get; set; }
+
+    public List<string> Traits { get; set; }
 
     //if !god
     public int Cost { get; set; }

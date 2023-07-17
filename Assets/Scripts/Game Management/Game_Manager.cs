@@ -24,8 +24,9 @@ public class Game_Manager : MonoBehaviour
 
     public enum GameState
     {
-        Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, TurnEnd, Undefined
+        Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison, Provoke, Sleep, Blind, Stun, Buff, Debuff, Clear, TurnEnd, Undefined
     }
+
     public enum Phase
     {
         DrawPhase, CostPhase, MainPhase, BattlePhase, EndPhase, Undefined

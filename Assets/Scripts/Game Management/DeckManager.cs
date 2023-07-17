@@ -161,6 +161,9 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardText = cards[i].CardText;
                 cardCloneCardLogic.flavorText = cards[i].CardFlavorText;
                 cardCloneCardLogic.effects = new();
+                cardCloneCardLogic.traits = new();
+                foreach (string trait in cards[i].Traits)
+                    cardCloneCardLogic.traits.Add(enumConverter.TraitStringToEnum(trait));
                 foreach(Effect effect in cards[i].Effects)
                 {
                     Effect newEffect = new CopyEffect(effect); cardCloneCardLogic.effects.Add(newEffect);

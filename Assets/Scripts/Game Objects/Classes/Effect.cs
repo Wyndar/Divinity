@@ -15,7 +15,7 @@ public class Effect
 
     public enum EffectsUsed
     {
-        Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor, Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep, Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Undefined
+        Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor, Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep, Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, Undefined
     }
 
     public enum TargetingTypes

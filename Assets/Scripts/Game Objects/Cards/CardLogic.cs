@@ -15,6 +15,7 @@ public class CardLogic : MonoBehaviour
 
     public Type type;
     public List<PlayType> playTypes;
+    public List<Trait> traits;
 
     public PlayerManager cardOwner, cardController;
     public Transform cardFace, cardBack, cardImage, cardOutline;
