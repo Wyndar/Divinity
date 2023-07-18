@@ -44,15 +44,29 @@ public class CardLogic : MonoBehaviour
     public int effectCountNumber;
     public int subCountNumber;
 
+    public float movementSpeed = 3f;
+
     private IEnumerator ActivationCoroutine(int effectNumber, int subEffectNumber)
     {
         GameManager.isActivatingEffect = true;
 GameManager.StateChange(GameState.EffectActivation);
         GameManager.DisableRayBlocker();
-        Vector3 originalPosition = transform.localPosition;
-        transform.position = cardController.activationZone.position;
-        Vector3 originalScale = this.transform.localScale;
-        transform.localScale = new Vector3(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
+        float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
+        Vector3 originalPosition = transform.position;
+        Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
+        float distanceTravelled = 0;
+        while (distanceTravelled < distance)
+        {
+            Vector3 translationDistance = (cardController.activationZone.position - transform.position);
+            if (translationDistance.magnitude <= direction.magnitude)
+                transform.position = cardController.activationZone.position;
+            else
+                transform.Translate(direction * movementSpeed, Space.World);
+            distanceTravelled = Vector3.Distance(originalPosition, transform.position);
+            yield return null;
+        }
+        Vector3 originalScale = transform.localScale;
+        transform.localScale = new (originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);
 
         transform.localScale = originalScale;
@@ -63,11 +77,23 @@ GameManager.StateChange(GameState.EffectActivation);
 
     private IEnumerator ResolutionCoroutine(int effectNumber, int subEffectNumber)
     {
-        GameManager.DisableRayBlocker(); GameManager.StateChange(Game_Manager.GameState.EffectResolution);
-        Vector3 originalPosition = transform.localPosition;
-        transform.position = cardController.activationZone.position;
-        Vector3 originalScale = this.transform.localScale;
-        transform.localScale = new Vector3(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
+        GameManager.DisableRayBlocker(); GameManager.StateChange(GameState.EffectResolution);
+        float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
+        Vector3 originalPosition = transform.position;
+        Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
+        float distanceTravelled = 0;
+        while (distanceTravelled < distance)
+        {
+            Vector3 translationDistance = (cardController.activationZone.position - transform.position);
+            if (translationDistance.magnitude <= direction.magnitude)
+                transform.position = cardController.activationZone.position;
+            else
+                transform.Translate(direction * movementSpeed, Space.World);
+            distanceTravelled = Vector3.Distance(originalPosition, transform.position);
+            yield return null;
+        }
+        Vector3 originalScale = transform.localScale;
+        transform.localScale = new(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);
 
         transform.localScale = originalScale;
@@ -93,11 +119,10 @@ GameManager.StateChange(GameState.EffectActivation);
             type = targetingEffect.effectTargetType[subEffectNumber];
         if (targetingEffect.effectTargetPlayType.Count > 0)
             playType = targetingEffect.effectTargetPlayType[subEffectNumber];
-        for (int i = 0; i < allTargetsList.Count; i++)
+        foreach(CardLogic target in allTargetsList)
         {
-            CardLogic target = allTargetsList[i];
-            allTargetsList[i].TryGetComponent<CombatantLogic>(out var combatantStats);
-            allTargetsList[i].TryGetComponent<PlayableLogic>(out var playableStats);
+           target.TryGetComponent<CombatantLogic>(out var combatantStats);
+            target.TryGetComponent<PlayableLogic>(out var playableStats);
             // basic targeting requirements... don't target wrong location, don't target wrong owner or wrong card types
             if (target == this && targetingEffect.AllowSelfTarget[subEffectNumber] == false)
                 continue;

@@ -10,6 +10,8 @@ public class PlayableLogic : MonoBehaviour
     public int cost;
     public bool hasBeenPlayed, hasGottenTargets, hasDoneHoverEffect;
 
+    public float movementSpeed = 3f;
+
     private string playError;
 
     public void PlayCoroutineHandler(PlayerManager player) => StartCoroutine(PlayCoroutine(player));
@@ -17,10 +19,17 @@ public class PlayableLogic : MonoBehaviour
     private IEnumerator PlayCoroutine(PlayerManager player)
     {
         float distance = Vector3.Distance(transform.position, player.activationZone.position);
-        Vector3 direction = (transform.position - player.activationZone.position).normalized;
-        while (distance > 0)
+        Vector3 originalPosition = transform.position;
+        Vector3 direction = (player.activationZone.position - transform.position).normalized;
+        float distanceTravelled = 0;
+        while (distanceTravelled < distance)
         {
-            transform.Translate(direction * 5, Space.World);
+            Vector3 translationDistance = (player.activationZone.position - transform.position);
+            if (translationDistance.magnitude <= direction.magnitude)
+                transform.position = player.activationZone.position;
+            else
+                transform.Translate(direction * movementSpeed, Space.World);
+            distanceTravelled = Vector3.Distance(originalPosition, transform.position);
             yield return null;
         }
         Vector3 originalScale = transform.localScale;
