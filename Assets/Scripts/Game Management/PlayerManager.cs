@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
 	public Game_Manager gm;
+    public UXManager ux;
     public SaveManager SaveManager;
     public PlayerManager enemy;
     public AIManager AIManager;
@@ -37,7 +39,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject deck, grave, hero, shield, shieldPanel, activateShieldButton, ignoreShieldButton, raycastBlocker, graveTarget, deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton, hourglassIcon;
 
-    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, armorIcons, stealthIcons,tauntIcons,provokeIcons,spotIcons,bombIcons,burnIcons,poisonIcons,blindIcons,stunIcons,sleepIcons,camouflageIcons,shieldIcons;
+    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, armorIcons, stealthIcons, tauntIcons, provokeIcons, spotIcons, bombIcons, burnIcons, poisonIcons, blindIcons, stunIcons, sleepIcons, camouflageIcons, shieldIcons, statusIcons, attackProjectileIcons, effectProjectileIcons;
 
     public bool[] isEmptyCardSlot, isEmptyHandSlot;
 
@@ -47,4 +49,13 @@ public class PlayerManager : MonoBehaviour
 
     public int costPhaseGain = 1;
     public int handSize;
+
+    public void SetStatus(int orderNum, string status)
+    {
+        if(status=="death")
+        {
+            statusIcons[orderNum].SetActive(true);
+            statusIcons[orderNum].GetComponent<Image>().sprite = ux.deathSprite;
+        }
+    }
 }

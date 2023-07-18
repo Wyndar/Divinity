@@ -171,7 +171,7 @@ public class DeckManager : MonoBehaviour
                 foreach (Effect effect in cardCloneCardLogic.effects)
                 {
                     effect.effectTypes = new();
-                    effect.triggerEffects = new();
+                    effect.triggerTypes = new();
                     effect.effectsUsed = new();
                     effect.activationLocation = new();
                     effect.triggerLocation = new();
@@ -187,7 +187,7 @@ public class DeckManager : MonoBehaviour
                         effect.effectsUsed.Add(enumConverter.EffectUsedStringToEnum(effectUsed));
                     if (effect.TriggerType != null)
                         foreach (string triggerType in effect.TriggerType)
-                            effect.triggerEffects.Add(enumConverter.EffectUsedStringToEnum(triggerType));
+                            effect.triggerTypes.Add(enumConverter.EffectUsedStringToEnum(triggerType));
                     foreach (string effectType in effect.EffectType)
                         effect.effectTypes.Add(enumConverter.EffectTypeStringToEnum(effectType));
                     if (effect.TriggerLocation != null)

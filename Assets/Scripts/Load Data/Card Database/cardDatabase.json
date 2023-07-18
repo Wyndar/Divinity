@@ -203,7 +203,7 @@
                 "TargetLocation": [ "Field", "Field" ],
                 "EffectTargetAmount": [ 1, 1 ],
                 "AllowSelfTarget": [ true, false ],
-                "TriggerType": [ "Deployment", "none" ],
+                "TriggerState": [ "Deployment", "none" ],
                 "TriggerInfo": [ "Strike", "none" ],
                 "TriggerLocation": [ "Field", "none" ]
             }

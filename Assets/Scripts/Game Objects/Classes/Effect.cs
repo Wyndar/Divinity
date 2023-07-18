@@ -24,7 +24,7 @@ public class Effect
     }
 
     public List<EffectTypes> effectTypes;
-    public List<EffectsUsed> triggerEffects;
+    public List<EffectsUsed> triggerTypes;
     public List<EffectsUsed> effectsUsed;
     public Location activationLocation;
     public List<Location> triggerLocation;

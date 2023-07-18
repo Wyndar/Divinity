@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using static Game_Manager;
 
 public class MonsterLogic : CardLogic
 {
@@ -31,7 +32,7 @@ public class MonsterLogic : CardLogic
             }
         }
         combatLogic.attacksLeft = combatLogic.maxAttacks;
-        gm.StateChange(Game_Manager.GameState.Summon);
+        gm.StateChange(GameState.Summon);
     }
 
     public void DeathCheck()
@@ -49,7 +50,8 @@ public class MonsterLogic : CardLogic
         cardController.armorIcons[locationOrderNumber].SetActive(false);
         cardController.isEmptyCardSlot[locationOrderNumber] = true;
         cardController.fieldLogicList.Remove(this);
+        cardController.SetStatus(locationOrderNumber, "death");
         playLogic.MoveToGrave();
-        gm.StateChange(Game_Manager.GameState.Death);
+        gm.StateChange(GameState.Death);
     }
 }

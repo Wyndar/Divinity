@@ -38,6 +38,8 @@ public class UXManager : MonoBehaviour
     [SerializeField]
     private string effectActivationText;
 
+    public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite;
+
     private Vector2 touchStartPosition, touchEndPosition;
     private float touchStartTime, touchEndTime;
     private Coroutine trailCoroutine;
