@@ -49,8 +49,16 @@ public class CardLogic : MonoBehaviour
     private IEnumerator ActivationCoroutine(int effectNumber, int subEffectNumber)
     {
         GameManager.isActivatingEffect = true;
-GameManager.StateChange(GameState.EffectActivation);
         GameManager.DisableRayBlocker();
+
+        //these technically don't activate
+        if (effects[effectNumber].effectTypes[subEffectNumber] == EffectTypes.WhileDeployed)
+        {
+            EffectActivationAfterAnimation(effectNumber, subEffectNumber);
+            yield break;
+        }
+
+        GameManager.StateChange(GameState.EffectActivation);
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
         Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
@@ -66,18 +74,28 @@ GameManager.StateChange(GameState.EffectActivation);
             yield return null;
         }
         Vector3 originalScale = transform.localScale;
-        transform.localScale = new (originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
+        transform.localScale = new(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);
 
         transform.localScale = originalScale;
         transform.localPosition = originalPosition;
+
         EffectActivationAfterAnimation(effectNumber, subEffectNumber);
         yield break;
     }
 
     private IEnumerator ResolutionCoroutine(int effectNumber, int subEffectNumber)
     {
-        GameManager.DisableRayBlocker(); GameManager.StateChange(GameState.EffectResolution);
+        GameManager.DisableRayBlocker();
+
+        //these technically don't resolve
+        if (effects[effectNumber].effectTypes[subEffectNumber] == EffectTypes.WhileDeployed)
+        {
+            EffectResolutionAfterAnimation(effectNumber, subEffectNumber);
+            yield break;
+        }
+
+        GameManager.StateChange(GameState.EffectResolution);
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
         Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
@@ -190,7 +208,7 @@ GameManager.StateChange(GameState.EffectActivation);
             returnList.Add(target);
         }
         if (returnList.Count < 1)
-            Debug.Log("No valid targets for "+ cardName+"'s "+ effectUsed+ " effect at "+ GameManager.turnPlayer.PlayerName+"'s turn at phase " + GameManager.currentPhase);
+            Debug.Log("No valid targets for "+ cardName+"'s "+ effectUsed+ " ability at "+ GameManager.turnPlayer.PlayerName+"'s turn at phase " + GameManager.currentPhase);
         return returnList;
     }
 
