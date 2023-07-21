@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using static Game_Manager;
+using static PlayerManager;
 
 public class MonsterLogic : CardLogic
 {
@@ -50,7 +51,7 @@ public class MonsterLogic : CardLogic
         cardController.armorIcons[locationOrderNumber].SetActive(false);
         cardController.isEmptyCardSlot[locationOrderNumber] = true;
         cardController.fieldLogicList.Remove(this);
-        cardController.SetStatus(locationOrderNumber, "death");
+        cardController.SetStatus(locationOrderNumber, Status.Death, 0);
         playLogic.MoveToGrave();
         gm.StateChange(GameState.Death);
     }

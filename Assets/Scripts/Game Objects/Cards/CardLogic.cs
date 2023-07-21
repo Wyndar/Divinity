@@ -125,7 +125,7 @@ public class CardLogic : MonoBehaviour
         List<CardLogic> allTargetsList = new(FindObjectsOfType<CardLogic>());
         List<CardLogic> returnList = new();
         Effect targetingEffect = effects[effectNumber];
-        if (targetingEffect.targetLocation == null)
+        if (targetingEffect.targetLocation.Count == 0)
             return returnList;
 
         EffectsUsed effectUsed = targetingEffect.effectsUsed[subEffectNumber];
@@ -386,9 +386,9 @@ public class CardLogic : MonoBehaviour
         Effect resolvingEffect = effects[countNumber];
 
         //resolve subsequent subeffects in the same effect if there is any
-        if (resolvingEffect.EffectUsed.Count <= subCount + 1)
+        if (resolvingEffect.effectsUsed.Count <= subCount + 1)
             return true;
-        if (resolvingEffect.EffectType[subCount] != resolvingEffect.EffectType[subCount + 1])
+        if (resolvingEffect.effectTypes[subCount] != resolvingEffect.effectTypes[subCount + 1])
             return true;
         if (resolvingEffect.EffectActivationIsMandatory[subCount + 1] == false)
         {
@@ -426,7 +426,6 @@ public class CardLogic : MonoBehaviour
 
         foreach (int index in effectAmountIndexesToChange)
         {
-            Debug.Log(index);
             if (resolvingEffect.TargetCountModifier != null && resolvingEffect.TargetCountModifier[subCount]!=0)
             {
                 resolvingEffect.EffectAmount[index] = Mathf.CeilToInt(targets.Count * resolvingEffect.TargetCountModifier[subCount]);

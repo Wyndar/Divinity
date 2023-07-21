@@ -89,17 +89,17 @@ public class ChainManager : MonoBehaviour
             for (int k = 0; k < triggers[j].effects.Count; k++)
             {
                 Effect triggerEffect = triggers[j].effects[k];
-                if (triggerEffect.TriggerState == null)
+                if (triggerEffect.triggerState.Count == 0)
                     continue;
-                for (int l = 0; l < triggerEffect.TriggerState.Count; l++)
+                for (int l = 0; l < triggerEffect.triggerState.Count; l++)
                 {
                     //must be right game state, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is either defined and correct or undefined
-                    if (gm.gameState != enumConverter.StateStringToEnum(triggerEffect.TriggerState[l]))
+                    if (gm.gameState != triggerEffect.triggerState[l])
                         continue;
                     if (triggerEffect.TriggerCard != null && triggerEffect.TriggerCard[l] != cardLogic.cardType)
                         continue;
-                    if (triggerEffect.TriggerInfo != null && cardLogic.cardName.Contains(triggerEffect.TriggerInfo[l]) == false)
-                            continue;
+                    if (triggerEffect.TriggerInfo.Count != 0 && cardLogic.cardName.Contains(triggerEffect.TriggerInfo[l]) == false)
+                        continue;
                     if (triggerEffect.TriggerLocation != null && triggers[j].currentLocation == enumConverter.LocationStringToEnum(triggerEffect.TriggerLocation[l]))
                         continue;
                     //ensures one activation of an effect per card per chain

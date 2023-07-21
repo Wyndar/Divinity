@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using static Game_Manager;
 using static Buff;
+using static PlayerManager;
 
 public class CombatantLogic : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class CombatantLogic : MonoBehaviour
             gm.StateChange(GameState.Damaged);
             if (logic.cardType == "monster")
             {
-                GetComponent<MonsterLogic>().OnFieldHpRefresh();
+                logic.cardController.SetStatus(logic.locationOrderNumber, Status.Damage, damage);
+GetComponent<MonsterLogic>().OnFieldHpRefresh();
                 GetComponent<MonsterLogic>().DeathCheck();
             }
             else
@@ -61,7 +63,13 @@ public class CombatantLogic : MonoBehaviour
         if (currentAtk < 0)
             currentAtk = 0;
         if (logic.cardType == "monster")
+        {
+            if (add)
+                logic.cardController.SetStatus(logic.locationOrderNumber, Status.AtkGain, value);
+            else
+                logic.cardController.SetStatus(logic.locationOrderNumber, Status.AtkLoss, value);
             GetComponent<MonsterLogic>().OnFieldAtkRefresh();
+        }
     }
 
     public void MaxHPAdjustment(int value, bool add)
@@ -76,7 +84,13 @@ public class CombatantLogic : MonoBehaviour
             maxHp -= value;
             currentHp -= value;
             if (logic.cardType == "monster")
+            {
+                if (add)
+                    logic.cardController.SetStatus(logic.locationOrderNumber, Status.HpGain, value);
+                else
+                    logic.cardController.SetStatus(logic.locationOrderNumber, Status.HpLoss, value);
                 GetComponent<MonsterLogic>().DeathCheck();
+            }
         }
         if (logic.cardType == "monster")
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
@@ -87,7 +101,10 @@ public class CombatantLogic : MonoBehaviour
         currentHp += healAmount;
         OverhealCheck();
         if (logic.cardType == "monster")
+        {
+            logic.cardController.SetStatus(logic.locationOrderNumber, Status.Heal, healAmount);
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
+        }
     }
 
     public void OverhealCheck()

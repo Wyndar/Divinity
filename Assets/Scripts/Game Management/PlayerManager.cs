@@ -50,12 +50,65 @@ public class PlayerManager : MonoBehaviour
     public int costPhaseGain = 1;
     public int handSize;
 
-    public void SetStatus(int orderNum, string status)
+    public enum Status
     {
-        if(status=="death")
+        Heal, Damage, Death, HpLoss, HpGain, AtkLoss, AtkGain, Undefined
+    }
+
+    public void SetStatus(int orderNum, Status status, int statusChangeAmount)
+    {
+        GameObject stat = statusIcons[orderNum];
+        switch(status)
         {
-            statusIcons[orderNum].SetActive(true);
-            statusIcons[orderNum].GetComponent<Image>().sprite = ux.deathSprite;
+            case Status.Death:
+            stat.SetActive(true);
+            stat.GetComponent<Image>().sprite = ux.deathSprite;
+                break;
+            case Status.Damage:
+                stat.SetActive(true);
+                stat.GetComponent<Image>().color = Color.clear;
+                stat.transform.GetChild(0).gameObject.SetActive(true);
+                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                stat.GetComponentInChildren<TMP_Text>().color = Color.red;
+                break;
+            case Status.Heal:
+                stat.SetActive(true);
+                stat.GetComponent<Image>().color = Color.clear;
+                stat.transform.GetChild(0).gameObject.SetActive(true);
+                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                stat.GetComponentInChildren<TMP_Text>().color = Color.green;
+                break;
+            case Status.HpLoss:
+                stat.SetActive(true);
+                stat.GetComponent<Image>().sprite = ux.hpSprite;
+                stat.transform.GetChild(0).gameObject.SetActive(true);
+                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                stat.GetComponentInChildren<TMP_Text>().color = Color.red;
+                break;
+            case Status.HpGain:
+                stat.SetActive(true);
+                stat.GetComponent<Image>().sprite = ux.hpSprite;
+                stat.transform.GetChild(0).gameObject.SetActive(true);
+                stat.GetComponentInChildren<TMP_Text>().text = "+" + statusChangeAmount.ToString();
+                stat.GetComponentInChildren<TMP_Text>().color = Color.green;
+                break;
+            case Status.AtkLoss:
+                stat.SetActive(true);
+                stat.GetComponent<Image>().sprite = ux.atkSprite;
+                stat.transform.GetChild(0).gameObject.SetActive(true);
+                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                stat.GetComponentInChildren<TMP_Text>().color = Color.red;
+                break;
+            case Status.AtkGain:
+                stat.SetActive(true);
+                stat.GetComponent<Image>().sprite = ux.atkSprite;
+                stat.transform.GetChild(0).gameObject.SetActive(true);
+                stat.GetComponentInChildren<TMP_Text>().text = "+" + statusChangeAmount.ToString();
+                stat.GetComponentInChildren<TMP_Text>().color = Color.green;
+                break;
+            default:
+                break;
         }
+        
     }
 }

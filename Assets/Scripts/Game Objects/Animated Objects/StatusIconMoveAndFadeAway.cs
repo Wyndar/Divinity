@@ -1,8 +1,10 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatusIconMoveAndFadeAway : MonoBehaviour
 {
-    public float lifeTime = 0.3f;
+    private float lifeTime = 1f;
     private float time;
     private Vector3 originalPosition;
 
@@ -20,6 +22,12 @@ public class StatusIconMoveAndFadeAway : MonoBehaviour
         if (time <= 0)
         {
             transform.position = originalPosition;
+            GetComponent<Image>().color = Color.white;
+            if (transform.GetChild(0).gameObject.activeInHierarchy)
+            {
+                transform.GetComponentInChildren<TMP_Text>().color = Color.black;
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
             gameObject.SetActive(false);
         }
     }
