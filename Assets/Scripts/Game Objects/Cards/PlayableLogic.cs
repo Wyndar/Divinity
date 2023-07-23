@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using static Game_Manager;
+using static CardLogic;
 
 public class PlayableLogic : MonoBehaviour
 {
@@ -43,7 +45,7 @@ public class PlayableLogic : MonoBehaviour
 
     public void EnableHover()
     {
-        if (hasBeenPlayed == false && logic.currentLocation == CardLogic.Location.Hand && hasDoneHoverEffect == false && gm.gameState == Game_Manager.GameState.Open)
+        if (hasBeenPlayed == false && logic.currentLocation ==Location.Hand && hasDoneHoverEffect == false && gm.gameState == GameState.Open)
         {
             if (logic.cardController == gm.BluePlayerManager)
                 transform.position += Vector3.up * 3;
@@ -65,11 +67,11 @@ public class PlayableLogic : MonoBehaviour
             if (!logic.isNormalColour)
                 logic.NormalColour();
             gm.currentFocusCardLogic = logic;
-            gm.StateChange(Game_Manager.GameState.Activation);
+            gm.StateChange(GameState.Activation);
             if(!ignoreCost)
                 player.costCount -= cost;
             transform.SetParent(null);
-            logic.currentLocation = CardLogic.Location.Limbo;
+            logic.currentLocation = Location.Limbo;
             if (playString == "deploy")
             {
                 player.handLogicList.Remove(logic);                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
@@ -78,7 +80,7 @@ public class PlayableLogic : MonoBehaviour
             if (playString == "revive")
             {
                 logic.cardOwner.graveLogicList.Remove(logic);
-                gm.StateChange(Game_Manager.GameState.Revive);
+                gm.StateChange(GameState.Revive);
             }
             hasBeenPlayed = true;
             PlayCoroutineHandler(player);
@@ -90,7 +92,7 @@ public class PlayableLogic : MonoBehaviour
 
     public void DisableHover()
     {
-        if (hasBeenPlayed == false && logic.currentLocation == CardLogic.Location.Hand && gm.gameState != Game_Manager.GameState.Targeting)
+        if (hasBeenPlayed == false && logic.currentLocation == Location.Hand && gm.gameState != GameState.Targeting)
         {
             hasDoneHoverEffect = false;
             transform.localPosition = Vector3.zero;
@@ -135,11 +137,12 @@ public class PlayableLogic : MonoBehaviour
 
     public void CardPlayed(PlayerManager player)
     {
-        gm.StateChange(Game_Manager.GameState.Playing);
+        gm.StateChange(GameState.Playing);
         if (logic.cardType == "monster")
             gameObject.GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
-        gm.StateChange(Game_Manager.GameState.Deployment);
+        gm.currentFocusCardLogic = logic;
+        gm.StateChange(GameState.Deployment);
         for (int i = 0; i < logic.effects.Count; i++)
         {
             if (logic.effects[i].EffectType.Contains("Deployment"))

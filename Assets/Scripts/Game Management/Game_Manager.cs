@@ -318,10 +318,10 @@ public class Game_Manager : MonoBehaviour
             return;
         if (gameState == GameState.ChainResolution)
             return;
-        ChainManager.GetEmptyStateTriggers();
+        ChainManager.GetEmptyStateTriggers(state);
         if (currentFocusCardLogic == null)
             return;
-        GetStateTriggers(currentFocusCardLogic);
+        GetStateTriggers(currentFocusCardLogic, state);
     }
 
     public void PhaseChange(Phase phase)
@@ -337,9 +337,9 @@ public class Game_Manager : MonoBehaviour
         ChainManager.GetEffectTriggers(triggerEffectNumber, triggerSubEffectNumber, triggerCard);
     }
 
-    public void GetStateTriggers(CardLogic triggerCard)
+    public void GetStateTriggers(CardLogic triggerCard, GameState state)
     {
-        ChainManager.GetStateTriggers(triggerCard);
+        ChainManager.GetStateTriggers(triggerCard, state);
     }
 
     public void ChainResolution()

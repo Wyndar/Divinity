@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static Game_Manager;
+using static CardLogic;
+using static Effect;
+using System;
 
 public class ChainManager : MonoBehaviour
 {
@@ -7,146 +11,191 @@ public class ChainManager : MonoBehaviour
     public EnumConverter enumConverter;
 
     //gets chain effects that trigger on phase change
-    public void GetPhaseTriggers(Game_Manager.Phase phase)
+    public void GetPhaseTriggers(Phase phase)
     {
-        List<CardLogic> triggered = new List<CardLogic>(FindObjectsOfType<CardLogic>());
-        for (int j = triggered.Count - 1; j > -1; j--)
+        List<CardLogic> triggered = new(FindObjectsOfType<CardLogic>());
+        foreach(CardLogic triggeredCard in triggered)
         {
-            for (int k = 0; k < triggered[j].effects.Count; k++)
+            //ignore vanilla
+            if (triggeredCard.effects.Count == 0)
+                continue;
+            foreach (Effect triggeredEffect in triggeredCard.effects)
             {
-                Effect triggerEffect = triggered[j].effects[k];
-                if (triggerEffect.TriggerPhase == null)
+                //ignore no phase triggers
+                if (triggeredEffect.triggerPhase.Count == 0)
                     continue;
-                for (int l = 0; l < triggerEffect.TriggerPhase.Count; l++)
+
+                //must be right phase, location
+                if (!triggeredEffect.triggerPhase.Contains(phase))
+                    continue;
+
+                int subNum = triggeredEffect.triggerPhase.FindIndex(a => a == phase);
+                if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
+                    continue;
+                int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
+
+                //ensures one activation of an effect per card per chain
+                bool addCard = true;
+                if (gm.activationChainList.Contains(triggeredCard))
                 {
-                    //must be right phase, location is either defined and correct or undefined
-                    if (phase != enumConverter.PhaseStringToEnum(triggerEffect.TriggerPhase[l]))
-                        continue;
-                    if (triggerEffect.TriggerLocation == null)
-                        continue;
-                    if (triggered[j].currentLocation != enumConverter.LocationStringToEnum(triggerEffect.TriggerLocation[l]) && enumConverter.LocationStringToEnum(triggerEffect.TriggerLocation[l]) != CardLogic.Location.Undefined)
-                        continue;
-                    //ensures one activation of an effect per card per chain
-                    if (gm.activationChainList.Contains(triggered[j]))
-                        if (k == gm.activationChainNumber[gm.activationChainList.FindIndex(a => a == triggered[j])])
-                            continue;
-                    gm.activationChainList.Add(triggered[j]);
-                    gm.activationChainNumber.Add(k);
-                    gm.activationChainSubNumber.Add(l);
-                    break;
-                    //because we only need to catch one sub effect per effect with trigger, the rest resolves at chain resolution
+                    int[] indexes = gm.activationChainList.FindAllIndexof<CardLogic>(triggeredCard);
+                    foreach (int index in indexes)
+                        if (gm.activationChainNumber[index] == effNum)
+                            addCard = false;
                 }
+                if (addCard == false)
+                    continue;
+                gm.activationChainList.Add(triggeredCard);
+                gm.activationChainNumber.Add(effNum);
+                gm.activationChainSubNumber.Add(subNum);
+                break;
+                //because we only need to catch one sub effect per effect with trigger, the rest resolves at chain resolution
             }
         }
     }
 
     //gets chain effects that trigger by card effect and additional requirements beyond game state
-    public void GetEffectTriggers(int countNum, int subCount, CardLogic cardLogic)
+    public void GetEffectTriggers(int countNum, int subCount, CardLogic triggerCard)
     {
-        List<CardLogic> triggered = new List<CardLogic>(FindObjectsOfType<CardLogic>());
-        for (int j = triggered.Count - 1; j > -1; j--)
+        List<CardLogic> triggered = new(FindObjectsOfType<CardLogic>());
+        EffectsUsed triggerEffectType = triggerCard.effects[countNum].effectsUsed[subCount];
+
+        foreach(CardLogic triggeredCard in triggered)
         {
-            for (int k = 0; k < triggered[j].effects.Count; k++)
+            //ignore vanilla
+            if (triggeredCard.effects.Count == 0)
+                continue;
+            foreach (Effect triggeredEffect in triggeredCard.effects)
             {
-                Effect triggerEffect = triggered[j].effects[k];
-                Effect trigger = cardLogic.effects[countNum];
+                //ignore no triggertypes
+                if (triggeredEffect.triggerTypes.Count == 0)
+                    continue;
+
+                //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct
+                if (!triggeredEffect.triggerTypes.Contains(triggerEffectType))
+                    continue;
+
+                int subNum = triggeredEffect.triggerTypes.FindIndex(a => a == triggerEffectType);
+                if (triggeredEffect.TriggerCard != null && triggeredEffect.TriggerCard[subNum] != triggerCard.cardType)
+                    continue;
+                if (triggeredEffect.TriggerInfo != null && !triggerCard.cardName.Contains(triggeredEffect.TriggerInfo[subNum]))
+                    continue;
+                if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
+                    continue;
+                int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
+
+                //ensures one activation of an effect per card per chain
+                bool addCard = true;
+                if (gm.activationChainList.Contains(triggeredCard))
                 {
-                    if (triggerEffect.TriggerType == null)
-                        continue;
-                    for (int l = 0; l < triggerEffect.TriggerType.Count; l++)
-                    {
-                        //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is either defined and correct or undefined
-                        if (trigger.EffectType[subCount] != triggerEffect.TriggerType[l])
-                            continue;
-                        if (triggerEffect.TriggerCard != null && triggerEffect.TriggerCard[l] != cardLogic.cardType)
-                            continue;
-                        if (triggerEffect.TriggerInfo != null && !cardLogic.cardName.Contains(triggerEffect.TriggerInfo[l]))
-                            continue;
-                        if (triggerEffect.TriggerLocation != null && triggered[j].currentLocation != enumConverter.LocationStringToEnum(triggerEffect.TriggerLocation[countNum]))
-                            continue;
-                        //ensures one activation of an effect per card per chain
-                        if (gm.activationChainList.Contains(triggered[j]))
-                            if (k == gm.activationChainNumber[gm.activationChainList.FindIndex(a => a == triggered[j])])
-                                continue;
-                        gm.activationChainList.Add(triggered[j]);
-                        gm.activationChainNumber.Add(k);
-                        gm.activationChainSubNumber.Add(l);
-                        break;
-                        //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
-                    }
-                }   
+                    int[] indexes = gm.activationChainList.FindAllIndexof<CardLogic>(triggeredCard);
+                    foreach (int index in indexes)
+                        if (gm.activationChainNumber[index] == effNum)
+                            addCard = false;
+                }
+                if (addCard == false)
+                    continue;
+                gm.activationChainList.Add(triggeredCard);
+                gm.activationChainNumber.Add(effNum);
+                gm.activationChainSubNumber.Add(subNum);
+                break;
+                //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
             }
         }
     }
 
     //gets chain effects that trigger by game state caused by card logic
-    public void GetStateTriggers(CardLogic cardLogic)
+    public void GetStateTriggers(CardLogic cardLogic, GameState gameState)
     {
-        List<CardLogic> triggers = new List<CardLogic>(FindObjectsOfType<CardLogic>());
+        List<CardLogic> triggers = new(FindObjectsOfType<CardLogic>());
 
-        for (int j = triggers.Count - 1; j > -1; j--)
+        foreach(CardLogic triggeredCard in triggers)
         {
-            for (int k = 0; k < triggers[j].effects.Count; k++)
+            //ignore vanilla
+            if (triggeredCard.effects.Count == 0)
+                continue;
+            foreach (Effect triggeredEffect in triggeredCard.effects)
             {
-                Effect triggerEffect = triggers[j].effects[k];
-                if (triggerEffect.triggerState.Count == 0)
+                //ignore no triggerStaate
+                if (triggeredEffect.triggerState.Count == 0)
                     continue;
-                for (int l = 0; l < triggerEffect.triggerState.Count; l++)
+
+                //must be right game state, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct
+                if (!triggeredEffect.triggerState.Contains(gameState))
+                    continue;
+
+                int subNum = triggeredEffect.triggerState.FindIndex(a => a == gameState);
+                if (triggeredEffect.TriggerCard != null && triggeredEffect.TriggerCard[subNum] != cardLogic.cardType)
+                    continue;
+                if (triggeredEffect.TriggerInfo != null && !cardLogic.cardName.Contains(triggeredEffect.TriggerInfo[subNum]))
+                    continue;
+                if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
+                    continue;
+                int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
+
+                //ensures one activation of an effect per card per chain
+                bool addCard = true;
+                if (gm.activationChainList.Contains(triggeredCard))
                 {
-                    //must be right game state, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is either defined and correct or undefined
-                    if (gm.gameState != triggerEffect.triggerState[l])
-                        continue;
-                    if (triggerEffect.TriggerCard != null && triggerEffect.TriggerCard[l] != cardLogic.cardType)
-                        continue;
-                    if (triggerEffect.TriggerInfo.Count != 0 && cardLogic.cardName.Contains(triggerEffect.TriggerInfo[l]) == false)
-                        continue;
-                    if (triggerEffect.TriggerLocation != null && triggers[j].currentLocation == enumConverter.LocationStringToEnum(triggerEffect.TriggerLocation[l]))
-                        continue;
-                    //ensures one activation of an effect per card per chain
-                    if (gm.activationChainList.Contains(triggers[j]))
-                        if (k == gm.activationChainNumber[gm.activationChainList.FindIndex(a => a == triggers[j])])
-                            continue;
-                    gm.activationChainList.Add(triggers[j]);
-                    gm.activationChainNumber.Add(k);
-                    gm.activationChainSubNumber.Add(l);
-                    break;
-                    //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
+                    int[] indexes = gm.activationChainList.FindAllIndexof<CardLogic>(triggeredCard);
+                    foreach (int index in indexes)
+                        if (gm.activationChainNumber[index] == effNum)
+                            addCard = false;
                 }
+                if (addCard == false)
+                    continue;
+                gm.activationChainList.Add(triggeredCard);
+                gm.activationChainNumber.Add(effNum);
+                gm.activationChainSubNumber.Add(subNum);
+                break;
+                //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
             }
         }
     }
 
     //gets chain effects that trigger by game state caused by regular effects
-    public void GetEmptyStateTriggers()
+    public void GetEmptyStateTriggers(GameState gameState)
     {
-        List<CardLogic> triggers = new List<CardLogic>(FindObjectsOfType<CardLogic>());
-        for (int j = 0; j < triggers.Count; j++)
+        List<CardLogic> triggers = new(FindObjectsOfType<CardLogic>());
+        foreach (CardLogic triggeredCard in triggers)
         {
-            for (int k = 0; k < triggers[j].effects.Count; k++)
+            //ignore vanilla
+            if (triggeredCard.effects.Count == 0)
+                continue;
+            foreach (Effect triggeredEffect in triggeredCard.effects)
             {
-                Effect triggerEffect = triggers[j].effects[k];
-                if (triggerEffect.TriggerState == null)
+                //ignore no trigger state
+                if (triggeredEffect.triggerState.Count == 0)
                     continue;
-                for (int l = 0; l < triggerEffect.TriggerState.Count; l++)
+
+                //must be right game state, card type is undefined, info is undefined, location is defined and correct
+                if (!triggeredEffect.triggerState.Contains(gameState))
+                    continue;
+
+                int subNum = triggeredEffect.triggerState.FindIndex(a => a == gameState);
+                if (triggeredEffect.TriggerCard != null)
+                    continue;
+                if (triggeredEffect.TriggerInfo != null)
+                    continue;
+                if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
+                    continue;
+                int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
+
+                //ensures one activation of an effect per card per chain
+                bool addCard = true;
+                if (gm.activationChainList.Contains(triggeredCard))
                 {
-                    //must be right game state, card type is undefined, info is undefined, location is either defined and correct or undefined
-                    if (gm.gameState != enumConverter.StateStringToEnum(triggerEffect.TriggerState[l]))
-                        continue;
-                    if (triggerEffect.TriggerCard != null)
-                        continue;
-                    if (triggerEffect.TriggerInfo != null)
-                        continue;
-                    if (triggerEffect.TriggerLocation != null && triggers[j].currentLocation != enumConverter.LocationStringToEnum(triggerEffect.TriggerLocation[l]))
-                        continue;
-                    //ensures one activation of an effect per card per chain
-                    if (gm.activationChainList.Contains(triggers[j]))
-                        if (k == gm.activationChainNumber[gm.activationChainList.FindIndex(a => a == triggers[j])])
-                            continue;
-                    gm.activationChainList.Add(triggers[j]);
-                    gm.activationChainNumber.Add(k);
-                    gm.activationChainSubNumber.Add(l);
-                    //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
+                    int[] indexes = gm.activationChainList.FindAllIndexof<CardLogic>(triggeredCard);
+                    foreach (int index in indexes)
+                        if (gm.activationChainNumber[index] == effNum)
+                            addCard = false;
                 }
+                if (addCard == false)
+                    continue;
+                gm.activationChainList.Add(triggeredCard);
+                gm.activationChainNumber.Add(effNum);
+                gm.activationChainSubNumber.Add(subNum);
+                //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
             }
         }
     }
