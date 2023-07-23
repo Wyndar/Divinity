@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class StatusIconMoveAndFadeAway : MonoBehaviour
 {
+    public bool inUse;
     private float lifeTime = 1f;
     private float time;
     private Vector3 originalPosition;
@@ -12,6 +13,7 @@ public class StatusIconMoveAndFadeAway : MonoBehaviour
     {
         originalPosition = transform.position;
         time = lifeTime;
+        inUse = true;
     }
 
     private void Update()
@@ -28,6 +30,7 @@ public class StatusIconMoveAndFadeAway : MonoBehaviour
                 transform.GetComponentInChildren<TMP_Text>().color = Color.black;
                 transform.GetChild(0).gameObject.SetActive(false);
             }
+            inUse = false;
             gameObject.SetActive(false);
         }
     }

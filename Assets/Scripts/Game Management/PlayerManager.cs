@@ -39,7 +39,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject deck, grave, hero, shield, shieldPanel, activateShieldButton, ignoreShieldButton, raycastBlocker, graveTarget, deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton, hourglassIcon;
 
-    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, armorIcons, stealthIcons, tauntIcons, provokeIcons, spotIcons, bombIcons, burnIcons, poisonIcons, blindIcons, stunIcons, sleepIcons, camouflageIcons, shieldIcons, statusIcons, attackProjectileIcons, effectProjectileIcons;
+    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, armorIcons, stealthIcons, tauntIcons, provokeIcons, spotIcons, bombIcons, burnIcons, poisonIcons, blindIcons, stunIcons, sleepIcons, camouflageIcons, shieldIcons, statusIcons, statusIcons2, damageNums, attackProjectileIcons, effectProjectileIcons;
 
     public bool[] isEmptyCardSlot, isEmptyHandSlot;
 
@@ -58,6 +58,9 @@ public class PlayerManager : MonoBehaviour
     public void SetStatus(int orderNum, Status status, int statusChangeAmount)
     {
         GameObject stat = statusIcons[orderNum];
+        if (stat.GetComponent<StatusIconMoveAndFadeAway>().inUse)
+            stat = statusIcons2[orderNum];
+        GameObject num = damageNums[orderNum];
         switch(status)
         {
             case Status.Death:
@@ -65,25 +68,25 @@ public class PlayerManager : MonoBehaviour
             stat.GetComponent<Image>().sprite = ux.deathSprite;
                 break;
             case Status.Damage:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().color = Color.clear;
-                stat.transform.GetChild(0).gameObject.SetActive(true);
-                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
-                stat.GetComponentInChildren<TMP_Text>().color = Color.red;
+                num.SetActive(true);
+                num.GetComponent<Image>().color = Color.clear;
+                num.transform.GetChild(0).gameObject.SetActive(true);
+                num.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                num.GetComponentInChildren<TMP_Text>().color = Color.red;
                 break;
             case Status.Heal:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().color = Color.clear;
-                stat.transform.GetChild(0).gameObject.SetActive(true);
-                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
-                stat.GetComponentInChildren<TMP_Text>().color = Color.green;
+                num.SetActive(true);
+                num.GetComponent<Image>().color = Color.clear;
+                num.transform.GetChild(0).gameObject.SetActive(true);
+                num.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                num.GetComponentInChildren<TMP_Text>().color = Color.green;
                 break;
             case Status.HpLoss:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().sprite = ux.hpSprite;
+                num.SetActive(true);
+                num.GetComponent<Image>().sprite = ux.hpSprite;
                 stat.transform.GetChild(0).gameObject.SetActive(true);
-                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
-                stat.GetComponentInChildren<TMP_Text>().color = Color.red;
+                num.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                num.GetComponentInChildren<TMP_Text>().color = Color.red;
                 break;
             case Status.HpGain:
                 stat.SetActive(true);
@@ -107,6 +110,7 @@ public class PlayerManager : MonoBehaviour
                 stat.GetComponentInChildren<TMP_Text>().color = Color.green;
                 break;
             default:
+                Debug.Log("Failed to assert status type");
                 break;
         }
         

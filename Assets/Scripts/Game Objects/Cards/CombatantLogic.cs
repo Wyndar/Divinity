@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using static Game_Manager;
 using static Buff;
 using static PlayerManager;
+using UnityEditor.Experimental.GraphView;
 
 public class CombatantLogic : MonoBehaviour
 {
@@ -116,9 +117,6 @@ GetComponent<MonsterLogic>().OnFieldHpRefresh();
     public void AttackResolution()
     {
         CombatantLogic attacker = gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>();
-        attacker.attacksLeft -= 1;
-        attacker.hasAttacked = true;
-        attacker.hasAttackedThisTurn = true;
         TakeDamage(attacker.currentAtk, true);
     }
 
@@ -171,6 +169,9 @@ GetComponent<MonsterLogic>().OnFieldHpRefresh();
     public void DeclareAttack()
     {
         Debug.Log(logic.cardName);
+        attacksLeft -= 1;
+        hasAttacked = true;
+        hasAttackedThisTurn = true;
         gm.StateChange(GameState.AttackDeclaration);
         validTargets = new(GetValidAttackTargets());
         foreach(CombatantLogic combatantLogic in validTargets)
@@ -189,9 +190,5 @@ GetComponent<MonsterLogic>().OnFieldHpRefresh();
         }
     }
 
-    public void AttackRefresh()
-    {
-        if(attacksLeft < maxAttacks)
-            attacksLeft = maxAttacks;
-    }
+    public void AttackRefresh() => attacksLeft = maxAttacks;
 }

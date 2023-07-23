@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using static Game_Manager;
 
 public class AIManager : MonoBehaviour
 {
@@ -17,12 +18,19 @@ public class AIManager : MonoBehaviour
         AIPlayer.hourglassIcon.SetActive(true);
         yield return new WaitForSeconds(1f);
 
-        if (gm.currentPhase == Game_Manager.Phase.MainPhase && gm.turnPlayer == AIPlayer)
-            MainPhase();
-        if (gm.currentPhase == Game_Manager.Phase.BattlePhase && gm.turnPlayer == AIPlayer)
-            BattlePhase();
-        isPerformingAction = false;
         AIPlayer.hourglassIcon.SetActive(false);
+        if (gm.currentPhase == Phase.MainPhase && gm.turnPlayer == AIPlayer)
+        {
+            MainPhase();
+            yield break;
+        }
+        if (gm.currentPhase == Phase.BattlePhase && gm.turnPlayer == AIPlayer)
+        {
+            BattlePhase();
+            yield break;
+        }
+        //implement response to opponent action here
+        isPerformingAction = false;
         yield break;
     }
 
@@ -40,8 +48,9 @@ public class AIManager : MonoBehaviour
             PlayLegalCard();
         if (AIPlayer.canUseEffectLogicList.Count > 0)
             UseLegalEffects();
-        isPerformingAction = false;
-        if (gm.gameState != Game_Manager.GameState.Open)
+        else
+            isPerformingAction = false;
+        if (gm.gameState != GameState.Open)
             return;
         turnManager.TriggerPhaseChange();
     }
@@ -54,11 +63,11 @@ public class AIManager : MonoBehaviour
             CombatantLogic combatant = AIPlayer.canAttackLogicList[0].GetComponent<CombatantLogic>();
             combatant.DeclareAttack();
         }
-        isPerformingAction = false;
-        if (gm.gameState != Game_Manager.GameState.Open)
+        else
+            isPerformingAction = false;
+        if (gm.gameState != GameState.Open)
             return;
         turnManager.TriggerPhaseChange();
-       
     }
 
     private void PlayLegalCard()
