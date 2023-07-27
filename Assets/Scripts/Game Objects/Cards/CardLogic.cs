@@ -6,6 +6,7 @@ using static Card;
 using static Effect;
 using static Game_Manager;
 using static Player;
+using static PlayerManager;
 
 public class CardLogic : MonoBehaviour
 {
@@ -275,7 +276,7 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Rally:
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().ATKAdjustment(1, true);
+                    target.GetComponent<CombatantLogic>().StatAdjustment(1, Status.AtkGain);
                 break;
             case EffectsUsed.FreeRevive:
                 foreach (CardLogic target in targets)
@@ -296,24 +297,24 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Vigor:
                 foreach (CardLogic target in targets)
                 {
-                    target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, true);
-                    target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, true);
+                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkGain);
+                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpGain);
                 }
                 break;
             case EffectsUsed.Terrify:
                 foreach (CardLogic target in targets)
                 {
-                    target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, false);
-                    target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, false);
+                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpLoss);
+                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkLoss);
                 }
                 break;
             case EffectsUsed.Intimidate:
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().ATKAdjustment(effectAmount, false);
+                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkLoss);
                 break;
             case EffectsUsed.Weaken:
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().MaxHPAdjustment(effectAmount, false);
+                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpLoss);
                 break;
             case EffectsUsed.Shatter:
                 foreach (CardLogic target in targets)
@@ -644,5 +645,10 @@ public class CardLogic : MonoBehaviour
     {
         cardController = player;
         gameObject.transform.rotation = player.deck.transform.rotation;
+    }
+
+    virtual public void StatAdjustment(int value, Status status)
+    {
+        Debug.Log("Failed virtual override for " + status + " " + cardName);
     }
 }

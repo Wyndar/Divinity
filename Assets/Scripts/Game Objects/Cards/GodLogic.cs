@@ -1,4 +1,7 @@
-﻿public class GodLogic : CardLogic
+﻿using static Card;
+using static PlayerManager;
+
+public class GodLogic : CardLogic
 {
     public Game_Manager gm;
     public CombatantLogic combatantLogic;
@@ -78,5 +81,14 @@
         }
     }
 
-}
+    override public void StatAdjustment(int value, Status status)
+    {
+        cardController.SetHeroStatus(locationOrderNumber, status, value);
+        OnFieldAtkRefresh();
+        OnFieldHpRefresh();
+    }
 
+
+    public void OnFieldAtkRefresh() => cardController.heroAtkText.text = combatantLogic.currentAtk.ToString();
+    public void OnFieldHpRefresh() => cardController.heroHpText.text = combatantLogic.currentHp.ToString();
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using static Game_Manager;
 using static Buff;
 using static PlayerManager;
+using static Card;
 using UnityEditor.Experimental.GraphView;
 
 public class CombatantLogic : MonoBehaviour
@@ -55,46 +56,31 @@ GetComponent<MonsterLogic>().OnFieldHpRefresh();
         return;
     }
 
-    public void ATKAdjustment(int value, bool add)
+    public void StatAdjustment(int value, Status status)
     {
-        if (add)
-            currentAtk += value;
-        else
-            currentAtk -= value;
+        switch (status) {
+            case Status.AtkGain:
+                currentAtk += value;
+                break;
+            case Status.AtkLoss:
+                currentAtk -= value;
+                break;
+            case Status.HpGain:
+                maxHp += value;
+                currentHp += value;
+                break;
+            case Status.HpLoss:
+                maxHp -= value;
+                currentHp -= value;
+                break;
+            default:
+                Debug.Log("Error at stat type" + logic.cardName);
+                break;
+        }
         if (currentAtk < 0)
             currentAtk = 0;
-        if (logic.cardType == "monster")
-        {
-            if (add)
-                logic.cardController.SetStatus(logic.locationOrderNumber, Status.AtkGain, value);
-            else
-                logic.cardController.SetStatus(logic.locationOrderNumber, Status.AtkLoss, value);
-            GetComponent<MonsterLogic>().OnFieldAtkRefresh();
-        }
-    }
+        logic.StatAdjustment(value, status);
 
-    public void MaxHPAdjustment(int value, bool add)
-    {
-        if (add)
-        {
-            maxHp += value;
-            currentHp += value;
-        }
-        else
-        {
-            maxHp -= value;
-            currentHp -= value;
-            if (logic.cardType == "monster")
-            {
-                if (add)
-                    logic.cardController.SetStatus(logic.locationOrderNumber, Status.HpGain, value);
-                else
-                    logic.cardController.SetStatus(logic.locationOrderNumber, Status.HpLoss, value);
-                GetComponent<MonsterLogic>().DeathCheck();
-            }
-        }
-        if (logic.cardType == "monster")
-            GetComponent<MonsterLogic>().OnFieldHpRefresh();
     }
 
     public void Heal(int healAmount)

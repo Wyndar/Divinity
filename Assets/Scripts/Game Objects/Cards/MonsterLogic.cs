@@ -36,6 +36,14 @@ public class MonsterLogic : CardLogic
         gm.StateChange(GameState.Summon);
     }
 
+    override public void StatAdjustment(int value, Status status)
+    {
+
+        cardController.SetStatus(locationOrderNumber, status, value);
+        OnFieldAtkRefresh();
+        OnFieldHpRefresh();
+    }
+
     public void DeathCheck()
     {
         if (combatLogic.currentHp > 0)
