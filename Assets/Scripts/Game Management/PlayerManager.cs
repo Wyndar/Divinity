@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using static StatChangeHistoryEntry;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -49,11 +50,6 @@ public class PlayerManager : MonoBehaviour
 
     public int costPhaseGain = 1;
     public int handSize;
-
-    public enum Status
-    {
-        Heal, Damage, Death, HpLoss, HpGain, AtkLoss, AtkGain, Undefined
-    }
 
     public void SetStatus(int orderNum, Status status, int statusChangeAmount)
     {
@@ -122,51 +118,47 @@ public class PlayerManager : MonoBehaviour
             stat = heroStatus2;
         switch (status)
         {
-            case Status.Death:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().sprite = ux.deathSprite;
-                break;
             case Status.Damage:
+                heroNumbers.SetActive(true);
+                heroNumbers.GetComponent<Image>().color = Color.clear;
+                heroNumbers.transform.GetChild(0).gameObject.SetActive(true);
+                heroNumbers.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                heroNumbers.GetComponentInChildren<TMP_Text>().color = Color.red;
+                break;
+            case Status.Heal:
+                heroNumbers.SetActive(true);
+                heroNumbers.GetComponent<Image>().color = Color.clear;
+                heroNumbers.transform.GetChild(0).gameObject.SetActive(true);
+                heroNumbers.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                heroNumbers.GetComponentInChildren<TMP_Text>().color = Color.green;
+                break;
+            case Status.HpLoss:
                 heroHpStatus.SetActive(true);
-                heroHpStatus.GetComponent<Image>().color = Color.clear;
+                heroHpStatus.GetComponent<Image>().sprite = ux.hpSprite;
                 heroHpStatus.transform.GetChild(0).gameObject.SetActive(true);
                 heroHpStatus.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
                 heroHpStatus.GetComponentInChildren<TMP_Text>().color = Color.red;
                 break;
-            case Status.Heal:
+            case Status.HpGain:
                 heroHpStatus.SetActive(true);
-                heroHpStatus.GetComponent<Image>().color = Color.clear;
+                heroHpStatus.GetComponent<Image>().sprite = ux.hpSprite;
                 heroHpStatus.transform.GetChild(0).gameObject.SetActive(true);
-                heroHpStatus.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                heroHpStatus.GetComponentInChildren<TMP_Text>().text = "+" + statusChangeAmount.ToString();
                 heroHpStatus.GetComponentInChildren<TMP_Text>().color = Color.green;
                 break;
-            case Status.HpLoss:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().sprite = ux.hpSprite;
-                stat.transform.GetChild(0).gameObject.SetActive(true);
-                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
-                stat.GetComponentInChildren<TMP_Text>().color = Color.red;
-                break;
-            case Status.HpGain:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().sprite = ux.hpSprite;
-                stat.transform.GetChild(0).gameObject.SetActive(true);
-                stat.GetComponentInChildren<TMP_Text>().text = "+" + statusChangeAmount.ToString();
-                stat.GetComponentInChildren<TMP_Text>().color = Color.green;
-                break;
             case Status.AtkLoss:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().sprite = ux.atkSprite;
+                heroAtkStatus.SetActive(true);
+                heroAtkStatus.GetComponent<Image>().sprite = ux.atkSprite;
                 stat.transform.GetChild(0).gameObject.SetActive(true);
-                stat.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
-                stat.GetComponentInChildren<TMP_Text>().color = Color.red;
+                heroAtkStatus.GetComponentInChildren<TMP_Text>().text = "-" + statusChangeAmount.ToString();
+                heroAtkStatus.GetComponentInChildren<TMP_Text>().color = Color.red;
                 break;
             case Status.AtkGain:
-                stat.SetActive(true);
-                stat.GetComponent<Image>().sprite = ux.atkSprite;
-                stat.transform.GetChild(0).gameObject.SetActive(true);
-                stat.GetComponentInChildren<TMP_Text>().text = "+" + statusChangeAmount.ToString();
-                stat.GetComponentInChildren<TMP_Text>().color = Color.green;
+                heroAtkStatus.SetActive(true);
+                heroAtkStatus.GetComponent<Image>().sprite = ux.atkSprite;
+                heroAtkStatus.transform.GetChild(0).gameObject.SetActive(true);
+                heroAtkStatus.GetComponentInChildren<TMP_Text>().text = "+" + statusChangeAmount.ToString();
+                heroAtkStatus.GetComponentInChildren<TMP_Text>().color = Color.green;
                 break;
             default:
                 Debug.Log("Failed to assert status type");

@@ -4,10 +4,10 @@ using static Effect;
 
 public class DebuffHistoryEntry
 {
-	CardLogic debuffLogic;
-	Effect debuffEffect;
-	int debuffAmount;
-	Location debuffLocation;
+	public CardLogic debuffLogic;
+	public Effect debuffEffect;
+	public int debuffAmount;
+	public Location debuffLocation;
 
 	public DebuffHistoryEntry(CardLogic cardLogic, Effect value, int amount, Location location)
 	{

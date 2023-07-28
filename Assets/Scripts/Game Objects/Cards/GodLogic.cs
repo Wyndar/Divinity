@@ -1,5 +1,5 @@
 ﻿using static Card;
-using static PlayerManager;
+using static StatChangeHistoryEntry;
 
 public class GodLogic : CardLogic
 {
@@ -86,6 +86,7 @@ public class GodLogic : CardLogic
         cardController.SetHeroStatus(locationOrderNumber, status, value);
         OnFieldAtkRefresh();
         OnFieldHpRefresh();
+        LoseCheck();
     }
 
 

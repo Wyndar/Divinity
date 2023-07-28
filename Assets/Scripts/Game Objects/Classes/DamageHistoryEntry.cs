@@ -1,18 +1,23 @@
-﻿using System;
-using static CardLogic;
-public class DamageHistoryEntry
+﻿using static CardLogic;
+[System.Serializable]
+public class StatChangeHistoryEntry
 {
-	CardLogic CardLogic;
-	Effect Effect;
-	int PreviousHP;
-	int CurrentHP;
+	public CardLogic CardLogic;
+	public Effect Effect;
+	public Status StatusChange;
+	public int ChangeAmount;
 
-	public DamageHistoryEntry(CardLogic cardLogic, Effect value, int previousHP, int currentHP)
+    public enum Status
+    {
+        Heal, Damage, Death, HpLoss, HpGain, AtkLoss, AtkGain, Undefined
+    }
+
+    public StatChangeHistoryEntry(CardLogic cardLogic, Effect value, Status status, int amount)
 	{
 		CardLogic = cardLogic;
 		Effect = value;
-		PreviousHP = previousHP;
-		CurrentHP = currentHP;
+		StatusChange = status;
+		ChangeAmount = amount;
 	}
 }
 

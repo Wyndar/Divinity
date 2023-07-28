@@ -6,7 +6,7 @@ using static Card;
 using static Effect;
 using static Game_Manager;
 using static Player;
-using static PlayerManager;
+using static StatChangeHistoryEntry;
 
 public class CardLogic : MonoBehaviour
 {
@@ -40,10 +40,11 @@ public class CardLogic : MonoBehaviour
     public List<BuffHistoryEntry> buffHistoryEntries = new();
     public List<DebuffHistoryEntry> debuffHistoryEntries = new();
     public List<LocationHistoryEntry> locationHistoryEntries = new();
-    public List<DamageHistoryEntry> damageHistoryentries = new();
+    public List<StatChangeHistoryEntry> statChangeHistoryEnteries = new();
 
     public int effectCountNumber;
     public int subCountNumber;
+    public Effect focusEffect;
 
     public float movementSpeed = 3f;
 
@@ -125,25 +126,25 @@ public class CardLogic : MonoBehaviour
     {
         List<CardLogic> allTargetsList = new(FindObjectsOfType<CardLogic>());
         List<CardLogic> returnList = new();
-        Effect targetingEffect = effects[effectNumber];
-        if (targetingEffect.targetLocation.Count == 0)
+        focusEffect = effects[effectNumber];
+        if (focusEffect.targetLocation.Count == 0)
             return returnList;
 
-        EffectsUsed effectUsed = targetingEffect.effectsUsed[subEffectNumber];
-        Location targetLocation = targetingEffect.targetLocation[subEffectNumber];
-        Controller controller = targetingEffect.effectTargetController[subEffectNumber];
+        EffectsUsed effectUsed = focusEffect.effectsUsed[subEffectNumber];
+        Location targetLocation = focusEffect.targetLocation[subEffectNumber];
+        Controller controller = focusEffect.effectTargetController[subEffectNumber];
         Type type = Type.Undefined;
         PlayType playType = PlayType.Undefined;
-        if (targetingEffect.effectTargetType.Count > 0)
-            type = targetingEffect.effectTargetType[subEffectNumber];
-        if (targetingEffect.effectTargetPlayType.Count > 0)
-            playType = targetingEffect.effectTargetPlayType[subEffectNumber];
+        if (focusEffect.effectTargetType.Count > 0)
+            type = focusEffect.effectTargetType[subEffectNumber];
+        if (focusEffect.effectTargetPlayType.Count > 0)
+            playType = focusEffect.effectTargetPlayType[subEffectNumber];
         foreach(CardLogic target in allTargetsList)
         {
            target.TryGetComponent<CombatantLogic>(out var combatantStats);
             target.TryGetComponent<PlayableLogic>(out var playableStats);
             // basic targeting requirements... don't target wrong location, don't target wrong owner or wrong card types
-            if (target == this && targetingEffect.AllowSelfTarget[subEffectNumber] == false)
+            if (target == this && focusEffect.AllowSelfTarget[subEffectNumber] == false)
                 continue;
             if (target.currentLocation != targetLocation && targetLocation != Location.Undefined)
                 continue;
@@ -168,11 +169,11 @@ public class CardLogic : MonoBehaviour
             if ((effectUsed == EffectsUsed.Revive|| effectUsed==EffectsUsed.Deploy) && cardController.costCount < playableStats.cost)
                 continue;
 
-            if (targetingEffect.TargetStat != null)
+            if (focusEffect.TargetStat != null)
             {
-                string checkedStat = targetingEffect.TargetStat[subEffectNumber];
-                string condition = targetingEffect.TargetStatCondition[subEffectNumber];
-                int amount = targetingEffect.TargetStatAmount[subEffectNumber];
+                string checkedStat = focusEffect.TargetStat[subEffectNumber];
+                string condition = focusEffect.TargetStatCondition[subEffectNumber];
+                int amount = focusEffect.TargetStatAmount[subEffectNumber];
                 int stat = 0;
                 //as more types of effects are added, more checks will be needed
                 if (checkedStat == "none")
@@ -218,8 +219,8 @@ public class CardLogic : MonoBehaviour
 
     private void EffectActivationAfterAnimation(int countNumber, int subCount)
     {
-        Effect activatingEffect = effects[countNumber];
-        switch (activatingEffect.effectTypes[subCount])
+        focusEffect = effects[countNumber];
+        switch (focusEffect.effectTypes[subCount])
         {
             //on play
             case EffectTypes.Deployment:
@@ -233,7 +234,7 @@ public class CardLogic : MonoBehaviour
             case EffectTypes.Deployed:
             //while in gy manual trigger
             case EffectTypes.Vengeance:
-                if (currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation))
+                if (currentLocation == enumConverter.LocationStringToEnum(focusEffect.ActivationLocation))
                     TargetCheck(countNumber, subCount);
                 break;
         }
@@ -244,9 +245,9 @@ public class CardLogic : MonoBehaviour
 
     private void EffectResolutionAfterAnimation(int countNumber, int subCount)
     {
-        Effect resolvingEffect = effects[countNumber];
-        EffectsUsed effectUsed = resolvingEffect.effectsUsed[subCount];
-        int effectAmount = resolvingEffect.EffectAmount[subCount];
+        focusEffect = effects[countNumber];
+        EffectsUsed effectUsed = focusEffect.effectsUsed[subCount];
+        int effectAmount = focusEffect.EffectAmount[subCount];
         effectCountNumber = countNumber;
         subCountNumber = subCount;
         GameManager.currentFocusCardLogic = this;
@@ -352,10 +353,10 @@ public class CardLogic : MonoBehaviour
 
     public void FinishResolution(int countNumber, int subCount)
     {
-        Effect resolvingEffect = this.effects[countNumber];
+        focusEffect = this.effects[countNumber];
         GameManager.isActivatingEffect = false;
-        if (resolvingEffect.currentActivations < resolvingEffect.maxActivations)
-            resolvingEffect.currentActivations++;
+        if (focusEffect.currentActivations < focusEffect.maxActivations)
+            focusEffect.currentActivations++;
 
         //chainlist for effect triggers
         GameManager.GetEffectTriggers(countNumber, subCount, this);
@@ -384,14 +385,14 @@ public class CardLogic : MonoBehaviour
 
     private bool ResolveSubsequentSubeffects(int countNumber, int subCount)
     {
-        Effect resolvingEffect = effects[countNumber];
+        focusEffect = effects[countNumber];
 
         //resolve subsequent subeffects in the same effect if there is any
-        if (resolvingEffect.effectsUsed.Count <= subCount + 1)
+        if (focusEffect.effectsUsed.Count <= subCount + 1)
             return true;
-        if (resolvingEffect.effectTypes[subCount] != resolvingEffect.effectTypes[subCount + 1])
+        if (focusEffect.effectTypes[subCount] != focusEffect.effectTypes[subCount + 1])
             return true;
-        if (resolvingEffect.EffectActivationIsMandatory[subCount + 1] == false)
+        if (focusEffect.EffectActivationIsMandatory[subCount + 1] == false)
         {
             effectCountNumber = countNumber;
             subCountNumber = subCount + 1;
@@ -403,7 +404,7 @@ public class CardLogic : MonoBehaviour
             return false;
         }
         //dependent on targets of previous effect
-        if (resolvingEffect.EffectTargetAmount[subCount + 1] == 98)
+        if (focusEffect.EffectTargetAmount[subCount + 1] == 98)
         {
             EffectResolution(countNumber, subCount + 1);
         }
@@ -420,22 +421,22 @@ public class CardLogic : MonoBehaviour
 
     private void TargetEffectLogic(int countNumber, int subCount)
     {
-        Effect resolvingEffect = effects[countNumber];
-        int[] effectAmountIndexesToChange = resolvingEffect.EffectAmount.FindAllIndexof(98);
+        focusEffect = effects[countNumber];
+        int[] effectAmountIndexesToChange = focusEffect.EffectAmount.FindAllIndexof(98);
         targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
         targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
 
         foreach (int index in effectAmountIndexesToChange)
         {
-            if (resolvingEffect.TargetCountModifier != null && resolvingEffect.TargetCountModifier[subCount]!=0)
+            if (focusEffect.TargetCountModifier != null && focusEffect.TargetCountModifier[subCount]!=0)
             {
-                resolvingEffect.EffectAmount[index] = Mathf.CeilToInt(targets.Count * resolvingEffect.TargetCountModifier[subCount]);
-                Debug.Log(resolvingEffect.EffectAmount[index]);
+                focusEffect.EffectAmount[index] = Mathf.CeilToInt(targets.Count * focusEffect.TargetCountModifier[subCount]);
+                Debug.Log(focusEffect.EffectAmount[index]);
                 continue;
             }
 
-            string checkedStat = resolvingEffect.TargetStat[subCount];
-            int amount = resolvingEffect.EffectAmount[index];
+            string checkedStat = focusEffect.TargetStat[subCount];
+            int amount = focusEffect.EffectAmount[index];
             switch (checkedStat)
             {
                 case "current atk":
@@ -450,23 +451,23 @@ public class CardLogic : MonoBehaviour
 
     private void TargetCheck(int countNumber, int subCount)
     {
-        Effect targetingEffect = effects[countNumber];
-        if (targetingEffect.EffectTargetAmount == null)
+        focusEffect = effects[countNumber];
+        if (focusEffect.EffectTargetAmount == null)
         {
             EffectResolution(countNumber, subCount);
             return;
         }
-        if (targetingEffect.EffectTargetAmount[subCount] == 0)
+        if (focusEffect.EffectTargetAmount[subCount] == 0)
         {
             EffectResolution(countNumber, subCount);
             return;
         }
 
-        if (targets == null || targets.Count < targetingEffect.EffectTargetAmount[subCount])
+        if (targets == null || targets.Count < focusEffect.EffectTargetAmount[subCount])
         {
             GameManager.StateChange(Game_Manager.GameState.Targeting);
             validTargets = new(GetValidTargets(countNumber, subCount));
-            if (targetingEffect.TargetingType[subCount] == "manual")
+            if (focusEffect.TargetingType[subCount] == "manual")
             {
                 //if no valid targets, end effect
                 if (validTargets.Count == 0)
@@ -493,27 +494,27 @@ public class CardLogic : MonoBehaviour
                     cardController.AIManager.GetEffectTarget();
                     return;
                 }
-                if (targetingEffect.TargetLocation[subCount] != "Field")
-                    GameManager.EnableCardScrollScreen(validTargets, !targetingEffect.EffectActivationIsMandatory[subCount]);
+                if (focusEffect.TargetLocation[subCount] != "Field")
+                    GameManager.EnableCardScrollScreen(validTargets, !focusEffect.EffectActivationIsMandatory[subCount]);
                 return;
             }
-            if (targetingEffect.TargetingType[subCount] == "auto")
+            if (focusEffect.TargetingType[subCount] == "auto")
             {
                 AutoTargetAcquisition(countNumber, subCount);
                 return;
             }
-            if (targetingEffect.TargetingType[subCount] == "random")
+            if (focusEffect.TargetingType[subCount] == "random")
             {
                 RandomTargetAcquisition(countNumber, subCount);
                 return;
             }
-            if (targetingEffect.TargetingType[countNumber] == "enemy")
+            if (focusEffect.TargetingType[countNumber] == "enemy")
             {
                 Debug.Log("Need to implement AI");
                 return;
             }
         }
-        if (GameManager.gameState != Game_Manager.GameState.Targeting && targets.Count == 0)
+        if (GameManager.gameState != GameState.Targeting && targets.Count == 0)
         {
             EffectResolution(countNumber, subCount);
             return;
@@ -523,7 +524,7 @@ public class CardLogic : MonoBehaviour
     //called by ux manager clicked GameObject method with current focus card logic count and subcount
     public void ManualTargetAcquisition(int countNumber, int subCount)
     {
-        if (GameManager.gameState != Game_Manager.GameState.Targeting)
+        if (GameManager.gameState != GameState.Targeting)
             return;
 
         CardLogic targeter = GameManager.currentFocusCardLogic;
@@ -545,7 +546,7 @@ public class CardLogic : MonoBehaviour
 
     public void ManualTargetRemoval(int countNumber, int subCount)
     {
-        if (GameManager.gameState != Game_Manager.GameState.Targeting)
+        if (GameManager.gameState != GameState.Targeting)
             return;
         CardLogic targeter = GameManager.currentFocusCardLogic;
         if (targeter.targets == null)
@@ -557,9 +558,9 @@ public class CardLogic : MonoBehaviour
     //less auto more all target
     public void AutoTargetAcquisition(int countNumber, int subCount)
     {
-        Effect targetingEffect = effects[countNumber];
+        focusEffect = effects[countNumber];
         //auto self target effects
-        if (targetingEffect.AllowSelfTarget[subCount] == true && targetingEffect.EffectTargetAmount[subCount] == 1)
+        if (focusEffect.AllowSelfTarget[subCount] == true && focusEffect.EffectTargetAmount[subCount] == 1)
         {
             targets = new();
             targets.Add(this);

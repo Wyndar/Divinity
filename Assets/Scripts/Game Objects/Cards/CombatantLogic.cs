@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using static Game_Manager;
 using static Buff;
-using static PlayerManager;
+using static StatChangeHistoryEntry;
 using static Card;
 using UnityEditor.Experimental.GraphView;
+using static UnityEngine.GraphicsBuffer;
 
 public class CombatantLogic : MonoBehaviour
 {
@@ -36,18 +37,11 @@ public class CombatantLogic : MonoBehaviour
         {
             currentHp -= damage;
             gm.StateChange(GameState.Damaged);
-            if (logic.cardType == "monster")
-            {
-                logic.cardController.SetStatus(logic.locationOrderNumber, Status.Damage, damage);
-GetComponent<MonsterLogic>().OnFieldHpRefresh();
-                GetComponent<MonsterLogic>().DeathCheck();
-            }
-            else
-                GetComponent<GodLogic>().LoseCheck();
+                logic.StatAdjustment(damage, Status.Damage);
         }
+logic.statChangeHistoryEnteries.Add(new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Damage, damage));
         if (!wasAttack)
             return;
-        //slow down attack stack trace for AI till coroutine for atk animation is done
 
         logic.cardController.AIManager.isPerformingAction = false;
         logic.cardController.enemy.AIManager.isPerformingAction = false;
@@ -87,11 +81,10 @@ GetComponent<MonsterLogic>().OnFieldHpRefresh();
     {
         currentHp += healAmount;
         OverhealCheck();
-        if (logic.cardType == "monster")
-        {
-            logic.cardController.SetStatus(logic.locationOrderNumber, Status.Heal, healAmount);
+        int prevHp = currentHp - healAmount;
+        logic.statChangeHistoryEnteries.Add(new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Heal, healAmount));
+        logic.StatAdjustment(healAmount, Status.Heal);
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
-        }
     }
 
     public void OverhealCheck()

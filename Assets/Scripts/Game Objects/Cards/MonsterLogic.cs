@@ -1,6 +1,6 @@
 ﻿using TMPro;
 using static Game_Manager;
-using static PlayerManager;
+using static StatChangeHistoryEntry;
 
 public class MonsterLogic : CardLogic
 {
@@ -38,10 +38,10 @@ public class MonsterLogic : CardLogic
 
     override public void StatAdjustment(int value, Status status)
     {
-
         cardController.SetStatus(locationOrderNumber, status, value);
         OnFieldAtkRefresh();
         OnFieldHpRefresh();
+        DeathCheck();
     }
 
     public void DeathCheck()

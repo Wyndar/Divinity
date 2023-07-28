@@ -2,10 +2,10 @@
 using static CardLogic;
 public class BuffHistoryEntry
 {
-	CardLogic buffLogic;
-	Effect buffEffect;
-	int buffAmount;
-	CardLogic.Location buffLocation;
+	public CardLogic buffLogic;
+	public Effect buffEffect;
+	public int buffAmount;
+	public Location buffLocation;
 
 	public BuffHistoryEntry(CardLogic cardLogic, Effect value, int amount, Location location)
 	{
