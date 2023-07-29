@@ -39,7 +39,9 @@ public class CombatantLogic : MonoBehaviour
             gm.StateChange(GameState.Damaged);
                 logic.StatAdjustment(damage, Status.Damage);
         }
-logic.statChangeHistoryEnteries.Add(new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Damage, damage));
+        StatChangeHistoryEntry statChangeLog = new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Damage, damage);
+logic.statChangeHistoryEnteries.Add(statChangeLog);
+        gm.gameLogHistoryEntries.Add(new(null, null, null, statChangeLog, logic));
         if (!wasAttack)
             return;
 
@@ -80,17 +82,24 @@ logic.statChangeHistoryEnteries.Add(new(gm.currentFocusCardLogic, gm.currentFocu
     public void Heal(int healAmount)
     {
         currentHp += healAmount;
-        OverhealCheck();
-        int prevHp = currentHp - healAmount;
-        logic.statChangeHistoryEnteries.Add(new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Heal, healAmount));
+        if(OverhealCheck())
+        {
+            int overhealAmount = currentHp - maxHp;
+            currentHp = maxHp;
+            healAmount -= overhealAmount;
+        }    
+        StatChangeHistoryEntry statChangeLog = new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Heal, healAmount);
+        logic.statChangeHistoryEnteries.Add(statChangeLog);
+        gm.gameLogHistoryEntries.Add(new(null, null, null, statChangeLog, logic));
         logic.StatAdjustment(healAmount, Status.Heal);
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
     }
 
-    public void OverhealCheck()
+    public bool OverhealCheck()
     {
         if (currentHp > maxHp)
-            currentHp = maxHp;
+            return true;
+        return false;
     }
 
     public void AttackResolution()

@@ -1,5 +1,4 @@
-﻿using System;
-public class CopyEffect:Effect
+﻿public class CopyEffect:Effect
 {
     public CopyEffect(Effect copyEffect)
     {

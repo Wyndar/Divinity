@@ -1,4 +1,4 @@
-﻿using System;
+﻿[System.Serializable]
 public class Debuff
 {
     public enum Debuffs

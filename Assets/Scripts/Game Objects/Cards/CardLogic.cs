@@ -465,7 +465,7 @@ public class CardLogic : MonoBehaviour
 
         if (targets == null || targets.Count < focusEffect.EffectTargetAmount[subCount])
         {
-            GameManager.StateChange(Game_Manager.GameState.Targeting);
+            GameManager.StateChange(GameState.Targeting);
             validTargets = new(GetValidTargets(countNumber, subCount));
             if (focusEffect.TargetingType[subCount] == "manual")
             {
@@ -626,6 +626,15 @@ public class CardLogic : MonoBehaviour
         cardBack.gameObject.SetActive(true);
         cardFace.gameObject.SetActive(false);
         cardImage.gameObject.SetActive(false);
+    }
+
+    public void LocationChange(Effect effect, EffectsUsed effectsUsed, Location location, int num)
+    {
+        LocationHistoryEntry locationLog = new(this, effect, effectsUsed, location, currentLocation);
+        locationHistoryEntries.Add(locationLog);
+        GameManager.gameLogHistoryEntries.Add(new(null, null, locationLog, null, this));
+        currentLocation = location;
+        locationOrderNumber = num;
     }
 
     public void GreyScaleEffect()

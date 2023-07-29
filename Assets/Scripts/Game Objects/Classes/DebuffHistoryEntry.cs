@@ -1,7 +1,6 @@
-﻿using System;
-using static CardLogic;
-using static Effect;
+﻿using static CardLogic;
 
+[System.Serializable]
 public class DebuffHistoryEntry
 {
 	public CardLogic debuffLogic;

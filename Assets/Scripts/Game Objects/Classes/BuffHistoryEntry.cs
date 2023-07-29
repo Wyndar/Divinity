@@ -1,18 +1,22 @@
-﻿using System;
-using static CardLogic;
+﻿using static CardLogic;
+using static Effect;
+
+[System.Serializable]
 public class BuffHistoryEntry
 {
 	public CardLogic buffLogic;
 	public Effect buffEffect;
+	public EffectsUsed buff;
 	public int buffAmount;
 	public Location buffLocation;
 
-	public BuffHistoryEntry(CardLogic cardLogic, Effect value, int amount, Location location)
+	public BuffHistoryEntry(CardLogic buffingCard, Effect buffingEffect, EffectsUsed buf, int amount, Location buffedLocation)
 	{
-		buffLogic = cardLogic;
-		buffEffect = value;
+		buffLogic = buffingCard;
+		buffEffect = buffingEffect;
+		buff = buf;
 		buffAmount = amount;
-		buffLocation = location;
+		buffLocation = buffedLocation;
 	}
 }
 

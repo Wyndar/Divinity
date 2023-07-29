@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using static Game_Manager;
 using static CardLogic;
+using static Effect;
 
 public class PlayableLogic : MonoBehaviour
 {
@@ -71,7 +72,10 @@ public class PlayableLogic : MonoBehaviour
             if(!ignoreCost)
                 player.costCount -= cost;
             transform.SetParent(null);
+
+                //not a real location to be logged
             logic.currentLocation = Location.Limbo;
+
             if (playString == "deploy")
             {
                 player.handLogicList.Remove(logic);                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
@@ -175,10 +179,14 @@ public class PlayableLogic : MonoBehaviour
     {
         logic.ControllerSwap(logic.cardOwner);
         transform.position = logic.cardOwner.grave.transform.position;
-        logic.currentLocation = CardLogic.Location.Grave;
         logic.cardOwner.graveLogicList.Add(logic);
-        logic.locationOrderNumber = logic.cardOwner.graveLogicList.FindIndex(a=> a==logic);
-        gm.StateChange(Game_Manager.GameState.Grave);
+        int i = logic.cardOwner.graveLogicList.FindIndex(a => a == logic);
+        if (gm.isActivatingEffect)
+            logic.LocationChange(gm.currentFocusCardLogic.focusEffect, gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber], Location.Grave, i);
+        else
+            logic.LocationChange(null, EffectsUsed.Undefined, Location.Grave, i);
+        
+        gm.StateChange(GameState.Grave);
         return;
     }
 }

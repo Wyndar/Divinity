@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using static Effect;
 using static Game_Manager;
 using static StatChangeHistoryEntry;
 
@@ -19,8 +20,11 @@ public class MonsterLogic : CardLogic
             {
                 transform.position = player.cardSlots[slotNumber].transform.position;
                 player.isEmptyCardSlot[slotNumber] = false;
-                currentLocation = Location.Field;
-                locationOrderNumber = slotNumber;
+                if (gm.isActivatingEffect)
+                    LocationChange(gm.currentFocusCardLogic.focusEffect, gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber], Location.Field, slotNumber);
+                else
+                    LocationChange(null, EffectsUsed.Undefined, Location.Field, slotNumber);
+
                 player.fieldLogicList.Add(this);
                 combatLogic.currentAtk = combatLogic.atk;
                 combatLogic.maxHp = combatLogic.hp;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static CardLogic;
 using static Effect;
-using static Game_Manager;
 
 public class DeckManager : MonoBehaviour
 {
@@ -116,9 +116,10 @@ public class DeckManager : MonoBehaviour
                     cardClonePlayableLogic.logic = cardCloneCardLogic;
                     cardClonePlayableLogic.cost = cards[i].Cost;
                     if (isHeroDeck)
-                        cardCloneCardLogic.currentLocation = CardLogic.Location.HeroDeck;
+                        cardCloneCardLogic.currentLocation = Location.HeroDeck;
                     else
-                        cardCloneCardLogic.currentLocation = CardLogic.Location.Deck;
+                        cardCloneCardLogic.currentLocation = Location.Deck;
+
                     cardCloneCardLogic.locationOrderNumber = i;
                     cardCloneCardLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x,deckObject.transform.position.y,deckObject.transform.position.z+0.5f), deckObject.transform.rotation);
                     cardCloneCardLogic.isFaceDown = true;
@@ -138,7 +139,7 @@ public class DeckManager : MonoBehaviour
                         cardClone.GetComponent<MonsterLogic>().playLogic = cardClone.GetComponent<PlayableLogic>();
                         break;
                     case "god":
-                        cardCloneCardLogic.currentLocation = CardLogic.Location.Field;
+                        cardCloneCardLogic.currentLocation = Location.Field;
                         cardCloneCardLogic.locationOrderNumber = 99;
                         cardCloneCardLogic.transform.position = playerManager.hero.transform.position;
                         cardCloneCardLogic.transform.rotation = playerManager.hero.transform.rotation;
