@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using static Game_Manager;
-using static CardLogic;
 
 public class UXManager : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class UXManager : MonoBehaviour
     private InputManager InputManager;
 
     [SerializeField]
-    private EnumConverter enumConverter;
+    private EnumManager enumConverter;
 
     [SerializeField]
     private ScrollingCardPaneHandler scrollingCardPaneHandler;

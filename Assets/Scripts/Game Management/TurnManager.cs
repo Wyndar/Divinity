@@ -35,7 +35,7 @@ public class TurnManager : MonoBehaviour
         gm.turnPhaseText.text = "Reinforcement";
         gm.phaseChangeButton.SetActive(false);
         gm.SwitchControl(player);
-        gm.PhaseChange(Game_Manager.Phase.DrawPhase);
+        gm.PhaseChange(Phase.DrawPhase);
         gm.DrawCard(1, player);
         gm.currentFocusCardLogic = null;
         gm.StateReset();
@@ -48,10 +48,10 @@ public class TurnManager : MonoBehaviour
     public void EndPhase(PlayerManager player)
     {
         gm.turnPhaseText.text = "Retreat";
-        gm.PhaseChange(Game_Manager.Phase.EndPhase);
+        gm.PhaseChange(Phase.EndPhase);
         gm.ChainResolution();
         gm.currentFocusCardLogic = null;
-        gm.StateChange(Game_Manager.GameState.TurnEnd);
+        gm.StateChange(GameState.TurnEnd);
         gm.StateReset();
         if (player == gm.BluePlayerManager)
             SwitchTurn(gm.RedPlayerManager);
@@ -73,12 +73,12 @@ public class TurnManager : MonoBehaviour
     public void CostPhase(PlayerManager player)
     {
         gm.turnPhaseText.text = "Recovery";
-        gm.PhaseChange(Game_Manager.Phase.CostPhase);
+        gm.PhaseChange(Phase.CostPhase);
         int amount = player.costPhaseGain;
         gm.CostChange(amount, player, true);
         player.costPhaseGain++;
         gm.currentFocusCardLogic = null;
-        gm.StateChange(Game_Manager.GameState.Cost);
+        gm.StateChange(GameState.Cost);
         gm.StateReset();
         MainPhase(player);
     }
@@ -87,7 +87,7 @@ public class TurnManager : MonoBehaviour
     {
         gm.turnPhaseText.text = "Deployment";
         PhaseButtonCheck(player);
-        gm.PhaseChange(Game_Manager.Phase.MainPhase);
+        gm.PhaseChange(Phase.MainPhase);
         gm.currentFocusCardLogic = null;
         gm.StateReset();
     }
@@ -96,19 +96,19 @@ public class TurnManager : MonoBehaviour
     {
         gm.turnPhaseText.text = "Combat";
         PhaseButtonCheck(player);
-        gm.PhaseChange(Game_Manager.Phase.BattlePhase);
+        gm.PhaseChange(Phase.BattlePhase);
         gm.currentFocusCardLogic = null;
         gm.StateReset();
     }
 
     public void TriggerPhaseChange()
     {
-        if (gm.currentPhase == Game_Manager.Phase.MainPhase)
+        if (gm.currentPhase == Phase.MainPhase)
         {
             gm.phaseChangeButton.GetComponentInChildren<TMP_Text>().text = "END TURN";
             BattlePhase(gm.turnPlayer);
         }
-        else if (gm.currentPhase == Game_Manager.Phase.BattlePhase)
+        else if (gm.currentPhase == Phase.BattlePhase)
         {
             gm.phaseChangeButton.GetComponentInChildren<TMP_Text>().text = "COMBAT";
             EndPhase(gm.turnPlayer);

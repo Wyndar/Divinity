@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
-using static StatChangeHistoryEntry;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -111,7 +110,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void SetHeroStatus(int orderNum, Status status, int statusChangeAmount)
+    public void SetHeroStatus(Status status, int statusChangeAmount)
     {
         GameObject stat = heroStatus;
         if (stat.GetComponent<StatusIconMoveAndFadeAway>().inUse)

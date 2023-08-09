@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using static Game_Manager;
-using static CardLogic;
-using static Effect;
 
 public class PlayableLogic : MonoBehaviour
 {

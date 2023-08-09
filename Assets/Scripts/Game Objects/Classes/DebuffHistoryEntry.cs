@@ -1,17 +1,11 @@
-﻿using static CardLogic;
-
-[System.Serializable]
-public class DebuffHistoryEntry
+﻿[System.Serializable]
+public class DebuffHistoryEntry: GameLogHistoryEntry
 {
-	public CardLogic debuffLogic;
-	public Effect debuffEffect;
 	public int debuffAmount;
 	public Location debuffLocation;
 
-	public DebuffHistoryEntry(CardLogic cardLogic, Effect value, int amount, Location location)
+	public DebuffHistoryEntry(int amount, Location location)
 	{
-		debuffLogic = cardLogic;
-		debuffEffect = value;
 		debuffAmount = amount;
 		debuffLocation = location;
 	}

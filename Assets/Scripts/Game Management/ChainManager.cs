@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using static Game_Manager;
-using static CardLogic;
-using static Effect;
-using System;
 
 public class ChainManager : MonoBehaviour
 {
     public Game_Manager gm;
-    public EnumConverter enumConverter;
+    public EnumManager enumConverter;
 
     //gets chain effects that trigger on phase change
     public void GetPhaseTriggers(Phase phase)
@@ -205,7 +201,7 @@ public class ChainManager : MonoBehaviour
     {
         if (gm.isActivatingEffect)
             return;
-        gm.StateChange(Game_Manager.GameState.ChainResolution);
+        gm.StateChange(GameState.ChainResolution);
         for (int i = 0; i< gm.activationChainList.Count; i++)
         {
             //get reference to each so that they can be safely removed then activated before coroutines ruin call sequence

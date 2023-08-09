@@ -1,26 +1,8 @@
 using System.Collections.Generic;
-using static CardLogic;
-using static Game_Manager;
-using static Player;
-using static Card;
 
 [System.Serializable]
 public class Effect
 {
-    public enum EffectTypes
-    {
-        Deployment, Chain, WhileDeployed, Deployed, Vengeance, Undefined
-    }
-
-    public enum EffectsUsed
-    {
-        Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor, Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep, Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, Undefined
-    }
-
-    public enum TargetingTypes
-    {
-        Auto, Manual, Random, Undefined
-    }
 
     public List<EffectTypes> effectTypes;
     public List<EffectsUsed> triggerTypes;

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using static CardLogic;
-using static Effect;
 
 public class Game_Manager : MonoBehaviour
 {
@@ -22,16 +20,6 @@ public class Game_Manager : MonoBehaviour
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
     public bool isNotLoading, isActivatingEffect, isChecking, isWaitingForResponse;
-
-    public enum GameState
-    {
-        Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison, Provoke, Sleep, Blind, Stun, Buff, Debuff, Clear, TurnEnd, Undefined
-    }
-
-    public enum Phase
-    {
-        DrawPhase, CostPhase, MainPhase, BattlePhase, EndPhase, Undefined
-    }
 
     public GameState gameState;
     public Phase currentPhase;
@@ -468,7 +456,8 @@ public class Game_Manager : MonoBehaviour
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-            if (combatantLogic.attacksLeft > 0 && combatantLogic.currentAtk > 0)
+
+            if (combatantLogic.ValidAttackerCheck())
                 player.canAttackLogicList.Add(cardLogic);
         }
         //implement atk for god???

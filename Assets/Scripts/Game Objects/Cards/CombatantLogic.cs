@@ -1,11 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using static Game_Manager;
-using static Buff;
-using static StatChangeHistoryEntry;
-using static Card;
-using UnityEditor.Experimental.GraphView;
-using static UnityEngine.GraphicsBuffer;
 
 public class CombatantLogic : MonoBehaviour
 {
@@ -14,8 +8,9 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> validTargets = new();
 
-    public Buff buffs = new();
-    public Debuff debuffs = new();
+    public List<Buff> buffs = new();
+    public List<Debuff> debuffs = new();
+    public TargetState targetState;
 
     public int atk, hp, maxHp, currentAtk, currentHp, armor, maxAttacks, attacksLeft;
 
@@ -39,9 +34,16 @@ public class CombatantLogic : MonoBehaviour
             gm.StateChange(GameState.Damaged);
                 logic.StatAdjustment(damage, Status.Damage);
         }
-        StatChangeHistoryEntry statChangeLog = new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Damage, damage);
-logic.statChangeHistoryEnteries.Add(statChangeLog);
-        gm.gameLogHistoryEntries.Add(new(null, null, null, statChangeLog, logic));
+        StatChangeHistoryEntry statChangeLog = new(Status.Damage, damage, logic.currentLocation)
+        {
+            log = LogType.StatChange,
+            logIndex = logic.statChangeHistoryEnteries.Count,
+            loggedCard = gm.currentFocusCardLogic,
+            loggedEffect = gm.currentFocusCardLogic.focusEffect,
+            loggedEffectUsed = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber]
+        };
+        logic.statChangeHistoryEnteries.Add(statChangeLog);
+        gm.gameLogHistoryEntries.Add(statChangeLog);
         if (!wasAttack)
             return;
 
@@ -87,10 +89,18 @@ logic.statChangeHistoryEnteries.Add(statChangeLog);
             int overhealAmount = currentHp - maxHp;
             currentHp = maxHp;
             healAmount -= overhealAmount;
-        }    
-        StatChangeHistoryEntry statChangeLog = new(gm.currentFocusCardLogic, gm.currentFocusCardLogic.focusEffect, Status.Heal, healAmount);
+        }
+        StatChangeHistoryEntry statChangeLog = new(Status.Damage, healAmount, logic.currentLocation)
+        {
+            log = LogType.StatChange,
+            logIndex = logic.statChangeHistoryEnteries.Count,
+            loggedCard = gm.currentFocusCardLogic,
+            loggedEffect = gm.currentFocusCardLogic.focusEffect,
+            loggedEffectUsed = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber]
+        };
+
         logic.statChangeHistoryEnteries.Add(statChangeLog);
-        gm.gameLogHistoryEntries.Add(new(null, null, null, statChangeLog, logic));
+        gm.gameLogHistoryEntries.Add(statChangeLog);
         logic.StatAdjustment(healAmount, Status.Heal);
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
     }
@@ -111,19 +121,29 @@ logic.statChangeHistoryEnteries.Add(statChangeLog);
     public List<CombatantLogic> GetValidAttackTargets()
     {
         List<CombatantLogic> logics = new();
+
+        //if provoked, just return the provoker
+        if (DebuffCheck(Debuffs.Provoked))
+        {
+            Debuff d = debuffs.Find(a => a.debuff == Debuffs.Provoked);
+         logics.Add(d.debuffer.GetComponent<CombatantLogic>());
+            return logics;
+        }
+
+        //else check for taunters and stealthed units then return valids
         bool tauntEnemy = false;
         int stealthEnemyCount = 0;
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-            if (combatantLogic.buffs.targetState==TargetState.Taunt)
+            if (combatantLogic.targetState==TargetState.Taunt)
             {
                 tauntEnemy = true;
                 logics.Add(combatantLogic);
             }
             if (tauntEnemy)
                 continue;
-            if (combatantLogic.buffs.targetState==TargetState.Stealth)
+            if (combatantLogic.targetState==TargetState.Stealth)
             {
                 stealthEnemyCount++;
                 continue;
@@ -152,6 +172,40 @@ logic.statChangeHistoryEnteries.Add(statChangeLog);
         CombatantLogic attacker = gm.currentFocusCardLogic.GetComponent<CombatantLogic>();
         if (attacker.validTargets.Contains(this))
             AttackResolution();
+    }
+
+    public bool DebuffCheck(Debuffs debuff)
+    {
+        if (debuffs.Count == 0)
+            return false;
+
+        foreach(Debuff d in debuffs)
+            if (d.debuff == debuff)
+                return true;
+
+        return false;
+    }
+
+    public bool ImmobilityCheck()
+    {
+        if (debuffs.Count == 0)
+            return false;
+        if (DebuffCheck(Debuffs.Stunned))
+            return true;
+       if(DebuffCheck(Debuffs.Sleeping))
+            return true;
+        return false;
+    }
+
+    public bool ValidAttackerCheck()
+    {
+        if (ImmobilityCheck())
+            return false;
+        if (attacksLeft <= 0)
+            return false;
+        if (currentAtk <= 0)
+            return false;
+        return true;
     }
 
     public void DeclareAttack()

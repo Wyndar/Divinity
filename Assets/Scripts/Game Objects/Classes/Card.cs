@@ -3,21 +3,6 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Card
 {
-    public enum Type
-    {
-        Spell, God, Fighter, Undefined
-    }
-
-    public enum PlayType
-    {
-        Combatant, Playable, Undefined
-    }
-
-    public enum Trait
-    {
-        Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Undefined
-    }
-
     public string Id { get; set; }
     public string CardName { get; set; }
     public string CardType { get; set; }

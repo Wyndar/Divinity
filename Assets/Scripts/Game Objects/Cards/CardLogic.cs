@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static Card;
-using static Effect;
-using static Game_Manager;
-using static Player;
-using static StatChangeHistoryEntry;
 
 public class CardLogic : MonoBehaviour
 {
     public Game_Manager GameManager;
 
-    public EnumConverter enumConverter;
+    public EnumManager enumConverter;
 
     public Type type;
     public List<PlayType> playTypes;
@@ -25,11 +20,6 @@ public class CardLogic : MonoBehaviour
     public string id, cardName, cardType, cardText, flavorText;
 
     public bool isFaceDown, isNormalColour;
-
-    public enum Location
-    {
-        Deck, HeroDeck, Hand, Field, Grave, Limbo, Outside, Any, Undefined
-    }
 
     public Location currentLocation;
     public int locationOrderNumber;
@@ -277,12 +267,24 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Rally:
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().StatAdjustment(1, Status.AtkGain);
+                {
+                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkGain);
+                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Buff,
+                        logIndex = target.buffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect = focusEffect,
+                        loggedEffectUsed = effectUsed,
+                    };
+                    target.buffHistoryEntries.Add(buffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
+                }
                 break;
             case EffectsUsed.FreeRevive:
                 foreach (CardLogic target in targets)
                     target.GetComponent<PlayableLogic>().PlayCard("revive", true, cardController);
-                    break;
+                break;
             case EffectsUsed.Revive:
                 foreach (CardLogic target in targets)
                     target.GetComponent<PlayableLogic>().PlayCard("revive", false, cardController);
@@ -300,6 +302,16 @@ public class CardLogic : MonoBehaviour
                 {
                     target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkGain);
                     target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpGain);
+                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Buff,
+                        logIndex = target.buffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect = focusEffect,
+                        loggedEffectUsed = effectUsed,
+                    };
+                    target.buffHistoryEntries.Add(buffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
                 }
                 break;
             case EffectsUsed.Terrify:
@@ -307,15 +319,49 @@ public class CardLogic : MonoBehaviour
                 {
                     target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpLoss);
                     target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkLoss);
+                    DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Debuff,
+                        logIndex = target.debuffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect = focusEffect,
+                        loggedEffectUsed = effectUsed,
+                    };
+                    target.debuffHistoryEntries.Add(debuffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
                 }
                 break;
             case EffectsUsed.Intimidate:
                 foreach (CardLogic target in targets)
+                {
                     target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkLoss);
+                    DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Debuff,
+                        logIndex = target.debuffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect = focusEffect,
+                        loggedEffectUsed = effectUsed,
+                    };
+                    target.debuffHistoryEntries.Add(debuffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
+                }
                 break;
             case EffectsUsed.Weaken:
                 foreach (CardLogic target in targets)
+                {
                     target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpLoss);
+                    DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Debuff,
+                        logIndex = target.debuffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect = focusEffect,
+                        loggedEffectUsed = effectUsed,
+                    };
+                    target.debuffHistoryEntries.Add(debuffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
+                }
                 break;
             case EffectsUsed.Shatter:
                 foreach (CardLogic target in targets)
@@ -329,12 +375,34 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Taunt:
                 foreach (CardLogic target in targets)
-                { target.GetComponent<CombatantLogic>().buffs.targetState = Buff.TargetState.Default; }
+                { target.GetComponent<CombatantLogic>().targetState = TargetState.Taunt;
+                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Buff,
+                        logIndex = target.buffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect = focusEffect,
+                        loggedEffectUsed = effectUsed,
+                    };
+                    target.buffHistoryEntries.Add(buffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
+                }
                 break;
             case EffectsUsed.Stealth:
                 foreach (CardLogic target in targets)
                 {
-                    target.GetComponent<CombatantLogic>().buffs.targetState=Buff.TargetState.Stealth; }
+                    target.GetComponent<CombatantLogic>().targetState = TargetState.Stealth;
+                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Buff,
+                        logIndex = target.buffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect = focusEffect,
+                        loggedEffectUsed = effectUsed,
+                    };
+                    target.buffHistoryEntries.Add(buffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
+                }
                 break;
             case EffectsUsed.Armor:
                 foreach (CardLogic target in targets)
@@ -343,8 +411,43 @@ public class CardLogic : MonoBehaviour
                     GameObject icon = target.cardController.armorIcons[locationOrderNumber];
                     icon.SetActive(true);
                     icon.GetComponentInChildren<TMP_Text>().text = effectAmount.ToString();
-
+                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
+                    {
+                        log = LogType.Buff,
+                        logIndex = target.buffHistoryEntries.Count,
+                        loggedCard = this,
+                        loggedEffect=focusEffect,
+                        loggedEffectUsed=effectUsed,
+                    };
+                    target.buffHistoryEntries.Add(buffHistoryEntry);
+                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
                 }
+                break;
+            case EffectsUsed.Camouflage:
+                break;
+            case EffectsUsed.Sleep:
+                break;
+            case EffectsUsed.Stun:
+                break;
+            case EffectsUsed.Provoke:
+                break;
+            case EffectsUsed.Blind:
+                break;
+            case EffectsUsed.Burn:
+                break;
+            case EffectsUsed.Poison:
+                break;
+            case EffectsUsed.Bomb:
+                break;
+            case EffectsUsed.Spot:
+                break;
+            case EffectsUsed.Bounce:
+                break;
+            case EffectsUsed.Detonate:
+                break;
+            case EffectsUsed.Undefined:
+                break;
+            default:
                 break;
         }
         if (!GameManager.isWaitingForResponse)
@@ -419,6 +522,7 @@ public class CardLogic : MonoBehaviour
         return false;
     }
 
+    //some effects modify effect amount based on count of something multiplied by a modifier, this handles it
     private void TargetEffectLogic(int countNumber, int subCount)
     {
         focusEffect = effects[countNumber];
@@ -431,7 +535,6 @@ public class CardLogic : MonoBehaviour
             if (focusEffect.TargetCountModifier != null && focusEffect.TargetCountModifier[subCount]!=0)
             {
                 focusEffect.EffectAmount[index] = Mathf.CeilToInt(targets.Count * focusEffect.TargetCountModifier[subCount]);
-                Debug.Log(focusEffect.EffectAmount[index]);
                 continue;
             }
 
@@ -440,10 +543,10 @@ public class CardLogic : MonoBehaviour
             switch (checkedStat)
             {
                 case "current atk":
-                    amount = combatantStats.currentAtk;
+                    combatantStats.currentAtk = amount;
                     break;
                 case "cost":
-                    amount = playableStats.cost;
+                    playableStats.cost = amount;
                     break;
             }
         }
@@ -630,9 +733,16 @@ public class CardLogic : MonoBehaviour
 
     public void LocationChange(Effect effect, EffectsUsed effectsUsed, Location location, int num)
     {
-        LocationHistoryEntry locationLog = new(this, effect, effectsUsed, location, currentLocation);
+        LocationHistoryEntry locationLog = new(location, currentLocation)
+        {
+            log = LogType.Location,
+            logIndex = locationHistoryEntries.Count,
+            loggedCard = this,
+            loggedEffect=effect,
+            loggedEffectUsed=effectsUsed
+        };
         locationHistoryEntries.Add(locationLog);
-        GameManager.gameLogHistoryEntries.Add(new(null, null, locationLog, null, this));
+        GameManager.gameLogHistoryEntries.Add(locationLog);
         currentLocation = location;
         locationOrderNumber = num;
     }

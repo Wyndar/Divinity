@@ -1,21 +1,14 @@
 ﻿[System.Serializable]
-public class StatChangeHistoryEntry
+public class StatChangeHistoryEntry: GameLogHistoryEntry
 {
-	public CardLogic CardLogic;
-	public Effect Effect;
 	public Status StatusChange;
 	public int ChangeAmount;
+	public Location ChangeLocation;
 
-	public enum Status
+	public StatChangeHistoryEntry(Status status, int amount, Location location)
 	{
-		Heal, Damage, Death, HpLoss, HpGain, AtkLoss, AtkGain, Undefined
-	}
-
-	public StatChangeHistoryEntry(CardLogic cardLogic, Effect value, Status status, int amount)
-	{
-		CardLogic = cardLogic;
-		Effect = value;
 		StatusChange = status;
 		ChangeAmount = amount;
+		ChangeLocation = location;
 	}
 }

@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using static CardLogic;
-using static Effect;
 
 public class DeckManager : MonoBehaviour
 {
 	public Game_Manager gm;
     public SaveManager SaveManager;
-    public EnumConverter enumConverter;
+    public EnumManager enumConverter;
     [SerializeField]
     private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
 

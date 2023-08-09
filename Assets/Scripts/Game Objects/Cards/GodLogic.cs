@@ -1,7 +1,4 @@
-﻿using static Card;
-using static StatChangeHistoryEntry;
-
-public class GodLogic : CardLogic
+﻿public class GodLogic : CardLogic
 {
     public Game_Manager gm;
     public CombatantLogic combatantLogic;
@@ -43,7 +40,7 @@ public class GodLogic : CardLogic
     public void ActivateShield()
     {
         cardOwner.shieldCount -= 1;
-        gm.StateChange(Game_Manager.GameState.Shielded);
+        gm.StateChange(GameState.Shielded);
         gm.ClearAttackTargetImages();
         cardController.AIManager.isPerformingAction = false;
         cardController.enemy.AIManager.isPerformingAction = false;
@@ -83,7 +80,7 @@ public class GodLogic : CardLogic
 
     override public void StatAdjustment(int value, Status status)
     {
-        cardController.SetHeroStatus(locationOrderNumber, status, value);
+        cardController.SetHeroStatus(status, value);
         OnFieldAtkRefresh();
         OnFieldHpRefresh();
         LoseCheck();

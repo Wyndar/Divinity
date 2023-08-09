@@ -1,8 +1,8 @@
 ﻿[System.Serializable]
 public class Debuff
 {
-    public enum Debuffs
-    {
-        Provoked, Stunned, Sleeping, Blind, Burned, Poisoned, Bombed, Spotted
-    }
+    public Debuffs debuff;
+    public CardLogic debuffer;
+    public int debuffTimer;
+    public bool countdown;
 }

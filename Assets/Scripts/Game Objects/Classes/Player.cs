@@ -1,12 +1,6 @@
 ﻿[System.Serializable]
 public class Player
 {
-
-    public enum Controller
-    {
-        Player, Opponent, Any, Undefined
-    }
-
     public string PlayerName { get; set; }
     public string PlayerID { get; set; }
     public string DeckPath { get; set; }
