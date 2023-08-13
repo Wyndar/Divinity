@@ -1,4 +1,5 @@
-﻿public class CopyEffect:Effect
+﻿//for some reason effects aren't instantiating as uniques so...yeah
+public class CopyEffect:Effect
 {
     public CopyEffect(Effect copyEffect)
     {
@@ -9,6 +10,8 @@
 
         ActivationLocation = copyEffect.ActivationLocation;
         MaxActivations = copyEffect.MaxActivations;
+        Duration = copyEffect.Duration;
+        duration = Duration;
 
         if (copyEffect.TargetingType != null)
         {

@@ -58,6 +58,9 @@ public class MonsterLogic : CardLogic
     public void MonsterDeath()
     {
         combatLogic.currentHp = 0;
+        combatLogic.buffs.Clear();
+        combatLogic.debuffs.Clear();
+        combatLogic.hasDoneCountdown = false;
         cardController.atkIcons[locationOrderNumber].SetActive(false);
         cardController.hpIcons[locationOrderNumber].SetActive(false);
         cardController.armorIcons[locationOrderNumber].SetActive(false);

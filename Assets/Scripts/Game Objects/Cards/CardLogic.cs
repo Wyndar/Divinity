@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CardLogic : MonoBehaviour
 {
@@ -244,8 +245,17 @@ public class CardLogic : MonoBehaviour
 
         switch (effectUsed)
         {
+            //for effects that need special targeting
+            case EffectsUsed.Target:
+                TargetEffectLogic(countNumber, subCount);
+                break;
+
+            //effects that access game manager methods, can be optimized further
             case EffectsUsed.Reinforce:
                 GameManager.DrawCard(effectAmount, cardController);
+                break;
+            case EffectsUsed.BloodRecovery:
+                GameManager.CostChange(effectAmount, cardController, true);
                 break;
             case EffectsUsed.Recruit:
                 foreach (CardLogic target in targets)
@@ -255,197 +265,50 @@ public class CardLogic : MonoBehaviour
                 foreach (CardLogic target in targets)
                     GameManager.RecoverCard(target, cardController);
                 break;
+
+            //these are undefined effects
             case EffectsUsed.Damage:
-                foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().TakeDamage(effectAmount, false);
-                }
-                break;
             case EffectsUsed.Regeneration:
+            case EffectsUsed.Shatter:
+            case EffectsUsed.Detonate:
                 foreach (CardLogic target in targets)
-                    target.GetComponent<CombatantLogic>().Heal(effectAmount);
+                    target.EffectHandler(effectUsed, effectAmount, LogType.Undefined, focusEffect);
                 break;
+
+
+            //these are buffs
             case EffectsUsed.Rally:
+            case EffectsUsed.Vigor:
+            case EffectsUsed.Taunt:
+            case EffectsUsed.Stealth:
+            case EffectsUsed.Armor:
+            case EffectsUsed.Camouflage:
                 foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkGain);
-                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Buff,
-                        logIndex = target.buffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect = focusEffect,
-                        loggedEffectUsed = effectUsed,
-                    };
-                    target.buffHistoryEntries.Add(buffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
-                }
+                    target.EffectHandler(effectUsed, effectAmount, LogType.Buff, focusEffect);
+                break;
+
+            //these are debuffs
+            case EffectsUsed.Terrify:
+            case EffectsUsed.Intimidate:
+            case EffectsUsed.Weaken:
+            case EffectsUsed.Sleep:
+            case EffectsUsed.Stun:
+            case EffectsUsed.Provoke:
+            case EffectsUsed.Blind:
+            case EffectsUsed.Burn:
+            case EffectsUsed.Poison:
+            case EffectsUsed.Bomb:
+            case EffectsUsed.Spot:
+            case EffectsUsed.Bounce:
+                foreach (CardLogic target in targets)
+                    target.EffectHandler(effectUsed, effectAmount, LogType.Debuff, focusEffect);
                 break;
             case EffectsUsed.FreeRevive:
-                foreach (CardLogic target in targets)
-                    target.GetComponent<PlayableLogic>().PlayCard("revive", true, cardController);
-                break;
             case EffectsUsed.Revive:
-                foreach (CardLogic target in targets)
-                    target.GetComponent<PlayableLogic>().PlayCard("revive", false, cardController);
-                break;
             case EffectsUsed.FreeDeploy:
-                foreach (CardLogic target in targets)
-                    target.GetComponent<PlayableLogic>().PlayCard("deploy", true, cardController);
-                break;
             case EffectsUsed.Deploy:
                 foreach (CardLogic target in targets)
-                    target.GetComponent<PlayableLogic>().PlayCard("deploy", false, cardController);
-                break;
-            case EffectsUsed.Vigor:
-                foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkGain);
-                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpGain);
-                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Buff,
-                        logIndex = target.buffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect = focusEffect,
-                        loggedEffectUsed = effectUsed,
-                    };
-                    target.buffHistoryEntries.Add(buffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
-                }
-                break;
-            case EffectsUsed.Terrify:
-                foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpLoss);
-                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkLoss);
-                    DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Debuff,
-                        logIndex = target.debuffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect = focusEffect,
-                        loggedEffectUsed = effectUsed,
-                    };
-                    target.debuffHistoryEntries.Add(debuffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
-                }
-                break;
-            case EffectsUsed.Intimidate:
-                foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.AtkLoss);
-                    DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Debuff,
-                        logIndex = target.debuffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect = focusEffect,
-                        loggedEffectUsed = effectUsed,
-                    };
-                    target.debuffHistoryEntries.Add(debuffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
-                }
-                break;
-            case EffectsUsed.Weaken:
-                foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().StatAdjustment(effectAmount, Status.HpLoss);
-                    DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Debuff,
-                        logIndex = target.debuffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect = focusEffect,
-                        loggedEffectUsed = effectUsed,
-                    };
-                    target.debuffHistoryEntries.Add(debuffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
-                }
-                break;
-            case EffectsUsed.Shatter:
-                foreach (CardLogic target in targets)
-                    target.GetComponent<MonsterLogic>().MonsterDeath();
-                break;
-            case EffectsUsed.BloodRecovery:
-                GameManager.CostChange(effectAmount, cardController, true);
-                break;
-            case EffectsUsed.Target:
-                TargetEffectLogic(countNumber, subCount);
-                break;
-            case EffectsUsed.Taunt:
-                foreach (CardLogic target in targets)
-                { target.GetComponent<CombatantLogic>().targetState = TargetState.Taunt;
-                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Buff,
-                        logIndex = target.buffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect = focusEffect,
-                        loggedEffectUsed = effectUsed,
-                    };
-                    target.buffHistoryEntries.Add(buffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
-                }
-                break;
-            case EffectsUsed.Stealth:
-                foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().targetState = TargetState.Stealth;
-                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Buff,
-                        logIndex = target.buffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect = focusEffect,
-                        loggedEffectUsed = effectUsed,
-                    };
-                    target.buffHistoryEntries.Add(buffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
-                }
-                break;
-            case EffectsUsed.Armor:
-                foreach (CardLogic target in targets)
-                {
-                    target.GetComponent<CombatantLogic>().armor = effectAmount;
-                    GameObject icon = target.cardController.armorIcons[locationOrderNumber];
-                    icon.SetActive(true);
-                    icon.GetComponentInChildren<TMP_Text>().text = effectAmount.ToString();
-                    BuffHistoryEntry buffHistoryEntry = new(effectAmount, target.currentLocation)
-                    {
-                        log = LogType.Buff,
-                        logIndex = target.buffHistoryEntries.Count,
-                        loggedCard = this,
-                        loggedEffect=focusEffect,
-                        loggedEffectUsed=effectUsed,
-                    };
-                    target.buffHistoryEntries.Add(buffHistoryEntry);
-                    GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
-                }
-                break;
-            case EffectsUsed.Camouflage:
-                break;
-            case EffectsUsed.Sleep:
-                break;
-            case EffectsUsed.Stun:
-                break;
-            case EffectsUsed.Provoke:
-                break;
-            case EffectsUsed.Blind:
-                break;
-            case EffectsUsed.Burn:
-                break;
-            case EffectsUsed.Poison:
-                break;
-            case EffectsUsed.Bomb:
-                break;
-            case EffectsUsed.Spot:
-                break;
-            case EffectsUsed.Bounce:
-                break;
-            case EffectsUsed.Detonate:
-                break;
-            case EffectsUsed.Undefined:
+                    target.GetComponent<PlayableLogic>().PlayCard(effectUsed, cardController);
                 break;
             default:
                 break;
@@ -472,10 +335,8 @@ public class CardLogic : MonoBehaviour
         if (ResolveSubsequentSubeffects(countNumber, subCount))
         {
             GameManager.ClearEffectTargetImages();
-            if (targets != null)
-                targets.Clear();
-            if (validTargets != null)
-                validTargets.Clear();
+            targets?.Clear();
+            validTargets?.Clear();
             if (cardType == "spell")
                 gameObject.GetComponent<PlayableLogic>().MoveToGrave();
 
@@ -508,15 +369,11 @@ public class CardLogic : MonoBehaviour
         }
         //dependent on targets of previous effect
         if (focusEffect.EffectTargetAmount[subCount + 1] == 98)
-        {
             EffectResolution(countNumber, subCount + 1);
-        }
         else
         {
-            if (targets != null)
-                targets.Clear();
-            if (validTargets != null)
-                validTargets.Clear();
+            targets?.Clear();
+            validTargets?.Clear();
             TargetCheck(countNumber, subCount + 1);
         }
         return false;
@@ -570,7 +427,7 @@ public class CardLogic : MonoBehaviour
         {
             GameManager.StateChange(GameState.Targeting);
             validTargets = new(GetValidTargets(countNumber, subCount));
-            if (focusEffect.TargetingType[subCount] == "manual")
+            if (focusEffect.targetingTypes[subCount] == TargetingTypes.Manual)
             {
                 //if no valid targets, end effect
                 if (validTargets.Count == 0)
@@ -583,9 +440,9 @@ public class CardLogic : MonoBehaviour
                 GameManager.currentFocusCardLogic = this;
                 foreach(CardLogic target in validTargets)
                 {
-                    if (target.cardType == "monster" && target.currentLocation == Location.Field)
+                    if (target.type == Type.Fighter && target.currentLocation == Location.Field)
                         target.cardController.effectTargets[target.locationOrderNumber].SetActive(true);
-                    if (target.cardType == "god" && target.currentLocation == Location.Field)
+                    if (target.type == Type.God && target.currentLocation == Location.Field)
                         target.cardController.heroEffectTarget.SetActive(true);
                     if (target.currentLocation == Location.Grave)
                         target.cardController.graveTarget.SetActive(true);
@@ -597,23 +454,23 @@ public class CardLogic : MonoBehaviour
                     cardController.AIManager.GetEffectTarget();
                     return;
                 }
-                if (focusEffect.TargetLocation[subCount] != "Field")
+                if (focusEffect.targetLocation[subCount] != Location.Field)
                     GameManager.EnableCardScrollScreen(validTargets, !focusEffect.EffectActivationIsMandatory[subCount]);
                 return;
             }
-            if (focusEffect.TargetingType[subCount] == "auto")
+            if (focusEffect.targetingTypes[subCount] == TargetingTypes.Auto)
             {
                 AutoTargetAcquisition(countNumber, subCount);
                 return;
             }
-            if (focusEffect.TargetingType[subCount] == "random")
+            if (focusEffect.targetingTypes[subCount] == TargetingTypes.Random)
             {
                 RandomTargetAcquisition(countNumber, subCount);
                 return;
             }
-            if (focusEffect.TargetingType[countNumber] == "enemy")
+            if (focusEffect.targetingTypes[countNumber] == TargetingTypes.Trigger)
             {
-                Debug.Log("Need to implement AI");
+                targets = new() { GameManager.currentFocusCardLogic };
                 return;
             }
         }
@@ -647,7 +504,7 @@ public class CardLogic : MonoBehaviour
         }
     }
 
-    public void ManualTargetRemoval(int countNumber, int subCount)
+    public void ManualTargetRemoval()
     {
         if (GameManager.gameState != GameState.Targeting)
             return;
@@ -664,10 +521,7 @@ public class CardLogic : MonoBehaviour
         focusEffect = effects[countNumber];
         //auto self target effects
         if (focusEffect.AllowSelfTarget[subCount] == true && focusEffect.EffectTargetAmount[subCount] == 1)
-        {
-            targets = new();
-            targets.Add(this);
-        }
+            targets = new() { this};
         else
             targets = new(validTargets);
         EffectResolution(countNumber, subCount);
@@ -770,5 +624,112 @@ public class CardLogic : MonoBehaviour
     virtual public void StatAdjustment(int value, Status status)
     {
         Debug.Log("Failed virtual override for " + status + " " + cardName);
+    }
+
+    public void EffectLogger(EffectsUsed effectsUsed, int effectAmount, LogType logType, Effect effect)
+    {
+        if (logType == LogType.Buff)
+        {
+            BuffHistoryEntry buffHistoryEntry = new(effectAmount, currentLocation)
+            {
+                log = logType,
+                logIndex = buffHistoryEntries.Count,
+                loggedCard = this,
+                loggedEffect = effect,
+                loggedEffectUsed = effectsUsed,
+            };
+            buffHistoryEntries.Add(buffHistoryEntry);
+            GameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
+        }
+        else if(logType==LogType.Debuff)
+        {
+            DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, currentLocation)
+            {
+                log = logType,
+                logIndex = debuffHistoryEntries.Count,
+                loggedCard = this,
+                loggedEffect = effect,
+                loggedEffectUsed = effectsUsed,
+            };
+            debuffHistoryEntries.Add(debuffHistoryEntry);
+            GameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
+        }
+    }
+
+    public void EffectHandler(EffectsUsed effectsUsed, int effectAmount, LogType logType, Effect effect)
+    {
+        CombatantLogic combatantLogic = GetComponent<CombatantLogic>();
+        MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
+        CardLogic logic = GameManager.currentFocusCardLogic;
+        switch (effectsUsed)
+        {
+            case EffectsUsed.Rally:
+                combatantLogic.StatAdjustment(effectAmount, Status.AtkGain);
+                break;
+            case EffectsUsed.Damage:
+                combatantLogic.TakeDamage(effectAmount, false);
+                break;
+            case EffectsUsed.Regeneration:
+                combatantLogic.Heal(effectAmount);
+                break;
+            case EffectsUsed.Vigor:
+                combatantLogic.StatAdjustment(effectAmount, Status.AtkGain);
+                combatantLogic.StatAdjustment(effectAmount, Status.HpGain);
+                break;
+            case EffectsUsed.Terrify:
+                combatantLogic.StatAdjustment(effectAmount, Status.HpLoss);
+                combatantLogic.StatAdjustment(effectAmount, Status.AtkLoss);
+                break;
+            case EffectsUsed.Intimidate:
+                combatantLogic.StatAdjustment(effectAmount, Status.AtkLoss);
+                break;
+            case EffectsUsed.Weaken:
+                combatantLogic.StatAdjustment(effectAmount, Status.HpLoss);
+                break;
+            case EffectsUsed.Shatter:
+                monsterLogic.MonsterDeath();
+                break;
+            case EffectsUsed.Taunt:
+                combatantLogic.targetState = TargetState.Taunt;
+                break;
+            case EffectsUsed.Stealth:
+                combatantLogic.targetState = TargetState.Stealth;
+                break;
+            case EffectsUsed.Camouflage:
+                combatantLogic.targetState = TargetState.Camouflage;
+                break;
+            case EffectsUsed.Armor:
+                combatantLogic.armor = effectAmount;
+                GameObject icon = cardController.armorIcons[locationOrderNumber];
+                icon.SetActive(true);
+                icon.GetComponentInChildren<TMP_Text>().text = effectAmount.ToString();
+                break;
+            case EffectsUsed.Sleep:
+                break;
+            case EffectsUsed.Stun:
+                break;
+            case EffectsUsed.Provoke:
+                break;
+            case EffectsUsed.Blind:
+                break;
+            case EffectsUsed.Burn:
+                break;
+            case EffectsUsed.Poison:
+                break;
+            case EffectsUsed.Bomb:
+                //bombs have a default timer of three turns
+                Debuff bomb = new(Debuffs.Bombed, logic, this, effect.duration, true);
+                combatantLogic.debuffs.Add(bomb);
+                break;
+            case EffectsUsed.Spot:
+                break;
+            case EffectsUsed.Bounce:
+                break;
+            case EffectsUsed.Detonate:
+                break;
+            default:
+                return;
+        }
+        EffectLogger(effectsUsed, effectAmount, logType, effect);
     }
 }

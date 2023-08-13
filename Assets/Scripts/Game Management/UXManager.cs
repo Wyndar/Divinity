@@ -113,7 +113,7 @@ public class UXManager : MonoBehaviour
                 if (playDist > 3f && gm.currentPhase == Phase.MainPhase && playableLogic != null)
                 {
                     playableLogic.DisableHover();
-                    playableLogic.PlayCard("deploy", false, gm.currentFocusCardLogic.cardController);
+                    playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
                 }
                 gm.currentFocusCardLogic.cardOutline.gameObject.SetActive(false);
                 gm.currentFocusCardLogic = null;

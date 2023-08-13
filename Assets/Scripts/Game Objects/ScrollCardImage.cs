@@ -27,7 +27,7 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
         {
             highlightImage.color = Color.clear;
             isTargeted = false;
-            cardLogic.ManualTargetRemoval(effectNum, subEffectNum);
+            cardLogic.ManualTargetRemoval();
         }
         else
         {

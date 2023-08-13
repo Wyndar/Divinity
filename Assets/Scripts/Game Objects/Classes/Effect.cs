@@ -19,6 +19,7 @@ public class Effect
 
     public int currentActivations = new();
     public int maxActivations = new();
+    public int duration = new();
 
     public List<string> EffectType { get; set; }
     public List<string> EffectUsed { get; set; }
@@ -28,6 +29,7 @@ public class Effect
     //if can be activated 
     public string ActivationLocation { get; set; }
     public int MaxActivations { get; set; }
+    public int Duration { get; set; }
 
     //if needs targets
     public List<string> TargetingType { get; set; }

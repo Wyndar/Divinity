@@ -384,6 +384,47 @@ public class Game_Manager : MonoBehaviour
         player.heroCardLogic.GetComponent<CombatantLogic>().AttackRefresh();
     }
 
+
+    public void AllTimersCountdown()
+    {
+        PlayerTimerCountDown(turnPlayer);
+        PlayerTimerCountDown(turnOpponent);
+    }
+
+    //to avoid  changed list errors
+    public void PlayerTimerCountDown(PlayerManager player)
+    {
+        if (player.fieldLogicList.Count == 0)
+            return;
+        foreach (CardLogic cardLogic in player.fieldLogicList)
+        {
+            CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
+            if (combatantLogic.hasDoneCountdown)
+                continue;
+            else
+            {
+                combatantLogic.TurnTimer();
+                break;
+            }
+        }
+        CombatantLogic heroCombatantLogic = player.heroCardLogic.GetComponent<CombatantLogic>();
+        if (!heroCombatantLogic.hasDoneCountdown)
+            heroCombatantLogic.TurnTimer();
+    }
+
+    public void AllCountdownReset()
+    {
+        PlayerCountDownReset(turnPlayer);
+        PlayerCountDownReset(turnOpponent);
+    }
+
+    public void PlayerCountDownReset(PlayerManager player)
+    {
+        foreach (CardLogic cardLogic in player.fieldLogicList)
+            cardLogic.GetComponent<CombatantLogic>().ResetCountdown();
+        player.heroCardLogic.GetComponent<CombatantLogic>().ResetCountdown();
+    }
+
     public void ShieldRefresh(PlayerManager player) => player.heroCardLogic.ShieldRefresh();
 
     public void SwitchControl(PlayerManager player)
@@ -420,6 +461,8 @@ public class Game_Manager : MonoBehaviour
         }
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
+            if (cardLogic.GetComponent<CombatantLogic>().ImmobilityCheck())
+                continue;
             foreach (Effect effect in cardLogic.effects)
             {
                 if (!effect.EffectType.Contains("Deployed"))
@@ -456,7 +499,8 @@ public class Game_Manager : MonoBehaviour
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-
+            if (combatantLogic.ImmobilityCheck())
+                continue;
             if (combatantLogic.ValidAttackerCheck())
                 player.canAttackLogicList.Add(cardLogic);
         }

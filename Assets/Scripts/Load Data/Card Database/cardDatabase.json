@@ -556,7 +556,7 @@
         "Id": "GP-10",
         "CardType": "monster",
         "CardName": "Mine Drop",
-        "CardText": "Chain - Summon: Place 1 Bomb on on the deployed opposing Fighter | Chain - Detonate: Bounce one opposing Fighter.",
+        "CardText": "Chain - Summon: Place 1 Bomb(Timer:3) on one deployed opposing Fighter | Chain - Detonate: Bounce one opposing Fighter.",
         "CardFlavorText": "Explosions and munitions fanatic",
         "Traits": [ "Military" ],
         "Cost": 1,
@@ -568,7 +568,8 @@
                 "EffectUsed": [ "Bomb"],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "trigger" ],
+                "Duration": 3,
+                "TargetingType": [ "manual" ],
                 "EffectTargetType": [ "monster" ],
                 "EffectTargetOwner": [ "Opponent" ],
                 "TargetLocation": [ "Field" ],
@@ -578,16 +579,18 @@
                 "TriggerLocation": [ "Field" ]
             },
             {
-                "EffectType": [ "While Deployed" ],
-                "EffectUsed": [ "Armor" ],
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Bounce" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
+                "TargetingType": [ "manual" ],
                 "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Player" ],
+                "EffectTargetOwner": [ "Opponent" ],
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ true ]
+                "AllowSelfTarget": [ false ],
+                "TriggerState": [ "Detonate" ],
+                "TriggerLocation": [ "Field" ]
             }
         ]
     }

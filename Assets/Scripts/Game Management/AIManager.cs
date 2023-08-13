@@ -69,11 +69,8 @@ public class AIManager : MonoBehaviour
 
     private void PlayLegalCard()
     {
-        CardLogic cardToPlay = BestAtkSort(AIPlayer.playableLogicList);
-        //if no fighters, play a spell
-        if (cardToPlay == null)
-            cardToPlay = BestCostSort(AIPlayer.playableLogicList);
-        cardToPlay.GetComponent<PlayableLogic>().PlayCard("deploy", false, AIPlayer);
+        CardLogic cardToPlay = BestAtkSort(AIPlayer.playableLogicList) ?? BestCostSort(AIPlayer.playableLogicList);
+        cardToPlay.GetComponent<PlayableLogic>().PlayCard(EffectsUsed.Deploy, AIPlayer);
     }
 
     //for now, just using random targets. will write logic later

@@ -53,8 +53,15 @@ public class PlayableLogic : MonoBehaviour
         }
     }
 
-    public void PlayCard(string playString, bool ignoreCost, PlayerManager player)
+    //borrowing effects used even if all plays aren't effects to avoid redundancies in enums... should cause no issues
+    public void PlayCard(EffectsUsed effectsUsed, PlayerManager player)
     {
+        bool ignoreCost = false;
+        bool deploy = false;
+        if (effectsUsed == EffectsUsed.FreeRevive || effectsUsed == EffectsUsed.FreeDeploy)
+            ignoreCost = true;
+        if (effectsUsed == EffectsUsed.Deploy || effectsUsed == EffectsUsed.FreeDeploy)
+            deploy = true;
         playError = LegalPlayCheck(ignoreCost, player);
         if (playError == null)
         {
@@ -73,12 +80,12 @@ public class PlayableLogic : MonoBehaviour
                 //not a real location to be logged
             logic.currentLocation = Location.Limbo;
 
-            if (playString == "deploy")
+            if (deploy)
             {
                 player.handLogicList.Remove(logic);                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
                 gm.ShuffleHand(player);
             }
-            if (playString == "revive")
+            else
             {
                 logic.cardOwner.graveLogicList.Remove(logic);
                 gm.StateChange(GameState.Revive);
@@ -140,7 +147,7 @@ public class PlayableLogic : MonoBehaviour
     {
         gm.StateChange(GameState.Playing);
         if (logic.cardType == "monster")
-            gameObject.GetComponent<MonsterLogic>().MonsterSummon(player);
+            GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
         gm.currentFocusCardLogic = logic;
         gm.StateChange(GameState.Deployment);

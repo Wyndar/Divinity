@@ -17,6 +17,7 @@ public class TurnManager : MonoBehaviour
     public void FirstTurn(PlayerManager player)
     {
         gm.turnPlayer = player;
+        gm.turnOpponent = player.enemy;
         gm.DrawCard(5, gm.RedPlayerManager);
         gm.DrawCard(5, gm.BluePlayerManager);
         gm.turnCount = 1;
@@ -41,6 +42,7 @@ public class TurnManager : MonoBehaviour
         gm.StateReset();
         gm.AllEffectsRefresh(player);
         gm.AllAttacksRefresh(player);
+        gm.AllCountdownReset();
         gm.ShieldRefresh(player);
         CostPhase(player);
     }
@@ -52,6 +54,7 @@ public class TurnManager : MonoBehaviour
         gm.ChainResolution();
         gm.currentFocusCardLogic = null;
         gm.StateChange(GameState.TurnEnd);
+        gm.AllTimersCountdown();
         gm.StateReset();
         if (player == gm.BluePlayerManager)
             SwitchTurn(gm.RedPlayerManager);
@@ -63,6 +66,7 @@ public class TurnManager : MonoBehaviour
     public void SwitchTurn(PlayerManager player)
     {
         gm.turnPlayer = player;
+        gm.turnOpponent = player.enemy;
         gm.turnCount++;
         gm.turnCountText.text = gm.turnCount.ToString();
         gm.currentFocusCardLogic = null;

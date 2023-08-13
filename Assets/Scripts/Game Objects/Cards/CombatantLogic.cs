@@ -14,15 +14,15 @@ public class CombatantLogic : MonoBehaviour
 
     public int atk, hp, maxHp, currentAtk, currentHp, armor, maxAttacks, attacksLeft;
 
-    public bool hasAttacked, hasAttackedThisTurn;
+    public bool hasAttacked, hasAttackedThisTurn, hasDoneCountdown;
 
     public void TakeDamage(int damage, bool wasAttack)
     {
         bool blockDamage = false;
-        if (logic.cardType == "god")
+        if (logic.type == Type.God)
             blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage, wasAttack);
         if (!blockDamage)
-            DamageResolution(damage, true);
+            DamageResolution(damage, wasAttack);
     }
 
     public void DamageResolution(int damage, bool wasAttack)
@@ -34,13 +34,20 @@ public class CombatantLogic : MonoBehaviour
             gm.StateChange(GameState.Damaged);
                 logic.StatAdjustment(damage, Status.Damage);
         }
+        Effect damager = null;
+        EffectsUsed damagingEffect = EffectsUsed.Undefined;
+        if(gm.isActivatingEffect)
+        {
+            damager = gm.currentFocusCardLogic.focusEffect;
+            damagingEffect = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber];
+        }
         StatChangeHistoryEntry statChangeLog = new(Status.Damage, damage, logic.currentLocation)
         {
             log = LogType.StatChange,
             logIndex = logic.statChangeHistoryEnteries.Count,
             loggedCard = gm.currentFocusCardLogic,
-            loggedEffect = gm.currentFocusCardLogic.focusEffect,
-            loggedEffectUsed = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber]
+            loggedEffect = damager,
+            loggedEffectUsed = damagingEffect
         };
         logic.statChangeHistoryEnteries.Add(statChangeLog);
         gm.gameLogHistoryEntries.Add(statChangeLog);
@@ -230,6 +237,46 @@ public class CombatantLogic : MonoBehaviour
             int ranNum = Random.Range(0, validTargets.Count);
             validTargets[ranNum].AttackTargetAcquisition();
         }
+    }
+
+    //to avoid changed list errors
+    public void TurnTimer()
+    {
+        bool brokeLoop = false;
+        if (buffs.Count > 0)
+            foreach (Buff buff in buffs)
+                if (buff.hasCountDown)
+                    continue;
+                else
+                {
+                    brokeLoop = true;
+                    buff.Countdown();
+                    break;
+                }
+        if (debuffs.Count > 0)
+            foreach (Debuff debuff in debuffs)
+                if (debuff.hasCountdown)
+                    continue;
+                else
+                {
+                    brokeLoop = true;
+                    debuff.Countdown();
+                    break;
+                }
+        if (!brokeLoop)
+            hasDoneCountdown = true;
+        gm.AllTimersCountdown();
+    }
+
+    public void ResetCountdown()
+    {
+        if (buffs.Count > 0)
+            foreach (Buff buff in buffs)
+                buff.CountdownReset();
+        if (debuffs.Count > 0)
+            foreach (Debuff debuff in debuffs)
+                debuff.CountdownReset();
+        hasDoneCountdown = false;
     }
 
     public void AttackRefresh() => attacksLeft = maxAttacks;
