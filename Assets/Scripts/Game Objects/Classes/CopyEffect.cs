@@ -20,7 +20,7 @@ public class CopyEffect:Effect
                 EffectTargetType = new(copyEffect.EffectTargetType);
             if (copyEffect.effectTargetPlayType != null)
                 EffectTargetPlayType = new(copyEffect.EffectTargetPlayType);
-            if (copyEffect.EffectTargetOwner != null)
+             if (copyEffect.EffectTargetOwner != null)
                 EffectTargetOwner = new(copyEffect.EffectTargetOwner);
             TargetLocation = new(copyEffect.TargetLocation);
             EffectTargetAmount = new(copyEffect.EffectTargetAmount);
@@ -46,6 +46,8 @@ public class CopyEffect:Effect
             TriggerState = new(copyEffect.TriggerState);
         if (copyEffect.TriggerPhase != null)
             TriggerPhase = new(copyEffect.TriggerPhase);
+        if (copyEffect.TriggerOwner != null)
+            TriggerOwner = new(copyEffect.TriggerOwner);
     }
 }
 

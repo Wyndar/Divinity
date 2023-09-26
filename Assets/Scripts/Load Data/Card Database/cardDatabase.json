@@ -190,7 +190,8 @@
                 "EffectTargetAmount": [ 99 ],
                 "AllowSelfTarget": [ true ],
                 "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Reinforcement" ]
+                "TriggerState": [ "Reinforcement" ],
+                "TriggerOwner": ["Player"]
             },
             {
                 "EffectType": [ "Chain", "Chain" ],
@@ -205,7 +206,8 @@
                 "AllowSelfTarget": [ true, false ],
                 "TriggerState": [ "Deployment", "none" ],
                 "TriggerInfo": [ "Strike", "none" ],
-                "TriggerLocation": [ "Field", "none" ]
+                "TriggerLocation": [ "Field", "none" ],
+                "TriggerOwner": ["Any", "none"]
             }
         ]
     },
@@ -347,7 +349,8 @@
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
                 "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Death" ]
+                "TriggerState": [ "Death" ],
+                "TriggerOwner": ["Player"]
             },
             {
                 "EffectType": [ "Chain" ],
@@ -355,7 +358,8 @@
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ false ],
                 "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Revive" ]
+                "TriggerState": [ "Revive" ],
+                "TriggerOwner": ["Any"]
             }
         ]
     },
@@ -547,7 +551,8 @@
                 "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ true ],
                 "TriggerLocation": [ "Field" ],
-                "TriggerPhase": [ "Draw Phase" ]
+                "TriggerPhase": [ "Draw Phase" ],
+                "TriggerOwner": ["Any"]
             }
         ]
     },
@@ -576,7 +581,8 @@
                 "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ false ],
                 "TriggerState": [ "Summon" ],
-                "TriggerLocation": [ "Field" ]
+                "TriggerLocation": [ "Field" ],
+                "TriggerOwner": ["Player"]
             },
             {
                 "EffectType": [ "Chain" ],
@@ -590,7 +596,8 @@
                 "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ false ],
                 "TriggerState": [ "Detonate" ],
-                "TriggerLocation": [ "Field" ]
+                "TriggerLocation": [ "Field" ],
+                "TriggerOwner": ["Any"]
             }
         ]
     }

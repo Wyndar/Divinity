@@ -30,6 +30,14 @@ public class ChainManager : MonoBehaviour
                     continue;
                 int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
 
+                //ensures effects activate at right turn
+                if (triggeredEffect.triggerOwner != null)
+                {
+                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && gm.turnPlayer == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && gm.turnPlayer != triggeredCard.cardController))
+                        continue;
+                }
+
                 //ensures one activation of an effect per card per chain
                 bool addCard = true;
                 if (gm.activationChainList.Contains(triggeredCard))
@@ -67,7 +75,7 @@ public class ChainManager : MonoBehaviour
                 if (triggeredEffect.triggerTypes.Count == 0)
                     continue;
 
-                //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct
+                //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct, must be right card owner trigger
                 if (!triggeredEffect.triggerTypes.Contains(triggerEffectType))
                     continue;
 
@@ -78,7 +86,14 @@ public class ChainManager : MonoBehaviour
                     continue;
                 if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
                     continue;
-                int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
+                if (triggeredEffect.triggerOwner != null)
+                {
+                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && triggerCard.cardController == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && triggerCard.cardController != triggeredCard.cardController))
+                        continue;
+                }
+
+                            int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
 
                 //ensures one activation of an effect per card per chain
                 bool addCard = true;
@@ -129,6 +144,14 @@ public class ChainManager : MonoBehaviour
                     continue;
                 int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
 
+                //ensures that the trigger activates due to correct owner
+                if (triggeredEffect.triggerOwner != null)
+                {
+                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && cardLogic.cardController == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && cardLogic.cardController != triggeredCard.cardController))
+                        continue;
+                }
+
                 //ensures one activation of an effect per card per chain
                 bool addCard = true;
                 if (gm.activationChainList.Contains(triggeredCard))
@@ -176,6 +199,12 @@ public class ChainManager : MonoBehaviour
                 if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
                     continue;
                 int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
+                if (triggeredEffect.triggerOwner != null)
+                {
+                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && gm.turnPlayer == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && gm.turnPlayer != triggeredCard.cardController))
+                        continue;
+                }
 
                 //ensures one activation of an effect per card per chain
                 bool addCard = true;
