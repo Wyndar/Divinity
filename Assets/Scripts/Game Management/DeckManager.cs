@@ -177,7 +177,8 @@ public class DeckManager : MonoBehaviour
                     effect.targetLocation = new();
                     effect.triggerState = new();
                     effect.triggerPhase = new();
-                    effect.triggerOwner = new();
+                    effect.triggerCardLocation = new();
+                    effect.triggerCardOrPhaseOwner = new();
                     effect.maxActivations = effect.MaxActivations;
                     effect.effectTargetController = new();
                     effect.targetingTypes = new();
@@ -215,9 +216,12 @@ public class DeckManager : MonoBehaviour
                     if (effect.TriggerPhase != null)
                         foreach (string phase in effect.TriggerPhase)
                             effect.triggerPhase.Add(enumConverter.PhaseStringToEnum(phase));
-                    if (effect.TriggerOwner != null)
-                        foreach (string owner in effect.TriggerOwner)
-                            effect.triggerOwner.Add(enumConverter.OwnerStringToEnum(owner));
+                    if (effect.TriggerCardOrPhaseOwner != null)
+                        foreach (string owner in effect.TriggerCardOrPhaseOwner)
+                            effect.triggerCardOrPhaseOwner.Add(enumConverter.OwnerStringToEnum(owner));
+                    if (effect.TriggerCardLocation != null)
+                        foreach (string location in effect.TriggerCardLocation)
+                            effect.triggerCardLocation.Add(enumConverter.LocationStringToEnum(location));
                 }
 
                 //sets enums

@@ -9,10 +9,11 @@ public class Effect
     public List<EffectsUsed> effectsUsed;
     public Location activationLocation;
     public List<Location> triggerLocation;
+    public List<Location> triggerCardLocation;
     public List<Location> targetLocation;
     public List<GameState> triggerState;
     public List<Phase> triggerPhase;
-    public List<Controller> triggerOwner;
+    public List<Controller> triggerCardOrPhaseOwner;
     public List<Controller> effectTargetController;
     public List<TargetingTypes> targetingTypes;
     public List<Type> effectTargetType;
@@ -52,11 +53,12 @@ public class Effect
     //if needs trigger
     public List<string> TriggerType { get; set; }
     public List<string> TriggerCard { get; set; }
+    public List<string> TriggerCardOrPhaseOwner { get; set; }
+    public List<string> TriggerCardLocation { get; set; }
     public List<string> TriggerInfo { get; set; }
     public List<string> TriggerLocation { get; set; }
     public List<string> TriggerState { get; set; }
     public List<string> TriggerPhase { get; set; }
-    public List<string> TriggerOwner { get; set; }
 
     //if needs scaling... needs rework
     //for now my scalers are actually stat needers

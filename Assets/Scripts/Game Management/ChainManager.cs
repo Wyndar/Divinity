@@ -31,10 +31,10 @@ public class ChainManager : MonoBehaviour
                 int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
 
                 //ensures effects activate at right turn
-                if (triggeredEffect.triggerOwner != null)
+                if (triggeredEffect.triggerCardOrPhaseOwner != null)
                 {
-                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && gm.turnPlayer == triggeredCard.cardController) ||
-                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && gm.turnPlayer != triggeredCard.cardController))
+                    if ((triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Opponent && gm.turnPlayer == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Player && gm.turnPlayer != triggeredCard.cardController))
                         continue;
                 }
 
@@ -78,7 +78,8 @@ public class ChainManager : MonoBehaviour
                 //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct, must be right card owner trigger
                 if (!triggeredEffect.triggerTypes.Contains(triggerEffectType))
                     continue;
-
+                if (triggeredEffect.triggerCardLocation != null && triggerCard.currentLocation != triggeredEffect.triggerCardLocation[subCount])
+                    continue;
                 int subNum = triggeredEffect.triggerTypes.FindIndex(a => a == triggerEffectType);
                 if (triggeredEffect.TriggerCard != null && triggeredEffect.TriggerCard[subNum] != triggerCard.cardType)
                     continue;
@@ -86,10 +87,10 @@ public class ChainManager : MonoBehaviour
                     continue;
                 if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
                     continue;
-                if (triggeredEffect.triggerOwner != null)
+                if (triggeredEffect.triggerCardOrPhaseOwner != null)
                 {
-                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && triggerCard.cardController == triggeredCard.cardController) ||
-                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && triggerCard.cardController != triggeredCard.cardController))
+                    if ((triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Opponent && triggerCard.cardController == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Player && triggerCard.cardController != triggeredCard.cardController))
                         continue;
                 }
 
@@ -142,13 +143,15 @@ public class ChainManager : MonoBehaviour
                     continue;
                 if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
                     continue;
+                if (triggeredEffect.triggerCardLocation != null && cardLogic.currentLocation != triggeredEffect.triggerCardLocation[subNum])
+                    continue;
                 int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
 
                 //ensures that the trigger activates due to correct owner
-                if (triggeredEffect.triggerOwner != null)
+                if (triggeredEffect.triggerCardOrPhaseOwner != null)
                 {
-                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && cardLogic.cardController == triggeredCard.cardController) ||
-                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && cardLogic.cardController != triggeredCard.cardController))
+                    if ((triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Opponent && cardLogic.cardController == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Player && cardLogic.cardController != triggeredCard.cardController))
                         continue;
                 }
 
@@ -199,10 +202,10 @@ public class ChainManager : MonoBehaviour
                 if (triggeredCard.currentLocation != triggeredEffect.triggerLocation[subNum])
                     continue;
                 int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
-                if (triggeredEffect.triggerOwner != null)
+                if (triggeredEffect.triggerCardOrPhaseOwner != null)
                 {
-                    if ((triggeredEffect.triggerOwner[subNum] == Controller.Opponent && gm.turnPlayer == triggeredCard.cardController) ||
-                         (triggeredEffect.triggerOwner[subNum] == Controller.Player && gm.turnPlayer != triggeredCard.cardController))
+                    if ((triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Opponent && gm.turnPlayer == triggeredCard.cardController) ||
+                         (triggeredEffect.triggerCardOrPhaseOwner[subNum] == Controller.Player && gm.turnPlayer != triggeredCard.cardController))
                         continue;
                 }
 
