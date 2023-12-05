@@ -46,8 +46,8 @@ public class CopyEffect:Effect
             TriggerState = new(copyEffect.TriggerState);
         if (copyEffect.TriggerPhase != null)
             TriggerPhase = new(copyEffect.TriggerPhase);
-        if (copyEffect.TriggerCardOrPhaseOwner != null)
-            TriggerCardOrPhaseOwner = new(copyEffect.TriggerCardOrPhaseOwner);
+        if (copyEffect.TriggerOwner != null)
+            TriggerOwner = new(copyEffect.TriggerOwner);
         if (copyEffect.TriggerCardLocation != null)
             TriggerCardLocation = new(copyEffect.TriggerCardLocation);
     }

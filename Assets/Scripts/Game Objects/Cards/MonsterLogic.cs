@@ -42,7 +42,7 @@ public class MonsterLogic : CardLogic
 
     override public void StatAdjustment(int value, Status status)
     {
-        cardController.SetStatus(locationOrderNumber, status, value);
+        cardController.SetStat(locationOrderNumber, status, value);
         OnFieldAtkRefresh();
         OnFieldHpRefresh();
         DeathCheck();
@@ -66,7 +66,7 @@ public class MonsterLogic : CardLogic
         cardController.armorIcons[locationOrderNumber].SetActive(false);
         cardController.isEmptyCardSlot[locationOrderNumber] = true;
         cardController.fieldLogicList.Remove(this);
-        cardController.SetStatus(locationOrderNumber, Status.Death, 0);
+        cardController.SetStat(locationOrderNumber, Status.Death, 0);
         playLogic.MoveToGrave();
         gm.StateChange(GameState.Death);
     }

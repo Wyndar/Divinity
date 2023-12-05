@@ -13,7 +13,7 @@ public class Effect
     public List<Location> targetLocation;
     public List<GameState> triggerState;
     public List<Phase> triggerPhase;
-    public List<Controller> triggerCardOrPhaseOwner;
+    public List<Controller> triggerCardOwner;
     public List<Controller> effectTargetController;
     public List<TargetingTypes> targetingTypes;
     public List<Type> effectTargetType;
@@ -53,7 +53,7 @@ public class Effect
     //if needs trigger
     public List<string> TriggerType { get; set; }
     public List<string> TriggerCard { get; set; }
-    public List<string> TriggerCardOrPhaseOwner { get; set; }
+    public List<string> TriggerOwner { get; set; }
     public List<string> TriggerCardLocation { get; set; }
     public List<string> TriggerInfo { get; set; }
     public List<string> TriggerLocation { get; set; }

@@ -561,7 +561,7 @@
         "Id": "GP-10",
         "CardType": "monster",
         "CardName": "Mine Drop",
-        "CardText": "Chain - Summon: Place 1 Bomb(Timer:3) on one deployed opposing Fighter | Chain - Detonate: Bounce one opposing Fighter.",
+        "CardText": "Chain - Summon(Enemy): Place 1 Bomb(Timer:3) on one deployed opposing Fighter | Chain - Detonate: Bounce one opposing Fighter.",
         "CardFlavorText": "Explosions and munitions fanatic",
         "Traits": [ "Military" ],
         "Cost": 1,
@@ -582,7 +582,7 @@
                 "AllowSelfTarget": [ false ],
                 "TriggerState": [ "Summon" ],
                 "TriggerLocation": [ "Field" ],
-                "TriggerOwner": ["Player"]
+                "TriggerOwner": ["Opponent"]
             },
             {
                 "EffectType": [ "Chain" ],

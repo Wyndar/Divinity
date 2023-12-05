@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollingCardPaneHandler : MonoBehaviour
+public class ScrollingCardPanelHandler : MonoBehaviour
 {
     [SerializeField]
     private Game_Manager Game_Manager;

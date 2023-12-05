@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CardLogic : MonoBehaviour
 {
@@ -718,6 +717,7 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Bomb:
                 //bombs have a default timer of three turns
+                cardController.SetDebuffIcon(locationOrderNumber, Debuffs.Bombed);
                 Debuff bomb = new(Debuffs.Bombed, logic, this, effect.duration, true);
                 combatantLogic.debuffs.Add(bomb);
                 break;
