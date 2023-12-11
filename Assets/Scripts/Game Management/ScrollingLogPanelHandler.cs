@@ -1,9 +1,6 @@
 //fundamentally the same thing as the other loghandler, wet only for readability and ease of access
 //do not optimize to dry
 
-
-//??debateable
-
 using System.Collections.Generic;
 using UnityEngine;
 

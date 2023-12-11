@@ -16,6 +16,8 @@ public class Game_Manager : MonoBehaviour
     private UXManager UXManager;
     [SerializeField]
     private DeckManager DeckManager;
+    [SerializeField]
+    private StatusManager StatusManager;
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
@@ -366,6 +368,9 @@ public class Game_Manager : MonoBehaviour
 
     public void ShowShieldPrompt(PlayerManager cardOwner) => UXManager.ShowShieldPrompt(cardOwner);
 
+    public void StatusCountdown(CardStatus cardStatus) => StatusManager.Countdown(cardStatus);
+    public void StatusCountdownReset(CardStatus cardStatus) => StatusManager.CountdownReset(cardStatus);
+
     public void AllEffectsRefresh(PlayerManager player)
     {
         foreach (CardLogic cardLogic in player.handLogicList)
@@ -535,6 +540,13 @@ public class Game_Manager : MonoBehaviour
             image.SetActive(false);
         RedPlayerManager.heroAttackTarget.SetActive(false);
         BluePlayerManager.heroAttackTarget.SetActive(false);
+    }
+
+    public void LogToScroll()
+    {
+        List<CardLogic> loggedLogics = new();
+        foreach (GameLogHistoryEntry entry in gameLogHistoryEntries)
+            loggedLogics.Add(entry.loggedCard);
     }
 
     public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton) =>

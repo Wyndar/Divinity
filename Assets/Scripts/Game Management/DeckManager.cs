@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 public class DeckManager : MonoBehaviour
 {
-	public Game_Manager gm;
+	public Game_Manager G_M;
     public SaveManager SaveManager;
     public EnumManager enumConverter;
+    public UIManager U_I;
     [SerializeField]
     private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
 
@@ -13,7 +14,7 @@ public class DeckManager : MonoBehaviour
     public List<CardLogic> LoadDeck(List<string> strings, List<Card> cards, GameObject deckObject, PlayerManager playerManager, bool isHeroDeck)
     {
         List<Card> database = new();
-        database.AddRange(SaveManager.LoadCardDatabase(gm.DatabasePath));
+        database.AddRange(SaveManager.LoadCardDatabase(G_M.DatabasePath));
         for (int i = 0; i < strings.Count; i++)
         {
             for (int j = 0; j < database.Count; j++)
@@ -73,7 +74,7 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardBack = cardClone.transform.Find("Card Back");
                 cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");
                 cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
-                cardCloneCardLogic.GameManager = gm;
+                cardCloneCardLogic.G_M = G_M;
                 cardCloneCardLogic.enumConverter = enumConverter;
 
                 //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a defaut
@@ -95,7 +96,7 @@ public class DeckManager : MonoBehaviour
                 if (cardCloneCardLogic.cardType != "spell")
                 {
                     cardCloneCombatantLogic = cardClone.AddComponent<CombatantLogic>();
-                    cardCloneCombatantLogic.gm = gm;
+                    cardCloneCombatantLogic.gm = G_M;
                     cardCloneCombatantLogic.logic = cardCloneCardLogic;
                     cardCloneCombatantLogic.atk = cards[i].Atk;
                     cardCloneCombatantLogic.hp = cards[i].Hp;
@@ -110,7 +111,7 @@ public class DeckManager : MonoBehaviour
                 if (cardCloneCardLogic.cardType != "god")
                 {
                     cardClonePlayableLogic = cardClone.AddComponent<PlayableLogic>();
-                    cardClonePlayableLogic.gm = gm;
+                    cardClonePlayableLogic.gm = G_M;
                     cardClonePlayableLogic.logic = cardCloneCardLogic;
                     cardClonePlayableLogic.cost = cards[i].Cost;
                     if (isHeroDeck)
@@ -129,10 +130,12 @@ public class DeckManager : MonoBehaviour
                 switch (cardCloneCardLogic.cardType)
                 {
                     case "spell":
-                        cardClone.GetComponent<SpellLogic>().gm = gm;
+                        cardClone.GetComponent<SpellLogic>().gm = G_M;
+                        cardClone.GetComponent<SpellLogic>().U_I = U_I;
                         break;
                     case "monster":
-                        cardClone.GetComponent<MonsterLogic>().gm = gm;
+                        cardClone.GetComponent<MonsterLogic>().gm = G_M;
+                        cardClone.GetComponent<MonsterLogic>().U_I = U_I;
                         cardClone.GetComponent<MonsterLogic>().combatLogic = cardClone.GetComponent<CombatantLogic>();
                         cardClone.GetComponent<MonsterLogic>().playLogic = cardClone.GetComponent<PlayableLogic>();
                         break;
@@ -146,7 +149,8 @@ public class DeckManager : MonoBehaviour
                         cardCloneCardLogic.cardImage.gameObject.SetActive(true);
                         cardCloneCardLogic.cardBack.gameObject.SetActive(false);
                         cardCloneGodLogic = cardClone.GetComponent<GodLogic>();
-                        cardCloneGodLogic.gm = gm;
+                        cardCloneGodLogic.gm = G_M;
+                        cardClone.GetComponent<GodLogic>().U_I = U_I;
                         cardCloneGodLogic.combatantLogic = cardClone.GetComponent<CombatantLogic>();
                         if (cardCloneGodLogic.maxShieldUsesPerTurn == 0)
                             cardCloneGodLogic.maxShieldUsesPerTurn = 1;

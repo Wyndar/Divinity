@@ -74,7 +74,7 @@
         if (combatantLogic.currentHp <= 0)
         {
             combatantLogic.currentHp = 0;
-            GameManager.GameOver(cardController.enemy);
+            G_M.GameOver(cardController.enemy);
         }
     }
 

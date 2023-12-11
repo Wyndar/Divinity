@@ -1,7 +1,4 @@
 ﻿using TMPro;
-using static Effect;
-using static Game_Manager;
-using static StatChangeHistoryEntry;
 
 public class MonsterLogic : CardLogic
 {
@@ -58,8 +55,7 @@ public class MonsterLogic : CardLogic
     public void MonsterDeath()
     {
         combatLogic.currentHp = 0;
-        combatLogic.buffs.Clear();
-        combatLogic.debuffs.Clear();
+        combatLogic.cardStatuses.Clear();
         combatLogic.hasDoneCountdown = false;
         cardController.atkIcons[locationOrderNumber].SetActive(false);
         cardController.hpIcons[locationOrderNumber].SetActive(false);

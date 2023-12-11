@@ -8,8 +8,7 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> validTargets = new();
 
-    public List<Buff> buffs = new();
-    public List<Debuff> debuffs = new();
+    public List<CardStatus> cardStatuses = new();
     public TargetState targetState;
 
     public int atk, hp, maxHp, currentAtk, currentHp, armor, maxAttacks, attacksLeft;
@@ -132,8 +131,9 @@ public class CombatantLogic : MonoBehaviour
         //if provoked, just return the provoker
         if (DebuffCheck(Debuffs.Provoked))
         {
-            Debuff d = debuffs.Find(a => a.debuff == Debuffs.Provoked);
-         logics.Add(d.debuffer.GetComponent<CombatantLogic>());
+            foreach (Debuff d in cardStatuses)
+                if (d.debuff == Debuffs.Provoked)
+                    logics.Add(d.applierLogic.GetComponent<CombatantLogic>());
             return logics;
         }
 
@@ -183,10 +183,10 @@ public class CombatantLogic : MonoBehaviour
 
     public bool DebuffCheck(Debuffs debuff)
     {
-        if (debuffs.Count == 0)
+        if (cardStatuses.Count < 1)
             return false;
 
-        foreach(Debuff d in debuffs)
+        foreach (Debuff d in cardStatuses)
             if (d.debuff == debuff)
                 return true;
 
@@ -195,7 +195,7 @@ public class CombatantLogic : MonoBehaviour
 
     public bool ImmobilityCheck()
     {
-        if (debuffs.Count == 0)
+        if (cardStatuses.Count < 1)
             return false;
         if (DebuffCheck(Debuffs.Stunned))
             return true;
@@ -243,24 +243,14 @@ public class CombatantLogic : MonoBehaviour
     public void TurnTimer()
     {
         bool brokeLoop = false;
-        if (buffs.Count > 0)
-            foreach (Buff buff in buffs)
-                if (buff.hasCountDown)
+        if (cardStatuses.Count > 0)
+            foreach (CardStatus cardStatus in cardStatuses)
+                if (cardStatus.hasDoneCountDownThisTurn)
                     continue;
                 else
                 {
                     brokeLoop = true;
-                    buff.Countdown();
-                    break;
-                }
-        if (debuffs.Count > 0)
-            foreach (Debuff debuff in debuffs)
-                if (debuff.hasCountdown)
-                    continue;
-                else
-                {
-                    brokeLoop = true;
-                    debuff.Countdown();
+                    gm.StatusCountdown(cardStatus);
                     break;
                 }
         if (!brokeLoop)
@@ -270,12 +260,9 @@ public class CombatantLogic : MonoBehaviour
 
     public void ResetCountdown()
     {
-        if (buffs.Count > 0)
-            foreach (Buff buff in buffs)
-                buff.CountdownReset();
-        if (debuffs.Count > 0)
-            foreach (Debuff debuff in debuffs)
-                debuff.CountdownReset();
+        if (cardStatuses.Count > 0)
+            foreach (CardStatus cardStatus in cardStatuses)
+                gm.StatusCountdownReset(cardStatus);
         hasDoneCountdown = false;
     }
 

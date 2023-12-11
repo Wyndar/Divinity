@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 	public Game_Manager gm;
-    public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, atkSprite, bombSprite;
+    public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, atkSprite, bombSprite, stunSprite;
 
     public void UIUpdate(PlayerManager playerManager)
     {
