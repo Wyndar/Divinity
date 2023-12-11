@@ -21,7 +21,10 @@ public class UXManager : MonoBehaviour
     private ScrollingLogPanelHandler scrollingLogPanelHandler;
 
     [SerializeField]
-    private GameObject trail, effectPanel, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, gameOverPanel;
+    private ScrollingStatusPanelHandler scrollingStatusPanelHandler;
+
+    [SerializeField]
+    private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
 
     [SerializeField]
     private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
@@ -208,6 +211,7 @@ public class UXManager : MonoBehaviour
             else if (gm.gameState == GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == Location.Field)
                 combatant.AttackTargetAcquisition();
         }
+        cardScrollRayBlocker.SetActive(false);
         DisableRayBlocker();
         DisableEffectInfoPanels();
         DisableEffectPanel();
@@ -258,6 +262,12 @@ public class UXManager : MonoBehaviour
                 infoPanelMonsterEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
                 infoPanelMonsterFlavourText.text = gm.currentFocusCardLogic.flavorText;
                 infoPanelMonsterNameText.text = gm.currentFocusCardLogic.cardName;
+                infoPanelMonsterStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
+                statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
+                scrollingStatusPanelHandler.RemoveStatusImages();
+                if (combatantLogic.cardStatuses.Count > 0)
+                    foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
+                        scrollingStatusPanelHandler.AddStatusImage(cardStatus.sprite, cardStatus.applierLogic, cardStatus is Buff, cardStatus.Timer);
                 break;
             case "god":
                 infoPanelGod.SetActive(true);

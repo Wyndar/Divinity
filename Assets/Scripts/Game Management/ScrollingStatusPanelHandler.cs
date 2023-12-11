@@ -1,6 +1,3 @@
-//fundamentally the same thing as the other loghandler, wet only for readability and ease of access
-//do not optimize to dry
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,18 +15,6 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
     [SerializeField]
     private GameObject spriteHolder;
 
-    [SerializeField]
-    private List<string> statAdjusterName = new();
-
-    public void AddCardNameToStatAdjusterNames(CardLogic cardLogic) => statAdjusterName.Add(cardLogic.cardName);
-
-    public void AddCardNamesToStatAdjusterNames(List<CardLogic> cardLogics)
-    {
-        foreach (CardLogic cardLogic in cardLogics)
-            statAdjusterName.Add(cardLogic.cardName);
-    }
-    public void ClearStatAdjusterCardsList() => statAdjusterName.Clear();
-
     public void RemoveStatusImages()
     {
         foreach (GameObject image in statusImages)
@@ -37,7 +22,7 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
         statusImages.Clear();
     }
 
-    public void AddStatusImages(Sprite statusImage, CardLogic statAdjuster)
+    public void AddStatusImage(Sprite statusImage, CardLogic statAdjuster, bool isBuff, int duration)
     {
         GameObject statusImageObject = Instantiate(spriteHolder, content);
         statusImages.Add(statusImageObject);
@@ -45,6 +30,8 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
         scrollStatusImage.cardLogic = statAdjuster;
         scrollStatusImage.Game_Manager = Game_Manager;
         scrollStatusImage.image.sprite = statusImage;
+        scrollStatusImage.durationText.text = duration > 0 ? duration.ToString() : " ";
+        scrollStatusImage.image.color = isBuff ? Color.green : Color.red;
         scrollStatusImage.highlightImage.color = Color.clear;
     }
 }

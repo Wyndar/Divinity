@@ -42,6 +42,7 @@ public class Game_Manager : MonoBehaviour
     {
         LoadPlayers(BluePlayerManager, BluePlayerPath);
         LoadPlayers(RedPlayerManager, RedPlayerPath);
+
         //after it's back from the cross country hike, we can move on
         TurnManager.ChooseFirstPlayer();
     }

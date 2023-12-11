@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8283185576142591821}
   - component: {fileID: 4221226799051485281}
   - component: {fileID: 5550402725233229581}
-  - component: {fileID: 3132523878384647506}
+  - component: {fileID: -4598560252217393169}
   m_Layer: 5
   m_Name: Card Image
   m_TagString: Card Image
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3132523878384647506
+--- !u!114 &-4598560252217393169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2766842851641939454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651fc4572c34142dbbc6fa517095a4db, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bb9d513cc1c14ae6b36a0c2591b4a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardLogic: {fileID: 0}

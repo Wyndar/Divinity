@@ -5,9 +5,8 @@ public class BuffHistoryEntry: GameLogHistoryEntry
 	public Location buffLocation;
 
 	public BuffHistoryEntry(int amount, Location buffedLocation)
-	{ 
-		buffAmount = amount;
+    {
+        buffAmount = amount;
 		buffLocation = buffedLocation;
 	}
 }
-
