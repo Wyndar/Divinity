@@ -27529,6 +27529,7 @@ MonoBehaviour:
   scrollingCardPanelHandler: {fileID: 1600093231}
   scrollingLogPanelHandler: {fileID: 1600093232}
   scrollingStatusPanelHandler: {fileID: 1600093234}
+  canvasGO: {fileID: 691683657}
   trail: {fileID: 543530145}
   effectPanel: {fileID: 1745692280}
   infoPanelMonsterStatusBar: {fileID: 746011572}
@@ -27543,6 +27544,7 @@ MonoBehaviour:
   gameLogScreenButton: {fileID: 62047423}
   cardScrollRayBlocker: {fileID: 680208561}
   statScrollRayBlocker: {fileID: 309286309}
+  infoTextPanel: {fileID: 5811323437570313867, guid: 28dfe0c6bcae9464cbb78818bee0220c, type: 3}
   gameOverPanel: {fileID: 2006838610}
   infoPanelSpellNameText: {fileID: 1905486790}
   infoPanelSpellCostText: {fileID: 2010252051}
@@ -27670,6 +27672,7 @@ MonoBehaviour:
   isActivatingEffect: 0
   isChecking: 0
   isWaitingForResponse: 0
+  isShowingInfo: 0
   gameState: 0
   currentPhase: 0
   gameLogHistoryEntries: []
@@ -27793,6 +27796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Game_Manager: {fileID: 1600093227}
   content: {fileID: 1600721749}
+  UXManager: {fileID: 1600093222}
   statusImages: []
   spriteHolder: {fileID: 20190957663444677, guid: d252f92cf3b2141b0ad82e8fa97f0219, type: 3}
 --- !u!1 &1600721748

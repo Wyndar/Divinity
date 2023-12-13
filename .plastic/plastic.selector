@@ -1,0 +1,4 @@
+repository "Divinity@folaranmiadedamolabill@cloud"
+  path "/"
+    br "/main"
+    co "/main"

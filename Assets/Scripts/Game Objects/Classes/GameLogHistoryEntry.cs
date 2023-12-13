@@ -1,6 +1,6 @@
 ﻿using System;
 
-[System.Serializable]
+[Serializable]
 public class GameLogHistoryEntry
 {
     public LogType log;

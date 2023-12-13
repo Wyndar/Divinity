@@ -21,7 +21,7 @@ public class Game_Manager : MonoBehaviour
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotLoading, isActivatingEffect, isChecking, isWaitingForResponse;
+    public bool isNotLoading, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo;
 
     public GameState gameState;
     public Phase currentPhase;

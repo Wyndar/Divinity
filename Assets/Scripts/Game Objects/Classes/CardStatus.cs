@@ -9,6 +9,8 @@ public abstract class CardStatus
     public Sprite sprite;
     public bool shouldCountdown;
     public bool hasDoneCountDownThisTurn;
+    public string name;
+    public string description;
 
     public CardStatus()
     {

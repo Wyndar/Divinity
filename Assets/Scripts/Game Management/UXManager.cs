@@ -24,7 +24,7 @@ public class UXManager : MonoBehaviour
     private ScrollingStatusPanelHandler scrollingStatusPanelHandler;
 
     [SerializeField]
-    private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
+    private GameObject canvasGO, trail, effectPanel, infoPanelMonsterStatusBar, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, statScrollRayBlocker, infoTextPanel, gameOverPanel;
 
     [SerializeField]
     private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
@@ -46,7 +46,7 @@ public class UXManager : MonoBehaviour
     private float touchStartTime, touchEndTime;
     private Coroutine trailCoroutine;
     private List<string> effectText;
-    private int activeEffectButton, activeAttackButton;
+    private int activeEffectButton, activeAttackButton, floatingInfoTextCount;
     private PlayerManager effectActivatingPlayer, attackDeclaringPlayer;
     private bool hasRaycast;
     private bool allowCardLogicSwap = true;
@@ -150,6 +150,8 @@ public class UXManager : MonoBehaviour
         DisableAllPopups();
         if (isUsingshield)
             return;
+        if (gm.isShowingInfo)
+            return;
         if (gameObject.CompareTag("Active UI panel"))
             return;
         if (gameObject.CompareTag("Background") && gm.gameState == GameState.Open)
@@ -168,7 +170,6 @@ public class UXManager : MonoBehaviour
             return;
         }
         CardLogic focusCard = gm.currentFocusCardLogic;
-        gameObject.TryGetComponent(out PlayableLogic playableLogic);
         gameObject.TryGetComponent(out MonsterLogic monsterLogic);
         gameObject.TryGetComponent(out CombatantLogic combatant);
         if (gameObject.CompareTag("card"))
@@ -267,7 +268,7 @@ public class UXManager : MonoBehaviour
                 scrollingStatusPanelHandler.RemoveStatusImages();
                 if (combatantLogic.cardStatuses.Count > 0)
                     foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
-                        scrollingStatusPanelHandler.AddStatusImage(cardStatus.sprite, cardStatus.applierLogic, cardStatus is Buff, cardStatus.Timer);
+                        scrollingStatusPanelHandler.AddStatusImage(cardStatus);
                 break;
             case "god":
                 infoPanelGod.SetActive(true);
@@ -382,6 +383,32 @@ public class UXManager : MonoBehaviour
  scrollingCardPanelHandler.AddCardListToScrollCards(cardLogics);
         scrollingCardPanelHandler.AddContentCards();
         gm.isChecking = false;
+    }
+
+    public FloatingText EnableInfoTextPanel(string headerText, string infoText, Color headerColor, Color infoColor, ScrollStatusImage scrollStatusImage)
+    {
+        GameObject floater = Instantiate(infoTextPanel, canvasGO.transform);
+        gm.isShowingInfo = true;
+        floatingInfoTextCount++;
+        //trying to get it to appear on the opposite half of the screen to the clicked target
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(touchEndPosition);
+        floater.transform.position = new(viewPos.x < 0.5f ? touchEndPosition.x + 1f : touchEndPosition.x - 1f, viewPos.y > 0.5f ? touchEndPosition.y - 4f : touchEndPosition.y + 4f, floater.transform.position.z);
+        FloatingText floatingText = floater.GetComponent<FloatingText>();
+        floatingText.header.text = headerText;
+        floatingText.infoText.text = infoText;
+        floatingText.header.color = headerColor;
+        floatingText.infoText.color = infoColor;
+        floatingText.UXmanager = this;
+        floatingText.scrollStatusImage = scrollStatusImage;
+
+        return floatingText;
+    }
+
+    public void DisableInfoPauseMode()
+    {
+        floatingInfoTextCount--;
+        if (floatingInfoTextCount < 1)
+            gm.isShowingInfo = false;
     }
 
     public void DisableCardScrollScreen()

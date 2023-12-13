@@ -9,13 +9,8 @@ public class InputManager : MonoBehaviour
     public event StartTouch OnEndTouch;
 
     private PlayerInputList playerInputs;
-    private Camera mainCamera;
 
-    private void Awake()
-    {
-        playerInputs = new PlayerInputList();
-        mainCamera = Camera.main;
-    }
+    private void Awake() => playerInputs = new PlayerInputList();
 
     private void OnEnable() => playerInputs.Enable();
 

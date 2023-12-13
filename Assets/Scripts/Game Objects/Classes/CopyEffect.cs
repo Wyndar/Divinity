@@ -52,4 +52,3 @@ public class CopyEffect:Effect
             TriggerCardLocation = new(copyEffect.TriggerCardLocation);
     }
 }
-

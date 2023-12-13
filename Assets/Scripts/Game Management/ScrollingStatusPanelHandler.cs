@@ -10,6 +10,9 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
     private Transform content;
 
     [SerializeField]
+    private UXManager UXManager;
+
+    [SerializeField]
     private List<GameObject> statusImages = new();
 
     [SerializeField]
@@ -22,16 +25,17 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
         statusImages.Clear();
     }
 
-    public void AddStatusImage(Sprite statusImage, CardLogic statAdjuster, bool isBuff, int duration)
+    public void AddStatusImage(CardStatus status)
     {
         GameObject statusImageObject = Instantiate(spriteHolder, content);
         statusImages.Add(statusImageObject);
         ScrollStatusImage scrollStatusImage = statusImageObject.GetComponent<ScrollStatusImage>();
-        scrollStatusImage.cardLogic = statAdjuster;
         scrollStatusImage.Game_Manager = Game_Manager;
-        scrollStatusImage.image.sprite = statusImage;
-        scrollStatusImage.durationText.text = duration > 0 ? duration.ToString() : " ";
-        scrollStatusImage.image.color = isBuff ? Color.green : Color.red;
+        scrollStatusImage.UXManager = UXManager;
+        scrollStatusImage.currentStatus = status;
+        scrollStatusImage.image.sprite = status.sprite;
+        scrollStatusImage.durationText.text = status.Timer > 0 ? status.Timer.ToString() : " ";
+        scrollStatusImage.image.color = status is Buff ? Color.green : Color.red;
         scrollStatusImage.highlightImage.color = Color.clear;
     }
 }
