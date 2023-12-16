@@ -5,11 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game Battle Scene.unity
-    guid: c1d7adc8963964c9e978cdfac37fe6b2
+    guid: 6d49704b08cc2f04ba2018dbec74a790
   m_configObjects:
-    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: a34e9ddecce214444875d48f807b537a, type: 2}
-    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 21a9ae206982740aab75a8ae8c297b3d, type: 2}
-    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 9017d9cb2351e4cccbb233fcec5dbbbb, type: 2}
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: a340bfc7f032b2543a61c31e5687f114, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 5ef17ed591daf5c428c0f05e7b79b624, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 98722a1fdf1bc254d886cd23384d878f, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 8854c7f4a2b4c4a4b9886c72e6dbe5e6, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 8788a6abf888c4f7389cc8d8820f8578, type: 2}

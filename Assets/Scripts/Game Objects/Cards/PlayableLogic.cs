@@ -82,7 +82,8 @@ public class PlayableLogic : MonoBehaviour
 
             if (deploy)
             {
-                player.handLogicList.Remove(logic);                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
+                player.handLogicList.Remove(logic);               
+                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
                 gm.ShuffleHand(player);
             }
             else

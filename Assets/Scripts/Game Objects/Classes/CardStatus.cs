@@ -9,20 +9,20 @@ public abstract class CardStatus
     public Sprite sprite;
     public bool shouldCountdown;
     public bool hasDoneCountDownThisTurn;
-    public string name;
-    public string description;
+    public ToolTipInfo toolTipInfo;
 
     public CardStatus()
     {
 
     }
 
-    public CardStatus(CardLogic bufferLogic, CardLogic buffedLogic, int timer, bool timed, Sprite bufSprite)
+    public CardStatus(CardLogic bufferLogic, CardLogic buffedLogic, int timer, bool timed, Sprite bufSprite, ToolTipInfo toolTip)
     {
         affectedLogic = bufferLogic;
         applierLogic = buffedLogic;
         Timer = timer;
         shouldCountdown = timed;
         sprite = bufSprite;
+        toolTipInfo = toolTip;
     }
 }

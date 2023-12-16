@@ -428,7 +428,7 @@
                 "EffectTargetOwner": [ "any", "Player" ],
                 "TargetLocation": [ "Grave", "Field" ],
                 "EffectTargetAmount": [ 99, 1 ],
-                "AllowSelfTarget": [ false, false ],s
+                "AllowSelfTarget": [ false, false ],
                 "TargetCountModifier": [ 0.25, 0 ]
             }
         ]

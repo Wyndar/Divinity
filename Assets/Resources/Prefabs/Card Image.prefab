@@ -33,7 +33,6 @@ RectTransform:
   m_Children:
   - {fileID: 1218309017763849982}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -87,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2766842851641939454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb9d513cc1c14ae6b36a0c2591b4a2f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c108f613083c0246800ea46277f14f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardLogic: {fileID: 0}
@@ -125,7 +124,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8283185576142591821}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -160,7 +158,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 39b514483dd8d4e8a8680048d292e5e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 921518c0c073ac2438847eddb4897b68, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

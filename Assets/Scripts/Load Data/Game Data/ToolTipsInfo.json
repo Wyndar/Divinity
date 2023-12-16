@@ -1,0 +1,14 @@
+﻿[
+    {
+        "key": "Bomb",
+        "value": "After the timer reaches 0, <u><color=red><link=Detonate>Detonate</link>s</color></u> and does 2 damage to the affected fighter then <u><color=red><link=Stun>Stun</link>s</color></u> that fighter. Can only be applied to fighters."
+    },
+  {
+      "key":"Detonate",
+      "value": "Sets the timer of one or more debuffs to 0 and immediately applies all effects of the debuff should have applied during it's duration."
+  },
+  {
+      "key":"Stun",
+      "Value":"The affected <link=Combatant><u><color=yellow>Combatant</color></u></link> is unable to attack"
+  }
+]

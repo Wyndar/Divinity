@@ -7,7 +7,7 @@ public class ScrollStatusImage : MonoBehaviour, IPointerClickHandler
 {
     public CardStatus currentStatus;
     public Game_Manager Game_Manager;
-	public UXManager UXManager;
+	public ToolTipManager toolTipManager;
     public FloatingText floatingText;
     public Image highlightImage;
     public Image image;
@@ -30,7 +30,7 @@ public class ScrollStatusImage : MonoBehaviour, IPointerClickHandler
         {
             isTargeted = true;
             highlightImage.color = Color.yellow;
-            floatingText = UXManager.EnableInfoTextPanel(currentStatus.name, currentStatus.description, currentStatus is Buff ? Color.green : Color.red, Color.black, this);
+            floatingText = toolTipManager.EnableInfoTextPanel(currentStatus.toolTipInfo, currentStatus is Buff ? Color.green : Color.red, Color.black, this);
         }
     }
 }

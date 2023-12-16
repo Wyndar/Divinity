@@ -37,4 +37,12 @@ public class SaveManager:MonoBehaviour
         List<Card> data = JsonConvert.DeserializeObject<List<Card>>(json);
         return data;
     }
+
+    //loads a list of handy tips and info from the db
+    public List<ToolTipInfo> LoadToolTipInfoDatabase(string path)
+    {
+        string json = File.ReadAllText(Application.dataPath + path);
+        List<ToolTipInfo> data = JsonConvert.DeserializeObject<List<ToolTipInfo>>(json);
+        return data;
+    }
 }

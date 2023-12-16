@@ -30,7 +30,7 @@ public class StatusManager : MonoBehaviour
                     combatantLogic.TakeDamage(3, false);
                     if (d.affectedLogic.currentLocation == Location.Grave)
                         break;
-                    Debuff stun = new(Debuffs.Stunned, d.applierLogic, d.affectedLogic, 2, true, ui.stunSprite);
+                    Debuff stun = new(Debuffs.Stunned, d.applierLogic, d.affectedLogic, 2, true, gm.ToolTipManager.tooltipInfos.Find(a => a.key == "Bomb"), ui.stunSprite);
                     combatantLogic.cardStatuses.Add(stun);
                     break;
             }

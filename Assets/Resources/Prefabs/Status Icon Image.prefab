@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6111875207806868598}
   - component: {fileID: 2069043470627289946}
   - component: {fileID: 7720448101145965622}
-  - component: {fileID: 1781177204454396301}
+  - component: {fileID: 8725685120348341792}
   m_Layer: 5
   m_Name: Status Icon Image
   m_TagString: Card Image
@@ -34,7 +34,6 @@ RectTransform:
   - {fileID: 3948032771657444805}
   - {fileID: 4123655996930285204}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -79,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1781177204454396301
+--- !u!114 &8725685120348341792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,15 +87,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 20190957663444677}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651fc4572c34142dbbc6fa517095a4db, type: 3}
+  m_Script: {fileID: 11500000, guid: de10ae272a58248428492f9a4a204e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardLogic: {fileID: 0}
-  isBuff: 0
   Game_Manager: {fileID: 0}
+  UXManager: {fileID: 0}
+  floatingText: {fileID: 0}
   highlightImage: {fileID: 7720448101145965622}
   image: {fileID: 2260211660082970816}
   durationText: {fileID: 6367121800930950890}
+  isTargeted: 0
 --- !u!1 &1781226660454031944
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +128,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6111875207806868598}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -204,7 +203,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6111875207806868598}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -241,8 +239,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 9
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9e42103bbeeae64793bfb861b516f30, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: d9e42103bbeeae64793bfb861b516f30, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -19,6 +19,8 @@ public class Game_Manager : MonoBehaviour
     [SerializeField]
     private StatusManager StatusManager;
 
+    public ToolTipManager ToolTipManager;
+
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
     public bool isNotLoading, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo;
@@ -36,12 +38,13 @@ public class Game_Manager : MonoBehaviour
     public TMP_Text bluePlayerText, redPlayerText, turnCountText, turnPhaseText;
 
     public int turnCount;
-    public string DatabasePath, BluePlayerPath, RedPlayerPath;
+    public string CardDatabasePath, BluePlayerPath, RedPlayerPath, ToolTipsDatabasePath;
 
     void Start()
     {
         LoadPlayers(BluePlayerManager, BluePlayerPath);
         LoadPlayers(RedPlayerManager, RedPlayerPath);
+        LoadToolTips();
 
         //after it's back from the cross country hike, we can move on
         TurnManager.ChooseFirstPlayer();
@@ -76,6 +79,8 @@ public class Game_Manager : MonoBehaviour
         playerManager.deckLogicList.AddRange(DeckManager.LoadDeck(playerManager.deckListID, playerManager.deckList, playerManager.deck, playerManager, false));
         playerManager.heroDeckLogicList.AddRange(DeckManager.LoadDeck(playerManager.heroDeckListID, playerManager.heroDeckList, playerManager.shield, playerManager, true));
     }
+
+    public void LoadToolTips() => ToolTipManager.tooltipInfos.AddRange(SaveManager.LoadToolTipInfoDatabase(ToolTipsDatabasePath));
 
     public void CostChange(int changeAmount, PlayerManager player, bool add)
     {

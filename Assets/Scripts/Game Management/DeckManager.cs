@@ -14,7 +14,7 @@ public class DeckManager : MonoBehaviour
     public List<CardLogic> LoadDeck(List<string> strings, List<Card> cards, GameObject deckObject, PlayerManager playerManager, bool isHeroDeck)
     {
         List<Card> database = new();
-        database.AddRange(SaveManager.LoadCardDatabase(G_M.DatabasePath));
+        database.AddRange(SaveManager.LoadCardDatabase(G_M.CardDatabasePath));
         for (int i = 0; i < strings.Count; i++)
         {
             for (int j = 0; j < database.Count; j++)

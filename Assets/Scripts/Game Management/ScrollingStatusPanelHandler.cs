@@ -10,7 +10,7 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
     private Transform content;
 
     [SerializeField]
-    private UXManager UXManager;
+    private ToolTipManager toolTipManager;
 
     [SerializeField]
     private List<GameObject> statusImages = new();
@@ -31,7 +31,7 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
         statusImages.Add(statusImageObject);
         ScrollStatusImage scrollStatusImage = statusImageObject.GetComponent<ScrollStatusImage>();
         scrollStatusImage.Game_Manager = Game_Manager;
-        scrollStatusImage.UXManager = UXManager;
+        scrollStatusImage.toolTipManager = toolTipManager;
         scrollStatusImage.currentStatus = status;
         scrollStatusImage.image.sprite = status.sprite;
         scrollStatusImage.durationText.text = status.Timer > 0 ? status.Timer.ToString() : " ";

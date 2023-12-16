@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
 
     private void EndedTouch(InputAction.CallbackContext callbackContext) => OnEndTouch?.Invoke(playerInputs.Player.Position.ReadValue<Vector2>(), (float)callbackContext.time);
 
-    public Vector2 CurrentFingerPosition => playerInputs.Player.Position.ReadValue<Vector2>();
+   public Vector2 CurrentFingerPosition => playerInputs.Player.Position.ReadValue<Vector2>();
 }
 
 

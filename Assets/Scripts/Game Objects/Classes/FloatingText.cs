@@ -3,7 +3,7 @@ using TMPro;
 
 public class FloatingText : MonoBehaviour
 {
-    public UXManager UXmanager;
+    public ToolTipManager toolTipManager;
     public TMP_Text header;
     public TextMeshProUGUI infoText;
     public ScrollStatusImage scrollStatusImage;
@@ -15,7 +15,7 @@ public class FloatingText : MonoBehaviour
             scrollStatusImage.highlightImage.color = Color.clear;
             scrollStatusImage.isTargeted = false;
         }
-        UXmanager.DisableInfoPauseMode();
+        toolTipManager.DisableInfoPauseMode();
         Destroy(gameObject);
     }
 }

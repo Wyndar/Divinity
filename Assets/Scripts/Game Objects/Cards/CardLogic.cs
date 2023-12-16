@@ -720,9 +720,7 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Bomb:
                 //bombs have a default timer of three turns
                 cardController.SetDebuffIcon(locationOrderNumber, Debuffs.Bombed);
-                Debuff bomb = new(Debuffs.Bombed, logic, this, effect.duration, true, U_I.bombSprite);
-                bomb.name = "bomb";
-                bomb.description = "After the timer reaches 0, <link=detonate><u><color=red> detonates </color></u></link> and does 2 damage to the affected fighter then <link=stun><u><color=red> stuns </color></u></link> that fighter. Can only be applied to fighters.";
+                Debuff bomb = new(Debuffs.Bombed, logic, this, effect.duration, true,G_M.ToolTipManager.tooltipInfos.Find(a=>a.key=="Bomb"), U_I.bombSprite);
                 combatantLogic.cardStatuses.Add(bomb);
                 break;
             case EffectsUsed.Spot:
