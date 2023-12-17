@@ -7950,7 +7950,7 @@ MonoBehaviour:
   gm: {fileID: 1600093227}
   ui: {fileID: 1600093234}
   SaveManager: {fileID: 1600093223}
-  enemy: {fileID: 432537827}
+  enemy: {fileID: 104160277}
   AIManager: {fileID: 267949214}
   PlayerName: 
   PlayerID: 
