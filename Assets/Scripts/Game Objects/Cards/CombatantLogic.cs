@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 
 public class CombatantLogic : MonoBehaviour
 {
@@ -78,13 +80,11 @@ public class CombatantLogic : MonoBehaviour
                 currentHp -= value;
                 break;
             default:
-                Debug.Log("Error at stat type" + logic.cardName);
+                Debug.Log($"Error at stat type {logic.cardName}");
                 break;
         }
         if (currentAtk < 0)
             currentAtk = 0;
-        logic.StatAdjustment(value, status);
-
     }
 
     public void Heal(int healAmount)
@@ -131,7 +131,7 @@ public class CombatantLogic : MonoBehaviour
         //if provoked, just return the provoker
         if (DebuffCheck(Debuffs.Provoked))
         {
-            foreach (Debuff d in cardStatuses)
+            foreach (Debuff d in cardStatuses.Cast<Debuff>())
                 if (d.debuff == Debuffs.Provoked)
                     logics.Add(d.applierLogic.GetComponent<CombatantLogic>());
             return logics;
@@ -225,6 +225,7 @@ public class CombatantLogic : MonoBehaviour
         validTargets = new(GetValidAttackTargets());
         foreach(CombatantLogic combatantLogic in validTargets)
         {
+            Debug.Log(combatantLogic.logic.cardName);
             if (combatantLogic.logic.cardType == "monster")
                 combatantLogic.logic.cardController.attackTargets[combatantLogic.logic.locationOrderNumber].SetActive(true);
             if (combatantLogic.logic.cardType == "god")

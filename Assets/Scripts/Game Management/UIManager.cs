@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 
     public void UIUpdate(PlayerManager playerManager)
     {
+        playerManager.heroCardLogic.OnFieldAtkRefresh();
+        playerManager.heroCardLogic.OnFieldHpRefresh();
         playerManager.deckCount = playerManager.deckLogicList.Count;
         playerManager.graveCount = playerManager.graveLogicList.Count;
         playerManager.shieldCount = playerManager.heroDeckLogicList.Count;

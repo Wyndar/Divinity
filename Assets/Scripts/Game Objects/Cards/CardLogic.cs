@@ -622,10 +622,7 @@ public class CardLogic : MonoBehaviour
         gameObject.transform.rotation = player.deck.transform.rotation;
     }
 
-    virtual public void StatAdjustment(int value, Status status)
-    {
-        Debug.Log("Failed virtual override for " + status + " " + cardName);
-    }
+    virtual public void StatAdjustment(int value, Status status)=> Debug.Log($"Failed virtual override for status of {cardName}");
 
     public void EffectLogger(EffectsUsed effectsUsed, int effectAmount, LogType logType, Effect effect)
     {
