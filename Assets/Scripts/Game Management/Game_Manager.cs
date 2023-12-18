@@ -99,7 +99,7 @@ public class Game_Manager : MonoBehaviour
     {
         if (player.handSize >= 10)
             return;
-
+        bool drewCards = false;
         for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
         {
             if (player.isEmptyHandSlot[i] == false)
@@ -115,7 +115,7 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.gameObject.SetActive(true);
             randomCardDraw.transform.position = Vector3.zero;
 
-            //implementing a battle log
+            //implementing a game log
             if (isActivatingEffect)
                 randomCardDraw.LocationChange(currentFocusCardLogic.focusEffect, EffectsUsed.Reinforce, Location.Hand, i);
             else
@@ -130,12 +130,18 @@ public class Game_Manager : MonoBehaviour
             player.handLogicList.Add(randomCardDraw);
             drawAmount--;
             player.handSize = player.handLogicList.Count;
+            drewCards = true;
         }
-        ShuffleHand(player);
-        if (isNotLoading)
-            StateChange(GameState.Reinforcement);
-        if (currentPhase == Phase.DrawPhase)
-            ChainResolution();
+
+        //ensures that unnecessary chains and shuffles don't occur on unresolved draws
+        if (drewCards)
+        {
+            ShuffleHand(player);
+            if (isNotLoading)
+                StateChange(GameState.Reinforcement);
+            if (currentPhase == Phase.DrawPhase)
+                ChainResolution();
+        }
     }
 
     public void SearchCard(CardLogic logic, PlayerManager player)
