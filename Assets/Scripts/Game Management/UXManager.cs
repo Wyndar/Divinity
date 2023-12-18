@@ -146,7 +146,7 @@ public class UXManager : MonoBehaviour
 
     private void CurrentClickedGameObject(GameObject gameObject)
     {
-        Debug.Log(gameObject.name + " " + gameObject.tag);
+        Debug.Log($"{gameObject.name} {gameObject.tag}");
         DisableAllPopups();
         if (isUsingshield)
             return;
@@ -190,18 +190,18 @@ public class UXManager : MonoBehaviour
                 focusCard.cardOutline.gameObject.SetActive(true);
                 if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
                 {
-                    if (gm.currentPhase == Phase.MainPhase)
-                    {
+                    bool showButton = false;
+                    if (focusCard.effects != null)
+                        foreach (Effect effect in focusCard.effects)
+                            foreach (EffectTypes effectTypes in effect.effectTypes)
+                                if (effectTypes != EffectTypes.Chain)
+                                    showButton = true;
+                    if (showButton)
                         EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
-                        return;
-                    }
-                    else if (gm.currentPhase == Phase.BattlePhase)
-                    {
-                        EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
-                        if (combatant.attacksLeft > 0)
+                    if (gm.currentPhase == Phase.BattlePhase)
+                        if (combatant.attacksLeft > 0 && combatant.atk > 0)
                             EnableOnFieldAttackPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
-                        return;
-                    }
+                    return;
                 }
             }
             //targeting for effect
@@ -317,6 +317,7 @@ public class UXManager : MonoBehaviour
         List<CardLogic>validTargets = new(activatingCard.GetValidTargets(effectCount,0));
         for (int i = 0; i < effectPanelTexts.Length; i++)
         {
+            //only show buttons if its not the current effect
             if (i != effectCount)
             {
                 effects[i].SetActive(false);
@@ -335,7 +336,8 @@ public class UXManager : MonoBehaviour
             activateButtons[effectCount].SetActive(false);
             return;
         }
-        if (activatingCard.currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation))
+        //only show activation button if it's not a chain effect and in correct activation location
+        if (activatingCard.currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation) && activatingEffect.effectTypes[effectCount] != EffectTypes.Chain)
         {
             activateButtons[effectCount].SetActive(true);
             activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effects[effectCount].maxActivations - activatingCard.effects[effectCount].currentActivations).ToString();

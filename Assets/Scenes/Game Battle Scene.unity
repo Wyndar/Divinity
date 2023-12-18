@@ -9062,7 +9062,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1600093222}
+      - m_Target: {fileID: 1600093225}
         m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
         m_MethodName: SwitchEffectPanel
         m_Mode: 3
@@ -12492,7 +12492,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1600093222}
+      - m_Target: {fileID: 1600093225}
         m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
         m_MethodName: SwitchEffectPanel
         m_Mode: 3
@@ -31572,7 +31572,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1600093222}
+      - m_Target: {fileID: 1600093225}
         m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
         m_MethodName: SwitchEffectPanel
         m_Mode: 3
@@ -33794,7 +33794,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1600093222}
+      - m_Target: {fileID: 1600093225}
         m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
         m_MethodName: SwitchEffectPanel
         m_Mode: 3
