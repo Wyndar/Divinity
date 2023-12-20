@@ -5,7 +5,8 @@ using System.Collections;
 public class TurnManager : MonoBehaviour
 {
     public Game_Manager gm;
-
+    public Color playerColor;
+    public Color enemyColor;
     public float waitTime = 2f;
 
     private Coroutine previousCoroutine;
@@ -18,11 +19,15 @@ public class TurnManager : MonoBehaviour
         if (odds < 51)
         {
             gm.popUpPanelText.text = "You're First";
+            gm.popUpPanelText.color = playerColor;
+            gm.turnPhaseText.color = playerColor;
             currentCoroutine = StartCoroutine(FirstTurn(gm.BluePlayerManager));
         }
         else
         {
             gm.popUpPanelText.text = "Your Opponent goes first";
+            gm.popUpPanelText.color= enemyColor; 
+            gm.turnPhaseText.color= enemyColor;
             currentCoroutine = StartCoroutine(FirstTurn(gm.RedPlayerManager));
         }
         yield break;
@@ -96,12 +101,16 @@ public class TurnManager : MonoBehaviour
         if (player == gm.BluePlayerManager)
         {
             gm.popUpPanelText.text = $"It's {gm.RedPlayerManager.PlayerName}'s turn";
+            gm.popUpPanelText.color = enemyColor;
+            gm.turnPhaseText.color = enemyColor;
             yield return new WaitForSeconds(waitTime);
             SwitchTurn(gm.RedPlayerManager);
         }
         else
         {
             gm.popUpPanelText.text = "It's your turn";
+            gm.popUpPanelText.color= playerColor;
+            gm.turnPhaseText.color = playerColor;
             yield return new WaitForSeconds(waitTime);
             SwitchTurn(gm.BluePlayerManager);
         }
@@ -148,6 +157,8 @@ public class TurnManager : MonoBehaviour
         gm.popUpPanel.SetActive(true);
         gm.turnPhaseText.text = "Deployment";
         gm.popUpPanelText.text = "deployment";
+        gm.phaseChangeButton.SetActive(true);
+        gm.phaseChangeButtonText.text = "COMBAT";
         PhaseButtonCheck(player);
         yield return new WaitForSeconds(waitTime);
 
@@ -165,6 +176,8 @@ public class TurnManager : MonoBehaviour
         gm.popUpPanel.SetActive(true);
         gm.turnPhaseText.text = "Combat";
         gm.popUpPanelText.text = "combat";
+        gm.phaseChangeButton.SetActive(true);
+        gm.phaseChangeButtonText.text = "END TURN";
         PhaseButtonCheck(player);
         yield return new WaitForSeconds(waitTime);
 
@@ -178,12 +191,12 @@ public class TurnManager : MonoBehaviour
     {
         if (gm.currentPhase == Phase.MainPhase)
         {
-            gm.phaseChangeButtonText.text = "END TURN";
+            gm.phaseChangeButton.SetActive(false);
             currentCoroutine = StartCoroutine(BattlePhase(gm.turnPlayer));
         }
         else if (gm.currentPhase == Phase.BattlePhase)
         {
-            gm.phaseChangeButtonText.text = "COMBAT";
+            gm.phaseChangeButton.SetActive(false);
             currentCoroutine = StartCoroutine(EndPhase(gm.turnPlayer));
         }
     }
