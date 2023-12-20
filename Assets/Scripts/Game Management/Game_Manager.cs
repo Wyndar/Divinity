@@ -33,9 +33,9 @@ public class Game_Manager : MonoBehaviour
     public List<int> activationChainSubNumber = new();
 
     public CardLogic currentFocusCardLogic;
-    public GameObject phaseChangeButton;
+    public GameObject phaseChangeButton, popUpPanel;
 
-    public TMP_Text bluePlayerText, redPlayerText, turnCountText, turnPhaseText;
+    public TMP_Text bluePlayerText, redPlayerText, turnCountText, turnPhaseText, popUpPanelText, phaseChangeButtonText;
 
     public int turnCount;
     public string CardDatabasePath, BluePlayerPath, RedPlayerPath, ToolTipsDatabasePath;
@@ -47,7 +47,9 @@ public class Game_Manager : MonoBehaviour
         LoadToolTips();
 
         //after it's back from the cross country hike, we can move on
-        TurnManager.ChooseFirstPlayer();
+        popUpPanelText = popUpPanel.GetComponentInChildren<TMP_Text>();
+        phaseChangeButtonText = phaseChangeButton.GetComponentInChildren<TMP_Text>();
+        StartCoroutine(TurnManager.ChooseFirstPlayer());
     }
 
     void Update()

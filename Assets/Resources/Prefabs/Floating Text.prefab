@@ -612,6 +612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5811323437570313876}
   - component: {fileID: 775683183158946034}
+  - component: {fileID: 2634129779595822665}
   m_Layer: 5
   m_Name: Floating Text
   m_TagString: Untagged
@@ -656,3 +657,18 @@ MonoBehaviour:
   header: {fileID: 5811323437152009569}
   infoText: {fileID: 5811323437040555081}
   scrollStatusImage: {fileID: 0}
+--- !u!114 &2634129779595822665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5811323437570313867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba861b885b5bcf041a6d702b6256deb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  growSpeed: 5
+  minSize: 0.1
+  maxSize: 1
