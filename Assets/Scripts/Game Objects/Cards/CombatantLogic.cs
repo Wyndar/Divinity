@@ -108,6 +108,7 @@ public class CombatantLogic : MonoBehaviour
         logic.statChangeHistoryEnteries.Add(statChangeLog);
         gm.gameLogHistoryEntries.Add(statChangeLog);
         logic.StatAdjustment(healAmount, Status.Heal);
+        if (GetComponent<MonsterLogic>() != null)
             GetComponent<MonsterLogic>().OnFieldHpRefresh();
     }
 
