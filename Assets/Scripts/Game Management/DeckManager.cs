@@ -79,7 +79,7 @@ public class DeckManager : MonoBehaviour
 
                 //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a defaut
 
-                    cardCloneCardLogic.image = Resources.Load("Sprites And Visuals/Card Images/" + cardCloneCardLogic.id, typeof(Sprite)) as Sprite;
+                    cardCloneCardLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.id}", typeof(Sprite)) as Sprite;
                 if(cardCloneCardLogic.image == null)
                 {
                     cardCloneCardLogic.image = Resources.Load("Sprites And Visuals/Card Images/Default", typeof(Sprite)) as Sprite;

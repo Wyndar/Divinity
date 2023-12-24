@@ -18,6 +18,8 @@ public class Game_Manager : MonoBehaviour
     private DeckManager DeckManager;
     [SerializeField]
     private StatusManager StatusManager;
+    [SerializeField]
+    private AudioManager AudioManager;
 
     public ToolTipManager ToolTipManager;
 
@@ -42,6 +44,7 @@ public class Game_Manager : MonoBehaviour
 
     void Start()
     {
+        AudioManager.SelectRandomBGMusic();
         LoadPlayers(BluePlayerManager, BluePlayerPath);
         LoadPlayers(RedPlayerManager, RedPlayerPath);
         LoadToolTips();

@@ -9,6 +9,22 @@
   },
   {
       "key":"Stun",
-      "Value":"The affected <link=Combatant><u><color=yellow>Combatant</color></u></link> is unable to attack"
+      "value":"The affected <link=Combatant><u><color=yellow>Combatant</color></u></link> is unable to attack"
+  },
+  {
+      "key":"Combatant",
+      "value":"Cards that can battle,(Gods and Fighters)"
+  },
+  {
+      "key":"Poison",
+      "value":"At the end of each turn, the affected fighter loses 1 health and max health. This is not treated as taking damage.Can only be applied to  fighters"
+  },
+  {
+      "key":"Burn",
+      "value":"At the end of each turn, the affected Combatant takes 2 damage"
+  },
+  {
+      "key":"Sleep",
+      "value":"The affected fighter cannot take any actions(attack or use ability) and disables any combat buffs"
   }
 ]
