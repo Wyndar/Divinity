@@ -5,9 +5,24 @@ using UnityEngine.SceneManagement;
 public class AudioManager : MonoBehaviour
 {
 
-    public GameObject BGMusicPlayer;
-    public AudioSource BGAudioSource;
-    public List<AudioClip> BGAudioClips;
+    private GameObject BGMusicPlayer;
+    private AudioSource BGAudioSource;
+
+    [SerializeField]
+    private List<AudioClip> BGAudioClips;
+
+    public GameObject sfxAudioPrefab;
+
+    public AudioClip select;
+    public AudioClip unselect;
+    public AudioClip click;
+    public AudioClip draw;
+    public AudioClip shuffleDeck;
+    public AudioClip shuffleHand;
+    public AudioClip playCard;
+    public AudioClip flipCard;
+    public AudioClip passTurn;
+    public AudioClip error;
 
     public void OnEnable()
     {
@@ -25,5 +40,15 @@ public class AudioManager : MonoBehaviour
         int ranNum = Random.Range(0, BGAudioClips.Count);
         BGAudioSource.clip= BGAudioClips[ranNum];
         BGAudioSource.Play();
+    }
+
+    public AudioSource NewAudioPrefab(AudioClip audioClip)
+    {
+        GameObject newAudioPrefab = Instantiate(sfxAudioPrefab);
+        AudioSource newAudio = newAudioPrefab.GetComponent<AudioSource>();
+        newAudio.clip = audioClip;
+        newAudio.Play();
+        newAudio.GetComponent<DestroyAfterPlayingAudio>().hasPlayed = true;
+        return newAudio;
     }
 }

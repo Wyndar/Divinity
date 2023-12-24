@@ -47,7 +47,7 @@
         hasUsedShield = true;
         hasUsedShieldThisTurn = true;
         shieldUsesLeft -= 1;
-        gm.GetShieldCard(1, cardOwner);
+        StartCoroutine(gm.GetShieldCard(1, cardOwner));
         if (!wasAttack)
         {
             gm.isWaitingForResponse = false; gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);

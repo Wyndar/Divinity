@@ -253,18 +253,18 @@ public class CardLogic : MonoBehaviour
 
             //effects that access game manager methods, can be optimized further
             case EffectsUsed.Reinforce:
-                G_M.DrawCard(effectAmount, cardController);
+                StartCoroutine(G_M.DrawCard(effectAmount, cardController));
                 break;
             case EffectsUsed.BloodRecovery:
                 G_M.CostChange(effectAmount, cardController, true);
                 break;
             case EffectsUsed.Recruit:
                 foreach (CardLogic target in targets)
-                    G_M.SearchCard(target, target.cardController);
+                    StartCoroutine(G_M.SearchCard(target, target.cardController));
                 break;
             case EffectsUsed.Recover:
                 foreach (CardLogic target in targets)
-                    G_M.RecoverCard(target, cardController);
+                    StartCoroutine(G_M.RecoverCard(target, cardController));
                 break;
 
             //these are undefined effects

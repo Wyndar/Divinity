@@ -42,15 +42,18 @@ public class TurnManager : MonoBehaviour
 
         gm.turnPlayer = player;
         gm.turnOpponent = player.enemy;
-        gm.DrawCard(5, gm.RedPlayerManager);
-        gm.DrawCard(5, gm.BluePlayerManager);
         gm.turnCount = 1;
         gm.bluePlayerText.text = gm.BluePlayerManager.PlayerName;
         gm.redPlayerText.text = gm.RedPlayerManager.PlayerName;
         gm.turnCountText.text = gm.turnCount.ToString();
         gm.phaseChangeButtonText.text = "COMBAT";
+
+        StartCoroutine(gm.DrawCard(5, gm.RedPlayerManager));
+        StartCoroutine(gm.DrawCard(5, gm.BluePlayerManager));
+        yield return new WaitUntil(()=>gm.hasFinishedDrawEffect == true);
+
+        gm.isNotFirstDraw = true;
         gm.currentFocusCardLogic = null;
-        gm.isNotLoading = true;
         gm.StateReset();
         currentCoroutine = StartCoroutine(CostPhase(player));
         yield break;
@@ -69,13 +72,16 @@ public class TurnManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         gm.PhaseChange(Phase.DrawPhase);
-        gm.DrawCard(1, player);
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+        StartCoroutine(gm.DrawCard(1, player));
+        yield return new WaitUntil(() => gm.hasFinishedDrawEffect == true);
+
         gm.currentFocusCardLogic = null;
-        gm.StateReset();
         gm.AllEffectsRefresh(player);
         gm.AllAttacksRefresh(player);
         gm.AllCountdownReset();
         gm.ShieldRefresh(player);
+        gm.StateReset();
         currentCoroutine = StartCoroutine(CostPhase(player));
         yield break;
     }
@@ -92,9 +98,14 @@ public class TurnManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         gm.PhaseChange(Phase.EndPhase);
-        gm.ChainResolution();
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+
         gm.currentFocusCardLogic = null;
         gm.StateChange(GameState.TurnEnd);
+        gm.ChainResolution();
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+
+        gm.currentFocusCardLogic = null;
         gm.AllTimersCountdown();
         gm.StateReset();
         gm.popUpPanel.SetActive(true);
@@ -139,11 +150,15 @@ public class TurnManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         gm.PhaseChange(Phase.CostPhase);
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+
         int amount = player.costPhaseGain;
         gm.CostChange(amount, player, true);
+        gm.ChainResolution();
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+
         player.costPhaseGain++;
         gm.currentFocusCardLogic = null;
-        gm.StateChange(GameState.Cost);
         gm.StateReset();
         currentCoroutine = StartCoroutine(MainPhase(player));
         yield break;
@@ -163,6 +178,8 @@ public class TurnManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         gm.PhaseChange(Phase.MainPhase);
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+
         gm.currentFocusCardLogic = null;
         gm.StateReset();
         yield break;
@@ -182,6 +199,8 @@ public class TurnManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         gm.PhaseChange(Phase.BattlePhase);
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+
         gm.currentFocusCardLogic = null;
         gm.StateReset();
         yield break;

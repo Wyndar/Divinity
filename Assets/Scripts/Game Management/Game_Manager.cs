@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using TMPro;
 
@@ -25,7 +26,7 @@ public class Game_Manager : MonoBehaviour
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotLoading, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo;
+    public bool isNotFirstDraw, hasFinishedDrawEffect, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo;
 
     public GameState gameState;
     public Phase currentPhase;
@@ -100,21 +101,27 @@ public class Game_Manager : MonoBehaviour
         gameState = GameState.Cost;
     }
 
-    public void DrawCard(int drawAmount, PlayerManager player)
+    public IEnumerator DrawCard(int drawAmount, PlayerManager player)
     {
+        hasFinishedDrawEffect = false;
+        //if hand is full, yeet
         if (player.handSize >= 10)
-            return;
+        {
+            hasFinishedDrawEffect = true;
+            yield break;
+        }
+
         bool drewCards = false;
+
         for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
         {
+            //if deck is empty, has drawn required amount or hand is full, break
+            if (player.deckLogicList.Count <= 0 || drawAmount <= 0 || player.handSize >= 10)
+                break;
+            //checking for empty handslots
             if (player.isEmptyHandSlot[i] == false)
                 continue;
-            if (player.deckLogicList.Count <= 0)
-                break;
-            if (drawAmount <= 0)
-                break;
-            if (player.handSize >= 10)
-                break;
+            //get random card and activate it
             int randomNumber = Random.Range(0, player.deckLogicList.Count);
             CardLogic randomCardDraw = player.deckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
@@ -126,6 +133,8 @@ public class Game_Manager : MonoBehaviour
             else
                 randomCardDraw.LocationChange(null, EffectsUsed.Undefined, Location.Hand, i);
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
+            AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
+
             //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 randomCardDraw.FlipFaceUp();
@@ -136,23 +145,26 @@ public class Game_Manager : MonoBehaviour
             drawAmount--;
             player.handSize = player.handLogicList.Count;
             drewCards = true;
+            yield return new WaitUntil(()=>drawSound==null);
+            ShuffleHand(player);
         }
 
         //ensures that unnecessary chains and shuffles don't occur on unresolved draws
         if (drewCards)
         {
-            ShuffleHand(player);
-            if (isNotLoading)
+            if (isNotFirstDraw)
                 StateChange(GameState.Reinforcement);
             if (currentPhase == Phase.DrawPhase)
                 ChainResolution();
         }
+        hasFinishedDrawEffect = true;
+        yield break;
     }
 
-    public void SearchCard(CardLogic logic, PlayerManager player)
+    public IEnumerator SearchCard(CardLogic logic, PlayerManager player)
     {
         if (player.handSize >= 10)
-            return;
+            yield break;
 
         for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
         {
@@ -175,14 +187,18 @@ public class Game_Manager : MonoBehaviour
             player.handSize = player.handLogicList.Count;
             break;
         }
+        AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
+        yield return new WaitUntil(() => drawSound == null);
+
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
+        yield break;
     }
 
-    public void RecoverCard(CardLogic logic, PlayerManager player)
+    public IEnumerator RecoverCard(CardLogic logic, PlayerManager player)
     {
         if (player.handSize >= 10)
-            return;
+            yield break;
 
         for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
         {
@@ -206,14 +222,18 @@ public class Game_Manager : MonoBehaviour
             player.handSize = player.handLogicList.Count;
             break;
         }
+        AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
+        yield return new WaitUntil(() => drawSound == null);
+
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
+        yield break;
     }
 
-    public void GetShieldCard(int drawAmount, PlayerManager player)
+    public IEnumerator GetShieldCard(int drawAmount, PlayerManager player)
     {
         if (player.handSize >= 10)
-            return;
+            yield break;
 
         for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
         {
@@ -247,15 +267,20 @@ public class Game_Manager : MonoBehaviour
             player.handSize = player.handLogicList.Count;
 
         }
+        AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
+        yield return new WaitUntil(() => drawSound == null);
+
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
         if (!isWaitingForResponse)
             ChainResolution();
+        yield break;
     }
 
 
     public void ShuffleHand(PlayerManager player)
     {
+        AudioManager.NewAudioPrefab(AudioManager.shuffleHand);
         //resets hand to zero transform and empty
         for (int i = 0; i < player.handSlots.Length; i++)
         {
@@ -330,6 +355,7 @@ public class Game_Manager : MonoBehaviour
     {
         currentPhase = phase;
         GetPhaseTriggers(phase);
+        ChainResolution();
     }
 
     public void GetPhaseTriggers(Phase phase) => ChainManager.GetPhaseTriggers(phase);
@@ -546,7 +572,7 @@ public class Game_Manager : MonoBehaviour
     public void GameOver(PlayerManager winner)
     {
         UXManager.GameOver(winner);
-        isNotLoading = false;
+        isNotFirstDraw = false;
     }
 
     public void ClearAttackTargetImages()

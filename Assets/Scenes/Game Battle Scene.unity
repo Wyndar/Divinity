@@ -11038,6 +11038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543530147}
   - component: {fileID: 543530146}
+  - component: {fileID: 543530148}
   m_Layer: 0
   m_Name: Trail
   m_TagString: Untagged
@@ -11200,6 +11201,102 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &543530148
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543530145}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4805167921556624795ad7f342e8e9b1, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &548103957
 GameObject:
   m_ObjectHideFlags: 0
@@ -28732,6 +28829,7 @@ MonoBehaviour:
   gm: {fileID: 1600093227}
   InputManager: {fileID: 1600093226}
   enumConverter: {fileID: 1600093228}
+  audioManager: {fileID: 1600093236}
   scrollingCardPanelHandler: {fileID: 1600093222}
   scrollingLogPanelHandler: {fileID: 1600093221}
   scrollingStatusPanelHandler: {fileID: 1600093231}
@@ -28828,7 +28926,8 @@ MonoBehaviour:
   RedPlayerManager: {fileID: 432537827}
   turnPlayer: {fileID: 0}
   turnOpponent: {fileID: 0}
-  isNotLoading: 0
+  isNotFirstDraw: 0
+  hasFinishedDrawEffect: 0
   isActivatingEffect: 0
   isChecking: 0
   isWaitingForResponse: 0
@@ -28997,9 +29096,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d26d0468caad4ac4ab0ba5439f0f65ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BGMusicPlayer: {fileID: 0}
-  BGAudioSource: {fileID: 0}
   BGAudioClips: []
+  sfxAudioPrefab: {fileID: 6925171047787937885, guid: d90d61c4bcdc7874982f71ef008b08a9, type: 3}
+  select: {fileID: 8300000, guid: a61ddb71a3ffa9c4eb7235af283e9598, type: 3}
+  unselect: {fileID: 8300000, guid: fd1da06bc3d03f54f97c2aa78ea89321, type: 3}
+  click: {fileID: 8300000, guid: afa4caaf75cca364892c34227f82df9b, type: 3}
+  draw: {fileID: 8300000, guid: c90ffdb3fc4260d40a9a3968a7684fdf, type: 3}
+  shuffleDeck: {fileID: 8300000, guid: d0f00b2fc7b482940b0c181b9c52f8ad, type: 3}
+  shuffleHand: {fileID: 8300000, guid: aba2ff4fbabf5a54e8dde96a266d1e01, type: 3}
+  playCard: {fileID: 8300000, guid: ad18b144ba9288b4eb755241e3774bfd, type: 3}
+  flipCard: {fileID: 8300000, guid: 944b027c21f520e4f860f719faf584ca, type: 3}
+  passTurn: {fileID: 8300000, guid: 59356230c1acc1e468950226332015ad, type: 3}
+  error: {fileID: 8300000, guid: c8505d4182e5dd84692030db44cec051, type: 3}
 --- !u!1 &1600721748
 GameObject:
   m_ObjectHideFlags: 0
@@ -36007,7 +36115,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0

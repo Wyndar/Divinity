@@ -15,6 +15,9 @@ public class UXManager : MonoBehaviour
     private EnumManager enumConverter;
 
     [SerializeField]
+    private AudioManager audioManager;
+
+    [SerializeField]
     private ScrollingCardPanelHandler scrollingCardPanelHandler;
 
     [SerializeField]
@@ -65,6 +68,7 @@ public class UXManager : MonoBehaviour
 
     private void TouchStart(Vector2 screenPosition, float time)
     {
+        audioManager.NewAudioPrefab(audioManager.click);
         if (gm.currentFocusCardLogic != null)
         {
             if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
@@ -170,6 +174,7 @@ public class UXManager : MonoBehaviour
             return;
         }
         CardLogic focusCard = gm.currentFocusCardLogic;
+        audioManager.NewAudioPrefab(audioManager.select);
         gameObject.TryGetComponent(out MonsterLogic monsterLogic);
         gameObject.TryGetComponent(out CombatantLogic combatant);
         if (gameObject.CompareTag("card"))
