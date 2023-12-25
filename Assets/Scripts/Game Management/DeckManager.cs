@@ -6,6 +6,7 @@ public class DeckManager : MonoBehaviour
 	public Game_Manager G_M;
     public SaveManager SaveManager;
     public EnumManager enumConverter;
+    public AudioManager audioManager;
     public UIManager U_I;
     [SerializeField]
     private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
@@ -76,6 +77,7 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
                 cardCloneCardLogic.G_M = G_M;
                 cardCloneCardLogic.enumConverter = enumConverter;
+                cardCloneCardLogic.audioManager = audioManager;
 
                 //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a defaut
 

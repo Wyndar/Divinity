@@ -30,6 +30,7 @@ public class MonsterLogic : CardLogic
                 player.hpIcons[locationOrderNumber].SetActive(true);
                 OnFieldAtkRefresh();
                 OnFieldHpRefresh();
+                //add sfx here
                 break;
             }
         }

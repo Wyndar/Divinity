@@ -10,7 +10,7 @@ public class PlayableLogic : MonoBehaviour
     public int cost;
     public bool hasBeenPlayed, hasGottenTargets, hasDoneHoverEffect;
 
-    public float movementSpeed = 3f;
+    public float movementSpeed = 30f;
 
     private string playError;
 
@@ -25,16 +25,17 @@ public class PlayableLogic : MonoBehaviour
         while (distanceTravelled < distance)
         {
             Vector3 translationDistance = (player.activationZone.position - transform.position);
-            if (translationDistance.magnitude <= direction.magnitude)
-                transform.position = player.activationZone.position;
+            if (translationDistance.magnitude > direction.magnitude)
+                transform.Translate(movementSpeed * Time.deltaTime * direction, Space.World);
             else
-                transform.Translate(direction * movementSpeed, Space.World);
+                transform.position = player.activationZone.position;
             distanceTravelled = Vector3.Distance(originalPosition, transform.position);
             yield return null;
         }
         Vector3 originalScale = transform.localScale;
         transform.localScale = new Vector3(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
-        yield return new WaitForSeconds(0.4f);
+        AudioSource audio = logic.audioManager.NewAudioPrefab(logic.audioManager.playCard);
+        yield return new WaitUntil(() => audio == null);
 
         transform.localScale = originalScale;
         CardPlayed(player);

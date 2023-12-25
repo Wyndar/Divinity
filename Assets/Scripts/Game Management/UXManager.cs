@@ -141,9 +141,8 @@ public class UXManager : MonoBehaviour
 
     private void RaycastTargeting(Vector2 screenPosition)
     {
-        RaycastHit raycastHit;
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(screenPosition.x, screenPosition.y, Camera.main.nearClipPlane));
-        if (Physics.Raycast(ray, out raycastHit, 100f))
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f))
             if (raycastHit.transform != null)
                 CurrentClickedGameObject(raycastHit.transform.gameObject);
     }

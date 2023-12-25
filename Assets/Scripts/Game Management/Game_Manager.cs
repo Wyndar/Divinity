@@ -45,6 +45,7 @@ public class Game_Manager : MonoBehaviour
 
     void Start()
     {
+        AudioManager.FindBGOBJ();
         AudioManager.SelectRandomBGMusic();
         LoadPlayers(BluePlayerManager, BluePlayerPath);
         LoadPlayers(RedPlayerManager, RedPlayerPath);

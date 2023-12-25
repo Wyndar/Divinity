@@ -9,6 +9,8 @@ public class CardLogic : MonoBehaviour
 
     public EnumManager enumConverter;
 
+    public AudioManager audioManager;
+
     public UIManager U_I;
 
     public Type type;
@@ -576,6 +578,7 @@ public class CardLogic : MonoBehaviour
         cardBack.gameObject.SetActive(false);
         cardFace.gameObject.SetActive(true);
         cardImage.gameObject.SetActive(true);
+        audioManager.NewAudioPrefab(audioManager.flipCard);
     }
 
     public void FlipFaceDown()
@@ -584,6 +587,7 @@ public class CardLogic : MonoBehaviour
         cardBack.gameObject.SetActive(true);
         cardFace.gameObject.SetActive(false);
         cardImage.gameObject.SetActive(false);
+        audioManager.NewAudioPrefab(audioManager.flipCard);
     }
 
     public void LocationChange(Effect effect, EffectsUsed effectsUsed, Location location, int num)

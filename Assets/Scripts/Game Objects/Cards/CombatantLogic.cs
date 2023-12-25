@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 
 public class CombatantLogic : MonoBehaviour
 {
@@ -29,6 +28,10 @@ public class CombatantLogic : MonoBehaviour
     public void DamageResolution(int damage, bool wasAttack)
     {
         damage -= armor;
+        if (armor > 0)
+            logic.audioManager.NewAudioPrefab(logic.audioManager.attackResolutionArmored);
+        else
+            logic.audioManager.NewAudioPrefab(logic.audioManager.attackResolution);
         if (damage != 0)
         {
             currentHp -= damage;

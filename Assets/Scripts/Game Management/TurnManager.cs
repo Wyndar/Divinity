@@ -5,6 +5,7 @@ using System.Collections;
 public class TurnManager : MonoBehaviour
 {
     public Game_Manager gm;
+    public AudioManager audioManager;
     public Color playerColor;
     public Color enemyColor;
     public float waitTime = 2f;
@@ -190,13 +191,15 @@ public class TurnManager : MonoBehaviour
         StopCoroutine(previousCoroutine);
         previousCoroutine = currentCoroutine;
         currentCoroutine = null;
+        AudioSource audioSource = audioManager.NewAudioPrefab(audioManager.battlePhase);
+        audioManager.BattlePhaseMusic(player.enemy.heroCardLogic.combatantLogic.currentHp < player.enemy.heroCardLogic.combatantLogic.maxHp / 4);
         gm.popUpPanel.SetActive(true);
         gm.turnPhaseText.text = "Combat";
         gm.popUpPanelText.text = "combat";
         gm.phaseChangeButton.SetActive(true);
         gm.phaseChangeButtonText.text = "END TURN";
         PhaseButtonCheck(player);
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitUntil(()=>audioSource==null);
 
         gm.PhaseChange(Phase.BattlePhase);
         yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
@@ -216,6 +219,7 @@ public class TurnManager : MonoBehaviour
         else if (gm.currentPhase == Phase.BattlePhase)
         {
             gm.phaseChangeButton.SetActive(false);
+            audioManager.EndBattlePhaseMusic();
             currentCoroutine = StartCoroutine(EndPhase(gm.turnPlayer));
         }
     }
