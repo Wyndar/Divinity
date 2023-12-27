@@ -215,12 +215,15 @@ public class TurnManager : MonoBehaviour
         if (gm.currentPhase == Phase.MainPhase)
         {
             gm.phaseChangeButton.SetActive(false);
+            gm.ClearEffectTargetImages();
             currentCoroutine = StartCoroutine(BattlePhase(gm.turnPlayer));
         }
         else if (gm.currentPhase == Phase.BattlePhase)
         {
             gm.phaseChangeButton.SetActive(false);
             audioManager.EndBattlePhaseMusic();
+            gm.ClearEffectTargetImages();
+            gm.ClearAttackTargetImages();
             currentCoroutine = StartCoroutine(EndPhase(gm.turnPlayer));
         }
     }
