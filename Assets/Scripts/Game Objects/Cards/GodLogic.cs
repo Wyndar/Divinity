@@ -1,4 +1,6 @@
-﻿public class GodLogic : CardLogic
+﻿using UnityEngine;
+
+public class GodLogic : CardLogic
 {
     public Game_Manager gm;
     public CombatantLogic combatantLogic;
@@ -56,7 +58,7 @@
 
     public void ShieldPass()
     {
-        combatantLogic.DamageResolution(incomingDamage, true);
+        StartCoroutine(combatantLogic.DamageResolution(incomingDamage, true));
         if (wasAttack)
             return;
         gm.isWaitingForResponse = false;

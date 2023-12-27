@@ -55,6 +55,7 @@ public class MonsterLogic : CardLogic
 
     public void MonsterDeath()
     {
+        audioManager.SelectCharacterDeathSFX(id);
         combatLogic.currentHp = 0;
         combatLogic.cardStatuses.Clear();
         combatLogic.hasDoneCountdown = false;

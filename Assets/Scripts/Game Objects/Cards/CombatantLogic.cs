@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,16 +17,18 @@ public class CombatantLogic : MonoBehaviour
 
     public bool hasAttacked, hasAttackedThisTurn, hasDoneCountdown;
 
+    private Coroutine currentCoroutine;
+
     public void TakeDamage(int damage, bool wasAttack)
     {
         bool blockDamage = false;
         if (logic.type == Type.God)
             blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage, wasAttack);
         if (!blockDamage)
-            DamageResolution(damage, wasAttack);
+            currentCoroutine = StartCoroutine(DamageResolution(damage, wasAttack));
     }
 
-    public void DamageResolution(int damage, bool wasAttack)
+    public IEnumerator DamageResolution(int damage, bool wasAttack)
     {
         damage -= armor;
         if (armor > 0)
@@ -35,6 +38,8 @@ public class CombatantLogic : MonoBehaviour
         if (damage != 0)
         {
             currentHp -= damage;
+            AudioSource audio = logic.audioManager.SelectCharacterDamageSFX(logic.id);
+            yield return new WaitUntil(() => audio == null);
             gm.StateChange(GameState.Damaged);
                 logic.StatAdjustment(damage, Status.Damage);
         }
@@ -56,13 +61,19 @@ public class CombatantLogic : MonoBehaviour
         logic.statChangeHistoryEnteries.Add(statChangeLog);
         gm.gameLogHistoryEntries.Add(statChangeLog);
         if (!wasAttack)
-            return;
+            yield break;
+        AfterDamageResolution();
+        yield break;
+    }
 
+    private void AfterDamageResolution()
+    {
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
         logic.cardController.AIManager.isPerformingAction = false;
         logic.cardController.enemy.AIManager.isPerformingAction = false;
         gm.ClearAttackTargetImages();
         gm.ChainResolution();
-        return;
     }
 
     public void StatAdjustment(int value, Status status)

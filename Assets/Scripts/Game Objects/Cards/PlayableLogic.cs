@@ -97,7 +97,7 @@ public class PlayableLogic : MonoBehaviour
             //the coroutine will call cardPlayed, don't worry
         }
         else
-            Debug.Log("Cannot Play " + logic.cardName + " legally because of " + playError + ".");
+            Debug.Log($"Cannot Play {logic.cardName} legally because of {playError}.");
     }
 
     public void DisableHover()
@@ -148,7 +148,7 @@ public class PlayableLogic : MonoBehaviour
     public void CardPlayed(PlayerManager player)
     {
         gm.StateChange(GameState.Playing);
-        if (logic.cardType == "monster")
+        if (logic.type == Type.Fighter)
             GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
         gm.currentFocusCardLogic = logic;

@@ -29620,7 +29620,7 @@ MonoBehaviour:
   audioManager: {fileID: 1600093236}
   playerColor: {r: 0.07058824, g: 0.69803923, b: 0.8235295, a: 1}
   enemyColor: {r: 0.5803922, g: 0.0627451, b: 0.0627451, a: 1}
-  waitTime: 2
+  waitTime: 1
 --- !u!114 &1600093234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29674,6 +29674,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BGAudioClips: []
+  DamageAudioClips: []
+  DeathAudioClips: []
   sfxAudioPrefab: {fileID: 6925171047787937885, guid: d90d61c4bcdc7874982f71ef008b08a9, type: 3}
   select: {fileID: 8300000, guid: a61ddb71a3ffa9c4eb7235af283e9598, type: 3}
   unselect: {fileID: 8300000, guid: fd1da06bc3d03f54f97c2aa78ea89321, type: 3}
@@ -29688,9 +29690,7 @@ MonoBehaviour:
   battlePhase: {fileID: 8300000, guid: dc1fbaa882791dc478ec2fe5dac05156, type: 3}
   attackDeclaration: {fileID: 8300000, guid: af24709c40f972e42a39ca36bd5eccdd, type: 3}
   attackResolution: {fileID: 8300000, guid: 868d9fcdfc0b7474fbf867e8a0037093, type: 3}
-  attackResolutionDamage: {fileID: 8300000, guid: a35b04caf01f90c4b94a69f83e2b235a, type: 3}
   attackResolutionArmored: {fileID: 8300000, guid: d780ba4cbf4167c40958805854e5e919, type: 3}
-  attackResolutionDeath: {fileID: 8300000, guid: 437be8f047e0d834a862da857284e398, type: 3}
   effectActivation: {fileID: 8300000, guid: d0df87113a7041f45948b6f9463059a2, type: 3}
   effectResolution: {fileID: 8300000, guid: 383a857fb9da74540905ef7963367dc1, type: 3}
 --- !u!1 &1600721748

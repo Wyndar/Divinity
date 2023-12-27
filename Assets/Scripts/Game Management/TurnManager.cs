@@ -199,8 +199,9 @@ public class TurnManager : MonoBehaviour
         gm.phaseChangeButton.SetActive(true);
         gm.phaseChangeButtonText.text = "END TURN";
         PhaseButtonCheck(player);
-        yield return new WaitUntil(()=>audioSource==null);
+        yield return new WaitForSeconds(waitTime);
 
+        Destroy(audioSource.gameObject);
         gm.PhaseChange(Phase.BattlePhase);
         yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
 

@@ -13,6 +13,10 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField]
     private List<AudioClip> BGAudioClips;
+    [SerializeField]
+    private List<AudioClip> DamageAudioClips;
+    [SerializeField]    
+    private List<AudioClip> DeathAudioClips;
 
     public GameObject sfxAudioPrefab;
 
@@ -52,6 +56,16 @@ public class AudioManager : MonoBehaviour
         BGAudioSource.volume = 0.2f;
     }
 
+    public void LoadSFX()
+    {
+        DamageAudioClips.Clear();
+        DeathAudioClips.Clear();
+        foreach (AudioClip audioClip in Resources.LoadAll("SFX/Generic Damage SFX", typeof(AudioClip)))
+            DamageAudioClips.Add(audioClip);
+        foreach (AudioClip audioClip in Resources.LoadAll("SFX/Generic Death SFX", typeof(AudioClip)))
+            DeathAudioClips.Add(audioClip);
+    }
+
     public void EndBattlePhaseMusic()
     {
         BattleMusicSource.Pause();
@@ -65,6 +79,37 @@ public class AudioManager : MonoBehaviour
         int ranNum = Random.Range(0, BGAudioClips.Count);
         BGAudioSource.clip= BGAudioClips[ranNum];
         BGAudioSource.Play();
+    }
+
+    public AudioSource SelectRandomDamageSFX()
+    {
+        if (DamageAudioClips.Count == 0)
+            return null;
+        int ranNum = Random.Range(0, DamageAudioClips.Count);
+        return NewAudioPrefab(DamageAudioClips[ranNum]);
+    }
+    public AudioSource SelectRandomDeathSFX()
+    {
+        if (DeathAudioClips.Count == 0)
+            return null;
+        int ranNum = Random.Range(0, DeathAudioClips.Count);
+        return NewAudioPrefab(DeathAudioClips[ranNum]);
+    }
+
+    public AudioSource SelectCharacterDamageSFX(string cardID)
+    {
+        AudioClip clip = (AudioClip)Resources.Load($"SFX/Character Damage SFX/{cardID}", typeof(AudioClip));
+        if (clip == null)
+            return SelectRandomDamageSFX();
+        return NewAudioPrefab(clip);
+    }
+
+    public AudioSource SelectCharacterDeathSFX(string cardID)
+    {
+        AudioClip clip = (AudioClip)Resources.Load($"SFX/Character Death SFX/{cardID}", typeof(AudioClip));
+        if (clip == null)
+            return SelectRandomDeathSFX();
+        return NewAudioPrefab(clip);
     }
 
     public AudioSource NewAudioPrefab(AudioClip audioClip)

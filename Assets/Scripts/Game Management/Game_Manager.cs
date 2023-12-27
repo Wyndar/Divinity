@@ -47,6 +47,7 @@ public class Game_Manager : MonoBehaviour
     {
         AudioManager.FindBGOBJ();
         AudioManager.SelectRandomBGMusic();
+        AudioManager.LoadSFX();
         LoadPlayers(BluePlayerManager, BluePlayerPath);
         LoadPlayers(RedPlayerManager, RedPlayerPath);
         LoadToolTips();
