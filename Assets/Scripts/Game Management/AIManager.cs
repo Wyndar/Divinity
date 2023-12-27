@@ -9,6 +9,8 @@ public class AIManager : MonoBehaviour
     public TurnManager turnManager;
     public bool isPerformingAction;
 
+    private Coroutine currentCoroutine;
+
     public IEnumerator Decision()
     {
         isPerformingAction = true;
@@ -35,16 +37,24 @@ public class AIManager : MonoBehaviour
     {
         if (isPerformingAction == true)
             return;
-        StartCoroutine(Decision());
+        currentCoroutine = StartCoroutine(Decision());
     }
 
     //indiscriminate summon of best stats and effect activation, work is needed here
     public void MainPhase()
     {
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
         if (AIPlayer.costCount > 0 && AIPlayer.playableLogicList.Count > 0)
+        {
             PlayLegalCard();
+            return;
+        }
         if (AIPlayer.canUseEffectLogicList.Count > 0)
+        {
             UseLegalEffects();
+            return;
+        }
         else
             isPerformingAction = false;
         if (gm.gameState != GameState.Open)
@@ -55,10 +65,13 @@ public class AIManager : MonoBehaviour
     //indiscriminate attack spam
     public void BattlePhase()
     {
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
         if (AIPlayer.canAttackLogicList.Count > 0)
         {
             CombatantLogic combatant = AIPlayer.canAttackLogicList[0].GetComponent<CombatantLogic>();
             combatant.DeclareAttack();
+            return;
         }
         else
             isPerformingAction = false;

@@ -380,7 +380,7 @@ public class Game_Manager : MonoBehaviour
         if (isWaitingForResponse)
             return;
         //if empty chain, reset and get new decision
-        if (activationChainList.Count == 0)
+        if (activationChainList.Count == 0 && !isActivatingEffect)
         {
             StateReset();
             return;

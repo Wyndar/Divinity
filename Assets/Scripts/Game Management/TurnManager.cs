@@ -131,6 +131,7 @@ public class TurnManager : MonoBehaviour
 
     public void SwitchTurn(PlayerManager player)
     {
+        audioManager.NewAudioPrefab(audioManager.passTurn);
         gm.turnPlayer = player;
         gm.turnOpponent = player.enemy;
         gm.turnCount++;

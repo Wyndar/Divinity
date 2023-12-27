@@ -204,7 +204,7 @@ public class CardLogic : MonoBehaviour
             returnList.Add(target);
         }
         if (returnList.Count < 1)
-            Debug.Log("No valid targets for "+ cardName+"'s "+ effectUsed+ " ability at "+ G_M.turnPlayer.PlayerName+"'s turn at phase " + G_M.currentPhase);
+            Debug.Log($"No valid targets for {cardName}'s {effectUsed} ability at {G_M.turnPlayer.PlayerName}'s turn at phase {G_M.currentPhase}");
         return returnList;
     }
 
