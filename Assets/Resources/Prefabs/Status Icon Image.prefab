@@ -90,8 +90,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de10ae272a58248428492f9a4a204e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentStatus:
+    affectedLogic: {fileID: 0}
+    applierLogic: {fileID: 0}
+    Timer: 0
+    sprite: {fileID: 0}
+    shouldCountdown: 0
+    hasDoneCountDownThisTurn: 0
+    toolTipInfo:
+      key: 
+      value: 
   Game_Manager: {fileID: 0}
-  UXManager: {fileID: 0}
+  toolTipManager: {fileID: 0}
   floatingText: {fileID: 0}
   highlightImage: {fileID: 7720448101145965622}
   image: {fileID: 2260211660082970816}
@@ -155,14 +165,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.81960785, g: 0.24055557, b: 0.08235294, a: 1}
+  m_Color: {r: 0.08235294, g: 0.81960785, b: 0.40928844, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4041d727adb024d5abf4996443effbad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72251c3ff2745c7479f585bc59d7c67c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -246,8 +256,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901972
-  m_fontColor: {r: 0.83172894, g: 0, b: 1, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

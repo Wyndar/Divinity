@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public abstract class CardStatus
+public class CardStatus
 {
     public CardLogic affectedLogic;
     public CardLogic applierLogic;

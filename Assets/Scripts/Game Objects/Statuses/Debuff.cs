@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 [System.Serializable]
-public class Debuff:CardStatus
+public class Debuff : CardStatus
 {
     public Debuffs debuff;
+
+    public Debuff()
+    {
+
+    }
 
     public Debuff(Debuffs debuf, CardLogic debufferLogic, CardLogic debuffedLogic, int timer, bool timed, ToolTipInfo toolTip, Sprite debufSprite)
     {

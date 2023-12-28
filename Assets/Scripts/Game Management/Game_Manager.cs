@@ -444,8 +444,6 @@ public class Game_Manager : MonoBehaviour
     //to avoid  changed list errors
     public void PlayerTimerCountDown(PlayerManager player)
     {
-        if (player.fieldLogicList.Count == 0)
-            return;
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();

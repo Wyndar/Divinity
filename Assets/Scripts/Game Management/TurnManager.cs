@@ -15,22 +15,22 @@ public class TurnManager : MonoBehaviour
 
     public IEnumerator ChooseFirstPlayer()
     {
-        int odds = Random.Range(1, 101);
-        gm.popUpPanel.SetActive(true);
-        if (odds < 51)
-        {
+        //int odds = Random.Range(1, 101);
+        //gm.popUpPanel.SetActive(true);
+        //if (odds < 51)
+        //{
             gm.popUpPanelText.text = "You're First";
             gm.popUpPanelText.color = playerColor;
             gm.turnPhaseText.color = playerColor;
             currentCoroutine = StartCoroutine(FirstTurn(gm.BluePlayerManager));
-        }
-        else
-        {
-            gm.popUpPanelText.text = "Your Opponent goes first";
-            gm.popUpPanelText.color= enemyColor; 
-            gm.turnPhaseText.color= enemyColor;
-            currentCoroutine = StartCoroutine(FirstTurn(gm.RedPlayerManager));
-        }
+        //}
+        //else
+        //{
+        //    gm.popUpPanelText.text = "Your Opponent goes first";
+        //    gm.popUpPanelText.color= enemyColor; 
+        //    gm.turnPhaseText.color= enemyColor;
+        //    currentCoroutine = StartCoroutine(FirstTurn(gm.RedPlayerManager));
+        //}
         yield break;
     }
 
@@ -108,6 +108,10 @@ public class TurnManager : MonoBehaviour
 
         gm.currentFocusCardLogic = null;
         gm.AllTimersCountdown();
+        gm.ChainResolution();
+        yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
+
+        gm.currentFocusCardLogic = null;
         gm.StateReset();
         gm.popUpPanel.SetActive(true);
         if (player == gm.BluePlayerManager)

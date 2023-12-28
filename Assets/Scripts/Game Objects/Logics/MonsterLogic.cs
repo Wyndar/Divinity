@@ -1,4 +1,6 @@
 ﻿using TMPro;
+using UnityEngine;
+using System.Collections;
 
 public class MonsterLogic : CardLogic
 {
@@ -46,6 +48,44 @@ public class MonsterLogic : CardLogic
         DeathCheck();
     }
 
+    public IEnumerator BounceCard()
+    {
+        if (cardOwner.handSize >= 10)
+        {
+            playLogic.MoveToGrave();
+            yield break;
+        }
+        for (int i = 0; i < cardOwner.isEmptyHandSlot.Length; i++)
+        {
+            if (cardOwner.isEmptyHandSlot[i] == false)
+                continue;
+            if (cardOwner.handSize >= 10)
+                break;
+            gameObject.SetActive(true);
+            transform.position = Vector3.zero;
+
+            //implementing a battle log
+            LocationChange(gm.currentFocusCardLogic.focusEffect, EffectsUsed.Bounce, Location.Hand, i);
+            transform.SetParent(cardOwner.handSlots[i].transform, false);
+            //when playing with another player on same device flip face up only if you bounce on your turn...might implement more to support this
+            if (cardOwner.isLocal && !cardOwner.isAI && (cardOwner == gm.turnPlayer || cardOwner.enemy.isAI || !cardOwner.enemy.isLocal))
+                FlipFaceUp();
+            else
+                FlipFaceDown();
+
+            LeavingFieldSequence();
+            cardOwner.isEmptyHandSlot[i] = false;
+            cardOwner.fieldLogicList.Remove(this);
+            cardOwner.handLogicList.Add(this);
+            cardOwner.handSize = cardOwner.handLogicList.Count;
+            break;
+        }
+
+        gm.ShuffleHand(cardOwner);
+        gm.StateChange(GameState.Bounce);
+        yield break;
+    }
+
     public void DeathCheck()
     {
         if (combatLogic.currentHp > 0)
@@ -57,15 +97,22 @@ public class MonsterLogic : CardLogic
     {
         audioManager.SelectCharacterDeathSFX(id);
         combatLogic.currentHp = 0;
+        LeavingFieldSequence();
+        cardController.SetStat(locationOrderNumber, Status.Death, 0);
+        playLogic.MoveToGrave();
+        gm.StateChange(GameState.Death);
+    }
+
+    public void LeavingFieldSequence()
+    {
+        combatLogic.currentHp = 0;
         combatLogic.cardStatuses.Clear();
         combatLogic.hasDoneCountdown = false;
         cardController.atkIcons[locationOrderNumber].SetActive(false);
         cardController.hpIcons[locationOrderNumber].SetActive(false);
         cardController.armorIcons[locationOrderNumber].SetActive(false);
+        cardController.bombIcons[locationOrderNumber].SetActive(false);
         cardController.isEmptyCardSlot[locationOrderNumber] = true;
         cardController.fieldLogicList.Remove(this);
-        cardController.SetStat(locationOrderNumber, Status.Death, 0);
-        playLogic.MoveToGrave();
-        gm.StateChange(GameState.Death);
     }
 }

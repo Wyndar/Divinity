@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class StatusManager : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class StatusManager : MonoBehaviour
     //to avoid changed list errors
     public void Countdown(CardStatus cardStatus)
     {
-        CombatantLogic combatantLogic = cardStatus.applierLogic.GetComponent<CombatantLogic>();
+        CardLogic cardLogic = cardStatus.affectedLogic;
+        CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
         if (!cardStatus.shouldCountdown)
         {
             cardStatus.hasDoneCountDownThisTurn = true;
@@ -21,21 +23,25 @@ public class StatusManager : MonoBehaviour
         cardStatus.hasDoneCountDownThisTurn = true;
         if (cardStatus.Timer > 0)
             return;
-        if (cardStatus is Debuff)
+        if (cardStatus is Debuff d)
         {
-            Debuff d = (Debuff)cardStatus;
             switch (d.debuff)
             {
                 case Debuffs.Bombed:
                     combatantLogic.TakeDamage(3, false);
-                    if (d.affectedLogic.currentLocation == Location.Grave)
+                    gm.StateChange(GameState.Detonate);
+                    if (cardLogic.currentLocation == Location.Grave)
                         break;
-                    Debuff stun = new(Debuffs.Stunned, d.applierLogic, d.affectedLogic, 2, true, gm.ToolTipManager.tooltipInfos.Find(a => a.key == "Bomb"), ui.stunSprite);
+                    Stun stun = new(d.applierLogic, d.affectedLogic, 2, true);
+                    gm.StateChange(GameState.Stun);
                     combatantLogic.cardStatuses.Add(stun);
+                    cardLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
                     break;
             }
         }
         combatantLogic.cardStatuses.Remove(cardStatus);
+        if(!combatantLogic.DebuffCheck(Debuffs.Bombed))
+            cardLogic.cardController.bombIcons[cardLogic.locationOrderNumber].SetActive(false);
         combatantLogic.TurnTimer();
         return;
     }

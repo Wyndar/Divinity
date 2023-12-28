@@ -47,8 +47,13 @@ public class CombatantLogic : MonoBehaviour
         EffectsUsed damagingEffect = EffectsUsed.Undefined;
         if(gm.isActivatingEffect)
         {
-            damager = gm.currentFocusCardLogic.focusEffect;
-            damagingEffect = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber];
+            if (gm.currentFocusCardLogic == null)
+                Debug.Log("Is this a game mechanic?");
+            else
+            {
+                damager = gm.currentFocusCardLogic.focusEffect;
+                damagingEffect = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber];
+            }
         }
         StatChangeHistoryEntry statChangeLog = new(Status.Damage, damage, logic.currentLocation)
         {

@@ -721,12 +721,13 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Bomb:
                 //bombs have a default timer of three turns
                 cardController.SetDebuffIcon(locationOrderNumber, Debuffs.Bombed);
-                Debuff bomb = new(Debuffs.Bombed, logic, this, effect.duration, true,G_M.ToolTipManager.tooltipInfos.Find(a=>a.key=="Bomb"), U_I.bombSprite);
+                Bomb bomb = new(logic, this, effect.duration, true);
                 combatantLogic.cardStatuses.Add(bomb);
                 break;
             case EffectsUsed.Spot:
                 break;
             case EffectsUsed.Bounce:
+                StartCoroutine(monsterLogic.BounceCard());
                 break;
             case EffectsUsed.Detonate:
                 break;
