@@ -35,7 +35,7 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
         scrollStatusImage.currentStatus = status;
         scrollStatusImage.image.sprite = status.sprite;
         scrollStatusImage.durationText.text = status.Timer > 0 ? status.Timer.ToString() : " ";
-        scrollStatusImage.image.color = status is Buff ? Color.green : Color.red;
+        scrollStatusImage.image.color = status is Buff ? Color.blue : Color.red;
         scrollStatusImage.highlightImage.color = Color.clear;
     }
 }

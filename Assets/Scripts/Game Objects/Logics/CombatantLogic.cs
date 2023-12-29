@@ -10,6 +10,7 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> validTargets = new();
 
+    [SerializeField]
     public List<CardStatus> cardStatuses = new();
     public TargetState targetState;
 

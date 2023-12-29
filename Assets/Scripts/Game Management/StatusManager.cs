@@ -33,9 +33,10 @@ public class StatusManager : MonoBehaviour
                     if (cardLogic.currentLocation == Location.Grave)
                         break;
                     Stun stun = new(d.applierLogic, d.affectedLogic, 2, true);
-                    gm.StateChange(GameState.Stun);
                     combatantLogic.cardStatuses.Add(stun);
                     cardLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
+                    cardLogic.cardController.stunIcons[cardLogic.locationOrderNumber].SetActive(true);
+                    gm.StateChange(GameState.Stun);
                     break;
             }
         }

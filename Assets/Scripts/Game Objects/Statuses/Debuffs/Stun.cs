@@ -18,6 +18,6 @@ public class Stun : Debuff
         Timer = timer;
         shouldCountdown = timed;
         toolTipInfo = toolTip;
-        sprite = UIManager.bombSprite;
+        sprite = UIManager.stunSprite;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-
 [Serializable]
 public class GameLogHistoryEntry
 {

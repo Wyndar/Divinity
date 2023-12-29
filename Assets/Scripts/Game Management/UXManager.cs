@@ -281,6 +281,9 @@ public class UXManager : MonoBehaviour
                 infoPanelGodEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
                 infoPanelGodFlavourText.text = gm.currentFocusCardLogic.flavorText;
                 infoPanelGodNameText.text = gm.currentFocusCardLogic.cardName;
+                if (combatantLogic.cardStatuses.Count > 0)
+                    foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
+                        scrollingStatusPanelHandler.AddStatusImage(cardStatus);
                 break;
         }
     }
