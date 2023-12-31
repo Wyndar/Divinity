@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using TMPro;
 using UnityEngine;
 
 public class StatusManager : MonoBehaviour
@@ -20,6 +20,8 @@ public class StatusManager : MonoBehaviour
             return;
         }
         cardStatus.Timer--;
+        if (cardStatus.fieldIconHolder != null)
+            cardStatus.fieldIconHolder.GetComponentInChildren<TMP_Text>().text = cardStatus.shouldCountdown ? cardStatus.Timer.ToString() : cardStatus.Amount > 0 ? cardStatus.Amount.ToString() : " ";
         cardStatus.hasDoneCountDownThisTurn = true;
         if (cardStatus.Timer > 0)
             return;
@@ -35,14 +37,14 @@ public class StatusManager : MonoBehaviour
                     Stun stun = new(d.applierLogic, d.affectedLogic, 2, true);
                     combatantLogic.cardStatuses.Add(stun);
                     cardLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
-                    cardLogic.cardController.stunIcons[cardLogic.locationOrderNumber].SetActive(true);
+                    cardLogic.cardController.SetStatusIcon(cardLogic.locationOrderNumber, stun);
                     gm.StateChange(GameState.Stun);
                     break;
             }
         }
         combatantLogic.cardStatuses.Remove(cardStatus);
-        if(!combatantLogic.DebuffCheck(Debuffs.Bombed))
-            cardLogic.cardController.bombIcons[cardLogic.locationOrderNumber].SetActive(false);
+        cardStatus.fieldIconHolder.transform.SetParent(null);
+        Destroy(cardStatus.fieldIconHolder.gameObject);
         combatantLogic.TurnTimer();
         return;
     }

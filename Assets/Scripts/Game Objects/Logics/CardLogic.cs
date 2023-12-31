@@ -702,9 +702,9 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Armor:
                 combatantLogic.armor = effectAmount;
-                GameObject icon = cardController.armorIcons[locationOrderNumber];
-                icon.SetActive(true);
-                icon.GetComponentInChildren<TMP_Text>().text = effectAmount.ToString();
+                Armor armor = new(logic, this, effectAmount);
+                combatantLogic.cardStatuses.Add(armor);
+                cardController.SetStatusIcon(locationOrderNumber, armor);
                 break;
             case EffectsUsed.Sleep:
                 break;
@@ -720,9 +720,9 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Bomb:
                 //bombs have a default timer of three turns
-                cardController.SetDebuffIcon(locationOrderNumber, Debuffs.Bombed);
                 Bomb bomb = new(logic, this, effect.duration, true);
                 combatantLogic.cardStatuses.Add(bomb);
+                cardController.SetStatusIcon(locationOrderNumber, bomb);
                 break;
             case EffectsUsed.Spot:
                 break;

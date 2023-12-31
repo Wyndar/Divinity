@@ -4,6 +4,10 @@ public class Buff:CardStatus
 {
     public Buffs buff;
 
+    public Buff()
+    {
+
+    }
     public Buff(Buffs buf, CardLogic bufferLogic, CardLogic buffedLogic, int timer, bool timed, ToolTipInfo toolTip, Sprite bufSprite)
     {
         buff = buf;

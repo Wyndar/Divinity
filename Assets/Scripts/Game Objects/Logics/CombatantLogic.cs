@@ -36,6 +36,7 @@ public class CombatantLogic : MonoBehaviour
             logic.audioManager.NewAudioPrefab(logic.audioManager.attackResolutionArmored);
         else
             logic.audioManager.NewAudioPrefab(logic.audioManager.attackResolution);
+        gm.ClearAttackTargetImages();
         if (damage != 0)
         {
             currentHp -= damage;
@@ -78,7 +79,6 @@ public class CombatantLogic : MonoBehaviour
             StopCoroutine(currentCoroutine);
         logic.cardController.AIManager.isPerformingAction = false;
         logic.cardController.enemy.AIManager.isPerformingAction = false;
-        gm.ClearAttackTargetImages();
         gm.ChainResolution();
     }
 
@@ -125,7 +125,6 @@ public class CombatantLogic : MonoBehaviour
             loggedEffectUsed = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber]
         };
 
-        logic.statChangeHistoryEnteries.Add(statChangeLog);
         gm.gameLogHistoryEntries.Add(statChangeLog);
         logic.StatAdjustment(healAmount, Status.Heal);
         if (GetComponent<MonsterLogic>() != null)
@@ -207,9 +206,10 @@ public class CombatantLogic : MonoBehaviour
         if (cardStatuses.Count < 1)
             return false;
 
-        foreach (Debuff d in cardStatuses)
-            if (d.debuff == debuff)
-                return true;
+        foreach (CardStatus status in cardStatuses)
+            if (status is Debuff d)
+                if (d.debuff == debuff)
+                    return true;
 
         return false;
     }

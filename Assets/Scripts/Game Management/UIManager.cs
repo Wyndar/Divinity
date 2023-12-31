@@ -1,12 +1,13 @@
 ﻿using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
 	public Game_Manager gm;
-    public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, atkSprite, bombSprite, stunSprite;
-
+    public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, atkSprite, bombSprite, stunSprite, armorSprite;
+    public GameObject fieldIconPrefab;
     public void UIUpdate(PlayerManager playerManager)
     {
         playerManager.heroCardLogic.OnFieldAtkRefresh();
@@ -140,9 +141,39 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void StatIconUpdate(GameObject icon)
+    public void StatIconUpdate(GameObject icon, CardStatus status)
     {
-        icon.SetActive(true);
+        if (icon.transform.childCount > 3)
+            return;
+        GameObject prefabGO = Instantiate(fieldIconPrefab, icon.transform, false);
+        prefabGO.GetComponent<FieldIconHolder>().cardStatus = status;
+        status.fieldIconHolder = prefabGO.GetComponent<FieldIconHolder>();
+        prefabGO.GetComponentInChildren<TMP_Text>().text = status.shouldCountdown?status.Timer.ToString():status.Amount>0?status.Amount.ToString():" ";
+        prefabGO.GetComponent<Image>().color = status is Buff ? Color.blue : Color.red;
+
+        if (status is Buff b)
+            switch (b.buff)
+            {
+                case Buffs.Armor:
+                    prefabGO.GetComponent<Image>().sprite = armorSprite;
+                    break;
+                default:
+                    Debug.Log("Failed to find sprite");
+                    break;
+            }
+        else if(status is Debuff d)
+            switch(d.debuff) 
+            {
+                case Debuffs.Bombed:
+                    prefabGO.GetComponent<Image>().sprite = bombSprite;
+                    break;
+                case Debuffs.Stunned:
+                    prefabGO.GetComponent<Image>().sprite = stunSprite;
+                    break;
+                default:
+                    Debug.Log("Failed to find sprite");
+                    break;
+            }
     }
 }
 

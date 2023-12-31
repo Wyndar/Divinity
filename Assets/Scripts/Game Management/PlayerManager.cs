@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject deck, grave, hero, shield, shieldPanel, activateShieldButton, ignoreShieldButton, raycastBlocker, graveTarget, deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton, hourglassIcon, heroHpStatus, heroAtkStatus, heroNumbers, heroStatus, heroStatus2;
 
-    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, armorIcons, stealthIcons, tauntIcons, provokeIcons, spotIcons, bombIcons, burnIcons, poisonIcons, blindIcons, stunIcons, sleepIcons, camouflageIcons, shieldIcons, statusIcons, statusIcons2, damageNums, attackProjectileIcons, effectProjectileIcons;
+    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, fieldIcons, statusIcons, statusIcons2, damageNums, attackProjectileIcons, effectProjectileIcons;
 
     public bool[] isEmptyCardSlot, isEmptyHandSlot;
 
@@ -67,18 +67,6 @@ public class PlayerManager : MonoBehaviour
         ui.HeroStatUpdate(status, statusChangeAmount, stat, this);
     }
 
-    public void SetDebuffIcon(int orderNum, Debuffs debuff)
-    {
-        GameObject debuffIcon;
-        switch(debuff)
-        {
-            case Debuffs.Bombed:
-                debuffIcon = bombIcons[orderNum];
-                break;
-            default:
-                Debug.Log("Failed to assert debuff type");
-                return;
-        }
-        ui.StatIconUpdate(debuffIcon);
-    }
+    public void SetStatusIcon(int orderNum, CardStatus status) =>
+        ui.StatIconUpdate(fieldIcons[orderNum], status);
 }

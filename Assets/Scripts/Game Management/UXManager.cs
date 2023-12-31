@@ -27,7 +27,7 @@ public class UXManager : MonoBehaviour
     private ScrollingStatusPanelHandler scrollingStatusPanelHandler;
 
     [SerializeField]
-    private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
+    private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelGodStatusBar, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
 
     [SerializeField]
     private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
@@ -281,6 +281,9 @@ public class UXManager : MonoBehaviour
                 infoPanelGodEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
                 infoPanelGodFlavourText.text = gm.currentFocusCardLogic.flavorText;
                 infoPanelGodNameText.text = gm.currentFocusCardLogic.cardName;
+                infoPanelGodStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
+                statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
+                scrollingStatusPanelHandler.RemoveStatusImages();
                 if (combatantLogic.cardStatuses.Count > 0)
                     foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
                         scrollingStatusPanelHandler.AddStatusImage(cardStatus);

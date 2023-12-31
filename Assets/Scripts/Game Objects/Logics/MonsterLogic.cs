@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MonsterLogic : CardLogic
 {
@@ -61,9 +62,10 @@ public class MonsterLogic : CardLogic
                 continue;
             if (cardOwner.handSize >= 10)
                 break;
-            gameObject.SetActive(true);
-            transform.position = Vector3.zero;
 
+            LeavingFieldSequence();
+            transform.position = Vector3.zero;
+            Debug.Log(gm.currentFocusCardLogic.name);
             //implementing a battle log
             LocationChange(gm.currentFocusCardLogic.focusEffect, EffectsUsed.Bounce, Location.Hand, i);
             transform.SetParent(cardOwner.handSlots[i].transform, false);
@@ -73,9 +75,7 @@ public class MonsterLogic : CardLogic
             else
                 FlipFaceDown();
 
-            LeavingFieldSequence();
             cardOwner.isEmptyHandSlot[i] = false;
-            cardOwner.fieldLogicList.Remove(this);
             cardOwner.handLogicList.Add(this);
             cardOwner.handSize = cardOwner.handLogicList.Count;
             break;
@@ -96,7 +96,6 @@ public class MonsterLogic : CardLogic
     public void MonsterDeath()
     {
         audioManager.SelectCharacterDeathSFX(id);
-        combatLogic.currentHp = 0;
         LeavingFieldSequence();
         cardController.SetStat(locationOrderNumber, Status.Death, 0);
         playLogic.MoveToGrave();
@@ -106,12 +105,15 @@ public class MonsterLogic : CardLogic
     public void LeavingFieldSequence()
     {
         combatLogic.currentHp = 0;
-        combatLogic.cardStatuses.Clear();
-        combatLogic.hasDoneCountdown = false;
         cardController.atkIcons[locationOrderNumber].SetActive(false);
         cardController.hpIcons[locationOrderNumber].SetActive(false);
-        cardController.armorIcons[locationOrderNumber].SetActive(false);
-        cardController.bombIcons[locationOrderNumber].SetActive(false);
+        List<GameObject> allChildren = new();
+        foreach (Transform child in cardController.fieldIcons[locationOrderNumber].transform)
+            allChildren.Add(child.gameObject);
+        foreach (GameObject child in allChildren)
+            Destroy(child);
+        combatLogic.cardStatuses.Clear();
+        combatLogic.hasDoneCountdown = false;
         cardController.isEmptyCardSlot[locationOrderNumber] = true;
         cardController.fieldLogicList.Remove(this);
     }
