@@ -24,7 +24,7 @@ public class UXManager : MonoBehaviour
     private ScrollingLogPanelHandler scrollingLogPanelHandler;
 
     [SerializeField]
-    private ScrollingStatusPanelHandler scrollingStatusPanelHandler;
+    private ScrollingStatusPanelHandler monsterScrollingStatusPanelHandler, godScrollingStatusPanelHandler;
 
     [SerializeField]
     private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelGodStatusBar, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
@@ -269,10 +269,10 @@ public class UXManager : MonoBehaviour
                 infoPanelMonsterNameText.text = gm.currentFocusCardLogic.cardName;
                 infoPanelMonsterStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
                 statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
-                scrollingStatusPanelHandler.RemoveStatusImages();
+                monsterScrollingStatusPanelHandler.RemoveStatusImages();
                 if (combatantLogic.cardStatuses.Count > 0)
                     foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
-                        scrollingStatusPanelHandler.AddStatusImage(cardStatus);
+                        monsterScrollingStatusPanelHandler.AddStatusImage(cardStatus);
                 break;
             case "god":
                 infoPanelGod.SetActive(true);
@@ -283,10 +283,10 @@ public class UXManager : MonoBehaviour
                 infoPanelGodNameText.text = gm.currentFocusCardLogic.cardName;
                 infoPanelGodStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
                 statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
-                scrollingStatusPanelHandler.RemoveStatusImages();
+                godScrollingStatusPanelHandler.RemoveStatusImages();
                 if (combatantLogic.cardStatuses.Count > 0)
                     foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
-                        scrollingStatusPanelHandler.AddStatusImage(cardStatus);
+                        godScrollingStatusPanelHandler.AddStatusImage(cardStatus);
                 break;
         }
     }

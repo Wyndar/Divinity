@@ -20,8 +20,6 @@ public class StatusManager : MonoBehaviour
             return;
         }
         cardStatus.Timer--;
-        if (cardStatus.fieldIconHolder != null)
-            cardStatus.fieldIconHolder.GetComponentInChildren<TMP_Text>().text = cardStatus.shouldCountdown ? cardStatus.Timer.ToString() : cardStatus.Amount > 0 ? cardStatus.Amount.ToString() : " ";
         cardStatus.hasDoneCountDownThisTurn = true;
         if (cardStatus.Timer > 0)
             return;
@@ -34,7 +32,7 @@ public class StatusManager : MonoBehaviour
                     gm.StateChange(GameState.Detonate);
                     if (cardLogic.currentLocation == Location.Grave)
                         break;
-                    Stun stun = new(d.applierLogic, d.affectedLogic, 2, true);
+                    Stun stun = new(d.applierLogic, d.affectedLogic, 3, true);
                     combatantLogic.cardStatuses.Add(stun);
                     cardLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
                     cardLogic.cardController.SetStatusIcon(cardLogic.locationOrderNumber, stun);
@@ -43,6 +41,12 @@ public class StatusManager : MonoBehaviour
             }
         }
         combatantLogic.cardStatuses.Remove(cardStatus);
+        if (cardStatus.fieldIconHolder == null)
+        {
+            combatantLogic.TurnTimer();
+            return;
+        }
+        cardStatus.fieldIconHolder.durationText.text = cardStatus.shouldCountdown ? cardStatus.Timer.ToString() : " ";
         cardStatus.fieldIconHolder.transform.SetParent(null);
         Destroy(cardStatus.fieldIconHolder.gameObject);
         combatantLogic.TurnTimer();

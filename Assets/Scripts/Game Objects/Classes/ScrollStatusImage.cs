@@ -12,6 +12,7 @@ public class ScrollStatusImage : MonoBehaviour, IPointerClickHandler
     public Image highlightImage;
     public Image image;
     public TMP_Text durationText;
+    public TMP_Text amountText;
     public bool isTargeted;
 
     public void OnPointerClick(PointerEventData pointerEventData)

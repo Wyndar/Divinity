@@ -26,5 +26,9 @@
   {
       "key":"Sleep",
       "value":"The affected fighter cannot take any actions(attack or use ability) and disables any combat buffs"
+  },
+  {
+      "key":"Armor",
+      "value": "Reduces damage taken by the indicated amount"
   }
 ]

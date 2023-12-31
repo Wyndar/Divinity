@@ -148,7 +148,8 @@ public class UIManager : MonoBehaviour
         GameObject prefabGO = Instantiate(fieldIconPrefab, icon.transform, false);
         prefabGO.GetComponent<FieldIconHolder>().cardStatus = status;
         status.fieldIconHolder = prefabGO.GetComponent<FieldIconHolder>();
-        prefabGO.GetComponentInChildren<TMP_Text>().text = status.shouldCountdown?status.Timer.ToString():status.Amount>0?status.Amount.ToString():" ";
+        status.fieldIconHolder.amountText.text = status.Amount>0?status.Amount.ToString():" ";
+        status.fieldIconHolder.durationText.text = status.shouldCountdown ? status.Timer.ToString() : " ";
         prefabGO.GetComponent<Image>().color = status is Buff ? Color.blue : Color.red;
 
         if (status is Buff b)

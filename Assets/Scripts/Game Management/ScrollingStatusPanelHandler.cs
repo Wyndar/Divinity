@@ -34,7 +34,8 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
         scrollStatusImage.toolTipManager = toolTipManager;
         scrollStatusImage.currentStatus = status;
         scrollStatusImage.image.sprite = status.sprite;
-        scrollStatusImage.durationText.text = status.Timer > 0 ? status.Timer.ToString() : " ";
+        scrollStatusImage.durationText.text = status.shouldCountdown ? status.Timer.ToString() : " ";
+        scrollStatusImage.amountText.text = status.Amount > 0 ? status.Amount.ToString() : " ";
         scrollStatusImage.image.color = status is Buff ? Color.blue : Color.red;
         scrollStatusImage.highlightImage.color = Color.clear;
     }
