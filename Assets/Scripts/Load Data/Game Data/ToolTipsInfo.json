@@ -1,34 +1,58 @@
 ﻿[
     {
         "key": "Bomb",
-        "value": "After the timer reaches 0, <u><color=red><link=Detonate>Detonate</link>s</color></u> and does 2 damage to the affected fighter then <u><color=red><link=Stun>Stun</link>s</color></u> that fighter. Can only be applied to fighters."
+        "value": "After the timer reaches 0, <u><color=red><link=Detonate>Detonate</link>s</color></u> and does 3 damage to the affected fighter then <u><color=red><link=Stun>Stun</link>s</color></u> that fighter. Can only be applied to fighters."
     },
   {
       "key":"Detonate",
-      "value": "Sets the timer of one or more debuffs to 0 and immediately applies all effects of the debuff should have applied during it's duration."
+      "value": "Sets the timer of a <u><color=red><link=Bomb>Bomb</link></color></u> to 0 and immediately apply its effects."
   },
   {
       "key":"Stun",
-      "value":"The affected <link=Combatant><u><color=yellow>Combatant</color></u></link> is unable to attack"
+      "value":"The affected <link=Combatant><u><color=yellow>Combatant</color></u></link> is unable to attack and use 'While Deployed' effects."
   },
   {
       "key":"Combatant",
-      "value":"Cards that can battle,(Gods and Fighters)"
+      "value":"Cards that can battle,(Gods and Fighters)."
   },
   {
       "key":"Poison",
-      "value":"At the end of each turn, the affected fighter loses 1 health and max health. This is not treated as taking damage.Can only be applied to  fighters"
+      "value":"At the end of each turn, the affected fighter loses 1 health and max health. This is not treated as taking damage.Can only be applied to  fighters."
   },
   {
       "key":"Burn",
-      "value":"At the end of each turn, the affected Combatant takes 2 damage"
+      "value":"At the end of each turn, the affected <link=Combatant><u><color=yellow>Combatant</color></u></link> takes 2 damage"
   },
   {
       "key":"Sleep",
-      "value":"The affected fighter cannot take any actions(attack or use ability) and disables any combat buffs"
+      "value":"The affected <link=Combatant><u><color=yellow>Combatant</color></u></link> cannot take any actions(attack or use ability) and disables any <link=Combat Buff><u><color=blue>Combat Buff</link>s</color></u>."
   },
   {
       "key":"Armor",
-      "value": "Reduces damage taken by the indicated amount"
-  }
+      "value": "Reduces damage taken by the indicated amount."
+  },
+  {
+      "key":"Taunt",
+      "value": "Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> must target this card for attacks."
+  },
+  {
+      "key":"Combat Buff",
+      "value": "A Buff that affects attacks(<u><color=blue><link=Armor>Armor</link></color></u>, <u><color=blue><link=Shield>Shield</link></color></u>, <u><color=blue><link=Barrier>Barrier</link></color></u>, <u><color=blue><link=Taunt>Taunt</link></color></u>, <u><color=blue><link=Camouflage>Camouflage</link></color></u>, <u><color=blue><link=Stealth>Stealth</link></color></u>)."
+  },
+  {
+      "key":"Shield",
+      "value": "Negates instances of damage up to the indicated amount."
+  },
+  {
+      "key":"Barrier",
+      "value": "Absorbs damage taken. If the damage is greater than the <color=blue>barrier</color>, the remaining damage is done to the target's health."
+  },
+   {
+      "key":"Camouflage",
+      "value": "Enemy cards cannot target this card for effects and attacks while there are other valid <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> targets on field."
+  },
+   {
+      "key":"Stealth",
+      "value":"Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> cannot target this card for attacks while there are other valid <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> targets on field."
+  },
 ]

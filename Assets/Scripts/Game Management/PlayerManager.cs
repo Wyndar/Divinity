@@ -68,5 +68,5 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void SetStatusIcon(int orderNum, CardStatus status) =>
-        ui.StatIconUpdate(fieldIcons[orderNum], status);
+        ui.AddStatIcon(fieldIcons[orderNum], status);
 }

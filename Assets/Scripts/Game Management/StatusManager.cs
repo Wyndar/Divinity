@@ -49,6 +49,7 @@ public class StatusManager : MonoBehaviour
         cardStatus.fieldIconHolder.durationText.text = cardStatus.shouldCountdown ? cardStatus.Timer.ToString() : " ";
         cardStatus.fieldIconHolder.transform.SetParent(null);
         Destroy(cardStatus.fieldIconHolder.gameObject);
+        ui.StatIconUpdate(cardLogic);
         combatantLogic.TurnTimer();
         return;
     }

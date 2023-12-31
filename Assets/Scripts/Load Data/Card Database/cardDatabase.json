@@ -556,7 +556,6 @@
             }
         ]
     },
-    //working fine above here
     {
         "Id": "GP-10",
         "CardType": "monster",
@@ -602,3 +601,4 @@
         ]
     }
 ]
+   //working fine above here

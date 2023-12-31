@@ -1,5 +1,5 @@
 ﻿using TMPro;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -141,7 +141,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void StatIconUpdate(GameObject icon, CardStatus status)
+    public void AddStatIcon(GameObject icon, CardStatus status)
     {
         if (icon.transform.childCount > 3)
             return;
@@ -175,6 +175,26 @@ public class UIManager : MonoBehaviour
                     Debug.Log("Failed to find sprite");
                     break;
             }
+    }
+    public void StatIconUpdate(CardLogic logic)
+    {
+        CombatantLogic combatant = logic.GetComponent<CombatantLogic>();
+        GameObject icon = logic.cardController.fieldIcons[logic.locationOrderNumber];
+        if (combatant.cardStatuses.Count == 0)
+            return;
+        while (icon.transform.childCount < 4)
+        {
+            if (combatant.cardStatuses.Count < icon.transform.childCount)
+                return;
+            List<CardStatus> cardStatuses = new();
+            foreach (FieldIconHolder iconHolder in icon.GetComponentsInChildren<FieldIconHolder>())
+                cardStatuses.Add(iconHolder.cardStatus);
+            foreach (CardStatus status in combatant.cardStatuses)
+                if (cardStatuses.Contains(status))
+                    continue;
+                else
+                    AddStatIcon(icon, status);
+        }
     }
 }
 

@@ -158,6 +158,8 @@ public class Game_Manager : MonoBehaviour
                 StateChange(GameState.Reinforcement);
             if (currentPhase == Phase.DrawPhase)
                 ChainResolution();
+            else
+                currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectCountNumber, currentFocusCardLogic.subCountNumber);
         }
         hasFinishedDrawEffect = true;
         yield break;
@@ -194,6 +196,7 @@ public class Game_Manager : MonoBehaviour
 
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
+        currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectCountNumber, currentFocusCardLogic.subCountNumber);
         yield break;
     }
 
@@ -229,6 +232,7 @@ public class Game_Manager : MonoBehaviour
 
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
+        currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectCountNumber, currentFocusCardLogic.subCountNumber);
         yield break;
     }
 
