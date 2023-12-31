@@ -198,7 +198,7 @@ public class UXManager : MonoBehaviour
                     if (focusCard.effects != null)
                         foreach (Effect effect in focusCard.effects)
                             foreach (EffectTypes effectTypes in effect.effectTypes)
-                                if (effectTypes != EffectTypes.Chain)
+                                if (effectTypes == EffectTypes.Deployed)
                                     showButton = true;
                     if (showButton)
                         EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);

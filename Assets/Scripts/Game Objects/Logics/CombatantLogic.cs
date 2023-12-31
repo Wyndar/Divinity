@@ -105,6 +105,7 @@ public class CombatantLogic : MonoBehaviour
         }
         if (currentAtk < 0)
             currentAtk = 0;
+        logic.StatAdjustment(value, status);
     }
 
     public void Heal(int healAmount)

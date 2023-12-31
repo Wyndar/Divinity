@@ -18,6 +18,5 @@ public class Taunt : Buff
         Amount = amount;
         toolTipInfo = toolTip;
         sprite = UIManager.tauntSprite;
-       
     }
 }

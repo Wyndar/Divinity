@@ -269,7 +269,7 @@ public class CardLogic : MonoBehaviour
                     StartCoroutine(G_M.RecoverCard(target, cardController));
                 break;
 
-            //these are undefined effects
+            //these are undefined effects, causes minor bugs, might need recursion
             case EffectsUsed.Damage:
             case EffectsUsed.Regeneration:
             case EffectsUsed.Shatter:
