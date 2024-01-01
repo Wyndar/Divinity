@@ -203,7 +203,7 @@ public class UXManager : MonoBehaviour
                     if (showButton)
                         EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                     if (gm.currentPhase == Phase.BattlePhase)
-                        if (combatant.attacksLeft > 0 && combatant.atk > 0)
+                        if (combatant.attacksLeft > 0 && combatant.currentAtk > 0)
                             EnableOnFieldAttackPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                     return;
                 }
