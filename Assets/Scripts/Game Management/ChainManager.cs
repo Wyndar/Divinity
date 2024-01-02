@@ -231,32 +231,30 @@ public class ChainManager : MonoBehaviour
     //chain resolution in order of addition
     public void ChainResolution()
     {
-        if (gm.isActivatingEffect)
-            return;
         gm.StateChange(GameState.ChainResolution);
-        for (int i = 0; i< gm.activationChainList.Count; i++)
+        //get reference to each so that they can be safely removed then activated before coroutines ruin call sequence
+        CardLogic resolvingCard = gm.activationChainList[0];
+        int resolvingEffectNumber = gm.activationChainNumber[0];
+        int resolvingSubEffectNumber = gm.activationChainSubNumber[0];
+        gm.activationChainList.RemoveAt(0);
+        gm.activationChainNumber.RemoveAt(0);
+        gm.activationChainSubNumber.RemoveAt(0);
+        //for non ai players to decide to use optionals
+        if (!resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] && !resolvingCard.cardController.isAI)
         {
-            //get reference to each so that they can be safely removed then activated before coroutines ruin call sequence
-            CardLogic resolvingCard = gm.activationChainList[i];
-            int resolvingEffectNumber = gm.activationChainNumber[i];
-            int resolvingSubEffectNumber = gm.activationChainSubNumber[i];
-            gm.activationChainList.RemoveAt(i);
-            gm.activationChainNumber.RemoveAt(i);
-            gm.activationChainSubNumber.RemoveAt(i);
-            //for non ai players to decide to use optionals
-            if (!resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] && !resolvingCard.cardController.isAI)
-            {
-                resolvingCard.effectCountNumber = resolvingEffectNumber;
-                resolvingCard.subCountNumber = resolvingSubEffectNumber;
-                gm.currentFocusCardLogic = resolvingCard;
-                gm.EnableActivationPanel();
-                break;
-            }
-            if (!resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] && resolvingCard.cardController.isAI)
-                if (!resolvingCard.cardController.AIManager.ActivateOptionalEffect())
-                    continue;
-                resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
-            
+            resolvingCard.effectCountNumber = resolvingEffectNumber;
+            resolvingCard.subCountNumber = resolvingSubEffectNumber;
+            gm.currentFocusCardLogic = resolvingCard;
+            gm.EnableActivationPanel();
         }
+        //ai optionals
+        else if (!resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] && resolvingCard.cardController.isAI)
+        {
+            if (!resolvingCard.cardController.AIManager.ActivateOptionalEffect())
+                gm.ChainResolution();
+        }
+        //else it's mandatory
+        else
+            resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
     }
 }

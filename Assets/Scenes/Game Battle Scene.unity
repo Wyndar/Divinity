@@ -27143,6 +27143,7 @@ MonoBehaviour:
   turnOpponent: {fileID: 0}
   isNotFirstDraw: 0
   hasFinishedDrawEffect: 0
+  isPlayingCard: 0
   isActivatingEffect: 0
   isChecking: 0
   isWaitingForResponse: 0
@@ -27267,6 +27268,7 @@ MonoBehaviour:
   bombSprite: {fileID: 21300000, guid: 72251c3ff2745c7479f585bc59d7c67c, type: 3}
   stunSprite: {fileID: 21300000, guid: 010ca11eb0616ab4eba31ed6d36f4042, type: 3}
   armorSprite: {fileID: 21300000, guid: 75f448510ee4f674abec7a7fa4536e48, type: 3}
+  stealthSprite: {fileID: 21300000, guid: 3f0e219833689ef4ca4268e869c3d940, type: 3}
   fieldIconPrefab: {fileID: 5722732350895233231, guid: 1bf8c18c8aef5324cba07c85ad64cb22, type: 3}
 --- !u!114 &1600093235
 MonoBehaviour:
@@ -32278,7 +32280,7 @@ MonoBehaviour:
   m_text: Activate Effect of [insert card name very long cardname extending ?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 738b9c453d344dd49b9eabf222319a82, type: 2}
-  m_sharedMaterial: {fileID: 6419989310122804555, guid: 5b27caf2e56bb40a8bd46d02a510301a, type: 2}
+  m_sharedMaterial: {fileID: -286455200586400498, guid: 738b9c453d344dd49b9eabf222319a82, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

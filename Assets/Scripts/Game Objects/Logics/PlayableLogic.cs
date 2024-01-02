@@ -66,6 +66,7 @@ public class PlayableLogic : MonoBehaviour
         playError = LegalPlayCheck(ignoreCost, player);
         if (playError == null)
         {
+            gm.isPlayingCard = true;
             if (logic.cardController != player)
                 logic.ControllerSwap(player);
             if (logic.isFaceDown)
@@ -158,9 +159,9 @@ public class PlayableLogic : MonoBehaviour
             if (logic.effects[i].EffectType.Contains("Deployment"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "Deployment");
-                gm.activationChainList.Insert(0, logic);
-                gm.activationChainNumber.Insert(0, i);
-                gm.activationChainSubNumber.Insert(0, j);
+                gm.activationChainList.Add(logic);
+                gm.activationChainNumber.Add(i);
+                gm.activationChainSubNumber.Add(j);
                 break;
             }
         }
@@ -169,14 +170,15 @@ public class PlayableLogic : MonoBehaviour
             if (logic.effects[i].EffectType.Contains("While Deployed"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "While Deployed");
-                gm.activationChainList.Insert(0, logic);
-                gm.activationChainNumber.Insert(0, i);
-                gm.activationChainSubNumber.Insert(0, j);
+                gm.activationChainList.Add(logic);
+                gm.activationChainNumber.Add(i);
+                gm.activationChainSubNumber.Add(j);
                 continue;
             }
         }
         if (logic.cardController.isAI)
             logic.cardController.AIManager.isPerformingAction = false;
+        gm.isPlayingCard= false;
         gm.ChainResolution();
         return;
     }

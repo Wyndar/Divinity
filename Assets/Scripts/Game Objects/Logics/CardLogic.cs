@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CardLogic : MonoBehaviour
 {
-    public Game_Manager G_M;
+    public Game_Manager gameManager;
 
     public EnumManager enumConverter;
 
@@ -44,17 +44,17 @@ public class CardLogic : MonoBehaviour
 
     private IEnumerator ActivationCoroutine(int effectNumber, int subEffectNumber)
     {
-        G_M.isActivatingEffect = true;
-        G_M.DisableRayBlocker();
+        gameManager.isActivatingEffect = true;
+        gameManager.DisableRayBlocker();
 
-        //these technically don't activate
+        //these technically don't activate, they are passives
         if (effects[effectNumber].effectTypes[subEffectNumber] == EffectTypes.WhileDeployed)
         {
             EffectActivationAfterAnimation(effectNumber, subEffectNumber);
             yield break;
         }
 
-        G_M.StateChange(GameState.EffectActivation);
+        gameManager.StateChange(GameState.EffectActivation);
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
         Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
@@ -82,7 +82,7 @@ public class CardLogic : MonoBehaviour
 
     private IEnumerator ResolutionCoroutine(int effectNumber, int subEffectNumber)
     {
-        G_M.DisableRayBlocker();
+        gameManager.DisableRayBlocker();
 
         //these technically don't resolve
         if (effects[effectNumber].effectTypes[subEffectNumber] == EffectTypes.WhileDeployed)
@@ -91,7 +91,7 @@ public class CardLogic : MonoBehaviour
             yield break;
         }
 
-        G_M.StateChange(GameState.EffectResolution);
+        gameManager.StateChange(GameState.EffectResolution);
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
         Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
@@ -204,7 +204,7 @@ public class CardLogic : MonoBehaviour
             returnList.Add(target);
         }
         if (returnList.Count < 1)
-            Debug.Log($"No valid targets for {cardName}'s {effectUsed} ability at {G_M.turnPlayer.PlayerName}'s turn at phase {G_M.currentPhase}");
+            Debug.Log($"No valid targets for {cardName}'s {effectUsed} ability at {gameManager.turnPlayer.PlayerName}'s turn at phase {gameManager.currentPhase}");
         return returnList;
     }
 
@@ -232,7 +232,7 @@ public class CardLogic : MonoBehaviour
                     TargetCheck(countNumber, subCount);
                 break;
         }
-        G_M.currentFocusCardLogic = this;
+        gameManager.currentFocusCardLogic = this;
     }
 
     public void EffectResolution(int countNumber, int subCount) =>StartCoroutine(ResolutionCoroutine(countNumber, subCount));
@@ -244,7 +244,7 @@ public class CardLogic : MonoBehaviour
         int effectAmount = focusEffect.EffectAmount[subCount];
         effectCountNumber = countNumber;
         subCountNumber = subCount;
-        G_M.currentFocusCardLogic = this;
+        gameManager.currentFocusCardLogic = this;
 
         switch (effectUsed)
         {
@@ -255,18 +255,18 @@ public class CardLogic : MonoBehaviour
 
             //effects that access game manager methods, can be optimized further
             case EffectsUsed.Reinforce:
-                StartCoroutine(G_M.DrawCard(effectAmount, cardController));
+                StartCoroutine(gameManager.DrawCard(effectAmount, cardController));
                 break;
             case EffectsUsed.BloodRecovery:
-                G_M.CostChange(effectAmount, cardController, true);
+                gameManager.CostChange(effectAmount, cardController, true);
                 break;
             case EffectsUsed.Recruit:
                 foreach (CardLogic target in targets)
-                    StartCoroutine(G_M.SearchCard(target, target.cardController));
+                    StartCoroutine(gameManager.SearchCard(target, target.cardController));
                 break;
             case EffectsUsed.Recover:
                 foreach (CardLogic target in targets)
-                    StartCoroutine(G_M.RecoverCard(target, cardController));
+                    StartCoroutine(gameManager.RecoverCard(target, cardController));
                 break;
 
             //these are undefined effects, causes minor bugs, might need recursion
@@ -316,19 +316,19 @@ public class CardLogic : MonoBehaviour
             default:
                 break;
         }
-        if (!G_M.isWaitingForResponse)
+        if (!gameManager.isWaitingForResponse)
             FinishResolution(countNumber, subCount);
     }
 
     public void FinishResolution(int countNumber, int subCount)
     {
-        focusEffect = this.effects[countNumber];
-        G_M.isActivatingEffect = false;
+        focusEffect = effects[countNumber];
+        gameManager.isActivatingEffect = false;
         if (focusEffect.currentActivations < focusEffect.maxActivations)
             focusEffect.currentActivations++;
 
         //chainlist for effect triggers
-        G_M.GetEffectTriggers(countNumber, subCount, this);
+        gameManager.GetEffectTriggers(countNumber, subCount, this);
 
         CheckSubsequentEffects(countNumber, subCount);
     }
@@ -337,7 +337,7 @@ public class CardLogic : MonoBehaviour
     {
         if (ResolveSubsequentSubeffects(countNumber, subCount))
         {
-            G_M.ClearEffectTargetImages();
+            gameManager.ClearEffectTargetImages();
             targets?.Clear();
             validTargets?.Clear();
             if (cardType == "spell")
@@ -346,7 +346,8 @@ public class CardLogic : MonoBehaviour
             //resolve chain after all possible effect chains are linked
             if (cardController.isAI)
                 cardController.AIManager.isPerformingAction = false;
-            G_M.ChainResolution();
+            if (!gameManager.isActivatingEffect && !gameManager.isPlayingCard)
+                gameManager.ChainResolution();
         };
     }
 
@@ -363,11 +364,11 @@ public class CardLogic : MonoBehaviour
         {
             effectCountNumber = countNumber;
             subCountNumber = subCount + 1;
-            G_M.currentFocusCardLogic = this;
+            gameManager.currentFocusCardLogic = this;
             if (cardController.isAI)
                 OptionalEffectResolution(cardController.AIManager.ActivateOptionalEffect());
             else
-                G_M.EnableActivationPanel();
+                gameManager.EnableActivationPanel();
             return false;
         }
         //dependent on targets of previous effect
@@ -428,7 +429,7 @@ public class CardLogic : MonoBehaviour
 
         if (targets == null || targets.Count < focusEffect.EffectTargetAmount[subCount])
         {
-            G_M.StateChange(GameState.Targeting);
+            gameManager.StateChange(GameState.Targeting);
             validTargets = new(GetValidTargets(countNumber, subCount));
             if (focusEffect.targetingTypes[subCount] == TargetingTypes.Manual)
             {
@@ -440,7 +441,7 @@ public class CardLogic : MonoBehaviour
                 }
                 effectCountNumber = countNumber;
                 subCountNumber = subCount;
-                G_M.currentFocusCardLogic = this;
+                gameManager.currentFocusCardLogic = this;
                 foreach(CardLogic target in validTargets)
                 {
                     if (target.type == Type.Fighter && target.currentLocation == Location.Field)
@@ -458,7 +459,7 @@ public class CardLogic : MonoBehaviour
                     return;
                 }
                 if (focusEffect.targetLocation[subCount] != Location.Field)
-                    G_M.EnableCardScrollScreen(validTargets, !focusEffect.EffectActivationIsMandatory[subCount]);
+                    gameManager.EnableCardScrollScreen(validTargets, !focusEffect.EffectActivationIsMandatory[subCount]);
                 return;
             }
             if (focusEffect.targetingTypes[subCount] == TargetingTypes.Auto)
@@ -473,11 +474,11 @@ public class CardLogic : MonoBehaviour
             }
             if (focusEffect.targetingTypes[countNumber] == TargetingTypes.Trigger)
             {
-                targets = new() { G_M.currentFocusCardLogic };
+                targets = new() { gameManager.currentFocusCardLogic };
                 return;
             }
         }
-        if (G_M.gameState != GameState.Targeting && targets.Count == 0)
+        if (gameManager.gameState != GameState.Targeting && targets.Count == 0)
         {
             EffectResolution(countNumber, subCount);
             return;
@@ -487,10 +488,10 @@ public class CardLogic : MonoBehaviour
     //called by ux manager clicked GameObject method with current focus card logic count and subcount
     public void ManualTargetAcquisition(int countNumber, int subCount)
     {
-        if (G_M.gameState != GameState.Targeting)
+        if (gameManager.gameState != GameState.Targeting)
             return;
 
-        CardLogic targeter = G_M.currentFocusCardLogic;
+        CardLogic targeter = gameManager.currentFocusCardLogic;
         if (!targeter.validTargets.Contains(this))
             return;
         if (targeter.targets == null)
@@ -501,7 +502,7 @@ public class CardLogic : MonoBehaviour
         //if you hit the needed amount of targets or all valid targets are taken, resolve
         if (targeter.targets.Count == targeter.effects[countNumber].EffectTargetAmount[subCount] || targeter.targets.Count == targeter.validTargets.Count)
         {
-            G_M.DisableCardScrollScreen();
+            gameManager.DisableCardScrollScreen();
             targeter.EffectResolution(countNumber, subCount);
             return;
         }
@@ -509,9 +510,9 @@ public class CardLogic : MonoBehaviour
 
     public void ManualTargetRemoval()
     {
-        if (G_M.gameState != GameState.Targeting)
+        if (gameManager.gameState != GameState.Targeting)
             return;
-        CardLogic targeter = G_M.currentFocusCardLogic;
+        CardLogic targeter = gameManager.currentFocusCardLogic;
         if (targeter.targets == null)
             return;
         if (targeter.targets.Contains(this))
@@ -601,7 +602,7 @@ public class CardLogic : MonoBehaviour
             loggedEffectUsed=effectsUsed
         };
         locationHistoryEntries.Add(locationLog);
-        G_M.gameLogHistoryEntries.Add(locationLog);
+        gameManager.gameLogHistoryEntries.Add(locationLog);
         currentLocation = location;
         locationOrderNumber = num;
     }
@@ -641,7 +642,7 @@ public class CardLogic : MonoBehaviour
                 loggedEffectUsed = effectsUsed,
             };
             buffHistoryEntries.Add(buffHistoryEntry);
-            G_M.gameLogHistoryEntries.Add(buffHistoryEntry);
+            gameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
         }
         else if(logType==LogType.Debuff)
         {
@@ -654,7 +655,7 @@ public class CardLogic : MonoBehaviour
                 loggedEffectUsed = effectsUsed,
             };
             debuffHistoryEntries.Add(debuffHistoryEntry);
-            G_M.gameLogHistoryEntries.Add(debuffHistoryEntry);
+            gameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
         }
     }
 
@@ -662,7 +663,7 @@ public class CardLogic : MonoBehaviour
     {
         CombatantLogic combatantLogic = GetComponent<CombatantLogic>();
         MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
-        CardLogic logic = G_M.currentFocusCardLogic;
+        CardLogic logic = gameManager.currentFocusCardLogic;
         switch (effectsUsed)
         {
             case EffectsUsed.Rally:
@@ -693,9 +694,15 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Taunt:
                 combatantLogic.targetState = TargetState.Taunt;
+                Taunt taunt = new(logic, this, false,0);
+                combatantLogic.cardStatuses.Add(taunt);
+                cardController.SetStatusIcon(locationOrderNumber, taunt);
                 break;
             case EffectsUsed.Stealth:
                 combatantLogic.targetState = TargetState.Stealth;
+                Stealth stealth = new(logic, this, false, 0);
+                combatantLogic.cardStatuses.Add(stealth);
+                cardController.SetStatusIcon(locationOrderNumber, stealth);
                 break;
             case EffectsUsed.Camouflage:
                 combatantLogic.targetState = TargetState.Camouflage;

@@ -6,7 +6,6 @@ public class Armor : Buff
     public UIManager UIManager;
     public Buffs buffApplied = Buffs.Armor;
     public ToolTipInfo toolTip;
-    public Sprite debufSprite;
     public Armor(CardLogic bufferLogic, CardLogic buffedLogic, int amount)
     {
         ToolTipManager = GameObject.FindObjectOfType<ToolTipManager>();

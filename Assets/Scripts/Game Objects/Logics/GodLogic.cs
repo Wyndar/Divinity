@@ -76,7 +76,7 @@ public class GodLogic : CardLogic
         if (combatantLogic.currentHp <= 0)
         {
             combatantLogic.currentHp = 0;
-            G_M.GameOver(cardController.enemy);
+            base.gameManager.GameOver(cardController.enemy);
         }
     }
 

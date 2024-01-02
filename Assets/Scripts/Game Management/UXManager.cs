@@ -187,6 +187,8 @@ public class UXManager : MonoBehaviour
                     return;
                 if (gm.isActivatingEffect)
                     return;
+                if (gm.isPlayingCard)
+                    return;
                 if (!allowCardLogicSwap)
                     return;
                 gm.currentFocusCardLogic = clickedCard;
@@ -199,7 +201,8 @@ public class UXManager : MonoBehaviour
                         foreach (Effect effect in focusCard.effects)
                             foreach (EffectTypes effectTypes in effect.effectTypes)
                                 if (effectTypes == EffectTypes.Deployed)
-                                    showButton = true;
+                                    if(effect.currentActivations < effect.maxActivations)
+                                        showButton = true;
                     if (showButton)
                         EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
                     if (gm.currentPhase == Phase.BattlePhase)
@@ -462,18 +465,17 @@ public class UXManager : MonoBehaviour
         effectActivationPanel.SetActive(true);
         gm.isActivatingEffect = true;
         rayBlocker.SetActive(true);
-        effectActivationPanelText.text = effectActivationText + gm.currentFocusCardLogic.cardName + "?";
+        effectActivationPanelText.text = $"{effectActivationText} {gm.currentFocusCardLogic.cardName}?";
         gm.DisableTurnUI();
     }
 
     public void OptionalEffectHandler(bool used)
     {
-        rayBlocker.SetActive(used);
         gm.isActivatingEffect = used;
         gm.currentFocusCardLogic.OptionalEffectResolution(used);
         effectActivationPanel.SetActive(false);
+        rayBlocker.SetActive(false);
         gm.EnableTurnUI();
-        gm.StateReset();
     }
 
     public void ResolveOptionalTargeting()

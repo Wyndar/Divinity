@@ -26,7 +26,7 @@ public class Game_Manager : MonoBehaviour
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotFirstDraw, hasFinishedDrawEffect, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo;
+    public bool isNotFirstDraw, hasFinishedDrawEffect,isPlayingCard, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo;
 
     public GameState gameState;
     public Phase currentPhase;
@@ -196,7 +196,6 @@ public class Game_Manager : MonoBehaviour
 
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
-        currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectCountNumber, currentFocusCardLogic.subCountNumber);
         yield break;
     }
 
@@ -232,7 +231,6 @@ public class Game_Manager : MonoBehaviour
 
         ShuffleHand(player);
         StateChange(GameState.Reinforcement);
-        currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectCountNumber, currentFocusCardLogic.subCountNumber);
         yield break;
     }
 
@@ -383,8 +381,10 @@ public class Game_Manager : MonoBehaviour
             return;
         if (isWaitingForResponse)
             return;
+        if(isPlayingCard)
+            return;
         //if empty chain, reset and get new decision
-        if (activationChainList.Count == 0 && !isActivatingEffect)
+        if (activationChainList.Count == 0)
         {
             StateReset();
             return;

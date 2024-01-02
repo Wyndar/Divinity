@@ -98,6 +98,8 @@ public class AIManager : MonoBehaviour
             return;
         if (gm.isActivatingEffect)
             return;
+        if (gm.isPlayingCard)
+            return;
         CardLogic cardLogic = AIPlayer.canUseEffectLogicList[0];
         int effNum = AIPlayer.canUseEffectNumber[0];
         int subNum = AIPlayer.canUseEffectSubNumber[0];

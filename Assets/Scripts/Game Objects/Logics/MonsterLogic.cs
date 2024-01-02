@@ -65,7 +65,6 @@ public class MonsterLogic : CardLogic
 
             LeavingFieldSequence();
             transform.position = Vector3.zero;
-            Debug.Log(gm.currentFocusCardLogic.name);
             //implementing a battle log
             LocationChange(gm.currentFocusCardLogic.focusEffect, EffectsUsed.Bounce, Location.Hand, i);
             transform.SetParent(cardOwner.handSlots[i].transform, false);

@@ -217,6 +217,10 @@ public class TurnManager : MonoBehaviour
 
     public void TriggerPhaseChange()
     {
+        if (gm.activationChainList.Count > 0)
+            return;
+        if (gm.gameState != GameState.Open)
+            return;
         if (gm.currentPhase == Phase.MainPhase)
         {
             gm.phaseChangeButton.SetActive(false);

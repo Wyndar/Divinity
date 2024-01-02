@@ -75,7 +75,7 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardBack = cardClone.transform.Find("Card Back");
                 cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");
                 cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
-                cardCloneCardLogic.G_M = G_M;
+                cardCloneCardLogic.gameManager = G_M;
                 cardCloneCardLogic.enumConverter = enumConverter;
                 cardCloneCardLogic.audioManager = audioManager;
 
