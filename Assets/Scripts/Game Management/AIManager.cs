@@ -9,10 +9,13 @@ public class AIManager : MonoBehaviour
     public TurnManager turnManager;
     public bool isPerformingAction;
 
+    private Coroutine previousCoroutine;
     private Coroutine currentCoroutine;
 
     public IEnumerator Decision()
     {
+        previousCoroutine = currentCoroutine;
+        currentCoroutine = null;
         isPerformingAction = true;
         AIPlayer.hourglassIcon.SetActive(true);
         yield return new WaitForSeconds(1f);
@@ -20,12 +23,12 @@ public class AIManager : MonoBehaviour
         AIPlayer.hourglassIcon.SetActive(false);
         if (gm.currentPhase == Phase.MainPhase && gm.turnPlayer == AIPlayer)
         {
-            MainPhase();
+            currentCoroutine = StartCoroutine(MainPhase());
             yield break;
         }
         if (gm.currentPhase == Phase.BattlePhase && gm.turnPlayer == AIPlayer)
         {
-            BattlePhase();
+            currentCoroutine = StartCoroutine(BattlePhase());
             yield break;
         }
         //implement response to opponent action here
@@ -41,42 +44,45 @@ public class AIManager : MonoBehaviour
     }
 
     //indiscriminate summon of best stats and effect activation, work is needed here
-    public void MainPhase()
+    public IEnumerator MainPhase()
     {
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
+        if (previousCoroutine != null)
+            StopCoroutine(previousCoroutine);
+        previousCoroutine = currentCoroutine;
+        currentCoroutine = null;
         if (AIPlayer.costCount > 0 && AIPlayer.playableLogicList.Count > 0)
         {
             PlayLegalCard();
-            return;
+            yield break;
         }
         if (AIPlayer.canUseEffectLogicList.Count > 0)
         {
             UseLegalEffects();
-            return;
+            yield break;
         }
         else
             isPerformingAction = false;
-        if (gm.gameState != GameState.Open)
-            return;
+        yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open||gm.isPlayingCard||gm.isActivatingEffect);
         turnManager.TriggerPhaseChange();
     }
 
     //indiscriminate attack spam
-    public void BattlePhase()
+    public IEnumerator BattlePhase()
     {
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
+        if (previousCoroutine != null)
+            StopCoroutine(previousCoroutine);
+        previousCoroutine = currentCoroutine;
+        currentCoroutine = null;
+
         if (AIPlayer.canAttackLogicList.Count > 0)
         {
             CombatantLogic combatant = AIPlayer.canAttackLogicList[0].GetComponent<CombatantLogic>();
             combatant.DeclareAttack();
-            return;
+            yield break;
         }
         else
             isPerformingAction = false;
-        if (gm.gameState != GameState.Open)
-            return;
+        yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open || gm.isPlayingCard || gm.isActivatingEffect);
         turnManager.TriggerPhaseChange();
     }
 

@@ -538,7 +538,8 @@
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ true ]
-            },
+            }
+        ]
     },
     {
         "Id": "GP-10",

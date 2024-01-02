@@ -153,9 +153,9 @@ public class PlayableLogic : MonoBehaviour
             GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
         gm.currentFocusCardLogic = logic;
-        gm.StateChange(GameState.Deployment);
         for (int i = 0; i < logic.effects.Count; i++)
         {
+            //deployment effects should resolve after chain stack
             if (logic.effects[i].EffectType.Contains("Deployment"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "Deployment");
@@ -167,15 +167,17 @@ public class PlayableLogic : MonoBehaviour
         }
         for (int i = 0; i < logic.effects.Count; i++)
         { 
+            //passives should resolve as soon as possible, before chain stack if necessary
             if (logic.effects[i].EffectType.Contains("While Deployed"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "While Deployed");
-                gm.activationChainList.Add(logic);
-                gm.activationChainNumber.Add(i);
-                gm.activationChainSubNumber.Add(j);
-                continue;
+                gm.activationChainList.Insert(0,logic);
+                gm.activationChainNumber.Insert(0, i);
+                gm.activationChainSubNumber.Insert(0, j);
+                break;
             }
         }
+        gm.StateChange(GameState.Deployment);
         if (logic.cardController.isAI)
             logic.cardController.AIManager.isPerformingAction = false;
         gm.isPlayingCard= false;
