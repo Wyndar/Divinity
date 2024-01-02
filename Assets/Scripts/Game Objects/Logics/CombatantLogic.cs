@@ -10,9 +10,9 @@ public class CombatantLogic : MonoBehaviour
 
     public List<CombatantLogic> validTargets = new();
 
-    [SerializeField]
     public List<CardStatus> cardStatuses = new();
     public TargetState targetState;
+    public CardStatus targetStatus;
 
     public int atk, hp, maxHp, currentAtk, currentHp, armor, maxAttacks, attacksLeft;
 
@@ -161,6 +161,15 @@ public class CombatantLogic : MonoBehaviour
         //else check for taunters and stealthed units then return valids
         bool tauntEnemy = false;
         int stealthEnemyCount = 0;
+        CombatantLogic hero = logic.cardController.enemy.heroCardLogic.GetComponent<CombatantLogic>();
+        if (hero.targetState == TargetState.Taunt)
+        {
+            tauntEnemy = true;
+            logics.Add(hero);
+        }
+        if (hero.targetState == TargetState.Stealth)
+            stealthEnemyCount++;
+
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
@@ -178,6 +187,10 @@ public class CombatantLogic : MonoBehaviour
             }
          logics.Add(combatantLogic);
         }
+
+        if (tauntEnemy == false)
+            logics.Add(hero);
+        
         //if all ally fghters are stealthed, then they are basically all free targets
         if (stealthEnemyCount > 0 && logics.Count == 0)
         {
@@ -187,9 +200,6 @@ public class CombatantLogic : MonoBehaviour
                     logics.Add(combatant);
             }
         }
-        if (tauntEnemy)
-            return logics;
-        logics.Add(logic.cardController.enemy.heroCardLogic.GetComponent<CombatantLogic>());
         return logics;
     }
 
@@ -200,6 +210,22 @@ public class CombatantLogic : MonoBehaviour
         CombatantLogic attacker = gm.currentFocusCardLogic.GetComponent<CombatantLogic>();
         if (attacker.validTargets.Contains(this))
             AttackResolution();
+    }
+    public void RemoveTargetStatus()
+    {
+        if (targetStatus != null)
+        {
+            if (targetStatus.fieldIconHolder != null)
+                Destroy(targetStatus.fieldIconHolder.gameObject);
+            cardStatuses.Remove(targetStatus);
+        }
+    }
+    public void SetTargetStatus(CardStatus status, TargetState state)
+    {
+        RemoveTargetStatus();
+        targetStatus = status;
+        targetState = state;
+        cardStatuses.Add(status);
     }
 
     public bool DebuffCheck(Debuffs debuff)

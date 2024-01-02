@@ -520,7 +520,7 @@
         "Id": "GP-09",
         "CardType": "monster",
         "CardName": "Shadowless Bloom",
-        "CardText": "Deployment: Stealth | Chain - Reinforcement Phase: Stealth",
+        "CardText": "While Deployed: Stealth",
         "CardFlavorText": "He's brave enough to go into enemy defenses alone but can't hold a conversation.",
         "Traits": [ "Plant" ],
         "Cost": 2,
@@ -528,7 +528,7 @@
         "Hp": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
+                "EffectType": [ "While Deployed" ],
                 "EffectUsed": [ "Stealth" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
@@ -539,22 +539,6 @@
                 "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ true ]
             },
-            {
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Stealth" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ true ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerPhase": [ "Draw Phase" ],
-                "TriggerOwner": ["Any"]
-            }
-        ]
     },
     {
         "Id": "GP-10",

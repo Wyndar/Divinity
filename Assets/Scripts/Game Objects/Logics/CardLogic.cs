@@ -693,15 +693,13 @@ public class CardLogic : MonoBehaviour
                 monsterLogic.MonsterDeath();
                 break;
             case EffectsUsed.Taunt:
-                combatantLogic.targetState = TargetState.Taunt;
                 Taunt taunt = new(logic, this, false,0);
-                combatantLogic.cardStatuses.Add(taunt);
+                combatantLogic.SetTargetStatus(taunt, TargetState.Taunt);
                 cardController.SetStatusIcon(locationOrderNumber, taunt);
                 break;
             case EffectsUsed.Stealth:
-                combatantLogic.targetState = TargetState.Stealth;
                 Stealth stealth = new(logic, this, false, 0);
-                combatantLogic.cardStatuses.Add(stealth);
+                combatantLogic.SetTargetStatus(stealth, TargetState.Stealth);
                 cardController.SetStatusIcon(locationOrderNumber, stealth);
                 break;
             case EffectsUsed.Camouflage:

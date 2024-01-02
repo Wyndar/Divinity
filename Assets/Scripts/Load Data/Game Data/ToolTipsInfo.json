@@ -21,7 +21,7 @@
   },
   {
       "key":"Burn",
-      "value":"At the end of each turn, the affected <link=Combatant><u><color=yellow>Combatant</color></u></link> takes 2 damage"
+      "value":"At the end of each turn, the affected <link=Combatant><u><color=yellow>Combatant</color></u></link> takes 2 damage."
   },
   {
       "key":"Sleep",
@@ -29,30 +29,42 @@
   },
   {
       "key":"Armor",
-      "value": "Reduces damage taken by the indicated amount."
+      "value": "Reduces damage taken by the indicated amount. Cannot stack with itself, the highest value is applied and equal or lower armor effects are nullified. This is a <u><color=blue><link=Defensive Buff>Defensive Buff</link></color></u>."
   },
   {
       "key":"Taunt",
-      "value": "Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> must target this card for attacks."
+      "value": "Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> must target this card for attacks. This is a <u><color=blue><link=Targeting Buff>Targeting Buff</link></color></u>."
   },
   {
       "key":"Combat Buff",
-      "value": "A Buff that affects attacks(<u><color=blue><link=Armor>Armor</link></color></u>, <u><color=blue><link=Shield>Shield</link></color></u>, <u><color=blue><link=Barrier>Barrier</link></color></u>, <u><color=blue><link=Taunt>Taunt</link></color></u>, <u><color=blue><link=Camouflage>Camouflage</link></color></u>, <u><color=blue><link=Stealth>Stealth</link></color></u>)."
+      "value": "A <u><color=blue><link=Defensive Buff>Defensive Buff</link></color></u> or <u><color=blue><link=Targeting Buff>Targeting Buff</link></color></u>."
   },
   {
+      "key":"Defensive Buff",
+      "value":"A Buff that mitigates damage taken.(<u><color=blue><link=Armor>Armor</link></color></u>, <u><color=blue><link=Shield>Shield</link></color></u>, <u><color=blue><link=Barrier>Barrier</link></color></u>)."
+  },
+    {
+      "key":"Targeting Buff",
+      "value":"A Buff that affects targeting(<u><color=blue><link=Taunt>Taunt</link></color></u>, <u><color=blue><link=Camouflage>Camouflage</link></color></u>, <u><color=blue><link=Stealth>Stealth</link></color></u>). These do not stack and will replace any targeting buffs and debuffs previously applied on the target."
+  },
+  {
+      "key":"Targeting Debuff",
+      "Value":"A debuff that affects targeting().These do not stack and will replace any targeting buffs and debuffs previously applied on the target."
+  }
+  {
       "key":"Shield",
-      "value": "Negates instances of damage up to the indicated amount."
+      "value": "Negates instances of damage up to the indicated amount. This is a <u><color=blue><link=Defensive Buff>Defensive Buff</link></color></u>."
   },
   {
       "key":"Barrier",
-      "value": "Absorbs damage taken. If the damage is greater than the <color=blue>barrier</color>, the remaining damage is done to the target's health."
+      "value": "Absorbs damage taken. If the damage is greater than the <color=blue>barrier</color>, the remaining damage is done to the target's health.  This is a <u><color=blue><link=Defensive Buff>Defensive Buff</link></color></u>."
   },
    {
       "key":"Camouflage",
-      "value": "Enemy cards cannot target this card for effects and attacks while there are other valid <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> targets on field."
+      "value": "Enemy cards cannot target this card with effects while there are other valid <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> targets on field. This is a <u><color=blue><link=Targeting Buff>Targeting Buff</link></color></u>."
   },
    {
       "key":"Stealth",
-      "value":"Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> cannot target this card for attacks while there are other valid <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> targets on field."
+      "value":"Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> cannot target this card for attacks while there are other valid <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> targets on field. This is a <u><color=blue><link=Targeting Buff>Targeting Buff</link></color></u>."
   },
 ]
