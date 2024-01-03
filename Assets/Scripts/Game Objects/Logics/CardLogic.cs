@@ -400,14 +400,13 @@ public class CardLogic : MonoBehaviour
             }
 
             string checkedStat = focusEffect.TargetStat[subCount];
-            int amount = focusEffect.EffectAmount[index];
             switch (checkedStat)
             {
                 case "current atk":
-                    combatantStats.currentAtk = amount;
+                    focusEffect.EffectAmount[index] = combatantStats.currentAtk;
                     break;
                 case "cost":
-                    playableStats.cost = amount;
+                    focusEffect.EffectAmount[index] = playableStats.cost;
                     break;
             }
         }

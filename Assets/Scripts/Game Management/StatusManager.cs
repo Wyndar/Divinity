@@ -21,6 +21,8 @@ public class StatusManager : MonoBehaviour
         }
         cardStatus.Timer--;
         cardStatus.hasDoneCountDownThisTurn = true;
+        if (cardStatus.fieldIconHolder != null)
+            cardStatus.fieldIconHolder.durationText.text = cardStatus.Timer.ToString();
         if (cardStatus.Timer > 0)
             return;
         if (cardStatus is Debuff d)
@@ -46,7 +48,6 @@ public class StatusManager : MonoBehaviour
             combatantLogic.TurnTimer();
             return;
         }
-        cardStatus.fieldIconHolder.durationText.text = cardStatus.shouldCountdown ? cardStatus.Timer.ToString() : " ";
         cardStatus.fieldIconHolder.transform.SetParent(null);
         Destroy(cardStatus.fieldIconHolder.gameObject);
         ui.StatIconUpdate(cardLogic);
