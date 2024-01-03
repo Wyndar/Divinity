@@ -5,45 +5,37 @@ using TMPro;
 
 public class UXManager : MonoBehaviour
 {
-    [SerializeField]
-    private Game_Manager gm;
+    [SerializeField] private Game_Manager gm;
 
-    [SerializeField]
-    private InputManager InputManager;
+    [SerializeField] private InputManager InputManager;
 
-    [SerializeField]
-    private EnumManager enumConverter;
+    [SerializeField] private EnumManager enumConverter;
 
-    [SerializeField]
-    private AudioManager audioManager;
+    [SerializeField] private AudioManager audioManager;
 
-    [SerializeField]
-    private ScrollingCardPanelHandler scrollingCardPanelHandler;
+    [SerializeField] private ToolTipManager toolTipManager;
 
-    [SerializeField]
-    private ScrollingLogPanelHandler scrollingLogPanelHandler;
+    [SerializeField] private ScrollingCardPanelHandler scrollingCardPanelHandler;
 
-    [SerializeField]
-    private ScrollingStatusPanelHandler monsterScrollingStatusPanelHandler, godScrollingStatusPanelHandler;
+    [SerializeField] private ScrollingLogPanelHandler scrollingLogPanelHandler;
 
-    [SerializeField]
-    private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelGodStatusBar, infoPanelMonster, infoPanelSpell, infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton, cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
+    [SerializeField] private ScrollingStatusPanelHandler monsterScrollingStatusPanelHandler, godScrollingStatusPanelHandler;
 
-    [SerializeField]
-    private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
-    infoPanelMonsterNameText, infoPanelMonsterAtkText, infoPanelMonsterHpText, infoPanelMonsterCostText,
-    infoPanelMonsterEffectText, infoPanelMonsterFlavourText, infoPanelGodNameText, infoPanelGodAtkText,
-    infoPanelGodHpText, infoPanelGodEffectText, infoPanelGodFlavourText, effectPanelNameText,
-    effectActivationPanelText, gameOverWinnerText;
+    [SerializeField] private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelGodStatusBar, infoPanelMonster, infoPanelSpell,
+        infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton,
+        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
 
-    [SerializeField]
-    private TMP_Text[] effectPanelTexts;
+    [SerializeField] private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
+        infoPanelMonsterNameText, infoPanelMonsterAtkText, infoPanelMonsterHpText, infoPanelMonsterCostText,
+        infoPanelMonsterEffectText, infoPanelMonsterFlavourText, infoPanelGodNameText, infoPanelGodAtkText,
+        infoPanelGodHpText, infoPanelGodEffectText, infoPanelGodFlavourText, effectPanelNameText,
+        effectActivationPanelText, gameOverWinnerText;
 
-    [SerializeField]
-    private GameObject[] effects, switchButtons, activateButtons;
+    [SerializeField] private TMP_Text[] effectPanelTexts;
 
-    [SerializeField]
-    private string effectActivationText;
+    [SerializeField] private GameObject[] effects, switchButtons, activateButtons;
+
+    [SerializeField] private string effectActivationText;
 
     public Vector2 touchStartPosition, touchEndPosition;
     private float touchStartTime, touchEndTime;
@@ -153,14 +145,17 @@ public class UXManager : MonoBehaviour
         DisableAllPopups();
         if (isUsingshield)
             return;
-        if (gm.isShowingInfo)
-            return;
         if (gameObject.CompareTag("Active UI panel"))
             return;
         if (gameObject.CompareTag("Background") && gm.gameState == GameState.Open)
         {
             if (gm.isChecking)
                 DisableCardScrollScreen();
+            if (toolTipManager.floatingInfoTexts.Count > 0)
+            {
+                toolTipManager.DisableInfoPauseMode();
+                return;
+            }
             gm.currentFocusCardLogic = null;
         }
         DisableDeckSearchButtons();
@@ -196,6 +191,8 @@ public class UXManager : MonoBehaviour
                     if (gm.isPlayingCard)
                         return;
                     if (!allowCardLogicSwap)
+                        return;
+                    if (gm.activationChainList.Count > 0)
                         return;
                     gm.currentFocusCardLogic = clickedCard;
                     focusCard = gm.currentFocusCardLogic;

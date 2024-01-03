@@ -20,9 +20,10 @@ Texture2D:
   m_MipsStripped: 0
   m_TextureFormat: 1
   m_MipCount: 1
-  m_IsReadable: 0
+  m_IsReadable: 1
   m_IsPreProcessed: 0
-  m_IgnoreMasterTextureLimit: 0
+  m_IgnoreMipmapLimit: 0
+  m_MipmapLimitGroupName: 
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
   m_VTOnly: 0
@@ -56,6 +57,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: EBGaramond-ExtraBold SDF Material
   m_Shader: {fileID: 4800000, guid: 22caac326b6935b479c3d83d4e161d95, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -64,6 +67,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -168,10 +172,10 @@ MonoBehaviour:
   material: {fileID: -286455200586400498}
   materialHashCode: 2045116121
   m_Version: 1.1.0
-  m_SourceFontFileGUID: b02b0268d4d224bffb31a7f41e50e41a
-  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: b02b0268d4d224bffb31a7f41e50e41a, type: 3}
-  m_SourceFontFile: {fileID: 0}
-  m_AtlasPopulationMode: 0
+  m_SourceFontFileGUID: 369251a12c39fd54289bf17efd206f52
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 369251a12c39fd54289bf17efd206f52, type: 3}
+  m_SourceFontFile: {fileID: 12800000, guid: 369251a12c39fd54289bf17efd206f52, type: 3}
+  m_AtlasPopulationMode: 1
   m_FaceInfo:
     m_FaceIndex: 0
     m_FamilyName: EB Garamond
@@ -1680,6 +1684,21 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
+  - m_Index: 1852
+    m_Metrics:
+      m_Width: 0
+      m_Height: 0
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 0
+      m_HorizontalAdvance: 16.90625
+    m_GlyphRect:
+      m_X: 0
+      m_Y: 0
+      m_Width: 0
+      m_Height: 0
+    m_Scale: 1
+    m_AtlasIndex: 0
+    m_ClassDefinitionType: 0
   m_CharacterTable:
   - m_ElementType: 1
     m_Unicode: 32
@@ -2076,6 +2095,10 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 9633
     m_GlyphIndex: 1971
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 13
+    m_GlyphIndex: 1852
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: -912563603768301545}

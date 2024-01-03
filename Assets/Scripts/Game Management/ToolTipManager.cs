@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class ToolTipManager : MonoBehaviour
@@ -12,7 +13,7 @@ public class ToolTipManager : MonoBehaviour
 
     public List<ToolTipInfo> tooltipInfos;
 
-    public int floatingInfoTextCount;
+    public List<FloatingText> floatingInfoTexts;
     public void OnEnable() => ClickableText.OnLinkClickEvent += GetToolTipInfo;
     public void OnDisable() => ClickableText.OnLinkClickEvent -= GetToolTipInfo;
 
@@ -32,13 +33,15 @@ public class ToolTipManager : MonoBehaviour
 
     public FloatingText EnableInfoTextPanel(ToolTipInfo toolTip, Color headerColor, Color infoColor, ScrollStatusImage scrollStatusImage)
     {
+        if (floatingInfoTexts.Find(a => a.infoText.text == toolTip.value) != null)
+            return null;
         GameObject floater = Instantiate(infoTextPanel, canvasGO.transform);
         gm.isShowingInfo = true;
-        floatingInfoTextCount++;
         //trying to get it to appear on the opposite half of the screen to the clicked target
         Vector3 viewPos = Camera.main.WorldToViewportPoint(ux.touchEndPosition);
-        floater.transform.position = new(viewPos.x < 0.5f ? ux.touchEndPosition.x + 1f : ux.touchEndPosition.x - 1f, viewPos.y > 0.5f ? ux.touchEndPosition.y - 4f : ux.touchEndPosition.y + 4f, floater.transform.position.z);
+        floater.transform.position = new(viewPos.x < 0.5f ? ux.touchEndPosition.x + 1 : ux.touchEndPosition.x - 1f, viewPos.y > 0.5f ? ux.touchEndPosition.y - 4f : ux.touchEndPosition.y + 4f, floater.transform.position.z);
         FloatingText floatingText = floater.GetComponent<FloatingText>();
+        floatingInfoTexts.Add(floatingText);
         floatingText.header.text = toolTip.key;
         floatingText.infoText.text = toolTip.value;
         floatingText.header.color = headerColor;
@@ -51,8 +54,8 @@ public class ToolTipManager : MonoBehaviour
 
     public void DisableInfoPauseMode()
     {
-        floatingInfoTextCount--;
-        if (floatingInfoTextCount < 1)
+        floatingInfoTexts[^1].DisableFloatingText();
+        if (floatingInfoTexts.Count < 1)
             gm.isShowingInfo = false;
     }
 }

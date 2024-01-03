@@ -40,10 +40,10 @@ public class CombatantLogic : MonoBehaviour
         if (damage != 0)
         {
             currentHp -= damage;
-            AudioSource audio = logic.audioManager.SelectCharacterDamageSFX(logic.id);
+            logic.audioManager.SelectCharacterDamageSFX(logic.id);
             gm.StateChange(GameState.Damaged);
                 logic.StatAdjustment(damage, Status.Damage);
-            yield return new WaitUntil(() => audio == null);
+            yield return new WaitForSeconds(1f);
         }
         Effect damager = null;
         EffectsUsed damagingEffect = EffectsUsed.Undefined;

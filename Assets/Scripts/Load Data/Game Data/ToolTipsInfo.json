@@ -65,6 +65,6 @@
   },
    {
       "key":"Stealth",
-      "value":"Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> cannot target this card for attacks while there are other valid <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> targets on field. This is a <u><color=blue><link=Targeting Buff>Targeting Buff</link></color></u>."
+      "value":"Enemy <u><color=yellow> <link=Combatant>Combatant</link>s</color></u> cannot target this card for attacks while there are other valid <u><color=yellow> <link=Combatant>Combatant</link></color></u> targets on field. This is a <u><color=blue><link=Targeting Buff>Targeting Buff</link></color></u>."
   }
 ]

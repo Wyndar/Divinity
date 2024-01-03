@@ -23,7 +23,7 @@ public class ScrollStatusImage : MonoBehaviour, IPointerClickHandler
         if (isTargeted)
         {
             if (floatingText != null)
-                floatingText.DisableFoatingText();
+               toolTipManager.DisableInfoPauseMode();
             highlightImage.color = Color.clear;
             isTargeted = false;
         }
@@ -31,7 +31,7 @@ public class ScrollStatusImage : MonoBehaviour, IPointerClickHandler
         {
             isTargeted = true;
             highlightImage.color = Color.yellow;
-            floatingText = toolTipManager.EnableInfoTextPanel(currentStatus.toolTipInfo, currentStatus is Buff ? Color.green : Color.red, Color.black, this);
+            floatingText = toolTipManager.EnableInfoTextPanel(currentStatus.toolTipInfo, currentStatus is Buff ? Color.blue : Color.red, Color.black, this);
         }
     }
 }

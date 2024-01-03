@@ -8,14 +8,14 @@ public class FloatingText : MonoBehaviour
     public TextMeshProUGUI infoText;
     public ScrollStatusImage scrollStatusImage;
 
-    public void DisableFoatingText()
+    public void DisableFloatingText()
     {
+        toolTipManager.floatingInfoTexts.Remove(this);
         if (scrollStatusImage != null)
         {
             scrollStatusImage.highlightImage.color = Color.clear;
             scrollStatusImage.isTargeted = false;
         }
-        toolTipManager.DisableInfoPauseMode();
         Destroy(gameObject);
     }
 }
