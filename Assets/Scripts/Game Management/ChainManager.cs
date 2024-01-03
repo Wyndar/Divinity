@@ -246,15 +246,13 @@ public class ChainManager : MonoBehaviour
             resolvingCard.subCountNumber = resolvingSubEffectNumber;
             gm.currentFocusCardLogic = resolvingCard;
             gm.EnableActivationPanel();
+            return;
         }
-        //ai optionals
+        //ai optionals negation check
         else if (!resolvingCard.effects[resolvingEffectNumber].EffectActivationIsMandatory[resolvingSubEffectNumber] && resolvingCard.cardController.isAI)
-        {
             if (!resolvingCard.cardController.AIManager.ActivateOptionalEffect())
                 gm.ChainResolution();
-        }
-        //else it's mandatory
-        else
-            resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
+        //else it's mandatory or has been accepted to go forward
+        resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
     }
 }

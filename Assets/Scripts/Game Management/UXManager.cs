@@ -158,7 +158,11 @@ public class UXManager : MonoBehaviour
         if (gameObject.CompareTag("Active UI panel"))
             return;
         if (gameObject.CompareTag("Background") && gm.gameState == GameState.Open)
+        {
+            if (gm.isChecking)
+                DisableCardScrollScreen();
             gm.currentFocusCardLogic = null;
+        }
         DisableDeckSearchButtons();
         if (gameObject.CompareTag("deck") && gm.gameState == GameState.Open && cardScrollScreen.activeInHierarchy==false)
         {
@@ -172,59 +176,59 @@ public class UXManager : MonoBehaviour
                 gm.BluePlayerManager.graveSearchButton.SetActive(true);
             return;
         }
-        CardLogic focusCard = gm.currentFocusCardLogic;
-        audioManager.NewAudioPrefab(audioManager.select);
-        gameObject.TryGetComponent(out MonsterLogic monsterLogic);
-        gameObject.TryGetComponent(out CombatantLogic combatant);
-        if (gameObject.CompareTag("card"))
+        if (!gm.isChecking)
         {
-            CardLogic clickedCard = gameObject.GetComponent<CardLogic>();
-            if (gm.gameState == GameState.Open)
+            CardLogic focusCard = gm.currentFocusCardLogic;
+            audioManager.NewAudioPrefab(audioManager.select);
+            gameObject.TryGetComponent(out MonsterLogic monsterLogic);
+            gameObject.TryGetComponent(out CombatantLogic combatant);
+            if (gameObject.CompareTag("card"))
             {
-                if (clickedCard.currentLocation == Location.Deck)
-                    return;
-                if (clickedCard.currentLocation == Location.HeroDeck)
-                    return;
-                if (gm.isActivatingEffect)
-                    return;
-                if (gm.isPlayingCard)
-                    return;
-                if (!allowCardLogicSwap)
-                    return;
-                gm.currentFocusCardLogic = clickedCard;
-                focusCard = gm.currentFocusCardLogic;
-                focusCard.cardOutline.gameObject.SetActive(true);
-                if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
+                CardLogic clickedCard = gameObject.GetComponent<CardLogic>();
+                if (gm.gameState == GameState.Open)
                 {
-                    bool showButton = false;
-                    if (focusCard.effects != null)
-                        foreach (Effect effect in focusCard.effects)
-                            foreach (EffectTypes effectTypes in effect.effectTypes)
-                                if (effectTypes == EffectTypes.Deployed)
-                                    if(effect.currentActivations < effect.maxActivations)
-                                        showButton = true;
-                    if (showButton)
-                        EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
-                    if (gm.currentPhase == Phase.BattlePhase)
-                        if (combatant.attacksLeft > 0 && combatant.currentAtk > 0)
-                            EnableOnFieldAttackPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
-                    return;
+                    if (clickedCard.currentLocation == Location.Deck)
+                        return;
+                    if (clickedCard.currentLocation == Location.HeroDeck)
+                        return;
+                    if (gm.isActivatingEffect)
+                        return;
+                    if (gm.isPlayingCard)
+                        return;
+                    if (!allowCardLogicSwap)
+                        return;
+                    gm.currentFocusCardLogic = clickedCard;
+                    focusCard = gm.currentFocusCardLogic;
+                    focusCard.cardOutline.gameObject.SetActive(true);
+                    if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
+                    {
+                        bool showButton = false;
+                        if (focusCard.effects != null)
+                            foreach (Effect effect in focusCard.effects)
+                                foreach (EffectTypes effectTypes in effect.effectTypes)
+                                    if (effectTypes == EffectTypes.Deployed)
+                                        if (effect.currentActivations < effect.maxActivations)
+                                            showButton = true;
+                        if (showButton)
+                            EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
+                        if (gm.currentPhase == Phase.BattlePhase)
+                            if (combatant.attacksLeft > 0 && combatant.currentAtk > 0)
+                                EnableOnFieldAttackPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
+                        return;
+                    }
                 }
-            }
-            //targeting for effect
-            else if (gm.gameState == GameState.Targeting && focusCard != null && clickedCard.currentLocation == Location.Field)
-                clickedCard.ManualTargetAcquisition(focusCard.effectCountNumber, focusCard.subCountNumber);
+                //targeting for effect
+                else if (gm.gameState == GameState.Targeting && focusCard != null && clickedCard.currentLocation == Location.Field)
+                    clickedCard.ManualTargetAcquisition(focusCard.effectCountNumber, focusCard.subCountNumber);
 
-            //targeting for attack
-            else if (gm.gameState == GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == Location.Field)
-                combatant.AttackTargetAcquisition();
+                //targeting for attack
+                else if (gm.gameState == GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == Location.Field)
+                    combatant.AttackTargetAcquisition();
+            }
         }
-        cardScrollRayBlocker.SetActive(false);
         DisableRayBlocker();
         DisableEffectInfoPanels();
         DisableEffectPanel();
-        if (gm.isChecking)
-            DisableCardScrollScreen();
         gm.EnableTurnUI();
     }
 

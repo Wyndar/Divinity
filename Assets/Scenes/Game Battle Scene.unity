@@ -1662,7 +1662,7 @@ MonoBehaviour:
   deckTarget: {fileID: 1706179825}
   heroEffectTarget: {fileID: 31801540}
   heroAttackTarget: {fileID: 29267251}
-  deckSearchButton: {fileID: 1449315776}
+  deckSearchButton: {fileID: 444066591}
   graveSearchButton: {fileID: 345238198}
   hourglassIcon: {fileID: 0}
   heroHpStatus: {fileID: 1879932497}
@@ -5646,7 +5646,7 @@ GameObject:
   - component: {fileID: 345238200}
   m_Layer: 5
   m_Name: Underworld Search Button Blue
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7497,7 +7497,7 @@ MonoBehaviour:
   deckTarget: {fileID: 2095938013}
   heroEffectTarget: {fileID: 2034953405}
   heroAttackTarget: {fileID: 1443556005}
-  deckSearchButton: {fileID: 444066591}
+  deckSearchButton: {fileID: 1449315776}
   graveSearchButton: {fileID: 548103957}
   hourglassIcon: {fileID: 1415307295}
   heroHpStatus: {fileID: 1384853405}
@@ -7657,7 +7657,7 @@ GameObject:
   - component: {fileID: 444066593}
   m_Layer: 5
   m_Name: Reinforcement Search Button Blue
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10583,7 +10583,7 @@ GameObject:
   - component: {fileID: 548103959}
   m_Layer: 5
   m_Name: Underworld Search Button  Red
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24485,7 +24485,7 @@ GameObject:
   - component: {fileID: 1449315778}
   m_Layer: 5
   m_Name: Reinforcement Search Button  Red
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

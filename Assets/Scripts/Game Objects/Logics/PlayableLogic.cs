@@ -163,18 +163,21 @@ public class PlayableLogic : MonoBehaviour
                 gm.activationChainNumber.Add(i);
                 gm.activationChainSubNumber.Add(j);
                 break;
+                //only need to catch one, rest resolves via subsequent effect chain if any
             }
         }
         for (int i = 0; i < logic.effects.Count; i++)
         { 
-            //passives should resolve as soon as possible, before chain stack if necessary
+            //passives should resolve as soon as possible, before chain stack if necessary...
+            //unfortunately this causes them to resolve in reverse the order written on the card
+            // in case of issues later, can reverse the loop
             if (logic.effects[i].EffectType.Contains("While Deployed"))
             {
                 int j = logic.effects[i].EffectType.FindIndex(a => a == "While Deployed");
                 gm.activationChainList.Insert(0,logic);
                 gm.activationChainNumber.Insert(0, i);
                 gm.activationChainSubNumber.Insert(0, j);
-                break;
+                continue;
             }
         }
         gm.StateChange(GameState.Deployment);
