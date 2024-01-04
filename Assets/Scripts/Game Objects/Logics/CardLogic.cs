@@ -232,7 +232,7 @@ public class CardLogic : MonoBehaviour
                     TargetCheck(countNumber, subCount);
                 break;
         }
-        gameManager.currentFocusCardLogic = this;
+        SetFocusCardLogic();
     }
 
     public void EffectResolution(int countNumber, int subCount) =>StartCoroutine(ResolutionCoroutine(countNumber, subCount));
@@ -244,7 +244,7 @@ public class CardLogic : MonoBehaviour
         int effectAmount = focusEffect.EffectAmount[subCount];
         effectCountNumber = countNumber;
         subCountNumber = subCount;
-        gameManager.currentFocusCardLogic = this;
+        SetFocusCardLogic();
 
         switch (effectUsed)
         {
@@ -364,7 +364,7 @@ public class CardLogic : MonoBehaviour
         {
             effectCountNumber = countNumber;
             subCountNumber = subCount + 1;
-            gameManager.currentFocusCardLogic = this;
+            SetFocusCardLogic();
             if (cardController.isAI)
                 OptionalEffectResolution(cardController.AIManager.ActivateOptionalEffect());
             else
@@ -440,7 +440,7 @@ public class CardLogic : MonoBehaviour
                 }
                 effectCountNumber = countNumber;
                 subCountNumber = subCount;
-                gameManager.currentFocusCardLogic = this;
+                SetFocusCardLogic();
                 foreach(CardLogic target in validTargets)
                 {
                     if (target.type == Type.Fighter && target.currentLocation == Location.Field)
@@ -473,7 +473,7 @@ public class CardLogic : MonoBehaviour
             }
             if (focusEffect.targetingTypes[countNumber] == TargetingTypes.Trigger)
             {
-                targets = new() { gameManager.currentFocusCardLogic };
+                targets = new();
                 return;
             }
         }
@@ -572,6 +572,20 @@ public class CardLogic : MonoBehaviour
             effect.currentActivations = 0;
     }
 
+    public void SetFocusCardLogic()
+    {
+        if(gameManager.currentFocusCardLogic != null)
+            gameManager.currentFocusCardLogic.RemoveFocusCardLogic();
+        gameManager.currentFocusCardLogic = this;
+        EnableCardOutline();
+    }
+
+    public void RemoveFocusCardLogic()
+    {
+        gameManager.currentFocusCardLogic = null;
+        DisableCardOutline();
+    }
+
     public void FlipFaceUp()
     {
         isFaceDown = false;
@@ -590,6 +604,21 @@ public class CardLogic : MonoBehaviour
         audioManager.NewAudioPrefab(audioManager.flipCard);
     }
 
+    public void EnableCardOutline()
+    {
+        if (currentLocation != Location.Grave)
+            cardOutline.gameObject.SetActive(true);
+        else
+            cardOwner.underworldManager.outline.SetActive(true);
+    }
+
+    public void DisableCardOutline()
+    {
+        if (currentLocation != Location.Grave)
+            cardOutline.gameObject.SetActive(false);
+        else
+            cardOwner.underworldManager.outline.SetActive(false);
+    }
     public void LocationChange(Effect effect, EffectsUsed effectsUsed, Location location, int num)
     {
         LocationHistoryEntry locationLog = new(location, currentLocation)

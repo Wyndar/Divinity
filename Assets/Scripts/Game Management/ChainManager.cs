@@ -244,7 +244,7 @@ public class ChainManager : MonoBehaviour
         {
             resolvingCard.effectCountNumber = resolvingEffectNumber;
             resolvingCard.subCountNumber = resolvingSubEffectNumber;
-            gm.currentFocusCardLogic = resolvingCard;
+            resolvingCard.SetFocusCardLogic();
             gm.EnableActivationPanel();
             return;
         }

@@ -73,7 +73,7 @@ public class PlayableLogic : MonoBehaviour
                 logic.FlipFaceUp();
             if (!logic.isNormalColour)
                 logic.NormalColour();
-            gm.currentFocusCardLogic = logic;
+            logic.SetFocusCardLogic();
             gm.StateChange(GameState.Activation);
             if(!ignoreCost)
                 player.costCount -= cost;
@@ -152,7 +152,7 @@ public class PlayableLogic : MonoBehaviour
         if (logic.type == Type.Fighter)
             GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
-        gm.currentFocusCardLogic = logic;
+        logic.SetFocusCardLogic();
         for (int i = 0; i < logic.effects.Count; i++)
         {
             //deployment effects should resolve after chain stack
@@ -191,8 +191,9 @@ public class PlayableLogic : MonoBehaviour
     public void MoveToGrave()
     {
         logic.ControllerSwap(logic.cardOwner);
-        transform.position = logic.cardOwner.grave.transform.position;
+        transform.position = logic.cardOwner.shield.transform.position;
         logic.cardOwner.graveLogicList.Add(logic);
+        logic.cardOwner.underworldManager.ResetTopCard();
         int i = logic.cardOwner.graveLogicList.FindIndex(a => a == logic);
         if (gm.isActivatingEffect)
             logic.LocationChange(gm.currentFocusCardLogic.focusEffect, gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber], Location.Grave, i);

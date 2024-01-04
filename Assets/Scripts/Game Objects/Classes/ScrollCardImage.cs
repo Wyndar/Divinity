@@ -15,7 +15,7 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
         if (Game_Manager.isChecking)
         {
             Game_Manager.DisableEffectInfoPanels();
-            Game_Manager.currentFocusCardLogic = cardLogic;
+            cardLogic.SetFocusCardLogic();
             Game_Manager.ShowEffectInfoPanel();
             return;
         }

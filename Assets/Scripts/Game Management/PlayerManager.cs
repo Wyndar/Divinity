@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
     public SaveManager SaveManager;
     public PlayerManager enemy;
     public AIManager AIManager;
+    public UnderworldManager underworldManager;
 
     public string PlayerName, PlayerID, DeckPath, HeroDeckPath;
 

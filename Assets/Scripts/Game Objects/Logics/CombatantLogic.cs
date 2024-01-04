@@ -279,7 +279,7 @@ public class CombatantLogic : MonoBehaviour
             if (combatantLogic.logic.cardType == "god")
                 combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
         }
-        gm.currentFocusCardLogic = logic;
+        logic.SetFocusCardLogic();
         //handle attacks randomly for AI, needs work
         if(logic.cardController.isAI)
         {

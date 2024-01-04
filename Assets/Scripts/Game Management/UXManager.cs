@@ -65,7 +65,7 @@ public class UXManager : MonoBehaviour
         {
             if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
                 playableLogic.DisableHover();
-            gm.currentFocusCardLogic.cardOutline.gameObject.SetActive(false);
+            gm.currentFocusCardLogic.DisableCardOutline();
         }
         touchStartPosition = ScreenToWorld(screenPosition);
         touchStartTime = time;
@@ -115,8 +115,7 @@ public class UXManager : MonoBehaviour
                     playableLogic.DisableHover();
                     playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
                 }
-                gm.currentFocusCardLogic.cardOutline.gameObject.SetActive(false);
-                gm.currentFocusCardLogic = null;
+                gm.currentFocusCardLogic.RemoveFocusCardLogic();
             }
             //hold check to show card information
             else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f)
@@ -149,6 +148,7 @@ public class UXManager : MonoBehaviour
             return;
         if (gameObject.CompareTag("Background") && gm.gameState == GameState.Open)
         {
+            audioManager.NewAudioPrefab(audioManager.unselect);
             if (gm.isChecking)
                 DisableCardScrollScreen();
             if (toolTipManager.floatingInfoTexts.Count > 0)
@@ -156,7 +156,8 @@ public class UXManager : MonoBehaviour
                 toolTipManager.DisableInfoPauseMode();
                 return;
             }
-            gm.currentFocusCardLogic = null;
+            if (gm.currentFocusCardLogic != null)
+                gm.currentFocusCardLogic.RemoveFocusCardLogic();
         }
         DisableDeckSearchButtons();
         if (gameObject.CompareTag("deck") && gm.gameState == GameState.Open && cardScrollScreen.activeInHierarchy==false)
@@ -194,7 +195,7 @@ public class UXManager : MonoBehaviour
                         return;
                     if (gm.activationChainList.Count > 0)
                         return;
-                    gm.currentFocusCardLogic = clickedCard;
+                    clickedCard.SetFocusCardLogic();
                     focusCard = gm.currentFocusCardLogic;
                     focusCard.cardOutline.gameObject.SetActive(true);
                     if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
@@ -407,6 +408,7 @@ public class UXManager : MonoBehaviour
         scrollingCardPanelHandler.RemoveContentCards();
         cardScrollScreen.SetActive(false);
         cardScrollRayBlocker.SetActive(false);
+        gm.isChecking = false;
     }
 
     public void ShowCardList(GameObject gameObject)
