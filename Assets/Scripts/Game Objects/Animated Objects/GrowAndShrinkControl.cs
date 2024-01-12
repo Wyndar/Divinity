@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 [RequireComponent(typeof(Grow))]
 [RequireComponent (typeof(ShrinkAndFadeAway))]
-public class PopUpPanelAnimation : MonoBehaviour
+public class GrowAndShrinkControl : MonoBehaviour
 {
     public float timeToDisappear;
     public float timeSinceAppearance;

@@ -52,7 +52,6 @@ public class PlayerManager : MonoBehaviour
 
     public void SetStat(int orderNum, Status status, int statusChangeAmount)
     {
-
         GameObject stat = statusIcons[orderNum];
         if (stat.GetComponent<StatusIconMoveAndFadeAway>().inUse)
             stat = statusIcons2[orderNum];

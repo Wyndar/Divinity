@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,6 +35,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip attackResolutionArmored;
     public AudioClip effectActivation;
     public AudioClip effectResolution;
+    public AudioClip summon;
+    public AudioClip buff;
 
 
     public void FindBGOBJ()

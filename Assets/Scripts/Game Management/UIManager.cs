@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
 	public Game_Manager gm;
     public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, atkSprite, bombSprite, stunSprite, armorSprite,stealthSprite;
-    public GameObject fieldIconPrefab;
+    public GameObject fieldIconPrefab, summoningCirclePrefab;
     public void UIUpdate(PlayerManager playerManager)
     {
         playerManager.heroCardLogic.OnFieldAtkRefresh();

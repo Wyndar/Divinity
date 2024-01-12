@@ -248,7 +248,7 @@ public class UXManager : MonoBehaviour
     public void ShowEffectInfoPanel()
     { 
         string cost = "";
-  gm.currentFocusCardLogic.TryGetComponent(out CombatantLogic combatantLogic);
+        gm.currentFocusCardLogic.TryGetComponent(out CombatantLogic combatantLogic);
         
         rayBlocker.SetActive(true);
         gm.DisableTurnUI();

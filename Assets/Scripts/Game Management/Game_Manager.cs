@@ -156,10 +156,11 @@ public class Game_Manager : MonoBehaviour
         {
             if (isNotFirstDraw)
                 StateChange(GameState.Reinforcement);
-            if (currentPhase == Phase.DrawPhase)
-                ChainResolution();
-            else
+            if (currentFocusCardLogic != null && isActivatingEffect)
                 currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectCountNumber, currentFocusCardLogic.subCountNumber);
+            else
+                ChainResolution();
+           
         }
         hasFinishedDrawEffect = true;
         yield break;

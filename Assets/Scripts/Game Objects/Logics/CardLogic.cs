@@ -55,6 +55,7 @@ public class CardLogic : MonoBehaviour
         }
 
         gameManager.StateChange(GameState.EffectActivation);
+        audioManager.NewAudioPrefab(audioManager.effectActivation);
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
         Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
@@ -62,7 +63,7 @@ public class CardLogic : MonoBehaviour
         while (distanceTravelled < distance)
         {
             Vector3 translationDistance = (cardController.activationZone.position - transform.position);
-            if (translationDistance.magnitude <= direction.magnitude)
+            if (Vector3.SqrMagnitude(translationDistance) <= Vector3.SqrMagnitude(direction))
                 transform.position = cardController.activationZone.position;
             else
                 transform.Translate(direction * movementSpeed, Space.World);
@@ -99,7 +100,7 @@ public class CardLogic : MonoBehaviour
         while (distanceTravelled < distance)
         {
             Vector3 translationDistance = (cardController.activationZone.position - transform.position);
-            if (translationDistance.magnitude <= direction.magnitude)
+            if (Vector3.SqrMagnitude(translationDistance) <= Vector3.SqrMagnitude(direction))
                 transform.position = cardController.activationZone.position;
             else
                 transform.Translate(direction * movementSpeed, Space.World);
@@ -342,7 +343,7 @@ public class CardLogic : MonoBehaviour
             validTargets?.Clear();
             if (cardType == "spell")
                 gameObject.GetComponent<PlayableLogic>().MoveToGrave();
-
+            audioManager.NewAudioPrefab(audioManager.effectResolution);
             //resolve chain after all possible effect chains are linked
             if (cardController.isAI)
                 cardController.AIManager.isPerformingAction = false;
