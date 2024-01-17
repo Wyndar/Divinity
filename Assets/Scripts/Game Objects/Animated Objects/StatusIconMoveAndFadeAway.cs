@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class StatusIconMoveAndFadeAway : MonoBehaviour
 {
     public bool inUse;
-    private float lifeTime = 1f;
+    private const float lifeTime = 1f;
     private float time;
     private Vector3 originalPosition;
 

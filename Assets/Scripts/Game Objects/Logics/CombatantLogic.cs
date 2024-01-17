@@ -142,6 +142,7 @@ public class CombatantLogic : MonoBehaviour
     public void AttackResolution()
     {
         CombatantLogic attacker = gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>();
+        logic.U_I.DrawAttackArrow(attacker.logic, logic);
         TakeDamage(attacker.currentAtk, true);
     }
 

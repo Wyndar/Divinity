@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
 	public Game_Manager gm;
     public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, atkSprite, bombSprite, stunSprite, armorSprite,stealthSprite;
-    public GameObject fieldIconPrefab, summoningCirclePrefab;
+    public GameObject fieldIconPrefab, summoningCirclePrefab, attackArrowPrefab;
     public void UIUpdate(PlayerManager playerManager)
     {
         playerManager.heroCardLogic.OnFieldAtkRefresh();
@@ -172,6 +172,12 @@ public class UIManager : MonoBehaviour
                 else
                     AddStatIcon(icon, status);
         }
+    }
+    public void DrawAttackArrow(CardLogic attacker, CardLogic attacked)
+    {
+        GameObject arrow = Instantiate(attackArrowPrefab, attacker.transform);
+        AttackArrowMovement arrowMovement = arrow.GetComponent<AttackArrowMovement>();
+        arrowMovement.targetPosition = attacked.transform;
     }
 }
 
