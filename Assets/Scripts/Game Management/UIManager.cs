@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 	public Game_Manager gm;
-    public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, atkSprite, bombSprite, stunSprite, armorSprite,stealthSprite;
+    public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, 
+        atkSprite, bombSprite, stunSprite, armorSprite, stealthSprite, burnSprite, poisonSprite;
     public GameObject fieldIconPrefab, summoningCirclePrefab, attackArrowPrefab;
     public void UIUpdate(PlayerManager playerManager)
     {

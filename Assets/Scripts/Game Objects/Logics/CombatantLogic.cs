@@ -100,7 +100,7 @@ public class CombatantLogic : MonoBehaviour
                 currentHp -= value;
                 break;
             default:
-                Debug.Log($"Error at stat type {logic.cardName}");
+                Debug.Log($"Error at stat type {status} for {logic.cardName}");
                 break;
         }
         if (currentAtk < 0)

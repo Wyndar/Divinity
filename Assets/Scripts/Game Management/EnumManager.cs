@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 public enum GameState
 {
-    Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution, Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison, Provoke, Sleep, Blind, Stun, Buff, Debuff, Clear, TurnEnd, Undefined
+    Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution,
+    Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison,
+    Provoke, Sleep, Blind, Stun, Buff, Debuff, Clear, TurnEnd, Undefined
 }
 
 public enum Phase
@@ -18,7 +20,10 @@ public enum EffectTypes
 
 public enum EffectsUsed
 {
-    Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor, Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep, Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, Undefined
+    Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor,
+    Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep,
+    Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, 
+    Undefined
 }
 
 public enum TargetingTypes
@@ -196,6 +201,9 @@ public class EnumManager : MonoBehaviour
             "Spot" => EffectsUsed.Spot,
             "Bounce" => EffectsUsed.Bounce,
             "Detonate" => EffectsUsed.Detonate,
+            "Bomb Detonate"=>EffectsUsed.BombDetonate,
+            "Burn Detonate" => EffectsUsed.BurnDetonate,
+            "Poison Detonate" => EffectsUsed.PoisonDetonate,
             _ => EffectsUsed.Undefined,
         };
         return returnEffectUsed;

@@ -275,6 +275,9 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Regeneration:
             case EffectsUsed.Shatter:
             case EffectsUsed.Detonate:
+            case EffectsUsed.BurnDetonate:
+            case EffectsUsed.BombDetonate:
+            case EffectsUsed.PoisonDetonate:
                 foreach (CardLogic target in targets)
                     target.EffectHandler(effectUsed, effectAmount, LogType.Undefined, focusEffect);
                 break;
@@ -749,12 +752,20 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Blind:
                 break;
             case EffectsUsed.Burn:
+                //burns have a default timer of two turns, if duration is set to 0/not defined(int), default applies
+                Burn burn = new(logic, this, effect.duration);
+                combatantLogic.cardStatuses.Add(burn);
+                cardController.SetStatusIcon(locationOrderNumber, burn);
                 break;
             case EffectsUsed.Poison:
+                //poisons have a default timer of four turns, if duration is set to 0/not defined(int), default applies
+                Poison poison = new(logic, this, effect.duration);
+                combatantLogic.cardStatuses.Add(poison);
+                cardController.SetStatusIcon(locationOrderNumber, poison);
                 break;
             case EffectsUsed.Bomb:
-                //bombs have a default timer of three turns
-                Bomb bomb = new(logic, this, effect.duration, true);
+                //bombs have a default timer of three turns, if duration is set to 0/not defined(int), default applies
+                Bomb bomb = new(logic, this, effect.duration);
                 combatantLogic.cardStatuses.Add(bomb);
                 cardController.SetStatusIcon(locationOrderNumber, bomb);
                 break;
@@ -764,6 +775,23 @@ public class CardLogic : MonoBehaviour
                 StartCoroutine(monsterLogic.BounceCard());
                 break;
             case EffectsUsed.Detonate:
+                foreach (CardStatus status in combatantLogic.cardStatuses)
+                    status.DetonateActions(gameManager);
+                break;
+            case EffectsUsed.BombDetonate:
+                foreach (CardStatus status in combatantLogic.cardStatuses)
+                    if (status is Bomb)
+                        status.DetonateActions(gameManager);
+                break;
+            case EffectsUsed.BurnDetonate:
+                foreach (CardStatus status in combatantLogic.cardStatuses)
+                    if (status is Burn)
+                        status.DetonateActions(gameManager);
+                break;
+            case EffectsUsed.PoisonDetonate:
+                foreach (CardStatus status in combatantLogic.cardStatuses)
+                    if (status is Poison)
+                        status.DetonateActions(gameManager);
                 break;
             default:
                 return;

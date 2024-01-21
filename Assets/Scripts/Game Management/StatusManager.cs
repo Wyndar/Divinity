@@ -13,29 +13,14 @@ public class StatusManager : MonoBehaviour
     {
         CardLogic cardLogic = cardStatus.affectedLogic;
         CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-        if (!cardStatus.shouldCountdown)
-        {
-            cardStatus.hasDoneCountDownThisTurn = true;
-            combatantLogic.TurnTimer();
-            return;
-        }
-        cardStatus.Timer--;
         cardStatus.TimerActions(gm);
-        cardStatus.hasDoneCountDownThisTurn = true;
-        if (cardStatus.fieldIconHolder != null)
-            cardStatus.fieldIconHolder.durationText.text = cardStatus.Timer.ToString();
-        if (cardStatus.Timer > 0)
-            return;
-        cardStatus.DetonateActions(gm);
-        combatantLogic.cardStatuses.Remove(cardStatus);
-        if (cardStatus.fieldIconHolder == null)
+        if (cardStatus.Timer <= 0 && cardStatus.shouldCountdown)
         {
-            combatantLogic.TurnTimer();
+            cardStatus.DetonateActions(gm);
+            combatantLogic.cardStatuses.Remove(cardStatus);
+            ui.StatIconUpdate(cardLogic);
             return;
         }
-        cardStatus.fieldIconHolder.transform.SetParent(null);
-        Destroy(cardStatus.fieldIconHolder.gameObject);
-        ui.StatIconUpdate(cardLogic);
         combatantLogic.TurnTimer();
         return;
     }

@@ -7,7 +7,7 @@ public class Bomb : Debuff
     public Debuffs debuffApplied = Debuffs.Bombed;
     public ToolTipInfo toolTip; 
 
-    public Bomb(CardLogic debufferLogic, CardLogic debuffedLogic, int timer, bool timed)
+    public Bomb(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
         ToolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
         UIManager = GameObject.FindObjectOfType<UIManager>();
@@ -15,8 +15,8 @@ public class Bomb : Debuff
         debuff = debuffApplied;
         applierLogic = debufferLogic;
         affectedLogic = debuffedLogic;
-        Timer = timer;
-        shouldCountdown = timed;
+        Timer = timer > 0 ? timer : 3;
+        shouldCountdown = true;
         canDetonate = true;
         toolTipInfo = toolTip;
         sprite = UIManager.bombSprite;

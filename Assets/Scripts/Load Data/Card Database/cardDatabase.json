@@ -5,7 +5,7 @@
         "CardType": "spell",
         "CardText": "Deployment: Reinforce-2",
         "CardFlavorText": "It's a Kantharos. A vase. *Vase!*",
-        "Traits": ["Food"],
+        "Traits": [ "Food" ],
         "Cost": 2,
         "Effects": [
             {
@@ -64,7 +64,7 @@
         "CardName": "War Veteran Cerberus",
         "CardText": "Deployment: You can Free Revive one 2-Cost or lower Fighter from the Underworld",
         "CardFlavorText": "He lost two heads in battle.",
-        "Traits": [ "Animal","Military","Undead" ],
+        "Traits": [ "Animal", "Military", "Undead" ],
         "Cost": 2,
         "Atk": 2,
         "Hp": 2,
@@ -92,7 +92,7 @@
         "CardName": "Combat Medic",
         "CardText": "Deployed - 1: Regeneration-2 one Ally Combatant",
         "CardFlavorText": "Dropped out of med school.",
-        "Traits": [ "Military","Medicine" ],
+        "Traits": [ "Military", "Medicine" ],
         "Cost": 1,
         "Atk": 0,
         "Hp": 4,
@@ -174,7 +174,7 @@
         "CardName": "Zeus",
         "CardText": "Chain - Reinforce: Rally-1 Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
-        "Traits": [ "Weather","Head of Pantheon" ],
+        "Traits": [ "Weather", "Head of Pantheon" ],
         "Atk": 0,
         "Hp": 15,
         "Effects": [
@@ -191,7 +191,7 @@
                 "AllowSelfTarget": [ true ],
                 "TriggerLocation": [ "Field" ],
                 "TriggerState": [ "Reinforcement" ],
-                "TriggerOwner": ["Player"]
+                "TriggerOwner": [ "Player" ]
             },
             {
                 "EffectType": [ "Chain", "Chain" ],
@@ -207,7 +207,7 @@
                 "TriggerState": [ "Deployment", "none" ],
                 "TriggerInfo": [ "Strike", "none" ],
                 "TriggerLocation": [ "Field", "none" ],
-                "TriggerOwner": ["Any", "none"]
+                "TriggerOwner": [ "Any", "none" ]
             }
         ]
     },
@@ -339,7 +339,7 @@
         "CardName": "Hades",
         "CardText": "Chain - Death: Blood Recovery-1 | Chain - Revive: Reinforce-1",
         "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
-        "Traits": [ "Undead","Medicine" ],
+        "Traits": [ "Undead", "Medicine" ],
         "Atk": 0,
         "Hp": 25,
         "Effects": [
@@ -350,7 +350,7 @@
                 "EffectActivationIsMandatory": [ true ],
                 "TriggerLocation": [ "Field" ],
                 "TriggerState": [ "Death" ],
-                "TriggerOwner": ["Player"]
+                "TriggerOwner": [ "Player" ]
             },
             {
                 "EffectType": [ "Chain" ],
@@ -359,7 +359,7 @@
                 "EffectActivationIsMandatory": [ false ],
                 "TriggerLocation": [ "Field" ],
                 "TriggerState": [ "Revive" ],
-                "TriggerOwner": ["Any"]
+                "TriggerOwner": [ "Any" ]
             }
         ]
     },
@@ -369,7 +369,7 @@
         "CardName": "Winter Plague, Spring Healing",
         "CardText": "Deployment: Shatter All Fighters then you can Free Revive up to 5 Fighters from either Underworld.",
         "CardFlavorText": "A retelling of legend, he brings disaster to all for his own desires.",
-        "Traits": [ "Weather","Medicine","Undead" ],
+        "Traits": [ "Weather", "Medicine", "Undead" ],
         "Cost": 1,
         "Effects": [
             {
@@ -390,7 +390,7 @@
         "Id": "GP-H2",
         "CardType": "spell",
         "CardName": "Terror Plague",
-        "CardText": "Deployment: Intimidate-3 Enemy Fighters then Weaken-5 one Random Enemy Fighter.",
+        "CardText": "Deployment: Intimidate-3 all deployed opposing Fighters then Weaken-5 one Random deployed opposing Fighter.",
         "CardFlavorText": "It's just a minor fever, all effects are placebo.",
         "Traits": [ "Medicine" ],
         "Cost": 1,
@@ -439,7 +439,7 @@
         "CardName": "Underworld Robber, Zombie Plague Revival",
         "CardText": "Deployment: Revive one fighter from either Underworld.",
         "CardFlavorText": "A thriller, A cinematic masterpiece.",
-        "Traits": [ "Medicine","Undead" ],
+        "Traits": [ "Medicine", "Undead" ],
         "Cost": 1,
         "Effects": [
             {
@@ -462,7 +462,7 @@
         "CardName": "Underworld Merchant, Soul Exchange",
         "CardText": "Deployment: Recover two Fighters from either Underworld.",
         "CardFlavorText": "Everything has a price but the price doesn't have to be paid.",
-        "Traits": [ "Undead","Commerce" ],
+        "Traits": [ "Undead", "Commerce" ],
         "Cost": 1,
         "Effects": [
             {
@@ -553,11 +553,10 @@
         "Hp": 2,
         "Effects": [
             {
-                "EffectType": [ "Chain"],
-                "EffectUsed": [ "Bomb"],
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Bomb" ],
                 "EffectAmount": [ 1 ],
                 "EffectActivationIsMandatory": [ true ],
-                "Duration": 3,
                 "TargetingType": [ "manual" ],
                 "EffectTargetType": [ "monster" ],
                 "EffectTargetOwner": [ "Opponent" ],
@@ -566,7 +565,7 @@
                 "AllowSelfTarget": [ false ],
                 "TriggerState": [ "Summon" ],
                 "TriggerLocation": [ "Field" ],
-                "TriggerOwner": ["Opponent"]
+                "TriggerOwner": [ "Opponent" ]
             },
             {
                 "EffectType": [ "Chain" ],
@@ -581,7 +580,33 @@
                 "AllowSelfTarget": [ false ],
                 "TriggerState": [ "Detonate" ],
                 "TriggerLocation": [ "Field" ],
-                "TriggerOwner": ["Any"]
+                "TriggerOwner": [ "Any" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-11",
+        "CardType": "monster",
+        "CardName": "Alchemy Poisoner",
+        "CardText": "Deployment: Poison(6 turns) all deployed opposing Fighters",
+        "CardFlavorText": "Has a unique blend of dendrotoxins for everyone.",
+        "Traits": [ "Medicine"],
+        "Cost": 4,
+        "Atk": 4,
+        "Hp": 4,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Poison" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "Duration": 6,
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Opponent" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 99 ],
+                "AllowSelfTarget": [ false ]
             }
         ]
     }

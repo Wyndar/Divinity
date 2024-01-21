@@ -32,13 +32,26 @@ public class CardStatus
     virtual public void TimerActions(Game_Manager gm)
     {
         if (!shouldCountdown)
+        {
+            hasDoneCountDownThisTurn = true;
             return;
-        Debug.Log($"Failed virtual override for TimerAction");
+        }
+        Timer--;
+        hasDoneCountDownThisTurn = true;
+        if (fieldIconHolder != null)
+        {
+            fieldIconHolder.durationText.text = Timer.ToString();
+            if (Timer <= 0)
+            {
+                fieldIconHolder.transform.SetParent(null);
+                fieldIconHolder.DestroyThis();
+            }
+        }
     }
     virtual public void DetonateActions(Game_Manager gm)
     {
         if (!canDetonate)
             return;
-        Debug.Log($"Failed virtual override for DetonateAction");
+        Debug.Log("Failed Detonate Actions Override");
     }
 }
