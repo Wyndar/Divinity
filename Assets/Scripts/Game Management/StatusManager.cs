@@ -20,28 +20,13 @@ public class StatusManager : MonoBehaviour
             return;
         }
         cardStatus.Timer--;
+        cardStatus.TimerActions(gm);
         cardStatus.hasDoneCountDownThisTurn = true;
         if (cardStatus.fieldIconHolder != null)
             cardStatus.fieldIconHolder.durationText.text = cardStatus.Timer.ToString();
         if (cardStatus.Timer > 0)
             return;
-        if (cardStatus is Debuff d)
-        {
-            switch (d.debuff)
-            {
-                case Debuffs.Bombed:
-                    combatantLogic.TakeDamage(3, false);
-                    gm.StateChange(GameState.Detonate);
-                    if (cardLogic.currentLocation == Location.Grave)
-                        break;
-                    Stun stun = new(d.applierLogic, d.affectedLogic, 3, true);
-                    combatantLogic.cardStatuses.Add(stun);
-                    cardLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
-                    cardLogic.cardController.SetStatusIcon(cardLogic.locationOrderNumber, stun);
-                    gm.StateChange(GameState.Stun);
-                    break;
-            }
-        }
+        cardStatus.DetonateActions(gm);
         combatantLogic.cardStatuses.Remove(cardStatus);
         if (cardStatus.fieldIconHolder == null)
         {
