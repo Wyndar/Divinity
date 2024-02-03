@@ -22,7 +22,7 @@ public enum EffectsUsed
 {
     Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor,
     Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep,
-    Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, 
+    Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, Barrier,
     Undefined
 }
 
@@ -204,6 +204,7 @@ public class EnumManager : MonoBehaviour
             "Bomb Detonate"=>EffectsUsed.BombDetonate,
             "Burn Detonate" => EffectsUsed.BurnDetonate,
             "Poison Detonate" => EffectsUsed.PoisonDetonate,
+            "Barrier"=>EffectsUsed.Barrier,
             _ => EffectsUsed.Undefined,
         };
         return returnEffectUsed;
