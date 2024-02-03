@@ -14,20 +14,12 @@ public class CardStatus
     public bool canDetonate;
     public ToolTipInfo toolTipInfo;
     public FieldIconHolder fieldIconHolder;
+    public ToolTipManager toolTipManager;
+    public UIManager uIManager;
 
     public CardStatus()
     {
 
-    }
-
-    public CardStatus(CardLogic bufferLogic, CardLogic buffedLogic, int timer, bool timed, Sprite bufSprite, ToolTipInfo toolTip)
-    {
-        affectedLogic = bufferLogic;
-        applierLogic = buffedLogic;
-        Timer = timer;
-        shouldCountdown = timed;
-        sprite = bufSprite;
-        toolTipInfo = toolTip;
     }
     virtual public void TimerActions(Game_Manager gm)
     {

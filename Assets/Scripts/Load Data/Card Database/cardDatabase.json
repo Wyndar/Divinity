@@ -590,7 +590,7 @@
         "CardName": "Alchemy Poisoner",
         "CardText": "Deployment: Apply Poison(Timer:6) to all deployed opposing Fighters",
         "CardFlavorText": "Has a unique blend of dendrotoxins for everyone.",
-        "Traits": [ "Medicine"],
+        "Traits": [ "Medicine" ],
         "Cost": 4,
         "Atk": 4,
         "Hp": 4,
@@ -606,6 +606,29 @@
                 "EffectTargetOwner": [ "Opponent" ],
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 99 ],
+                "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-12",
+        "CardName": "Hermit's Curtain",
+        "CardType": "spell",
+        "CardText": "Deployment: Grant a Barrier-2 to one deployed Fighter",
+        "CardFlavorText": "A symbol of a legendary NEET who died in a truck accident.",
+        "Traits": [ "Fashion", "Tarot" ],
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Barrier" ],
+                "EffectAmount": [ 2 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ false ]
             }
         ]

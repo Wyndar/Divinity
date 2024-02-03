@@ -2,24 +2,18 @@ using UnityEngine;
 [System.Serializable]
 public class Poison : Debuff
 {
-    public ToolTipManager ToolTipManager;
-    public UIManager UIManager;
-    public Debuffs debuffApplied = Debuffs.Poisoned;
-    public ToolTipInfo toolTip; 
-
     public Poison(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
-        ToolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        UIManager = GameObject.FindObjectOfType<UIManager>();
-        toolTip = ToolTipManager.tooltipInfos.Find(a => a.key == "Poison");
-        debuff = debuffApplied;
+        toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
+        uIManager = GameObject.FindObjectOfType<UIManager>();
+        toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Poison");
+        debuff = Debuffs.Poisoned;
         applierLogic = debufferLogic;
         affectedLogic = debuffedLogic;
         Timer = timer > 0 ? timer : 4;
         shouldCountdown = true;
         canDetonate = true;
-        toolTipInfo = toolTip;
-        sprite = UIManager.poisonSprite;
+        sprite = uIManager.poisonSprite;
     }
     public override void TimerActions(Game_Manager gm)
     {

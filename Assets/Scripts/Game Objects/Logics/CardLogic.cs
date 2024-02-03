@@ -290,6 +290,7 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Stealth:
             case EffectsUsed.Armor:
             case EffectsUsed.Camouflage:
+            case EffectsUsed.Barrier:
                 foreach (CardLogic target in targets)
                     target.EffectHandler(effectUsed, effectAmount, LogType.Buff, focusEffect);
                 break;
@@ -318,6 +319,7 @@ public class CardLogic : MonoBehaviour
                     target.GetComponent<PlayableLogic>().PlayCard(effectUsed, cardController);
                 break;
             default:
+                Debug.Log("Attempting to use an unimplemented effect");
                 break;
         }
         if (!gameManager.isWaitingForResponse)
@@ -743,6 +745,11 @@ public class CardLogic : MonoBehaviour
                 combatantLogic.cardStatuses.Add(armor);
                 cardController.SetStatusIcon(locationOrderNumber, armor);
                 break;
+            case EffectsUsed.Barrier:
+                Barrier barrier = new(logic, this, effectAmount);
+                combatantLogic.cardStatuses.Add(barrier);
+                cardController.SetStatusIcon(locationOrderNumber, barrier);
+                break;
             case EffectsUsed.Sleep:
                 break;
             case EffectsUsed.Stun:
@@ -794,6 +801,7 @@ public class CardLogic : MonoBehaviour
                         status.DetonateActions(gameManager);
                 break;
             default:
+                Debug.Log("effect not found");
                 return;
         }
         EffectLogger(effectsUsed, effectAmount, logType, effect);

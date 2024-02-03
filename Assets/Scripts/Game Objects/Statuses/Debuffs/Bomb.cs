@@ -2,24 +2,18 @@ using UnityEngine;
 [System.Serializable]
 public class Bomb : Debuff
 {
-    public ToolTipManager ToolTipManager;
-    public UIManager UIManager;
-    public Debuffs debuffApplied = Debuffs.Bombed;
-    public ToolTipInfo toolTip; 
-
     public Bomb(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
-        ToolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        UIManager = GameObject.FindObjectOfType<UIManager>();
-        toolTip = ToolTipManager.tooltipInfos.Find(a => a.key == "Bomb");
-        debuff = debuffApplied;
+        toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
+        uIManager = GameObject.FindObjectOfType<UIManager>();
+        toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Bomb");
+        debuff = Debuffs.Bombed;
         applierLogic = debufferLogic;
         affectedLogic = debuffedLogic;
         Timer = timer > 0 ? timer : 3;
         shouldCountdown = true;
         canDetonate = true;
-        toolTipInfo = toolTip;
-        sprite = UIManager.bombSprite;
+        sprite = uIManager.bombSprite;
     }
 
     public override void DetonateActions(Game_Manager gm)

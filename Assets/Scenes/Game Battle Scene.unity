@@ -27746,10 +27746,11 @@ MonoBehaviour:
   atkSprite: {fileID: 21300000, guid: a9d0406f945fe9e4cb1cdeb1a6b624c1, type: 3}
   bombSprite: {fileID: 21300000, guid: 72251c3ff2745c7479f585bc59d7c67c, type: 3}
   stunSprite: {fileID: 21300000, guid: 010ca11eb0616ab4eba31ed6d36f4042, type: 3}
-  armorSprite: {fileID: 21300000, guid: 75f448510ee4f674abec7a7fa4536e48, type: 3}
+  armorSprite: {fileID: 21300000, guid: cfd05fe5f5d28b84f88a7cf7f426562c, type: 3}
   stealthSprite: {fileID: 21300000, guid: 3f0e219833689ef4ca4268e869c3d940, type: 3}
   burnSprite: {fileID: 21300000, guid: bd698f83265691447a6fa9db6a4e6ef2, type: 3}
   poisonSprite: {fileID: 21300000, guid: 29381d80c1fc1e14684c88c46451699c, type: 3}
+  barrierSprite: {fileID: 21300000, guid: 75f448510ee4f674abec7a7fa4536e48, type: 3}
   fieldIconPrefab: {fileID: 5722732350895233231, guid: 1bf8c18c8aef5324cba07c85ad64cb22, type: 3}
   summoningCirclePrefab: {fileID: 5874896110496941013, guid: 6123ac259bccf3d4593e9cd2a6ee98df, type: 3}
   attackArrowPrefab: {fileID: 4484890009037685087, guid: 9ce4fdbdb434abf4c9947bbbe98aaed8, type: 3}

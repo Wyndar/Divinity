@@ -2,24 +2,18 @@ using UnityEngine;
 [System.Serializable]
 public class Burn : Debuff
 {
-    public ToolTipManager ToolTipManager;
-    public UIManager UIManager;
-    public Debuffs debuffApplied = Debuffs.Burned;
-    public ToolTipInfo toolTip; 
-
     public Burn(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
-        ToolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        UIManager = GameObject.FindObjectOfType<UIManager>();
-        toolTip = ToolTipManager.tooltipInfos.Find(a => a.key == "Burn");
-        debuff = debuffApplied;
+        toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
+        uIManager = GameObject.FindObjectOfType<UIManager>();
+        toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Burn");
+        debuff = Debuffs.Burned;
         applierLogic = debufferLogic;
         affectedLogic = debuffedLogic;
         Timer = timer > 0 ? timer : 2;
         shouldCountdown = true;
         canDetonate = true;
-        toolTipInfo = toolTip;
-        sprite = UIManager.burnSprite;
+        sprite = uIManager.burnSprite;
     }
     public override void TimerActions(Game_Manager gm)
     {

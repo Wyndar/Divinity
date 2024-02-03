@@ -2,21 +2,16 @@ using UnityEngine;
 [System.Serializable]
 public class Taunt : Buff
 {
-    public ToolTipManager ToolTipManager;
-    public UIManager UIManager;
-    public Buffs buffApplied = Buffs.Taunt;
-    public ToolTipInfo toolTip;
     public Taunt(CardLogic bufferLogic, CardLogic buffedLogic, bool timed, int duration)
     {
-        ToolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        UIManager = GameObject.FindObjectOfType<UIManager>();
-        toolTip = ToolTipManager.tooltipInfos.Find(a => a.key == "Taunt");
-        buff = buffApplied;
+        toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
+        uIManager = GameObject.FindObjectOfType<UIManager>();
+        toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Taunt");
+        buff = Buffs.Taunt;
         applierLogic = bufferLogic;
         affectedLogic = buffedLogic;
         shouldCountdown = timed;
         Timer = duration;
-        toolTipInfo = toolTip;
-        sprite = UIManager.tauntSprite;
+        sprite = uIManager.tauntSprite;
     }
 }
