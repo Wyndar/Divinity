@@ -172,36 +172,42 @@ public class CombatantLogic : MonoBehaviour
         if (hero.targetState == TargetState.Stealth)
             stealthEnemyCount++;
 
+        //first check if there is a taunter
+        foreach (CardLogic card in logic.cardController.enemy.fieldLogicList)
+        {
+            CombatantLogic combatantLogic = card.GetComponent<CombatantLogic>();
+            if (combatantLogic.targetState == TargetState.Taunt)
+            {
+                tauntEnemy = true;
+                break;
+            }
+        }
+
+        //then you can add based on taunt and stealth
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-            if (combatantLogic.targetState==TargetState.Taunt)
-            {
-                tauntEnemy = true;
-                logics.Add(combatantLogic);
-            }
             if (tauntEnemy)
-                continue;
+                if (combatantLogic.targetState != TargetState.Taunt)
+                    continue;
             if (combatantLogic.targetState==TargetState.Stealth)
             {
                 stealthEnemyCount++;
                 continue;
             }
-         logics.Add(combatantLogic);
+            //make sure it's not already there
+            if (!logics.Contains(combatantLogic))
+                logics.Add(combatantLogic);
         }
 
         if (tauntEnemy == false)
             logics.Add(hero);
-        
+
         //if all ally fghters are stealthed, then they are basically all free targets
         if (stealthEnemyCount > 0 && logics.Count == 0)
-        {
             foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
-            {
-                CombatantLogic combatant = cardLogic.GetComponent<CombatantLogic>();
-                    logics.Add(combatant);
-            }
-        }
+                logics.Add(cardLogic.GetComponent<CombatantLogic>());
+
         return logics;
     }
 
