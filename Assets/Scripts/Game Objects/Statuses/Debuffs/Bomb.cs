@@ -28,6 +28,11 @@ public class Bomb : Debuff
         affectedLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
         affectedLogic.cardController.SetStatusIcon(affectedLogic.locationOrderNumber, stun);
         gm.StateChange(GameState.Stun);
+        if (fieldIconHolder != null)
+        {
+            fieldIconHolder.transform.SetParent(null);
+            fieldIconHolder.DestroyThis();
+        }
         return;
     }
 }

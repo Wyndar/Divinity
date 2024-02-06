@@ -154,6 +154,8 @@ public class UIManager : MonoBehaviour
         prefabGO.GetComponent<Image>().color = status is Buff ? Color.blue : Color.red;
         prefabGO.GetComponent<Image>().sprite = status.sprite;
     }
+
+    //call this ONLY when icons are removed... edit the amount or duration text directly instead to save memory
     public void StatIconUpdate(CardLogic logic)
     {
         CombatantLogic combatant = logic.GetComponent<CombatantLogic>();

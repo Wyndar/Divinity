@@ -740,15 +740,12 @@ public class CardLogic : MonoBehaviour
                 combatantLogic.targetState = TargetState.Camouflage;
                 break;
             case EffectsUsed.Armor:
-                combatantLogic.armor = effectAmount;
                 Armor armor = new(logic, this, effectAmount);
-                combatantLogic.cardStatuses.Add(armor);
-                cardController.SetStatusIcon(locationOrderNumber, armor);
+                combatantLogic.SetArmor(armor);
                 break;
             case EffectsUsed.Barrier:
                 Barrier barrier = new(logic, this, effectAmount);
-                combatantLogic.cardStatuses.Add(barrier);
-                cardController.SetStatusIcon(locationOrderNumber, barrier);
+                combatantLogic.SetBarrier(barrier);
                 break;
             case EffectsUsed.Sleep:
                 break;

@@ -11,12 +11,14 @@ public class CombatantLogic : MonoBehaviour
     public List<CombatantLogic> validTargets = new();
 
     public List<CardStatus> cardStatuses = new();
+    public Armor armor;
+    public Barrier barrier;
     public TargetState targetState;
     public CardStatus targetStatus;
 
-    public int atk, hp, maxHp, currentAtk, currentHp, armor, maxAttacks, attacksLeft;
+    public int atk, hp, maxHp, currentAtk, currentHp, maxAttacks, attacksLeft;
 
-    public bool hasAttacked, hasAttackedThisTurn, hasDoneCountdown;
+    public bool hasAttacked, hasAttackedThisTurn, hasDoneCountdown, hasArmor, hasBarrier;
 
     private Coroutine currentCoroutine;
 
@@ -31,11 +33,29 @@ public class CombatantLogic : MonoBehaviour
 
     public IEnumerator DamageResolution(int damage, bool wasAttack)
     {
-        damage -= armor;
-        if (armor > 0)
-            logic.audioManager.NewAudioPrefab(logic.audioManager.attackResolutionArmored);
-        else
-            logic.audioManager.NewAudioPrefab(logic.audioManager.attackResolution);
+        AudioClip audioClip = null;
+        if (hasArmor)
+        {
+            damage -= armor.Amount;
+            audioClip = logic.audioManager.attackResolutionArmored;
+        }
+        if(hasBarrier)
+        {
+            int incomingDamage = damage;
+            damage -= barrier.Amount;
+            barrier.Amount -= incomingDamage;
+            if (barrier.Amount <= 0)
+            {
+                cardStatuses.Remove(barrier);
+                RemoveBarrier();
+            }
+            else
+                barrier.fieldIconHolder.amountText.text = barrier.Amount.ToString();
+            //audioClip ??= logic.audioManager.attackResolutionBarrier;
+            //add audio for barrier later, k?
+        }
+        audioClip ??= logic.audioManager.attackResolution;
+        logic.audioManager.NewAudioPrefab(audioClip);
         gm.ClearAttackTargetImages();
         if (damage != 0)
         {
@@ -221,11 +241,13 @@ public class CombatantLogic : MonoBehaviour
     }
     public void RemoveTargetStatus()
     {
-        if (targetStatus != null)
+        if (targetState != TargetState.Default)
         {
             if (targetStatus.fieldIconHolder != null)
-                Destroy(targetStatus.fieldIconHolder.gameObject);
+                targetStatus.fieldIconHolder.DestroyThis();
             cardStatuses.Remove(targetStatus);
+            targetStatus = null;
+            targetState = TargetState.Default;
         }
     }
     public void SetTargetStatus(CardStatus status, TargetState state)
@@ -234,6 +256,56 @@ public class CombatantLogic : MonoBehaviour
         targetStatus = status;
         targetState = state;
         cardStatuses.Add(status);
+    }
+
+    public void SetBarrier(Barrier barrier)
+    {
+        if (!hasBarrier)
+            if (this.barrier.Amount >= barrier.Amount)
+                return;
+        RemoveBarrier();
+        this.barrier = barrier;
+        cardStatuses.Add(barrier);
+        logic.cardController.SetStatusIcon(logic.locationOrderNumber, barrier);
+        hasBarrier = true;
+    }
+
+    public void RemoveBarrier()
+    {
+        if (!hasBarrier)
+            return;
+        if (barrier.fieldIconHolder != null)
+        {
+            barrier.fieldIconHolder.transform.SetParent(null);
+            barrier.fieldIconHolder.DestroyThis();
+        }
+        barrier = null;
+        hasBarrier = false;
+    }
+
+    public void SetArmor(Armor armor)
+    {
+        if (!hasArmor)
+            if (this.armor.Amount >= armor.Amount)
+                return;
+        RemoveArmor();
+        this.armor = armor;
+        cardStatuses.Add(armor);
+        logic.cardController.SetStatusIcon(logic.locationOrderNumber, armor);
+        hasArmor = true;
+    }
+
+    public void RemoveArmor()
+    {
+        if (!hasArmor)
+            return;
+        if (armor.fieldIconHolder != null)
+        {
+            armor.fieldIconHolder.transform.SetParent(null);
+            armor.fieldIconHolder.DestroyThis();
+        }
+        armor = null;
+        hasArmor = false;
     }
 
     public bool DebuffCheck(Debuffs debuff)
