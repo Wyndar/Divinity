@@ -64,6 +64,7 @@ public class AIManager : MonoBehaviour
             isPerformingAction = false;
         yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open||gm.isPlayingCard||gm.isActivatingEffect);
         turnManager.TriggerPhaseChange();
+        yield break;
     }
 
     //indiscriminate attack spam
@@ -84,6 +85,7 @@ public class AIManager : MonoBehaviour
             isPerformingAction = false;
         yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open || gm.isPlayingCard || gm.isActivatingEffect);
         turnManager.TriggerPhaseChange();
+        yield break;
     }
 
     private void PlayLegalCard()

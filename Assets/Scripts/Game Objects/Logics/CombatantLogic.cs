@@ -11,8 +11,6 @@ public class CombatantLogic : MonoBehaviour
     public List<CombatantLogic> validTargets = new();
 
     public List<CardStatus> cardStatuses = new();
-    public Armor armor;
-    public Barrier barrier;
     public TargetState targetState;
     public CardStatus targetStatus;
 
@@ -34,21 +32,21 @@ public class CombatantLogic : MonoBehaviour
     public IEnumerator DamageResolution(int damage, bool wasAttack)
     {
         AudioClip audioClip = null;
-        if (hasArmor)
+        CardStatus armor = BuffCheck(Buffs.Armor);
+        CardStatus barrier = BuffCheck(Buffs.Barrier);
+
+        if (armor != null)
         {
             damage -= armor.Amount;
             audioClip = logic.audioManager.attackResolutionArmored;
         }
-        if(hasBarrier)
+        if(barrier != null)
         {
             int incomingDamage = damage;
             damage -= barrier.Amount;
             barrier.Amount -= incomingDamage;
             if (barrier.Amount <= 0)
-            {
-                cardStatuses.Remove(barrier);
-                RemoveBarrier();
-            }
+                RemoveCardStatus(barrier);
             else
                 barrier.fieldIconHolder.amountText.text = barrier.Amount.ToString();
             //audioClip ??= logic.audioManager.attackResolutionBarrier;
@@ -172,7 +170,7 @@ public class CombatantLogic : MonoBehaviour
         List<CombatantLogic> logics = new();
 
         //if provoked, just return the provoker
-        if (DebuffCheck(Debuffs.Provoked))
+        if (DebuffCheck(Debuffs.Provoked) != null)
         {
             foreach (Debuff d in cardStatuses.Cast<Debuff>())
                 if (d.debuff == Debuffs.Provoked)
@@ -256,78 +254,89 @@ public class CombatantLogic : MonoBehaviour
         targetStatus = status;
         targetState = state;
         cardStatuses.Add(status);
+        logic.cardController.SetStatusIcon(logic.locationOrderNumber, status);
     }
 
-    public void SetBarrier(Barrier barrier)
+    public void  AddNonStackingBuff(Buff buff)
     {
-        if (!hasBarrier)
-            if (this.barrier.Amount >= barrier.Amount)
-                return;
-        RemoveBarrier();
-        this.barrier = barrier;
-        cardStatuses.Add(barrier);
-        logic.cardController.SetStatusIcon(logic.locationOrderNumber, barrier);
-        hasBarrier = true;
-    }
-
-    public void RemoveBarrier()
-    {
-        if (!hasBarrier)
-            return;
-        if (barrier.fieldIconHolder != null)
+        CardStatus cardStatus = BuffCheck(buff.buff);
+        if (cardStatus != null)
         {
-            barrier.fieldIconHolder.transform.SetParent(null);
-            barrier.fieldIconHolder.DestroyThis();
+            //use timers(if any) to get duration and leave current buff if it has a longer duration
+            if (cardStatus.shouldCountdown)
+                if (cardStatus.Timer >= buff.Timer)
+                    return;
+            //use amount (if>0) to leave stronger buffs
+            if (buff.Amount > 0)
+                if (cardStatus.Amount >= buff.Amount)
+                    return;
+            RemoveCardStatus(cardStatus);
         }
-        barrier = null;
-        hasBarrier = false;
+        cardStatuses.Add(buff);
+        logic.cardController.SetStatusIcon(logic.locationOrderNumber, buff);
     }
 
-    public void SetArmor(Armor armor)
+    public void AddNonStackingDebuff(Debuff debuff)
     {
-        if (!hasArmor)
-            if (this.armor.Amount >= armor.Amount)
-                return;
-        RemoveArmor();
-        this.armor = armor;
-        cardStatuses.Add(armor);
-        logic.cardController.SetStatusIcon(logic.locationOrderNumber, armor);
-        hasArmor = true;
-    }
-
-    public void RemoveArmor()
-    {
-        if (!hasArmor)
-            return;
-        if (armor.fieldIconHolder != null)
+        CardStatus cardStatus = DebuffCheck(debuff.debuff);
+        if (cardStatus != null)
         {
-            armor.fieldIconHolder.transform.SetParent(null);
-            armor.fieldIconHolder.DestroyThis();
+            //use timers(if any) to get duration and leave current buff if it has a longer duration
+            if (cardStatus.shouldCountdown)
+                if (cardStatus.Timer >= debuff.Timer)
+                    return;
+            //use amount (if>0) to leave stronger buffs
+            if (debuff.Amount > 0)
+                if (cardStatus.Amount >= debuff.Amount)
+                    return;
+            RemoveCardStatus(cardStatus);
         }
-        armor = null;
-        hasArmor = false;
+        cardStatuses.Add(debuff);
+        logic.cardController.SetStatusIcon(logic.locationOrderNumber, debuff);
     }
 
-    public bool DebuffCheck(Debuffs debuff)
+    //can safely implement for a buff/debuff cleanse effect
+    public void RemoveCardStatus(CardStatus cardStatus)
+    {
+        if (cardStatuses.Contains(cardStatus))
+        {
+            if (cardStatus.fieldIconHolder != null)
+                cardStatus.fieldIconHolder.DestroyThis();
+            cardStatuses.Remove(cardStatus);
+        }
+    }
+    public CardStatus DebuffCheck(Debuffs debuff)
     {
         if (cardStatuses.Count < 1)
-            return false;
+            return null;
 
         foreach (CardStatus status in cardStatuses)
             if (status is Debuff d)
                 if (d.debuff == debuff)
-                    return true;
+                    return d;
 
-        return false;
+        return null;
+    }
+    public CardStatus BuffCheck(Buffs buff)
+    {
+        if (cardStatuses.Count < 1)
+            return null;
+
+        foreach (CardStatus status in cardStatuses)
+            if (status is Buff b)
+                if (b.buff == buff)
+                    return b;
+
+        return null;
     }
 
     public bool ImmobilityCheck()
     {
         if (cardStatuses.Count < 1)
             return false;
-        if (DebuffCheck(Debuffs.Stunned))
+        if (DebuffCheck(Debuffs.Stunned)!=null)
             return true;
-       if(DebuffCheck(Debuffs.Sleeping))
+       if(DebuffCheck(Debuffs.Sleeping) != null)
             return true;
         return false;
     }

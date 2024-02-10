@@ -695,6 +695,7 @@ public class CardLogic : MonoBehaviour
 
     public void EffectHandler(EffectsUsed effectsUsed, int effectAmount, LogType logType, Effect effect)
     {
+        //apart from where specified, duration set to 0(not defined) indicates an infinite duration, be careful with blanks
         CombatantLogic combatantLogic = GetComponent<CombatantLogic>();
         MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
         CardLogic logic = gameManager.currentFocusCardLogic;
@@ -727,31 +728,36 @@ public class CardLogic : MonoBehaviour
                 monsterLogic.MonsterDeath();
                 break;
             case EffectsUsed.Taunt:
-                Taunt taunt = new(logic, this, false,0);
+                Taunt taunt = new(logic, this, effect.duration);
                 combatantLogic.SetTargetStatus(taunt, TargetState.Taunt);
-                cardController.SetStatusIcon(locationOrderNumber, taunt);
                 break;
             case EffectsUsed.Stealth:
-                Stealth stealth = new(logic, this, false, 0);
+                Stealth stealth = new(logic, this, effect.duration);
                 combatantLogic.SetTargetStatus(stealth, TargetState.Stealth);
-                cardController.SetStatusIcon(locationOrderNumber, stealth);
                 break;
             case EffectsUsed.Camouflage:
-                combatantLogic.targetState = TargetState.Camouflage;
+                Camouflage camouflage = new(logic, this, effect.duration);
+                combatantLogic.SetTargetStatus(camouflage, TargetState.Stealth);
                 break;
             case EffectsUsed.Armor:
-                Armor armor = new(logic, this, effectAmount);
-                combatantLogic.SetArmor(armor);
+                Armor armor = new(logic, this, effectAmount, effect.duration);
+                combatantLogic.AddNonStackingBuff(armor);
                 break;
             case EffectsUsed.Barrier:
-                Barrier barrier = new(logic, this, effectAmount);
-                combatantLogic.SetBarrier(barrier);
+                Barrier barrier = new(logic, this, effectAmount, effect.duration);
+                combatantLogic.AddNonStackingBuff(barrier);
                 break;
             case EffectsUsed.Sleep:
+                Sleep sleep = new(logic, this, effect.duration);
+                combatantLogic.AddNonStackingDebuff(sleep);
                 break;
             case EffectsUsed.Stun:
+                Stun stun = new(logic, this, effect.duration);
+                combatantLogic.AddNonStackingDebuff(stun);
                 break;
             case EffectsUsed.Provoke:
+                Provoke provoke = new(logic, this, effect.duration);
+                combatantLogic.SetTargetStatus(provoke, TargetState.Stealth);
                 break;
             case EffectsUsed.Blind:
                 break;

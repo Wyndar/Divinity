@@ -23,7 +23,7 @@ public class Bomb : Debuff
         gm.StateChange(GameState.Detonate);
         if (affectedLogic.currentLocation == Location.Grave)
             return;
-        Stun stun = new(applierLogic, affectedLogic, 3, true);
+        Stun stun = new(applierLogic, affectedLogic, 3);
         combatant.cardStatuses.Add(stun);
         affectedLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
         affectedLogic.cardController.SetStatusIcon(affectedLogic.locationOrderNumber, stun);
