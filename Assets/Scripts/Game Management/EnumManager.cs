@@ -5,7 +5,7 @@ public enum GameState
 {
     Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution,
     Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison,
-    Provoke, Sleep, Blind, Stun, Buff, Debuff, Clear, TurnEnd, Undefined
+    Provoke, Sleep, Disarm, Stun, Silence, Buff, Debuff, Clear, TurnEnd, Undefined
 }
 
 public enum Phase
@@ -22,7 +22,7 @@ public enum EffectsUsed
 {
     Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor,
     Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep,
-    Stun, Provoke, Blind, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, Barrier,
+    Stun, Provoke, Disarm, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, Barrier, BuffDispel, DebuffDispel, Silence,
     Undefined
 }
 
@@ -48,22 +48,22 @@ public enum PlayType
 
 public enum Trait
 {
-    Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Undefined
+    Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Undefined
 }
 
 public enum TargetState
 {
-    Default, Stealth, Taunt, Camouflage, Spot
+    Default, Stealth, Taunt, Camouflage, Spot, Undefined
 }
 
 public enum Debuffs
 {
-    Provoked, Stunned, Sleeping, Blind, Burned, Poisoned, Bombed, Spotted
+    Provoked, Stunned, Sleeping, Disarmed, Burned, Poisoned, Bombed, Spotted, Silenced, Undefined
 }
 
 public enum Buffs
 {
-    Armor, Shield, Barrier, Stealth, Taunt, Camouflage
+    Armor, Shield, Barrier, Stealth, Taunt, Camouflage, Undefined
 }
 
 public enum Location
@@ -128,7 +128,7 @@ public class EnumManager : MonoBehaviour
             "Poison" => GameState.Poison,
             "Stun" => GameState.Stun,
             "Provoke" => GameState.Provoke,
-            "Blind" => GameState.Blind,
+            "Disarm" => GameState.Disarm,
             "Sleep" => GameState.Sleep,
             "Buff" => GameState.Buff,
             "Debuff" => GameState.Debuff,
@@ -194,7 +194,7 @@ public class EnumManager : MonoBehaviour
             "Sleep" => EffectsUsed.Sleep,
             "Stun" => EffectsUsed.Stun,
             "Provoke" => EffectsUsed.Provoke,
-            "Blind" => EffectsUsed.Blind,
+            "Disarm" => EffectsUsed.Disarm,
             "Burn" => EffectsUsed.Burn,
             "Poison" => EffectsUsed.Poison,
             "Bomb" => EffectsUsed.Bomb,
@@ -205,6 +205,9 @@ public class EnumManager : MonoBehaviour
             "Burn Detonate" => EffectsUsed.BurnDetonate,
             "Poison Detonate" => EffectsUsed.PoisonDetonate,
             "Barrier"=>EffectsUsed.Barrier,
+            "BuffDispel"=>EffectsUsed.BuffDispel,
+            "DebuffDispel"=> EffectsUsed.DebuffDispel,
+            "Silence"=>EffectsUsed.Silence,
             _ => EffectsUsed.Undefined,
         };
         return returnEffectUsed;
@@ -295,6 +298,7 @@ public class EnumManager : MonoBehaviour
             "Head of Pantheon" => Trait.HeadOfPantheon,
             "Commerce" => Trait.Commerce,
             "Plant" => Trait.Plant,
+            "Tarot"=>Trait.Tarot,
             _ => Trait.Undefined,
         };
         return returnTrait;

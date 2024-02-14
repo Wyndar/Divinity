@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 	public Game_Manager gm;
     public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, 
         atkSprite, bombSprite, stunSprite, armorSprite, stealthSprite, burnSprite, poisonSprite, 
-        barrierSprite, camouflageSprite, sleepSprite;
+        barrierSprite, camouflageSprite, sleepSprite, disarmSprite, silenceSprite, spotSprite;
     public GameObject fieldIconPrefab, summoningCirclePrefab, attackArrowPrefab;
     public void UIUpdate(PlayerManager playerManager)
     {

@@ -55,8 +55,11 @@ public class CombatantLogic : MonoBehaviour
         audioClip ??= logic.audioManager.attackResolution;
         logic.audioManager.NewAudioPrefab(audioClip);
         gm.ClearAttackTargetImages();
+
         if (damage != 0)
         {
+            if (targetState == TargetState.Spot)
+                damage *= 2;
             currentHp -= damage;
             logic.audioManager.SelectCharacterDamageSFX(logic.id);
             gm.StateChange(GameState.Damaged);
@@ -310,6 +313,12 @@ public class CombatantLogic : MonoBehaviour
         if (cardStatuses.Count < 1)
             return null;
 
+        //generic debuff check
+        if (debuff == Debuffs.Undefined)
+            foreach (CardStatus stat in cardStatuses)
+                if (stat is Debuff)
+                    return stat;
+
         foreach (CardStatus status in cardStatuses)
             if (status is Debuff d)
                 if (d.debuff == debuff)
@@ -321,6 +330,12 @@ public class CombatantLogic : MonoBehaviour
     {
         if (cardStatuses.Count < 1)
             return null;
+
+        //generic buff check
+        if(buff== Buffs.Undefined)
+            foreach(CardStatus stat in cardStatuses)
+                if(stat is Buff)
+                    return stat;
 
         foreach (CardStatus status in cardStatuses)
             if (status is Buff b)

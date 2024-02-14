@@ -125,6 +125,20 @@ public class CardLogic : MonoBehaviour
         if (focusEffect.targetLocation.Count == 0)
             return returnList;
 
+        List<CardLogic> camoTargets = new();
+        foreach (CardLogic logic in allTargetsList)
+        {
+            logic.TryGetComponent<CombatantLogic>(out var combatantLogic);
+            if (logic.currentLocation == Location.Field)
+                if (combatantLogic.targetState == TargetState.Camouflage)
+                {
+                    camoTargets.Add(logic);
+                    allTargetsList.Remove(logic);
+                }
+        }
+        if(allTargetsList.Count==0)
+            allTargetsList.AddRange(camoTargets);
+
         EffectsUsed effectUsed = focusEffect.effectsUsed[subEffectNumber];
         Location targetLocation = focusEffect.targetLocation[subEffectNumber];
         Controller controller = focusEffect.effectTargetController[subEffectNumber];
@@ -302,7 +316,7 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Sleep:
             case EffectsUsed.Stun:
             case EffectsUsed.Provoke:
-            case EffectsUsed.Blind:
+            case EffectsUsed.Disarm:
             case EffectsUsed.Burn:
             case EffectsUsed.Poison:
             case EffectsUsed.Bomb:
@@ -735,10 +749,12 @@ public class CardLogic : MonoBehaviour
                 Stealth stealth = new(logic, this, effect.duration);
                 combatantLogic.SetTargetStatus(stealth, TargetState.Stealth);
                 break;
+                //everything above here works fine
             case EffectsUsed.Camouflage:
                 Camouflage camouflage = new(logic, this, effect.duration);
                 combatantLogic.SetTargetStatus(camouflage, TargetState.Stealth);
                 break;
+                //everything from here works fine
             case EffectsUsed.Armor:
                 Armor armor = new(logic, this, effectAmount, effect.duration);
                 combatantLogic.AddNonStackingBuff(armor);
@@ -747,6 +763,7 @@ public class CardLogic : MonoBehaviour
                 Barrier barrier = new(logic, this, effectAmount, effect.duration);
                 combatantLogic.AddNonStackingBuff(barrier);
                 break;
+                //till here
             case EffectsUsed.Sleep:
                 Sleep sleep = new(logic, this, effect.duration);
                 combatantLogic.AddNonStackingDebuff(sleep);
@@ -759,8 +776,11 @@ public class CardLogic : MonoBehaviour
                 Provoke provoke = new(logic, this, effect.duration);
                 combatantLogic.SetTargetStatus(provoke, TargetState.Stealth);
                 break;
-            case EffectsUsed.Blind:
+            case EffectsUsed.Disarm:
+                Disarm disarm = new(logic, this, effect.duration);
+                combatantLogic.AddNonStackingDebuff(disarm);
                 break;
+                //everything from here works fine
             case EffectsUsed.Burn:
                 //burns have a default timer of two turns, if duration is set to 0/not defined(int), default applies
                 Burn burn = new(logic, this, effect.duration);
@@ -779,8 +799,12 @@ public class CardLogic : MonoBehaviour
                 combatantLogic.cardStatuses.Add(bomb);
                 cardController.SetStatusIcon(locationOrderNumber, bomb);
                 break;
+                //till here
             case EffectsUsed.Spot:
+                Spot spot = new(logic, this, effect.duration);
+                combatantLogic.AddNonStackingDebuff(spot);
                 break;
+                //this works
             case EffectsUsed.Bounce:
                 StartCoroutine(monsterLogic.BounceCard());
                 break;
@@ -802,6 +826,34 @@ public class CardLogic : MonoBehaviour
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     if (status is Poison)
                         status.DetonateActions(gameManager);
+                break;
+            case EffectsUsed.BuffDispel:
+                for (int i = effectAmount; i > 0;)
+                {
+                    if (combatantLogic.cardStatuses.Count > 0)
+                    {
+                        CardStatus status = combatantLogic.BuffCheck(Buffs.Undefined);
+                        if (status != null)
+                            combatantLogic.RemoveCardStatus(status);
+                    }
+                    i--;
+                } 
+                break;
+            case EffectsUsed.DebuffDispel:
+                for (int i = effectAmount; i > 0;)
+                {
+                    if (combatantLogic.cardStatuses.Count > 0)
+                    {
+                        CardStatus status = combatantLogic.DebuffCheck(Debuffs.Undefined);
+                        if (status != null)
+                            combatantLogic.RemoveCardStatus(status);
+                    }
+                    i--;
+                }
+                break;
+            case EffectsUsed.Silence:
+                Silence silence = new(logic, this, effect.duration);
+                combatantLogic.AddNonStackingDebuff(silence);
                 break;
             default:
                 Debug.Log("effect not found");
