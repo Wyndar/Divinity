@@ -24,7 +24,8 @@ public class CombatantLogic : MonoBehaviour
     {
         bool blockDamage = false;
         if (logic.type == Type.God)
-            blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage, wasAttack);
+            if (targetState != TargetState.Spot)
+                blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage, wasAttack);
         if (!blockDamage)
             currentCoroutine = StartCoroutine(DamageResolution(damage, wasAttack));
     }
@@ -59,7 +60,8 @@ public class CombatantLogic : MonoBehaviour
         if (damage != 0)
         {
             if (targetState == TargetState.Spot)
-                damage *= 2;
+                if(logic.type == Type.Fighter)
+                    damage *= 2;
             currentHp -= damage;
             logic.audioManager.SelectCharacterDamageSFX(logic.id);
             gm.StateChange(GameState.Damaged);

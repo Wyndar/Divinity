@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 
 public class MonsterLogic : CardLogic
 {
@@ -9,9 +10,18 @@ public class MonsterLogic : CardLogic
     public CombatantLogic combatLogic;
     public PlayableLogic playLogic;
 
-    public void OnFieldAtkRefresh() => cardController.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = combatLogic.currentAtk.ToString();
-    public void OnFieldHpRefresh() => cardController.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>().text = combatLogic.currentHp.ToString();
-
+    public void OnFieldAtkRefresh()
+    {
+        TMP_Text atkText = cardController.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>();
+        atkText.color = combatLogic.atk != combatLogic.currentAtk ? combatLogic.currentAtk < combatLogic.atk ? Color.red : Color.blue : Color.black;
+        atkText.text = combatLogic.currentAtk.ToString();
+    }
+    public void OnFieldHpRefresh()
+    {
+        TMP_Text hpText = cardController.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>();
+        hpText.color = combatLogic.currentHp != combatLogic.maxHp ? combatLogic.currentHp < combatLogic.maxHp ? Color.red : Color.blue : Color.black;
+        hpText.text = combatLogic.currentHp.ToString();
+    }
     public void MonsterSummon(PlayerManager player)
     {
         for (int slotNumber = 0; slotNumber < player.isEmptyCardSlot.Length; slotNumber++)
