@@ -94,7 +94,7 @@
         "CardFlavorText": "Dropped out of med school.",
         "Traits": [ "Military", "Medicine" ],
         "Cost": 1,
-        "Atk": 0,
+        "Atk": 3,
         "Hp": 4,
         "Effects": [
             {
@@ -288,7 +288,7 @@
         "Id": "GP-Z4",
         "CardType": "spell",
         "CardName": "Crimson Devastation Strike",
-        "CardText": "Deployment: Intimidate-2 then Shatter all Atk-0 Enemy Fighters.",
+        "CardText": "Deployment: Intimidate-2 then you can Shatter all Atk-0 Enemy Fighters.",
         "CardFlavorText": "The feeble-hearts fail at the sound of this intimidating strike.",
         "Traits": [ "Weather" ],
         "Cost": 1,
@@ -297,14 +297,14 @@
                 "EffectType": [ "Deployment", "Deployment" ],
                 "EffectUsed": [ "Intimidate", "Shatter" ],
                 "EffectAmount": [ 2, 99 ],
-                "EffectActivationIsMandatory": [ true, true ],
+                "EffectActivationIsMandatory": [ true, false ],
                 "TargetingType": [ "auto", "auto" ],
                 "EffectTargetType": [ "monster", "monster" ],
                 "EffectTargetOwner": [ "Opponent", "Opponent" ],
                 "TargetLocation": [ "Field", "Field" ],
                 "EffectTargetAmount": [ 99, 99 ],
                 "AllowSelfTarget": [ false, false ],
-                "TargetStat": [ "none", "atk" ],
+                "TargetStat": [ "none", "current atk" ],
                 "TargetStatCondition": [ "none", "==" ],
                 "TargetStatAmount": [ 0, 0 ]
             }
@@ -630,6 +630,32 @@
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 1 ],
                 "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-13",
+        "CardType": "spell",
+        "CardName": "Chariot's Rampage",
+        "CardText": "Deployment: Shatter a Cost-1 Enemy Fighter.",
+        "CardFlavorText": "Do NOT look a gift horse in the mouth. Do not look ANY horse in the mouth... Actually, stay away from their heads... or them entirely.",
+        "Traits": [ "Animal","Tarot" ],
+        "Cost": 1,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Shatter" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "manual" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Opponent" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ],
+                "TargetStat": [ "cost" ],
+                "TargetStatCondition": [ "==" ],
+                "TargetStatAmount": [ 1 ]
             }
         ]
     }
