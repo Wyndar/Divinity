@@ -94,7 +94,7 @@
         "CardFlavorText": "Dropped out of med school.",
         "Traits": [ "Military", "Medicine" ],
         "Cost": 1,
-        "Atk": 3,
+        "Atk": 0,
         "Hp": 4,
         "Effects": [
             {

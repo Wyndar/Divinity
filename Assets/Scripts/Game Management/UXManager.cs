@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 
 public class UXManager : MonoBehaviour
 {
@@ -19,17 +20,16 @@ public class UXManager : MonoBehaviour
 
     [SerializeField] private ScrollingLogPanelHandler scrollingLogPanelHandler;
 
-    [SerializeField] private ScrollingStatusPanelHandler monsterScrollingStatusPanelHandler, godScrollingStatusPanelHandler;
+    [SerializeField] private ScrollingStatusPanelHandler infoScrollingStatusPanelHandler;
 
-    [SerializeField] private GameObject trail, effectPanel, infoPanelMonsterStatusBar, infoPanelGodStatusBar, infoPanelMonster, infoPanelSpell,
-        infoPanelGod, rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton,
+    [SerializeField] private GameObject trail, effectPanel, infoPanelStatusBar, infoPanel, infoPanelStats, infoPanelEnergy,
+        rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton,
         cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
 
-    [SerializeField] private TMP_Text infoPanelSpellNameText, infoPanelSpellCostText, infoPanelSpellEffectText, infoPanelSpellFlavourText,
-        infoPanelMonsterNameText, infoPanelMonsterAtkText, infoPanelMonsterHpText, infoPanelMonsterCostText,
-        infoPanelMonsterEffectText, infoPanelMonsterFlavourText, infoPanelGodNameText, infoPanelGodAtkText,
-        infoPanelGodHpText, infoPanelGodEffectText, infoPanelGodFlavourText, effectPanelNameText,
-        effectActivationPanelText, gameOverWinnerText;
+    [SerializeField] private TMP_Text infoPanelNameText, infoPanelAtkText, infoPanelHpText, infoPanelCostText,
+        infoPanelEffectText, infoPanelFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
+
+    [SerializeField] private Image infoPanelImage;
 
     [SerializeField] private TMP_Text[] effectPanelTexts;
 
@@ -230,12 +230,7 @@ public class UXManager : MonoBehaviour
         gm.EnableTurnUI();
     }
 
-    public void DisableEffectInfoPanels()
-    {
-        infoPanelSpell.SetActive(false);
-        infoPanelMonster.SetActive(false);
-        infoPanelGod.SetActive(false);
-    }
+    public void DisableEffectInfoPanels() => infoPanel.SetActive(false);
 
     public void DisableDeckSearchButtons()
     {
@@ -254,45 +249,32 @@ public class UXManager : MonoBehaviour
         gm.DisableTurnUI();
         if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
             cost = playableLogic.cost.ToString();
-        
-        switch (gm.currentFocusCardLogic.cardType)
+
+        infoPanel.SetActive(true);
+        infoPanelEnergy.SetActive(false);
+        infoPanelStats.SetActive(false);
+
+        infoPanelEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
+        infoPanelFlavourText.text = gm.currentFocusCardLogic.flavorText;
+        infoPanelNameText.text = gm.currentFocusCardLogic.cardName;
+        infoPanelImage.sprite = gm.currentFocusCardLogic.image;
+
+        if (gm.currentFocusCardLogic.playTypes.Contains(PlayType.Playable))
         {
-            case "spell":
-                infoPanelSpell.SetActive(true);
-                infoPanelSpellCostText.text = cost;
-                infoPanelSpellEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
-                infoPanelSpellFlavourText.text = gm.currentFocusCardLogic.flavorText;
-                infoPanelSpellNameText.text = gm.currentFocusCardLogic.cardName;
-                break;
-            case "monster":
-                infoPanelMonster.SetActive(true);
-                infoPanelMonsterAtkText.text = combatantLogic.currentAtk.ToString();
-                infoPanelMonsterCostText.text = cost;
-                infoPanelMonsterHpText.text = combatantLogic.currentHp.ToString();
-                infoPanelMonsterEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
-                infoPanelMonsterFlavourText.text = gm.currentFocusCardLogic.flavorText;
-                infoPanelMonsterNameText.text = gm.currentFocusCardLogic.cardName;
-                infoPanelMonsterStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
-                statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
-                monsterScrollingStatusPanelHandler.RemoveStatusImages();
-                if (combatantLogic.cardStatuses.Count > 0)
-                    foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
-                        monsterScrollingStatusPanelHandler.AddStatusImage(cardStatus);
-                break;
-            case "god":
-                infoPanelGod.SetActive(true);
-                infoPanelGodAtkText.text = combatantLogic.currentAtk.ToString();
-                infoPanelGodHpText.text = combatantLogic.currentHp.ToString();
-                infoPanelGodEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
-                infoPanelGodFlavourText.text = gm.currentFocusCardLogic.flavorText;
-                infoPanelGodNameText.text = gm.currentFocusCardLogic.cardName;
-                infoPanelGodStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
-                statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
-                godScrollingStatusPanelHandler.RemoveStatusImages();
-                if (combatantLogic.cardStatuses.Count > 0)
-                    foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
-                        godScrollingStatusPanelHandler.AddStatusImage(cardStatus);
-                break;
+            infoPanelEnergy.SetActive(true);
+            infoPanelCostText.text = cost;
+        }
+        if (gm.currentFocusCardLogic.playTypes.Contains(PlayType.Combatant))
+        {
+            infoPanelStats.SetActive(true);
+            infoPanelAtkText.text = combatantLogic.atk.ToString();
+            infoPanelHpText.text = combatantLogic.hp.ToString();
+            infoPanelStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
+            statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
+            infoScrollingStatusPanelHandler.RemoveStatusImages();
+            if (combatantLogic.cardStatuses.Count > 0)
+                foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
+                    infoScrollingStatusPanelHandler.AddStatusImage(cardStatus);
         }
     }
 
