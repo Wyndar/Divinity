@@ -5,6 +5,7 @@ public class StatusManager : MonoBehaviour
 {
     public Game_Manager gm;
     public UIManager ui;
+    public GameObject animatedTimerPrefab;
 
     public void CountdownReset(CardStatus cardStatus) => cardStatus.hasDoneCountDownThisTurn = false;
 
@@ -13,7 +14,7 @@ public class StatusManager : MonoBehaviour
     {
         CardLogic cardLogic = cardStatus.affectedLogic;
         CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-        cardStatus.TimerActions(gm);
+        cardStatus.TimerActions(gm, animatedTimerPrefab);
         if (cardStatus.Timer <= 0 && cardStatus.shouldCountdown)
         {
             cardStatus.DetonateActions(gm);

@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 8006185569117345849}
   - component: {fileID: 9119254623691023550}
   - component: {fileID: 2279427502520085537}
-  - component: {fileID: 2033797157404408912}
   - component: {fileID: 3953218887643894652}
   m_Layer: 5
   m_Name: Summoning Circle
@@ -202,22 +201,6 @@ MonoBehaviour:
   maxSize: 0
   destroyGO: 1
   autoActivate: 0
---- !u!114 &2033797157404408912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874896110496941013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba861b885b5bcf041a6d702b6256deb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  growSpeed: 0
-  minSize: 0
-  maxSize: 0
-  autoActivate: 0
 --- !u!114 &3953218887643894652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a322d690e42264ab3a2511e51d0286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldMove: 0
   timeToDisappear: 2
   timeSinceAppearance: 0
-  text: {fileID: 0}

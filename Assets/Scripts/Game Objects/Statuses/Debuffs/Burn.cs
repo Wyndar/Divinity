@@ -15,9 +15,9 @@ public class Burn : Debuff
         canDetonate = true;
         sprite = uIManager.burnSprite;
     }
-    public override void TimerActions(Game_Manager gm)
+    public override void TimerActions(Game_Manager gm, GameObject timerPrefab)
     {
-        base.TimerActions(gm);
+        base.TimerActions(gm, timerPrefab);
         CombatantLogic combatant = affectedLogic.GetComponent<CombatantLogic>();
         combatant.TakeDamage(2, false);
     }

@@ -21,13 +21,14 @@ public class CardStatus
     {
 
     }
-    virtual public void TimerActions(Game_Manager gm)
+    virtual public void TimerActions(Game_Manager gm, GameObject timerPrefab)
     {
         if (!shouldCountdown)
         {
             hasDoneCountDownThisTurn = true;
             return;
         }
+        GameObject.Instantiate(timerPrefab, affectedLogic.cardController.fieldIcons[affectedLogic.locationOrderNumber].transform);
         Timer--;
         hasDoneCountDownThisTurn = true;
         if (fieldIconHolder != null)
