@@ -31,10 +31,6 @@ public class CardLogic : MonoBehaviour
     public List<CardLogic> targets = new();
     public List<CardLogic> validTargets = new();
     public List<Effect> effects = new();
-    public List<BuffHistoryEntry> buffHistoryEntries = new();
-    public List<DebuffHistoryEntry> debuffHistoryEntries = new();
-    public List<LocationHistoryEntry> locationHistoryEntries = new();
-    public List<StatChangeHistoryEntry> statChangeHistoryEnteries = new();
 
     public int effectCountNumber;
     public int subCountNumber;
@@ -136,7 +132,7 @@ public class CardLogic : MonoBehaviour
                     allTargetsList.Remove(logic);
                 }
         }
-        if(allTargetsList.Count==0)
+        if (allTargetsList.Count == 0)
             allTargetsList.AddRange(camoTargets);
 
         EffectsUsed effectUsed = focusEffect.effectsUsed[subEffectNumber];
@@ -148,9 +144,9 @@ public class CardLogic : MonoBehaviour
             type = focusEffect.effectTargetType[subEffectNumber];
         if (focusEffect.effectTargetPlayType.Count > 0)
             playType = focusEffect.effectTargetPlayType[subEffectNumber];
-        foreach(CardLogic target in allTargetsList)
+        foreach (CardLogic target in allTargetsList)
         {
-           target.TryGetComponent<CombatantLogic>(out var combatantStats);
+            target.TryGetComponent<CombatantLogic>(out var combatantStats);
             target.TryGetComponent<PlayableLogic>(out var playableStats);
             // basic targeting requirements... don't target wrong location, don't target wrong owner or wrong card types
             if (target == this && focusEffect.AllowSelfTarget[subEffectNumber] == false)
@@ -175,7 +171,7 @@ public class CardLogic : MonoBehaviour
             if (effectUsed == EffectsUsed.Damage && (combatantStats == null || combatantStats.currentHp <= 0))
                 continue;
             //don't add targets with higher cost when paying for revive or deploy cost
-            if ((effectUsed == EffectsUsed.Revive|| effectUsed==EffectsUsed.Deploy) && cardController.costCount < playableStats.cost)
+            if ((effectUsed == EffectsUsed.Revive || effectUsed == EffectsUsed.Deploy) && cardController.costCount < playableStats.cost)
                 continue;
 
             //don't target no timed debuffs with detonate
@@ -183,7 +179,7 @@ public class CardLogic : MonoBehaviour
                 combatantStats.DebuffCheck(Debuffs.Burned) == null && combatantStats.DebuffCheck(Debuffs.Poisoned) == null)))
                 continue;
             //don't target no bombs with bomb detonate
-            if (effectUsed == EffectsUsed.BombDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Bombed)==null))
+            if (effectUsed == EffectsUsed.BombDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Bombed) == null))
                 continue;
             //don't target no burns with burn detonate
             if (effectUsed == EffectsUsed.BurnDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Burned) == null))
@@ -211,7 +207,7 @@ public class CardLogic : MonoBehaviour
                     stat = combatantStats.currentAtk;
                 }
 
-                if(checkedStat == "cost")
+                if (checkedStat == "cost")
                 {
                     if (playableStats == null)
                         continue;
@@ -237,7 +233,7 @@ public class CardLogic : MonoBehaviour
         return returnList;
     }
 
-    public void EffectActivation(int countNumber, int subCount)=>
+    public void EffectActivation(int countNumber, int subCount) =>
         StartCoroutine(ActivationCoroutine(countNumber, subCount));
 
     private void EffectActivationAfterAnimation(int countNumber, int subCount)
@@ -257,14 +253,14 @@ public class CardLogic : MonoBehaviour
             case EffectTypes.Deployed:
             //while in gy manual trigger
             case EffectTypes.Vengeance:
-                if (currentLocation == enumConverter.LocationStringToEnum(focusEffect.ActivationLocation))
+                if (currentLocation == focusEffect.activationLocation)
                     TargetCheck(countNumber, subCount);
                 break;
         }
         SetFocusCardLogic();
     }
 
-    public void EffectResolution(int countNumber, int subCount) =>StartCoroutine(ResolutionCoroutine(countNumber, subCount));
+    public void EffectResolution(int countNumber, int subCount) => StartCoroutine(ResolutionCoroutine(countNumber, subCount));
 
     private void EffectResolutionAfterAnimation(int countNumber, int subCount)
     {
@@ -274,6 +270,7 @@ public class CardLogic : MonoBehaviour
         effectCountNumber = countNumber;
         subCountNumber = subCount;
         SetFocusCardLogic();
+        EffectLogger(focusEffect,subCount,targets);
 
         switch (effectUsed)
         {
@@ -307,7 +304,7 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.BombDetonate:
             case EffectsUsed.PoisonDetonate:
                 foreach (CardLogic target in targets)
-                    target.EffectHandler(effectUsed, effectAmount, LogType.Undefined, focusEffect);
+                    target.EffectHandler(focusEffect, subCount);
                 break;
 
 
@@ -320,7 +317,7 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Camouflage:
             case EffectsUsed.Barrier:
                 foreach (CardLogic target in targets)
-                    target.EffectHandler(effectUsed, effectAmount, LogType.Buff, focusEffect);
+                    target.EffectHandler(focusEffect, subCount);
                 break;
 
             //these are debuffs
@@ -337,7 +334,7 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Spot:
             case EffectsUsed.Bounce:
                 foreach (CardLogic target in targets)
-                    target.EffectHandler(effectUsed, effectAmount, LogType.Debuff, focusEffect);
+                    target.EffectHandler(focusEffect, subCount);
                 break;
             case EffectsUsed.FreeRevive:
             case EffectsUsed.Revive:
@@ -427,7 +424,7 @@ public class CardLogic : MonoBehaviour
 
         foreach (int index in effectAmountIndexesToChange)
         {
-            if (focusEffect.TargetCountModifier != null && focusEffect.TargetCountModifier[subCount]!=0)
+            if (focusEffect.TargetCountModifier != null && focusEffect.TargetCountModifier[subCount] != 0)
             {
                 focusEffect.EffectAmount[index] = Mathf.CeilToInt(targets.Count * focusEffect.TargetCountModifier[subCount]);
                 continue;
@@ -475,7 +472,7 @@ public class CardLogic : MonoBehaviour
                 effectCountNumber = countNumber;
                 subCountNumber = subCount;
                 SetFocusCardLogic();
-                foreach(CardLogic target in validTargets)
+                foreach (CardLogic target in validTargets)
                 {
                     if (target.type == Type.Fighter && target.currentLocation == Location.Field)
                         target.cardController.effectTargets[target.locationOrderNumber].SetActive(true);
@@ -486,7 +483,7 @@ public class CardLogic : MonoBehaviour
                     if (target.currentLocation == Location.Deck)
                         target.cardController.deckTarget.SetActive(true);
                 }
-                if(cardController.isAI)
+                if (cardController.isAI)
                 {
                     cardController.AIManager.GetEffectTarget();
                     return;
@@ -558,7 +555,7 @@ public class CardLogic : MonoBehaviour
         focusEffect = effects[countNumber];
         //auto self target effects
         if (focusEffect.AllowSelfTarget[subCount] == true && focusEffect.EffectTargetAmount[subCount] == 1)
-            targets = new() { this};
+            targets = new() { this };
         else
             targets = new(validTargets);
         EffectResolution(countNumber, subCount);
@@ -568,7 +565,7 @@ public class CardLogic : MonoBehaviour
     public void RandomTargetAcquisition(int countNumber, int subCount)
     {
         int targetsLeft = effects[countNumber].EffectTargetAmount[subCount];
-        while (targetsLeft > 0 && validTargets.Count>targets.Count)
+        while (targetsLeft > 0 && validTargets.Count > targets.Count)
         {
             int randomNumber = Random.Range(0, validTargets.Count);
             if (targets.Contains(validTargets[randomNumber]))
@@ -582,7 +579,7 @@ public class CardLogic : MonoBehaviour
 
     public void OptionalEffectResolution(bool used)
     {
-        if(!used)
+        if (!used)
         {
             CheckSubsequentEffects(effectCountNumber, subCountNumber);
             return;
@@ -608,7 +605,7 @@ public class CardLogic : MonoBehaviour
 
     public void SetFocusCardLogic()
     {
-        if(gameManager.currentFocusCardLogic != null)
+        if (gameManager.currentFocusCardLogic != null)
             gameManager.currentFocusCardLogic.RemoveFocusCardLogic();
         gameManager.currentFocusCardLogic = this;
         EnableCardOutline();
@@ -653,17 +650,14 @@ public class CardLogic : MonoBehaviour
         else
             cardOwner.underworldManager.outline.SetActive(false);
     }
-    public void LocationChange(Effect effect, EffectsUsed effectsUsed, Location location, int num)
+    public void LocationChange(Location location, int num)
     {
-        LocationHistoryEntry locationLog = new(location, currentLocation)
+        LocationHistoryEntry locationLog = new(location)
         {
-            log = LogType.Location,
-            logIndex = locationHistoryEntries.Count,
+            logIndex = gameManager.gameLogHistoryEntries.Count,
             loggedCard = this,
-            loggedEffect=effect,
-            loggedEffectUsed=effectsUsed
+            loggedLocation = currentLocation
         };
-        locationHistoryEntries.Add(locationLog);
         gameManager.gameLogHistoryEntries.Add(locationLog);
         currentLocation = location;
         locationOrderNumber = num;
@@ -689,48 +683,28 @@ public class CardLogic : MonoBehaviour
         gameObject.transform.rotation = player.deck.transform.rotation;
     }
 
-    virtual public void StatAdjustment(int value, Status status)=> Debug.Log($"Failed virtual override for status of {cardName}");
+    virtual public void StatAdjustment(int value, Status status) => Debug.Log($"Failed virtual override for status of {cardName}");
 
-    public void EffectLogger(EffectsUsed effectsUsed, int effectAmount, LogType logType, Effect effect)
+    public void EffectLogger(Effect effect, int index, List<CardLogic> cards)
     {
-        if (logType == LogType.Buff)
+
+        EffectLogHistoryEntry effectLogHistoryEntry = new(effect, effect.effectsUsed[index], cards)
         {
-            BuffHistoryEntry buffHistoryEntry = new(effectAmount, currentLocation)
-            {
-                log = logType,
-                logIndex = buffHistoryEntries.Count,
-                loggedCard = this,
-                loggedEffect = effect,
-                loggedEffectUsed = effectsUsed,
-            };
-            buffHistoryEntries.Add(buffHistoryEntry);
-            gameManager.gameLogHistoryEntries.Add(buffHistoryEntry);
-        }
-        else if(logType==LogType.Debuff)
-        {
-            DebuffHistoryEntry debuffHistoryEntry = new(effectAmount, currentLocation)
-            {
-                log = logType,
-                logIndex = debuffHistoryEntries.Count,
-                loggedCard = this,
-                loggedEffect = effect,
-                loggedEffectUsed = effectsUsed,
-            };
-            debuffHistoryEntries.Add(debuffHistoryEntry);
-            gameManager.gameLogHistoryEntries.Add(debuffHistoryEntry);
-        }
+            logIndex = gameManager.gameLogHistoryEntries.Count,
+            loggedCard = this,
+            loggedLocation = currentLocation
+        };
+        gameManager.gameLogHistoryEntries.Add(effectLogHistoryEntry);
     }
 
-    public void EffectHandler(EffectsUsed effectsUsed, int effectAmount, LogType logType, Effect effect)
+    public void EffectHandler(Effect effect, int effectIndex)
     {
         //apart from where specified, duration set to 0(not defined) indicates an infinite duration, be careful with blanks
         CombatantLogic combatantLogic = GetComponent<CombatantLogic>();
         MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
         CardLogic logic = gameManager.currentFocusCardLogic;
-
-        //idk why but res chain breaks so log before effect
-        //figure this out later
-        EffectLogger(effectsUsed, effectAmount, logType, effect);
+        int effectAmount = effect.EffectAmount[effectIndex];
+        EffectsUsed effectsUsed = effect.effectsUsed[effectIndex];
 
         switch (effectsUsed)
         {

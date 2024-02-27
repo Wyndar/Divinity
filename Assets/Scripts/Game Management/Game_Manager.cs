@@ -130,10 +130,7 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.transform.position = Vector3.zero;
 
             //implementing a game log
-            if (isActivatingEffect)
-                randomCardDraw.LocationChange(currentFocusCardLogic.focusEffect, EffectsUsed.Reinforce, Location.Hand, i);
-            else
-                randomCardDraw.LocationChange(null, EffectsUsed.Undefined, Location.Hand, i);
+            randomCardDraw.LocationChange(Location.Hand, i);
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
             AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
 
@@ -181,7 +178,7 @@ public class Game_Manager : MonoBehaviour
             logic.transform.position = Vector3.zero;
 
             //implementing a battle log
-            logic.LocationChange(currentFocusCardLogic.focusEffect, EffectsUsed.Recruit, Location.Hand, i);
+            logic.LocationChange(Location.Hand, i);
             logic.transform.SetParent(player.handSlots[i].transform, false);
             //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
@@ -214,7 +211,7 @@ public class Game_Manager : MonoBehaviour
             logic.gameObject.SetActive(true);
             logic.transform.position = Vector3.zero;
             //implementing a battle log
-            logic.LocationChange(currentFocusCardLogic.focusEffect, EffectsUsed.Recover, Location.Hand, i);
+            logic.LocationChange(Location.Hand, i);
 
             logic.ControllerSwap(player);
             logic.transform.SetParent(player.handSlots[i].transform, false);
@@ -256,11 +253,7 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.transform.position = Vector3.zero;
 
             //implementing a battle log
-            //effect is still undefined
-            if (isActivatingEffect)
-                randomCardDraw.LocationChange(currentFocusCardLogic.focusEffect, EffectsUsed.Reinforce, Location.Hand, i);
-            else
-                randomCardDraw.LocationChange(null, EffectsUsed.Undefined, Location.Hand, i);
+            randomCardDraw.LocationChange(Location.Hand, i);
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
             //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))

@@ -195,11 +195,7 @@ public class PlayableLogic : MonoBehaviour
         logic.cardOwner.graveLogicList.Add(logic);
         logic.cardOwner.underworldManager.ResetTopCard();
         int i = logic.cardOwner.graveLogicList.FindIndex(a => a == logic);
-        if (gm.isActivatingEffect)
-            logic.LocationChange(gm.currentFocusCardLogic.focusEffect, gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber], Location.Grave, i);
-        else
-            logic.LocationChange(null, EffectsUsed.Undefined, Location.Grave, i);
-        
+        logic.LocationChange(Location.Grave, i);
         gm.StateChange(GameState.Grave);
         return;
     }

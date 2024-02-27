@@ -80,15 +80,12 @@ public class CombatantLogic : MonoBehaviour
                 damagingEffect = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber];
             }
         }
-        StatChangeHistoryEntry statChangeLog = new(Status.Damage, damage, logic.currentLocation)
+        StatChangeHistoryEntry statChangeLog = new(Status.Damage, damage)
         {
-            log = LogType.StatChange,
-            logIndex = logic.statChangeHistoryEnteries.Count,
+            logIndex = gm.gameLogHistoryEntries.Count,
             loggedCard = gm.currentFocusCardLogic,
-            loggedEffect = damager,
-            loggedEffectUsed = damagingEffect
+            loggedLocation = logic.currentLocation
         };
-        logic.statChangeHistoryEnteries.Add(statChangeLog);
         gm.gameLogHistoryEntries.Add(statChangeLog);
         if (!wasAttack)
             yield break;
@@ -140,13 +137,11 @@ public class CombatantLogic : MonoBehaviour
             currentHp = maxHp;
             healAmount -= overhealAmount;
         }
-        StatChangeHistoryEntry statChangeLog = new(Status.Damage, healAmount, logic.currentLocation)
+        StatChangeHistoryEntry statChangeLog = new(Status.Heal, healAmount)
         {
-            log = LogType.StatChange,
-            logIndex = logic.statChangeHistoryEnteries.Count,
+            logIndex = gm.gameLogHistoryEntries.Count,
             loggedCard = gm.currentFocusCardLogic,
-            loggedEffect = gm.currentFocusCardLogic.focusEffect,
-            loggedEffectUsed = gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber]
+            loggedLocation = logic.currentLocation
         };
 
         gm.gameLogHistoryEntries.Add(statChangeLog);

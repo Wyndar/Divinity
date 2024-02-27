@@ -32,11 +32,6 @@ public enum TargetingTypes
     Auto, Manual, Random, Trigger, Undefined
 }
 
-public enum LogType
-{
-    Location, Buff, Debuff, StatChange, Undefined
-}
-
 public enum Type
 {
     Spell, God, Fighter, Undefined

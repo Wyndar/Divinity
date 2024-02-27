@@ -13,42 +13,40 @@ public class MonsterLogic : CardLogic
     public void OnFieldAtkRefresh()
     {
         TMP_Text atkText = cardController.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>();
-        atkText.color = combatLogic.atk != combatLogic.currentAtk ? combatLogic.currentAtk < combatLogic.atk ? Color.red : Color.blue : Color.black;
+        atkText.color = combatLogic.atk != combatLogic.currentAtk ? combatLogic.currentAtk < combatLogic.atk
+            ? Color.red : Color.blue : Color.black;
         atkText.text = combatLogic.currentAtk.ToString();
     }
     public void OnFieldHpRefresh()
     {
         TMP_Text hpText = cardController.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>();
-        hpText.color = combatLogic.currentHp != combatLogic.maxHp ? combatLogic.currentHp < combatLogic.maxHp ? Color.red : Color.blue : Color.black;
+        hpText.color = combatLogic.currentHp != combatLogic.maxHp ? combatLogic.currentHp < combatLogic.maxHp 
+            ? Color.red : Color.blue : Color.black;
         hpText.text = combatLogic.currentHp.ToString();
     }
     public void MonsterSummon(PlayerManager player)
     {
         for (int slotNumber = 0; slotNumber < player.isEmptyCardSlot.Length; slotNumber++)
         {
-            if (player.isEmptyCardSlot[slotNumber] == true)
-            {
-                transform.position = player.cardSlots[slotNumber].transform.position;
-                player.isEmptyCardSlot[slotNumber] = false;
-                if (gm.isActivatingEffect)
-                    LocationChange(gm.currentFocusCardLogic.focusEffect, gm.currentFocusCardLogic.focusEffect.effectsUsed[gm.currentFocusCardLogic.subCountNumber], Location.Field, slotNumber);
-                else
-                    LocationChange(null, EffectsUsed.Undefined, Location.Field, slotNumber);
-
-                player.fieldLogicList.Add(this);
-                combatLogic.currentAtk = combatLogic.atk;
-                combatLogic.maxHp = combatLogic.hp;
-                combatLogic.currentHp = combatLogic.hp;
-                player.atkIcons[locationOrderNumber].SetActive(true);
-                player.hpIcons[locationOrderNumber].SetActive(true);
-                OnFieldAtkRefresh();
-                OnFieldHpRefresh();
-                audioManager.NewAudioPrefab(audioManager.summon);
-                GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, cardController.atkIcons[locationOrderNumber].transform);
-                go.transform.position = cardController.cardSlots[locationOrderNumber].transform.position;
-                break;
-            }
+            if (!player.isEmptyCardSlot[slotNumber])
+                continue;
+            transform.position = player.cardSlots[slotNumber].transform.position;
+            player.isEmptyCardSlot[slotNumber] = false;
+            LocationChange(Location.Field, slotNumber);
+            player.fieldLogicList.Add(this);
+            combatLogic.currentAtk = combatLogic.atk;
+            combatLogic.maxHp = combatLogic.hp;
+            combatLogic.currentHp = combatLogic.hp;
+            player.atkIcons[locationOrderNumber].SetActive(true);
+            player.hpIcons[locationOrderNumber].SetActive(true);
+            OnFieldAtkRefresh();
+            OnFieldHpRefresh();
+            audioManager.NewAudioPrefab(audioManager.summon);
+            GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, cardController.atkIcons[locationOrderNumber].transform);
+            go.transform.position = cardController.cardSlots[locationOrderNumber].transform.position;
+            break;
         }
+
         combatLogic.attacksLeft = combatLogic.maxAttacks;
         gm.StateChange(GameState.Summon);
     }
@@ -78,7 +76,7 @@ public class MonsterLogic : CardLogic
             LeavingFieldSequence();
             transform.position = Vector3.zero;
             //implementing a battle log
-            LocationChange(gm.currentFocusCardLogic.focusEffect, EffectsUsed.Bounce, Location.Hand, i);
+            LocationChange(Location.Hand, i);
             transform.SetParent(cardOwner.handSlots[i].transform, false);
             //when playing with another player on same device flip face up only if you bounce on your turn...might implement more to support this
             if (cardOwner.isLocal && !cardOwner.isAI && (cardOwner == gm.turnPlayer || cardOwner.enemy.isAI || !cardOwner.enemy.isLocal))

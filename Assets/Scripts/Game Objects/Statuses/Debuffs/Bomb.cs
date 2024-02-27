@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 public class Bomb : Debuff
@@ -25,7 +26,13 @@ public class Bomb : Debuff
             return;
         Stun stun = new(applierLogic, affectedLogic, 3);
         combatant.cardStatuses.Add(stun);
-        affectedLogic.EffectLogger(EffectsUsed.Stun, 1, LogType.Debuff, null);
+        CardStatusHistoryEntry cardStatusHistoryEntry = new(stun)
+        {
+            loggedCard = affectedLogic,
+            loggedLocation = affectedLogic.currentLocation,
+            logIndex = gm.gameLogHistoryEntries.Count
+        };
+        gm.gameLogHistoryEntries.Add(cardStatusHistoryEntry);
         affectedLogic.cardController.SetStatusIcon(affectedLogic.locationOrderNumber, stun);
         gm.StateChange(GameState.Stun);
         if (fieldIconHolder != null)
