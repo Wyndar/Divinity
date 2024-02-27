@@ -26914,7 +26914,7 @@ MonoBehaviour:
   audioManager: {fileID: 1600093236}
   playerColor: {r: 0.07058824, g: 0.69803923, b: 0.8235295, a: 1}
   enemyColor: {r: 0.5803922, g: 0.0627451, b: 0.0627451, a: 1}
-  waitTime: 1
+  waitTime: 1.5
 --- !u!114 &1600093234
 MonoBehaviour:
   m_ObjectHideFlags: 0

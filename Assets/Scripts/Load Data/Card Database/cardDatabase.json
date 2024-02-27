@@ -639,7 +639,7 @@
         "CardName": "Chariot's Rampage",
         "CardText": "Deployment: Shatter a Cost-1 Enemy Fighter.",
         "CardFlavorText": "Do NOT look a gift horse in the mouth. Do not look ANY horse in the mouth... Actually, stay away from their heads... or them entirely.",
-        "Traits": [ "Animal","Tarot" ],
+        "Traits": [ "Animal", "Tarot" ],
         "Cost": 1,
         "Effects": [
             {
@@ -656,6 +656,31 @@
                 "TargetStat": [ "cost" ],
                 "TargetStatCondition": [ "==" ],
                 "TargetStatAmount": [ 1 ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-14",
+        "CardType": "monster",
+        "CardName": "Alchemy Shaman",
+        "CardText": "Deployment: Detonate all Poison on all deployed opposing Fighters",
+        "CardFlavorText": ".",
+        "Traits": [ "Medicine" ],
+        "Cost": 2,
+        "Atk": 2,
+        "Hp": 3,
+        "Effects": [
+            {
+                "EffectType": [ "Deployment" ],
+                "EffectUsed": [ "Poison Detonate" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "monster" ],
+                "EffectTargetOwner": [ "Opponent" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 99 ],
+                "AllowSelfTarget": [ false ]
             }
         ]
     }

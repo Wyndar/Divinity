@@ -184,7 +184,7 @@ public class TurnManager : MonoBehaviour
         currentCoroutine = null;
         gm.popUpPanel.SetActive(true);
         gm.turnPhaseText.text = "Deployment";
-        gm.popUpPanelText.text = "deployment";
+        gm.popUpPanelText.text = "Deployment";
         gm.phaseChangeButton.SetActive(true);
         gm.phaseChangeButtonText.text = "COMBAT";
         PhaseButtonCheck(player);

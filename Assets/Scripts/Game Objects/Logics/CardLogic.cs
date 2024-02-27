@@ -178,6 +178,20 @@ public class CardLogic : MonoBehaviour
             if ((effectUsed == EffectsUsed.Revive|| effectUsed==EffectsUsed.Deploy) && cardController.costCount < playableStats.cost)
                 continue;
 
+            //don't target no timed debuffs with detonate
+            if (effectUsed == EffectsUsed.Detonate && (combatantStats == null || (combatantStats.DebuffCheck(Debuffs.Bombed) == null &&
+                combatantStats.DebuffCheck(Debuffs.Burned) == null && combatantStats.DebuffCheck(Debuffs.Poisoned) == null)))
+                continue;
+            //don't target no bombs with bomb detonate
+            if (effectUsed == EffectsUsed.BombDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Bombed)==null))
+                continue;
+            //don't target no burns with burn detonate
+            if (effectUsed == EffectsUsed.BurnDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Burned) == null))
+                continue;
+            //don't target no poisons with poison detonate
+            if (effectUsed == EffectsUsed.PoisonDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Poisoned) == null))
+                continue;
+
             if (focusEffect.TargetStat != null)
             {
                 string checkedStat = focusEffect.TargetStat[subEffectNumber];
@@ -713,6 +727,11 @@ public class CardLogic : MonoBehaviour
         CombatantLogic combatantLogic = GetComponent<CombatantLogic>();
         MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
         CardLogic logic = gameManager.currentFocusCardLogic;
+
+        //idk why but res chain breaks so log before effect
+        //figure this out later
+        EffectLogger(effectsUsed, effectAmount, logType, effect);
+
         switch (effectsUsed)
         {
             case EffectsUsed.Rally:
@@ -859,6 +878,5 @@ public class CardLogic : MonoBehaviour
                 Debug.Log("effect not found");
                 return;
         }
-        EffectLogger(effectsUsed, effectAmount, logType, effect);
     }
 }

@@ -22,7 +22,8 @@ public enum EffectsUsed
 {
     Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor,
     Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep,
-    Stun, Provoke, Disarm, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, Barrier, BuffDispel, DebuffDispel, Silence,
+    Stun, Provoke, Disarm, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate,
+    Barrier, BuffDispel, DebuffDispel, Silence, BloodBoost,
     Undefined
 }
 
@@ -201,13 +202,14 @@ public class EnumManager : MonoBehaviour
             "Spot" => EffectsUsed.Spot,
             "Bounce" => EffectsUsed.Bounce,
             "Detonate" => EffectsUsed.Detonate,
-            "Bomb Detonate"=>EffectsUsed.BombDetonate,
+            "Bomb Detonate" => EffectsUsed.BombDetonate,
             "Burn Detonate" => EffectsUsed.BurnDetonate,
             "Poison Detonate" => EffectsUsed.PoisonDetonate,
-            "Barrier"=>EffectsUsed.Barrier,
-            "BuffDispel"=>EffectsUsed.BuffDispel,
-            "DebuffDispel"=> EffectsUsed.DebuffDispel,
-            "Silence"=>EffectsUsed.Silence,
+            "Barrier" => EffectsUsed.Barrier,
+            "Buff Dispel" => EffectsUsed.BuffDispel,
+            "Debuff Dispel" => EffectsUsed.DebuffDispel,
+            "Silence" => EffectsUsed.Silence,
+            "Blood Boost" => EffectsUsed.BloodBoost,
             _ => EffectsUsed.Undefined,
         };
         return returnEffectUsed;
