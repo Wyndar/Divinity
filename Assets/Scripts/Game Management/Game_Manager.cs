@@ -84,8 +84,10 @@ public class Game_Manager : MonoBehaviour
     {
         playerManager.deckListID.AddRange(SaveManager.LoadIDFromJson(playerManager.DeckPath));
         playerManager.heroDeckListID.AddRange(SaveManager.LoadIDFromJson(playerManager.HeroDeckPath));
-        playerManager.deckLogicList.AddRange(DeckManager.LoadDeck(playerManager.deckListID, playerManager.deckList, playerManager.deck, playerManager, false));
-        playerManager.heroDeckLogicList.AddRange(DeckManager.LoadDeck(playerManager.heroDeckListID, playerManager.heroDeckList, playerManager.shield, playerManager, true));
+        playerManager.deckLogicList.AddRange(DeckManager.LoadDeck(playerManager.deckListID, playerManager.deckList,
+            playerManager.deck, playerManager, false));
+        playerManager.heroDeckLogicList.AddRange(DeckManager.LoadDeck(playerManager.heroDeckListID,
+            playerManager.heroDeckList, playerManager.shield, playerManager, true));
     }
 
     public void LoadToolTips() => ToolTipManager.tooltipInfos.AddRange(SaveManager.LoadToolTipInfoDatabase(ToolTipsDatabasePath));
@@ -100,7 +102,7 @@ public class Game_Manager : MonoBehaviour
             player.costCount = 10;
         if (player.costCount < 0)
             player.costCount = 0;
-        gameState = GameState.Cost;
+        StateChange(GameState.Cost);
     }
 
     public IEnumerator DrawCard(int drawAmount, PlayerManager player)
@@ -134,7 +136,8 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
             AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
 
-            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            //when playing with another player on same device flip face up only if you draw on your turn...
+            //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 randomCardDraw.FlipFaceUp();
           
@@ -180,7 +183,8 @@ public class Game_Manager : MonoBehaviour
             //implementing a battle log
             logic.LocationChange(Location.Hand, i);
             logic.transform.SetParent(player.handSlots[i].transform, false);
-            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            //when playing with another player on same device flip face up only if you draw on your turn...
+            //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 logic.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
@@ -215,7 +219,8 @@ public class Game_Manager : MonoBehaviour
 
             logic.ControllerSwap(player);
             logic.transform.SetParent(player.handSlots[i].transform, false);
-            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            //when playing with another player on same device flip face up only if you draw on your turn...
+            //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 logic.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;
@@ -255,7 +260,8 @@ public class Game_Manager : MonoBehaviour
             //implementing a battle log
             randomCardDraw.LocationChange(Location.Hand, i);
             randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
-            //when playing with another player on same device flip face up only if you draw on your turn...might implement more to support this
+            //when playing with another player on same device flip face up only if you draw on your turn...
+            //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 randomCardDraw.FlipFaceUp();
             player.isEmptyHandSlot[i] = false;

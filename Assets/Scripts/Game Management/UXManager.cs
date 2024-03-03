@@ -23,8 +23,8 @@ public class UXManager : MonoBehaviour
     [SerializeField] private ScrollingStatusPanelHandler infoScrollingStatusPanelHandler;
 
     [SerializeField] private GameObject trail, effectPanel, infoPanelStatusBar, infoPanel, infoPanelStats, infoPanelEnergy,
-        rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenButton,
-        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel;
+        rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenRayBlocker,
+        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameLogButton;
 
     [SerializeField] private TMP_Text infoPanelNameText, infoPanelAtkText, infoPanelHpText, infoPanelCostText,
         infoPanelEffectText, infoPanelFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
@@ -227,6 +227,7 @@ public class UXManager : MonoBehaviour
         DisableRayBlocker();
         DisableEffectInfoPanels();
         DisableEffectPanel();
+        DisableLogScrollScreen();
         gm.EnableTurnUI();
     }
 
@@ -425,24 +426,25 @@ public class UXManager : MonoBehaviour
         return;
     }
 
-    public void EnableLogScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton)
+    public void EnableLogScrollScreen()
     {
         gameLogScrollScreen.SetActive(true);
-        cardScrollRayBlocker.SetActive(true);
-        gameLogScreenButton.SetActive(shouldShowButton);
-        scrollingLogPanelHandler.ClearScrollCardsList();
-        scrollingLogPanelHandler.RemoveContentCards();
-        scrollingCardPanelHandler.AddCardListToScrollCards(cardLogics);
-        scrollingCardPanelHandler.AddContentCards();
+        gameLogScreenRayBlocker.SetActive(true);
+        gameLogButton.SetActive(false);
+        scrollingLogPanelHandler.ClearScrollEntries();
+        scrollingLogPanelHandler.RemoveContentLogs();
+        scrollingLogPanelHandler.AddEntriesToScrollEntries(gm.gameLogHistoryEntries);
+        scrollingLogPanelHandler.AddContentLogs();
         gm.isChecking = false;
     }
 
     public void DisableLogScrollScreen()
     {
-        scrollingLogPanelHandler.ClearScrollCardsList();
-        scrollingLogPanelHandler.RemoveContentCards();
+        scrollingLogPanelHandler.ClearScrollEntries();
+        scrollingLogPanelHandler.RemoveContentLogs();
+        gameLogButton.SetActive(true);
         gameLogScrollScreen.SetActive(false);
-        cardScrollRayBlocker.SetActive(false);
+        gameLogScreenRayBlocker.SetActive(false);
     }
 
     public void EnableEffectActivationPanel()
