@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class ScrollLogEntry : MonoBehaviour
 {
+
+    public ScrollingLogPanelHandler scrollingLogPanelHandler;
     public GameLogHistoryEntry historyEntry;
 	public Game_Manager Game_Manager;
+
     public Image cardHighlightImage;
     public Image cardImage;
     public Image intermediateIconImage;
@@ -22,11 +25,10 @@ public class ScrollLogEntry : MonoBehaviour
     private Vector2 cardSize = new(2.2f,3.3f);
     private Vector2 iconSize = new(2f, 2f);
 
-    //disabled by default, only enabled for multitarget effects
-    public TMP_Dropdown targetsDropdown;
-    public void EnableDropDown() => targetsDropdown.gameObject.SetActive(true);
-    public void DisableDropDown() => targetsDropdown.gameObject.SetActive(false);
+    public Button TargetsButton;
+    public List<CardLogic> targets = new();
 
+    public void ButtonTrigger() => scrollingLogPanelHandler.ActivateTargetScroll(this);
     public void SetTargetImage(bool isCard, Sprite intermediateImage, Sprite targetImage, Sprite location)
     {
         Vector2 newSize;

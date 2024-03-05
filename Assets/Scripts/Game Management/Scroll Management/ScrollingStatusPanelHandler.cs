@@ -20,9 +20,12 @@ public class ScrollingStatusPanelHandler : MonoBehaviour
 
     public void RemoveStatusImages()
     {
-        foreach (GameObject image in statusImages)
-            Destroy(image);
         statusImages.Clear();
+        List<GameObject> allChildren = new();
+        foreach (Transform child in content)
+            allChildren.Add(child.gameObject);
+        foreach (GameObject child in allChildren)
+            Destroy(child);
     }
 
     public void AddStatusImage(CardStatus status)

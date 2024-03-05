@@ -598,6 +598,8 @@ public class Game_Manager : MonoBehaviour
             loggedLogics.Add(entry.loggedCard);
     }
 
+    public void DisableLog() => UXManager.DisableLogScrollScreen();
+
     public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton) =>
         UXManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
 

@@ -142,6 +142,8 @@ public class UXManager : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} {gameObject.tag}");
         DisableAllPopups();
+        if (scrollingLogPanelHandler.targetScrollRayBlocker.activeInHierarchy && gameObject.CompareTag("Background"))
+            return;
         if (isUsingshield)
             return;
         if (gameObject.CompareTag("Active UI panel"))
@@ -272,7 +274,8 @@ public class UXManager : MonoBehaviour
             infoPanelHpText.text = combatantLogic.hp.ToString();
             infoPanelStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
             statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
-            infoScrollingStatusPanelHandler.RemoveStatusImages();
+            if (infoScrollingStatusPanelHandler != null)
+                infoScrollingStatusPanelHandler.RemoveStatusImages();
             if (combatantLogic.cardStatuses.Count > 0)
                 foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
                     infoScrollingStatusPanelHandler.AddStatusImage(cardStatus);
@@ -435,7 +438,7 @@ public class UXManager : MonoBehaviour
         scrollingLogPanelHandler.RemoveContentLogs();
         scrollingLogPanelHandler.AddEntriesToScrollEntries(gm.gameLogHistoryEntries);
         scrollingLogPanelHandler.AddContentLogs();
-        gm.isChecking = false;
+        gm.isChecking = true;
     }
 
     public void DisableLogScrollScreen()
@@ -445,6 +448,7 @@ public class UXManager : MonoBehaviour
         gameLogButton.SetActive(true);
         gameLogScrollScreen.SetActive(false);
         gameLogScreenRayBlocker.SetActive(false);
+        gm.isChecking = false;
     }
 
     public void EnableEffectActivationPanel()

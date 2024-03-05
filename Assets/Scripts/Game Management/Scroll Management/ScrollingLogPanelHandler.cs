@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ScrollingLogPanelHandler : MonoBehaviour
 {
@@ -16,9 +15,29 @@ public class ScrollingLogPanelHandler : MonoBehaviour
 
     [SerializeField]
     private GameObject logPrefabHolder;
+    
+    public GameObject targetScrollRayBlocker;
+    
+    [SerializeField]
+    private ScrollingTargetsPanelHandler targetScroll;
 
     [SerializeField]
     private Sprite attackImage, arrowImage, effectImage, graveImage, handImage, heroDeckImage, deckImage, fieldImage, hpImage,atkImage;
+    public void ActivateTargetScroll(ScrollLogEntry scrollLogEntry)
+    {
+        targetScroll.gameObject.SetActive(true);
+        targetScroll.ClearScrollCardsList();
+        targetScroll.RemoveContentCards();
+        targetScroll.AddCardListToScrollCards(scrollLogEntry.targets);
+        targetScroll.AddContentCards();
+        targetScrollRayBlocker.SetActive(true);
+    }
+
+    public void DisableTargetScroll()
+    {
+        targetScroll.gameObject.SetActive(false);
+        targetScrollRayBlocker.SetActive(false);    
+    }
 
     public void AddEntryToScrollEntries(GameLogHistoryEntry logHistoryEntry) => gameLogHistoryEntries.Add(logHistoryEntry);
 
@@ -36,7 +55,9 @@ public class ScrollingLogPanelHandler : MonoBehaviour
             ScrollCardImage scrollCardImage = scrollLogEntry.cardHighlightImage.GetComponent<ScrollCardImage>();
             scrollLogEntry.historyEntry = logHistoryEntry;
             scrollLogEntry.Game_Manager = Game_Manager;
+            scrollLogEntry.scrollingLogPanelHandler = this;
             scrollLogEntry.cardImage.sprite = logHistoryEntry.loggedCard.image;
+            scrollLogEntry.TargetsButton.gameObject.SetActive(false);
             if (logHistoryEntry is AttackHistoryEntry attack)
             {
                 scrollLogEntry.logTypeText.text = "Attack Declaration";
@@ -57,10 +78,16 @@ public class ScrollingLogPanelHandler : MonoBehaviour
                 {
                     scrollLogEntry.SetTargetImage(true, effectImage, effect.effectTargets[0].image,
                         LocationSprite(effect.effectTargets[0].currentLocation));
-                    scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName} used effect {effect.loggedEffectUsed}" +
-                        $" on {effect.effectTargets[0].cardName}";
+                    scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName} used effect {effect.loggedEffectUsed} on {effect.effectTargets[0].cardName}";
                 }
-                //depends on targets for else
+                else
+                {
+                    scrollLogEntry.TargetsButton.gameObject.SetActive(true);
+                    scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName} used effect {effect.loggedEffectUsed} on multiple targets";
+                    scrollLogEntry.TargetsButton.GetComponentInChildren<TMP_Text>().text = effect.effectTargets.Count.ToString();
+                    targetScroll.TargetButton = scrollLogEntry.TargetsButton;
+                    scrollLogEntry.targets.AddRange(effect.effectTargets);
+                }
             }
             if (logHistoryEntry is LocationHistoryEntry location)
             {
@@ -93,7 +120,7 @@ public class ScrollingLogPanelHandler : MonoBehaviour
                     s = " gained ";
                 }
                 string z = scrollLogEntry.targetImage == hpImage ? " HP." : " ATK.";
-                scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName} {s} {stat.ChangeAmount}";
+                scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName}{s}{stat.ChangeAmount}{z}";
             }
             scrollCardImage.cardLogic = logHistoryEntry.loggedCard;
             scrollCardImage.Game_Manager = Game_Manager;
@@ -102,8 +129,12 @@ public class ScrollingLogPanelHandler : MonoBehaviour
     }
     public void RemoveContentLogs()
     {
-        foreach (GameObject go in content)
-            Destroy(go);
+        List<GameObject> allChildren = new();
+        foreach (Transform child in content)
+            allChildren.Add(child.gameObject);
+        foreach (GameObject child in allChildren)
+            Destroy(child);
+        DisableTargetScroll();
     }
 
     public Sprite LocationSprite(Location location)
