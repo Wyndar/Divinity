@@ -13120,6 +13120,7 @@ GameObject:
   - component: {fileID: 712945882}
   - component: {fileID: 712945881}
   - component: {fileID: 712945880}
+  - component: {fileID: 712945883}
   m_Layer: 5
   m_Name: Target Scroll
   m_TagString: Active UI panel
@@ -13216,6 +13217,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712945878}
   m_CullTransparentMesh: 1
+--- !u!114 &712945883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712945878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 207614a2420b23e4aaaf8b0e2ce2a565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Game_Manager: {fileID: 1600093227}
+  content: {fileID: 1067836369}
+  cardImages: []
+  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
+  scrollCards: []
+  TargetButton: {fileID: 0}
 --- !u!1 &732131470
 GameObject:
   m_ObjectHideFlags: 0
@@ -27265,7 +27284,6 @@ GameObject:
   - component: {fileID: 1600093235}
   - component: {fileID: 1600093236}
   - component: {fileID: 1600093237}
-  - component: {fileID: 1600093238}
   - component: {fileID: 1600093239}
   - component: {fileID: 1600093240}
   m_Layer: 0
@@ -27602,7 +27620,7 @@ MonoBehaviour:
   gameLogHistoryEntries: []
   logPrefabHolder: {fileID: 6071067444823553392, guid: 62a9e8fc90ffe154fb92102e25ee3dbd, type: 3}
   targetScrollRayBlocker: {fileID: 734858898}
-  targetScroll: {fileID: 1600093238}
+  targetScroll: {fileID: 712945883}
   attackImage: {fileID: 21300000, guid: e466f6f5ae186f94bb24597892fe1770, type: 3}
   arrowImage: {fileID: 21300000, guid: 2552aaa351c712940b8126159014c623, type: 3}
   effectImage: {fileID: 21300000, guid: 1e42b80107d95fc40a294378579e326e, type: 3}
@@ -27613,24 +27631,6 @@ MonoBehaviour:
   fieldImage: {fileID: 21300000, guid: e28e61e40d1f61745a83ed49c49499f5, type: 3}
   hpImage: {fileID: 21300000, guid: f6997bc11f7c1984eb3b588861df73b6, type: 3}
   atkImage: {fileID: 21300000, guid: a9d0406f945fe9e4cb1cdeb1a6b624c1, type: 3}
---- !u!114 &1600093238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1600093219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 207614a2420b23e4aaaf8b0e2ce2a565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Game_Manager: {fileID: 1600093227}
-  content: {fileID: 1067836369}
-  cardImages: []
-  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
-  scrollCards: []
-  TargetButton: {fileID: 0}
 --- !u!114 &1600093239
 MonoBehaviour:
   m_ObjectHideFlags: 0
