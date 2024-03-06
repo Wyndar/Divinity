@@ -26,7 +26,7 @@ public class Game_Manager : MonoBehaviour
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotFirstDraw, hasFinishedDrawEffect,isPlayingCard, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo;
+    public bool isNotFirstDraw, hasFinishedDrawEffect, isPlayingCard, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo, isShowingLog;
 
     public GameState gameState;
     public Phase currentPhase;
@@ -598,7 +598,7 @@ public class Game_Manager : MonoBehaviour
             loggedLogics.Add(entry.loggedCard);
     }
 
-    public void DisableLog() => UXManager.DisableLogScrollScreen();
+    public void DisableLog() => UXManager.DisableLog();
 
     public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton) =>
         UXManager.EnableCardScrollScreen(cardLogics, shouldShowButton);

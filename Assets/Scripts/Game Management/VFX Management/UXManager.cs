@@ -120,7 +120,7 @@ public class UXManager : MonoBehaviour
             //hold check to show card information
             else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f)
             {
-                if(!gm.currentFocusCardLogic.isFaceDown)
+                if (!gm.currentFocusCardLogic.isFaceDown)
                     ShowEffectInfoPanel();
             }
             else
@@ -142,8 +142,6 @@ public class UXManager : MonoBehaviour
     {
         Debug.Log($"{gameObject.name} {gameObject.tag}");
         DisableAllPopups();
-        if (scrollingLogPanelHandler.targetScrollRayBlocker.activeInHierarchy && gameObject.CompareTag("Background"))
-            return;
         if (isUsingshield)
             return;
         if (gameObject.CompareTag("Active UI panel"))
@@ -160,9 +158,21 @@ public class UXManager : MonoBehaviour
             }
             if (gm.currentFocusCardLogic != null)
                 gm.currentFocusCardLogic.RemoveFocusCardLogic();
+            if (gm.isShowingLog)
+            {
+                if (!gameLogScreenRayBlocker.activeInHierarchy)
+                    EnableLog();
+                else
+                {
+                    if (scrollingLogPanelHandler.isShowingTargets)
+                        scrollingLogPanelHandler.DisableTargetScroll();
+                    else
+                        ClearLogScrollScreen();
+                }
+            }
         }
         DisableDeckSearchButtons();
-        if (gameObject.CompareTag("deck") && gm.gameState == GameState.Open && cardScrollScreen.activeInHierarchy==false)
+        if (gameObject.CompareTag("deck") && gm.gameState == GameState.Open && cardScrollScreen.activeInHierarchy == false)
         {
             if (gameObject == gm.RedPlayerManager.deck)
                 gm.RedPlayerManager.deckSearchButton.SetActive(true);
@@ -229,7 +239,6 @@ public class UXManager : MonoBehaviour
         DisableRayBlocker();
         DisableEffectInfoPanels();
         DisableEffectPanel();
-        DisableLogScrollScreen();
         gm.EnableTurnUI();
     }
 
@@ -244,10 +253,10 @@ public class UXManager : MonoBehaviour
     }
 
     public void ShowEffectInfoPanel()
-    { 
+    {
         string cost = "";
         gm.currentFocusCardLogic.TryGetComponent(out CombatantLogic combatantLogic);
-        
+
         rayBlocker.SetActive(true);
         gm.DisableTurnUI();
         if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
@@ -315,7 +324,7 @@ public class UXManager : MonoBehaviour
     {
         CardLogic activatingCard = gm.currentFocusCardLogic;
         Effect activatingEffect = activatingCard.effects[effectCount];
-        List<CardLogic>validTargets = new(activatingCard.GetValidTargets(effectCount,0));
+        List<CardLogic> validTargets = new(activatingCard.GetValidTargets(effectCount, 0));
         for (int i = 0; i < effectPanelTexts.Length; i++)
         {
             //only show buttons if its not the current effect
@@ -323,7 +332,7 @@ public class UXManager : MonoBehaviour
             {
                 effects[i].SetActive(false);
                 activateButtons[i].SetActive(false);
-                if (i >= effectText.Count )
+                if (i >= effectText.Count)
                     switchButtons[i].SetActive(false);
                 else
                     switchButtons[i].SetActive(true);
@@ -429,26 +438,41 @@ public class UXManager : MonoBehaviour
         return;
     }
 
-    public void EnableLogScrollScreen()
+    public void EnableLog()
     {
         gameLogScrollScreen.SetActive(true);
         gameLogScreenRayBlocker.SetActive(true);
         gameLogButton.SetActive(false);
-        scrollingLogPanelHandler.ClearScrollEntries();
-        scrollingLogPanelHandler.RemoveContentLogs();
-        scrollingLogPanelHandler.AddEntriesToScrollEntries(gm.gameLogHistoryEntries);
-        scrollingLogPanelHandler.AddContentLogs();
         gm.isChecking = true;
+        gm.isShowingLog = true;
+        if (scrollingLogPanelHandler.isShowingTargets)
+            scrollingLogPanelHandler.EnableTargetScroll();
     }
 
-    public void DisableLogScrollScreen()
+    public void DisableLog()
     {
-        scrollingLogPanelHandler.ClearScrollEntries();
-        scrollingLogPanelHandler.RemoveContentLogs();
         gameLogButton.SetActive(true);
         gameLogScrollScreen.SetActive(false);
         gameLogScreenRayBlocker.SetActive(false);
         gm.isChecking = false;
+        if(scrollingLogPanelHandler.isShowingTargets)
+            scrollingLogPanelHandler.DisableTargetScroll();
+    }
+    public void LoadLogScrollScreen()
+    {
+        EnableLog();
+        scrollingLogPanelHandler.ClearScrollEntries();
+        scrollingLogPanelHandler.RemoveContentLogs();
+        scrollingLogPanelHandler.AddEntriesToScrollEntries(gm.gameLogHistoryEntries);
+        scrollingLogPanelHandler.AddContentLogs();
+    }
+
+    public void ClearLogScrollScreen()
+    {
+        scrollingLogPanelHandler.ClearScrollEntries();
+        scrollingLogPanelHandler.RemoveContentLogs();
+        DisableLog();
+        gm.isShowingLog = false;
     }
 
     public void EnableEffectActivationPanel()

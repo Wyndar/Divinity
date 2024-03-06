@@ -23,20 +23,33 @@ public class ScrollingLogPanelHandler : MonoBehaviour
 
     [SerializeField]
     private Sprite attackImage, arrowImage, effectImage, graveImage, handImage, heroDeckImage, deckImage, fieldImage, hpImage,atkImage;
+
+    public bool isShowingTargets;
     public void ActivateTargetScroll(ScrollLogEntry scrollLogEntry)
     {
-        targetScroll.gameObject.SetActive(true);
+        EnableTargetScroll();
         targetScroll.ClearScrollCardsList();
         targetScroll.RemoveContentCards();
         targetScroll.AddCardListToScrollCards(scrollLogEntry.targets);
         targetScroll.AddContentCards();
-        targetScrollRayBlocker.SetActive(true);
     }
 
+    public void EnableTargetScroll()
+    {
+        targetScroll.gameObject.SetActive(true);
+        targetScrollRayBlocker.SetActive(true);
+        isShowingTargets = true;
+    }
     public void DisableTargetScroll()
     {
         targetScroll.gameObject.SetActive(false);
         targetScrollRayBlocker.SetActive(false);    
+    }
+
+    public void DeactivateTargetScroll()
+    {
+        DisableTargetScroll();
+        isShowingTargets = false;
     }
 
     public void AddEntryToScrollEntries(GameLogHistoryEntry logHistoryEntry) => gameLogHistoryEntries.Add(logHistoryEntry);
