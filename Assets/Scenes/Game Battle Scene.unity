@@ -20181,7 +20181,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1600093225}
         m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: EnableLogScrollScreen
+        m_MethodName: LoadLogScrollScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27453,6 +27453,7 @@ MonoBehaviour:
   isChecking: 0
   isWaitingForResponse: 0
   isShowingInfo: 0
+  isShowingLog: 0
   gameState: 0
   currentPhase: 0
   gameLogHistoryEntries: []
@@ -27631,6 +27632,7 @@ MonoBehaviour:
   fieldImage: {fileID: 21300000, guid: e28e61e40d1f61745a83ed49c49499f5, type: 3}
   hpImage: {fileID: 21300000, guid: f6997bc11f7c1984eb3b588861df73b6, type: 3}
   atkImage: {fileID: 21300000, guid: a9d0406f945fe9e4cb1cdeb1a6b624c1, type: 3}
+  isShowingTargets: 0
 --- !u!114 &1600093239
 MonoBehaviour:
   m_ObjectHideFlags: 0
