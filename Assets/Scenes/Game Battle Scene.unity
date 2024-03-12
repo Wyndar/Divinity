@@ -27278,7 +27278,6 @@ GameObject:
   - component: {fileID: 1600093226}
   - component: {fileID: 1600093225}
   - component: {fileID: 1600093223}
-  - component: {fileID: 1600093222}
   - component: {fileID: 1600093232}
   - component: {fileID: 1600093233}
   - component: {fileID: 1600093235}
@@ -27286,6 +27285,7 @@ GameObject:
   - component: {fileID: 1600093237}
   - component: {fileID: 1600093239}
   - component: {fileID: 1600093240}
+  - component: {fileID: 1600093241}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -27310,23 +27310,6 @@ Transform:
   - {fileID: 432537826}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1600093222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1600093219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf204ff1864acb94ab66c1f0aaabd0b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Game_Manager: {fileID: 1600093227}
-  content: {fileID: 1963955620}
-  cardImages: []
-  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
-  scrollCards: []
 --- !u!114 &1600093223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27357,7 +27340,7 @@ MonoBehaviour:
   enumConverter: {fileID: 1600093228}
   audioManager: {fileID: 1600093236}
   toolTipManager: {fileID: 1600093235}
-  scrollingCardPanelHandler: {fileID: 1600093222}
+  scrollingCardPanelHandler: {fileID: 1600093241}
   scrollingLogPanelHandler: {fileID: 1600093237}
   infoScrollingStatusPanelHandler: {fileID: 1600093240}
   trail: {fileID: 543530145}
@@ -27647,9 +27630,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gm: {fileID: 1600093227}
   targetSprite: {fileID: 21300000, guid: 1abfa1bddf4621c47ac07c9be9255587, type: 3}
-  provokeSprite: {fileID: 21300000, guid: f4a116d4f6c11dd48827fcb0d5374742, type: 3}
+  provokeSprite: {fileID: 0}
   deathSprite: {fileID: 21300000, guid: 68b04427f40cc0b40851b29a4c27acf9, type: 3}
-  tauntSprite: {fileID: 21300000, guid: 49d740011d0cdac40be026db3eb1e7e8, type: 3}
+  tauntSprite: {fileID: 21300000, guid: f4a116d4f6c11dd48827fcb0d5374742, type: 3}
   buffSprite: {fileID: 21300000, guid: 5617b7b8e87238d4ca9a0554b2f68f87, type: 3}
   hpSprite: {fileID: 21300000, guid: f6997bc11f7c1984eb3b588861df73b6, type: 3}
   atkSprite: {fileID: 21300000, guid: a9d0406f945fe9e4cb1cdeb1a6b624c1, type: 3}
@@ -27685,6 +27668,23 @@ MonoBehaviour:
   toolTipManager: {fileID: 1600093235}
   statusImages: []
   spriteHolder: {fileID: 20190957663444677, guid: fa2b684895164f7469250e885af8503b, type: 3}
+--- !u!114 &1600093241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600093219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf204ff1864acb94ab66c1f0aaabd0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Game_Manager: {fileID: 1600093227}
+  content: {fileID: 1963955620}
+  cardImages: []
+  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
+  scrollCards: []
 --- !u!1 &1600721748
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 
 public class ScrollingLogPanelHandler : MonoBehaviour
 {
+    private const string capsPattern = "(?<=[a-z])([A-Z])";
     [SerializeField]
     private Game_Manager Game_Manager;
 
@@ -87,20 +89,24 @@ public class ScrollingLogPanelHandler : MonoBehaviour
             if (logHistoryEntry is EffectLogHistoryEntry effect)
             {
                 scrollLogEntry.logTypeText.text = "Effect Activation";
+                string w;
                 if (effect.effectTargets.Count == 1)
                 {
                     scrollLogEntry.SetTargetImage(true, effectImage, effect.effectTargets[0].image,
                         LocationSprite(effect.effectTargets[0].currentLocation));
-                    scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName} used effect {effect.loggedEffectUsed} on {effect.effectTargets[0].cardName}";
+                    w = $"on {effect.effectTargets[0].cardName}";
                 }
                 else
                 {
                     scrollLogEntry.TargetsButton.gameObject.SetActive(true);
-                    scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName} used effect {effect.loggedEffectUsed} on multiple targets";
+                    w = effect.effectTargets.Count > 0 ? "on multiple targets" : "but there were no valid targets";
                     scrollLogEntry.TargetsButton.GetComponentInChildren<TMP_Text>().text = effect.effectTargets.Count.ToString();
                     targetScroll.TargetButton = scrollLogEntry.TargetsButton;
                     scrollLogEntry.targets.AddRange(effect.effectTargets);
                 }
+                string s = effect.loggedEffectUsed.ToString();
+                string v = Regex.Replace(s, capsPattern, " $1", RegexOptions.Compiled).Trim();
+                scrollLogEntry.loggedText.text = $"{logHistoryEntry.loggedCard.cardName} used effect {v} {w}";
             }
             if (logHistoryEntry is LocationHistoryEntry location)
             {
