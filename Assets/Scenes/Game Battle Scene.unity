@@ -20109,6 +20109,7 @@ GameObject:
   - component: {fileID: 1184668514}
   - component: {fileID: 1184668513}
   - component: {fileID: 1184668512}
+  - component: {fileID: 1184668515}
   m_Layer: 5
   m_Name: Log Button
   m_TagString: Untagged
@@ -20229,6 +20230,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184668510}
   m_CullTransparentMesh: 1
+--- !u!114 &1184668515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184668510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 8
+  anchorOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1191607688
 GameObject:
   m_ObjectHideFlags: 0
@@ -27603,7 +27619,6 @@ MonoBehaviour:
   content: {fileID: 2132793636}
   gameLogHistoryEntries: []
   logPrefabHolder: {fileID: 6071067444823553392, guid: 62a9e8fc90ffe154fb92102e25ee3dbd, type: 3}
-  targetScrollRayBlocker: {fileID: 734858898}
   targetScroll: {fileID: 712945883}
   attackImage: {fileID: 21300000, guid: e466f6f5ae186f94bb24597892fe1770, type: 3}
   arrowImage: {fileID: 21300000, guid: 2552aaa351c712940b8126159014c623, type: 3}
@@ -27616,6 +27631,7 @@ MonoBehaviour:
   hpImage: {fileID: 21300000, guid: f6997bc11f7c1984eb3b588861df73b6, type: 3}
   atkImage: {fileID: 21300000, guid: a9d0406f945fe9e4cb1cdeb1a6b624c1, type: 3}
   isShowingTargets: 0
+  targetScrollRayBlocker: {fileID: 734858898}
 --- !u!114 &1600093239
 MonoBehaviour:
   m_ObjectHideFlags: 0

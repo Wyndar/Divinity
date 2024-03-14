@@ -32,7 +32,8 @@ public class CopyEffect:Effect
         {
             TargetStat = new(copyEffect.TargetStat);
             TargetStatCondition = new(copyEffect.TargetStatCondition);
-            TargetStatAmount = new(copyEffect.TargetStatAmount);
+            if (copyEffect.TargetStatAmount != null)
+                TargetStatAmount = new(copyEffect.TargetStatAmount);
         }
         if (copyEffect.TriggerType != null)
             TriggerType = new(copyEffect.TriggerType);

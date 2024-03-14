@@ -213,6 +213,18 @@ public class CardLogic : MonoBehaviour
                         continue;
                     stat = playableStats.cost;
                 }
+                if(checkedStat[..3] =="has")
+                    if (!target.cardName.Contains(checkedStat[3..]))
+                        continue;
+                if (checkedStat[..4] == "nhas")
+                    if (target.cardName.Contains(checkedStat[4..]))
+                        continue;
+                if (checkedStat[..2] == "is")
+                    if (target.cardName != checkedStat[2..])
+                        continue;
+                if (checkedStat[..3] == "not")
+                    if (target.cardName == checkedStat[3..])
+                        continue;
 
                 // don't target stats not equal requirements
                 if (condition == "==" && stat != amount)

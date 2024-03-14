@@ -19,13 +19,13 @@
     {
         "Id": "GP-02",
         "CardType": "monster",
-        "CardName": "Foot Soldier",
+        "CardName": "Phalanx Soldier",
         "CardText": "Deployment: You can Reinforce-1",
         "CardFlavorText": "If you see one, there's three more nearby.",
         "Traits": [ "Military" ],
         "Cost": 1,
         "Atk": 1,
-        "Hp": 3,
+        "Hp": 2,
         "Effects": [
             {
                 "EffectType": [ "Deployment" ],
@@ -89,12 +89,12 @@
     {
         "Id": "GP-05",
         "CardType": "monster",
-        "CardName": "Combat Medic",
+        "CardName": "Phalanx Medic",
         "CardText": "Deployed - 1: Regeneration-2 one Ally Combatant",
         "CardFlavorText": "Dropped out of med school.",
         "Traits": [ "Military", "Medicine" ],
-        "Cost": 1,
-        "Atk": 0,
+        "Cost": 2,
+        "Atk": 1,
         "Hp": 4,
         "Effects": [
             {
@@ -116,7 +116,7 @@
     {
         "Id": "GP-06",
         "CardType": "monster",
-        "CardName": "Rookie Sniper",
+        "CardName": "Phalanx Sniper",
         "CardText": "Deployed - 1: Do Damage-1 to one Enemy Combatant",
         "CardFlavorText": "Weapon heavily nerfed by popular demand during last patch update",
         "Traits": [ "Military" ],
@@ -143,13 +143,13 @@
     {
         "Id": "GP-07",
         "CardType": "monster",
-        "CardName": "Big Beat",
-        "CardText": "Deployment: Recruit a Cost-1 Fighter from your Reserve then you can Free Deploy it.",
+        "CardName": "Phalanx Captain",
+        "CardText": "Deployment: Recruit a Cost-1 Fighter from your Reserve then you can Free Deploy it if it is a 'Phalanx' Fighter.",
         "CardFlavorText": "Makes a killing through connections with average skills",
-        "Traits": [ "Music" ],
+        "Traits": [ "Military" ],
         "Cost": 3,
         "Atk": 2,
-        "Hp": 5,
+        "Hp": 4,
         "Effects": [
             {
                 "EffectType": [ "Deployment", "Deployment" ],
@@ -162,8 +162,8 @@
                 "TargetLocation": [ "Deck", "none" ],
                 "EffectTargetAmount": [ 1, 98 ],
                 "AllowSelfTarget": [ false, false ],
-                "TargetStat": [ "cost", "none" ],
-                "TargetStatCondition": [ "==", "none" ],
+                "TargetStat": [ "cost", "name" ],
+                "TargetStatCondition": [ "==", "hasPhalanx" ],
                 "TargetStatAmount": [ 1, 0 ]
             }
         ]
@@ -482,10 +482,10 @@
     {
         "Id": "GP-08",
         "CardType": "monster",
-        "CardName": "Minotaunt",
+        "CardName": "Phalanx Minotaunt",
         "CardText": "While Deployed: Taunt | While Deployed: Armor-1",
         "CardFlavorText": "Will guard your life with everything he has.",
-        "Traits": [ "Animal" ],
+        "Traits": [ "Animal", "Military" ],
         "Cost": 1,
         "Atk": 0,
         "Hp": 2,
@@ -664,9 +664,9 @@
         "CardType": "monster",
         "CardName": "Alchemy Shaman",
         "CardText": "Deployment: Detonate all Poison on all deployed opposing Fighters",
-        "CardFlavorText": ".",
+        "CardFlavorText": "Contrary to popular opinion, they do not have a toxic personality and get along with people well.",
         "Traits": [ "Medicine" ],
-        "Cost": 2,
+        "Cost": 3,
         "Atk": 2,
         "Hp": 3,
         "Effects": [
@@ -681,6 +681,94 @@
                 "TargetLocation": [ "Field" ],
                 "EffectTargetAmount": [ 99 ],
                 "AllowSelfTarget": [ false ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-15",
+        "CardType": "monster",
+        "CardName": "Phalanx Pikeman",
+        "CardText": "Chain - Reinforce: Rally-1 All 'Phalanx' Combatants",
+        "CardFlavorText": "Leads the charge of his phalanx allies.",
+        "Traits": [ "Military" ],
+        "Cost": 2,
+        "Atk": 2,
+        "Hp": 3,
+        "Effects": [
+            {
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Rally" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetPlayType": [ "combatant" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 99 ],
+                "AllowSelfTarget": [ true ],
+                "TriggerLocation": [ "Field" ],
+                "TriggerState": [ "Reinforcement" ],
+                "TriggerOwner": [ "Player" ],
+                "TargetStat": [ "name" ],
+                "TargetStatCondition": [ "hasPhalanx" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-16",
+        "CardType": "monster",
+        "CardName": "Phalanx Standard Bearer",
+        "CardText": "Chain-Deployment(Your 'Phalanx' Card): Blood Recovery-1",
+        "CardFlavorText": "A sheltered young noble provides motivation for a consecutive assault.",
+        "Traits": [ "Military" ],
+        "Cost": 1,
+        "Atk": 0,
+        "Hp": 3,
+        "Effects": [
+            {
+
+                "EffectType": [ "Chain" ],
+                "EffectUsed": [ "Blood Recovery" ],
+                "EffectAmount": [ 1 ],
+                "EffectActivationIsMandatory": [ true ],
+                "TargetingType": [ "auto" ],
+                "EffectTargetType": [ "any" ],
+                "EffectTargetOwner": [ "Player" ],
+                "TargetLocation": [ "Field" ],
+                "EffectTargetAmount": [ 1 ],
+                "AllowSelfTarget": [ false ],
+                "TriggerLocation": [ "Field" ],
+                "TriggerState": [ "Deployment" ],
+                "TriggerOwner": [ "Player" ],
+                "TargetStat": [ "name" ],
+                "TargetStatCondition": [ "hasPhalanx" ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-17",
+        "CardType": "spell",
+        "CardName": "Phalanx Strike",
+        "CardText": "Deployment: Do Damage-3 to one Combatant. You must have a 'Phalanx' Fighter deployed to play this.",
+        "CardFlavorText": "People die to this, you know?",
+        "Traits": [ "Weather" ],
+        "Cost": 2,
+        "Effects": [
+            {
+
+                "EffectType": [ "Deployment", "Deployment" ],
+                "EffectUsed": [ "Target", "Damage" ],
+                "EffectAmount": [ 1, 3 ],
+                "EffectActivationIsMandatory": [ true, true ],
+                "TargetingType": [ "auto", "manual" ],
+                "EffectTargetType": [ "monster", "none" ],
+                "EffectTargetPlayType": [ "none", "combatant" ],
+                "EffectTargetOwner": [ "Player", "Opponent" ],
+                "TargetLocation": [ "Field", "Field" ],
+                "EffectTargetAmount": [ 1, 1 ],
+                "AllowSelfTarget": [ false, false ],
+                "TargetStat": [ "name" ],
+                "TargetStatCondition": [ "hasPhalanx" ]
             }
         ]
     }
