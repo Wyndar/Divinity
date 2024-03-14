@@ -174,8 +174,9 @@ public class UXManager : MonoBehaviour
         DisableDeckSearchButtons();
         if (gameObject.CompareTag("deck") && gm.gameState == GameState.Open && cardScrollScreen.activeInHierarchy == false)
         {
-            if (gameObject == gm.RedPlayerManager.deck)
-                gm.RedPlayerManager.deckSearchButton.SetActive(true);
+            //if you need this later for whatever reason, go ahead but it should be private knowledge in a normal game
+            //if (gameObject == gm.RedPlayerManager.deck)
+            //    gm.RedPlayerManager.deckSearchButton.SetActive(true);
             if (gameObject == gm.BluePlayerManager.deck)
                 gm.BluePlayerManager.deckSearchButton.SetActive(true);
             if (gameObject == gm.RedPlayerManager.grave)
