@@ -52,6 +52,9 @@ public class PlayerManager : MonoBehaviour
 
     public void SetStat(int orderNum, Status status, int statusChangeAmount)
     {
+        //array out of bounds error catch, very important
+        if (orderNum >= statusIcons.Length)
+            return;
         GameObject stat = statusIcons[orderNum];
         if (stat.GetComponent<StatusIconMoveAndFadeAway>().inUse)
             stat = statusIcons2[orderNum];

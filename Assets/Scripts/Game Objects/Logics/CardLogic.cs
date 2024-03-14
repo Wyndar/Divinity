@@ -271,6 +271,7 @@ public class CardLogic : MonoBehaviour
         subCountNumber = subCount;
         SetFocusCardLogic();
         EffectLogger(focusEffect,subCount,targets);
+        List<CardLogic> tempTargets = new(targets);
 
         switch (effectUsed)
         {
@@ -287,11 +288,11 @@ public class CardLogic : MonoBehaviour
                 gameManager.CostChange(effectAmount, cardController, true);
                 break;
             case EffectsUsed.Recruit:
-                foreach (CardLogic target in targets)
+                foreach (CardLogic target in tempTargets)
                     StartCoroutine(gameManager.SearchCard(target, target.cardController));
                 break;
             case EffectsUsed.Recover:
-                foreach (CardLogic target in targets)
+                foreach (CardLogic target in tempTargets)
                     StartCoroutine(gameManager.RecoverCard(target, cardController));
                 break;
 
@@ -303,10 +304,9 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.BurnDetonate:
             case EffectsUsed.BombDetonate:
             case EffectsUsed.PoisonDetonate:
-                foreach (CardLogic target in targets)
+                foreach (CardLogic target in tempTargets)
                     target.EffectHandler(focusEffect, subCount);
                 break;
-
 
             //these are buffs
             case EffectsUsed.Rally:
@@ -316,7 +316,7 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Armor:
             case EffectsUsed.Camouflage:
             case EffectsUsed.Barrier:
-                foreach (CardLogic target in targets)
+                foreach (CardLogic target in tempTargets)
                     target.EffectHandler(focusEffect, subCount);
                 break;
 
@@ -333,14 +333,14 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Bomb:
             case EffectsUsed.Spot:
             case EffectsUsed.Bounce:
-                foreach (CardLogic target in targets)
+                foreach (CardLogic target in tempTargets)
                     target.EffectHandler(focusEffect, subCount);
                 break;
             case EffectsUsed.FreeRevive:
             case EffectsUsed.Revive:
             case EffectsUsed.FreeDeploy:
             case EffectsUsed.Deploy:
-                foreach (CardLogic target in targets)
+                foreach (CardLogic target in tempTargets)
                     target.GetComponent<PlayableLogic>().PlayCard(effectUsed, cardController);
                 break;
             default:
@@ -705,6 +705,7 @@ public class CardLogic : MonoBehaviour
         CardLogic logic = gameManager.currentFocusCardLogic;
         int effectAmount = effect.EffectAmount[effectIndex];
         EffectsUsed effectsUsed = effect.effectsUsed[effectIndex];
+        List<CardStatus> statuses = new();
 
         switch (effectsUsed)
         {
@@ -803,22 +804,30 @@ public class CardLogic : MonoBehaviour
                 break;
             case EffectsUsed.Detonate:
                 foreach (CardStatus status in combatantLogic.cardStatuses)
+                    statuses.Add(status);
+                foreach (CardStatus status in statuses)
                     status.DetonateActions(gameManager);
                 break;
             case EffectsUsed.BombDetonate:
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     if (status is Bomb)
-                        status.DetonateActions(gameManager);
+                        statuses.Add(status);
+                foreach (CardStatus status in statuses)
+                    status.DetonateActions(gameManager);
                 break;
             case EffectsUsed.BurnDetonate:
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     if (status is Burn)
-                        status.DetonateActions(gameManager);
+                        statuses.Add(status);
+                foreach (CardStatus status in statuses)
+                    status.DetonateActions(gameManager);
                 break;
             case EffectsUsed.PoisonDetonate:
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     if (status is Poison)
-                        status.DetonateActions(gameManager);
+                        statuses.Add(status);
+                foreach (CardStatus status in statuses)
+                    status.DetonateActions(gameManager);
                 break;
             case EffectsUsed.BuffDispel:
                 for (int i = effectAmount; i > 0;)
