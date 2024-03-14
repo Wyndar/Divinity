@@ -16,6 +16,11 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
         {
             Game_Manager.DisableEffectInfoPanels();
             cardLogic.SetFocusCardLogic();
+
+            //private knowledge gtfo
+            if (cardLogic.isFaceDown)
+                return;
+
             Game_Manager.ShowEffectInfoPanel();
             if (Game_Manager.isShowingLog)
                 Game_Manager.DisableLog();

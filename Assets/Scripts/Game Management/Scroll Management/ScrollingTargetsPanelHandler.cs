@@ -43,7 +43,7 @@ public class ScrollingTargetsPanelHandler : MonoBehaviour
             ScrollCardImage scrollCardImage = cardImage.GetComponent<ScrollCardImage>();
             scrollCardImage.cardLogic = cardLogic;
             scrollCardImage.Game_Manager = Game_Manager;
-            scrollCardImage.image.sprite = cardLogic.image;
+            scrollCardImage.image.sprite = cardLogic.isFaceDown ? cardLogic.cardBack.GetComponent<SpriteRenderer>().sprite : cardLogic.image;
             scrollCardImage.highlightImage.color = Color.clear;
         }
     }
