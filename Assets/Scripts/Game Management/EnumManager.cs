@@ -256,7 +256,7 @@ public class EnumManager : MonoBehaviour
         return returnType;
     }
 
-    public Controller OwnerStringToEnum(string player)
+    public Controller ControllerStringToEnum(string player)
     {
         Controller returnController = player switch
         {

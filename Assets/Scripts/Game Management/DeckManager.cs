@@ -169,65 +169,61 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.traits = new();
                 foreach (string trait in cards[i].Traits)
                     cardCloneCardLogic.traits.Add(enumConverter.TraitStringToEnum(trait));
-                foreach(Effect effect in cards[i].Effects)
-                {
-                    Effect newEffect = new CopyEffect(effect); cardCloneCardLogic.effects.Add(newEffect);
-                }
                 foreach (Effect effect in cardCloneCardLogic.effects)
                 {
-                    effect.effectTypes = new();
-                    effect.triggerTypes = new();
-                    effect.effectsUsed = new();
-                    effect.activationLocation = new();
-                    effect.triggerLocation = new();
-                    effect.targetLocation = new();
-                    effect.triggerState = new();
-                    effect.triggerPhase = new();
-                    effect.triggerCardLocation = new();
-                    effect.triggerCardOwner = new();
                     effect.maxActivations = effect.MaxActivations;
-                    effect.effectTargetController = new();
-                    effect.targetingTypes = new();
-                    effect.effectTargetPlayType = new();
-                    effect.effectTargetType = new();
-                    foreach (string effectUsed in effect.EffectUsed)
-                        effect.effectsUsed.Add(enumConverter.EffectUsedStringToEnum(effectUsed));
-                    if (effect.TriggerType != null)
-                        foreach (string triggerType in effect.TriggerType)
-                            effect.triggerTypes.Add(enumConverter.EffectUsedStringToEnum(triggerType));
-                    foreach (string effectType in effect.EffectType)
-                        effect.effectTypes.Add(enumConverter.EffectTypeStringToEnum(effectType));
-                    if (effect.TriggerLocation != null)
-                        foreach (string location in effect.TriggerLocation)
-                            effect.triggerLocation.Add(enumConverter.LocationStringToEnum(location));
-                    effect.activationLocation = enumConverter.LocationStringToEnum(effect.ActivationLocation);
-                    if (effect.TargetLocation != null)
-                        foreach (string location in effect.TargetLocation)
-                            effect.targetLocation.Add(enumConverter.LocationStringToEnum(location));
-                    if (effect.EffectTargetOwner != null)
-                        foreach (string owner in effect.EffectTargetOwner)
-                            effect.effectTargetController.Add(enumConverter.OwnerStringToEnum(owner));
-                    if (effect.TargetingType != null)
-                        foreach (string targetType in effect.TargetingType)
-                            effect.targetingTypes.Add(enumConverter.TargetingTypeStringToEnum(targetType));
-                    if (effect.EffectTargetType != null)
-                        foreach (string type in effect.EffectTargetType)
-                            effect.effectTargetType.Add(enumConverter.TypeStringToEnum(type));
-                    if (effect.EffectTargetPlayType != null)
-                        foreach (string playType in effect.EffectTargetPlayType)
-                            effect.effectTargetPlayType.Add(enumConverter.PlayTypeStringToEnum(playType));
-                    if (effect.TriggerState != null)
-                        foreach (string state in effect.TriggerState)
-                            effect.triggerState.Add(enumConverter.StateStringToEnum(state));
-                    if (effect.TriggerPhase != null)
-                        foreach (string phase in effect.TriggerPhase)
-                            effect.triggerPhase.Add(enumConverter.PhaseStringToEnum(phase));
-                    if (effect.TriggerOwner != null)
-                        foreach (string owner in effect.TriggerOwner)
-                            effect.triggerCardOwner.Add(enumConverter.OwnerStringToEnum(owner));
-                    if (effect.TriggerCardLocation != null)
-                        foreach (string location in effect.TriggerCardLocation)
-                            effect.triggerCardLocation.Add(enumConverter.LocationStringToEnum(location));
+                    effect.duration = effect.Duration;
+                    effect.triggerCardOwner = enumConverter.ControllerStringToEnum(effect.TriggerOwner);
+                    
+                    effect.activationLocations = new();
+                    effect.triggerLocations = new();
+                    effect.triggerStates = new();
+                    effect.triggerPhases = new();
+                    effect.triggerCardLocations = new();
+                    effect.triggerCardOwner = new();
+
+                    if (effect.TriggerEffects != null)
+                        foreach (string triggerEffect in effect.TriggerEffects)
+                            effect.triggerEffects.Add(enumConverter.EffectUsedStringToEnum(triggerEffect));
+                    if (effect.TriggerLocations != null)
+                        foreach (string location in effect.TriggerLocations)
+                            effect.triggerLocations.Add(enumConverter.LocationStringToEnum(location));
+                    if (effect.ActivationLocations != null)
+                        foreach (string location in effect.ActivationLocations)
+                            effect.activationLocations.Add(enumConverter.LocationStringToEnum(location));
+                    if (effect.TriggerStates != null)
+                        foreach (string state in effect.TriggerStates)
+                            effect.triggerStates.Add(enumConverter.StateStringToEnum(state));
+                    if (effect.TriggerPhases != null)
+                        foreach (string phase in effect.TriggerPhases)
+                            effect.triggerPhases.Add(enumConverter.PhaseStringToEnum(phase));
+                            
+                    if (effect.TriggerCardLocations != null)
+                        foreach (string location in effect.TriggerCardLocations)
+                            effect.triggerCardLocations.Add(enumConverter.LocationStringToEnum(location));
+
+                    foreach (SubEffect subEffect in effect.SubEffects)
+                    {
+                        subEffect.effectAmount = subEffect.EffectAmount;
+                        subEffect.effectTargetAmount = subEffect.EffectTargetAmount;
+                        subEffect.effectUsed = enumConverter.EffectUsedStringToEnum(subEffect.EffectUsed);
+                        subEffect.effectType = enumConverter.EffectTypeStringToEnum(subEffect.EffectType);
+                        subEffect.effectTargetController = enumConverter.ControllerStringToEnum(subEffect.EffectTargetController);
+                        subEffect.targetingType = enumConverter.TargetingTypeStringToEnum(subEffect.TargetingType);
+                        subEffect.targetLocations = new();
+                        subEffect.effectTargetPlayTypes = new();
+                        subEffect.effectTargetTypes = new();
+                        
+                        if (subEffect.TargetLocations != null)
+                            foreach (string location in subEffect.TargetLocations)
+                                subEffect.targetLocations.Add(enumConverter.LocationStringToEnum(location));
+                        if (subEffect.EffectTargetTypes != null)
+                            foreach (string type in subEffect.EffectTargetTypes)
+                                subEffect.effectTargetTypes.Add(enumConverter.TypeStringToEnum(type));
+                        if (subEffect.EffectTargetPlayTypes != null)
+                            foreach (string playType in subEffect.EffectTargetPlayTypes)
+                                subEffect.effectTargetPlayTypes.Add(enumConverter.PlayTypeStringToEnum(playType));
+                    }
                 }
 
                 //sets enums

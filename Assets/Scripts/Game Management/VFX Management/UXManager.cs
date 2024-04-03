@@ -10,8 +10,6 @@ public class UXManager : MonoBehaviour
 
     [SerializeField] private InputManager InputManager;
 
-    [SerializeField] private EnumManager enumConverter;
-
     [SerializeField] private AudioManager audioManager;
 
     [SerializeField] private ToolTipManager toolTipManager;
@@ -216,8 +214,8 @@ public class UXManager : MonoBehaviour
                         bool showButton = false;
                         if (focusCard.effects != null)
                             foreach (Effect effect in focusCard.effects)
-                                foreach (EffectTypes effectTypes in effect.effectTypes)
-                                    if (effectTypes == EffectTypes.Deployed)
+                                foreach (SubEffect subEffect in effect.SubEffects)
+                                    if (subEffect.effectType == EffectTypes.Deployed)
                                         if (effect.currentActivations < effect.maxActivations)
                                             showButton = true;
                         if (showButton)
@@ -342,13 +340,13 @@ public class UXManager : MonoBehaviour
         effects[effectCount].SetActive(true);
         effectPanelTexts[effectCount].text = effectText[effectCount];
         switchButtons[effectCount].SetActive(false);
-        if (activatingEffect.ActivationLocation == null || activatingCard.effects[effectCount].currentActivations >= activatingCard.effects[effectCount].maxActivations || validTargets.Count == 0)
+        if (activatingEffect.ActivationLocations == null || activatingCard.effects[effectCount].currentActivations >= activatingCard.effects[effectCount].maxActivations || validTargets.Count == 0)
         {
             activateButtons[effectCount].SetActive(false);
             return;
         }
         //only show activation button if it's not a chain effect and in correct activation location
-        if (activatingCard.currentLocation == enumConverter.LocationStringToEnum(activatingEffect.ActivationLocation) && activatingEffect.effectTypes[effectCount] != EffectTypes.Chain)
+        if (activatingEffect.activationLocations.Contains(activatingCard.currentLocation) && activatingEffect.SubEffects[effectCount].effectType != EffectTypes.Chain)
         {
             activateButtons[effectCount].SetActive(true);
             activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effects[effectCount].maxActivations - activatingCard.effects[effectCount].currentActivations).ToString();

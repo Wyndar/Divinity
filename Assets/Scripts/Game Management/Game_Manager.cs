@@ -519,31 +519,37 @@ public class Game_Manager : MonoBehaviour
                 continue;
             foreach (Effect effect in cardLogic.effects)
             {
-                if (!effect.EffectType.Contains("Deployed"))
-                    continue;
-                    int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
-                int effNum = cardLogic.effects.FindIndex(a => a == effect);
-                if (cardLogic.effects[effNum].currentActivations >= cardLogic.effects[effNum].maxActivations)
-                    continue;
-                if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
-                    continue;
-                player.canUseEffectLogicList.Add(cardLogic);
-                player.canUseEffectNumber.Add(effNum);
-                player.canUseEffectSubNumber.Add(subNum);
+                foreach (SubEffect subEffect in effect.SubEffects)
+                {
+                    if (!subEffect.EffectType.Contains("Deployed"))
+                        continue;
 
+                    int subNum = effect.SubEffects.FindIndex(a => a == subEffect);
+                    int effNum = cardLogic.effects.FindIndex(a => a == effect);
+                    if (cardLogic.effects[effNum].currentActivations >= cardLogic.effects[effNum].maxActivations)
+                        continue;
+                    if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
+                        continue;
+                    player.canUseEffectLogicList.Add(cardLogic);
+                    player.canUseEffectNumber.Add(effNum);
+                    player.canUseEffectSubNumber.Add(subNum);
+                }
             }
         }
         foreach (Effect effect in player.heroCardLogic.effects)
         {
-            if (!effect.EffectType.Contains("Deployed"))
-                continue;
-            int subNum = effect.EffectType.FindIndex(a => a == "Deployed");
-            int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);
-            if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count == 0)
-                continue;
-            player.canUseEffectLogicList.Add(player.heroCardLogic);
-            player.canUseEffectNumber.Add(effNum);
-            player.canUseEffectSubNumber.Add(subNum);
+            foreach (SubEffect subEffect in effect.SubEffects)
+            {
+                if (!subEffect.EffectType.Contains("Deployed"))
+                    continue;
+                int subNum = effect.SubEffects.FindIndex(a => a == subEffect);
+                int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);
+                if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count == 0)
+                    continue;
+                player.canUseEffectLogicList.Add(player.heroCardLogic);
+                player.canUseEffectNumber.Add(effNum);
+                player.canUseEffectSubNumber.Add(subNum);
+            }
         }
     }
 

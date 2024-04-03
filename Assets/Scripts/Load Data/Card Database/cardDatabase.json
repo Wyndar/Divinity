@@ -9,10 +9,14 @@
         "Cost": 2,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Reinforce" ],
-                "EffectAmount": [ 2 ],
-                "EffectActivationIsMandatory": [ true ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Reinforce",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true
+                    }
+                ]
             }
         ]
     },
@@ -28,10 +32,14 @@
         "Hp": 2,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Reinforce" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ false ]
+                 "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Reinforce",
+                        "EffectAmount": 1 ,
+                        "EffectActivationIsMandatory": false
+                    }
+                 ]
             }
         ]
     },
@@ -45,16 +53,20 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Damage" ],
-                "EffectAmount": [ 2 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ]
+                 "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Damage",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": ["monster"],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": ["Field"],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false
+                    }
+                 ]
             }
         ]
     },
@@ -70,19 +82,23 @@
         "Hp": 2,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Free Revive" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ false ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "any" ],
-                "TargetLocation": [ "Grave" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ],
-                "TargetStat": [ "cost" ],
-                "TargetStatCondition": [ "<=" ],
-                "TargetStatAmount": [ 2 ]
+                 "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Free Revive",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": false,
+                        "TargetingType": "manual" ,
+                        "EffectTargetTypes": ["monster"],
+                        "EffectTargetOwner": "any",
+                        "TargetLocations": ["Grave"],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
+                        "TargetStats": ["cost"],
+                        "TargetStatConditions": ["<="],
+                        "TargetStatAmounts": [2]
+                    }
+                 ]
             }
         ]
     },
@@ -98,18 +114,22 @@
         "Hp": 4,
         "Effects": [
             {
-                "EffectType": [ "Deployed" ],
-                "EffectUsed": [ "Regeneration" ],
-                "EffectAmount": [ 2 ],
-                "EffectActivationIsMandatory": [ false ],
-                "ActivationLocation": "Field",
-                "MaxActivations": 1,
-                "TargetingType": [ "manual" ],
-                "EffectTargetPlayType": [ "combatant" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ true ]
+                 "SubEffects":[
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Regeneration",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": false,
+                        "ActivationLocations": ["Field"],
+                        "MaxActivations": 1,
+                        "TargetingType": "manual",
+                        "EffectTargetPlayTypes": ["combatant"],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": ["Field"],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": true
+                    }
+                 ]
             }
         ]
     },
@@ -125,18 +145,22 @@
         "Hp": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployed" ],
-                "EffectUsed": [ "Damage" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ false ],
-                "ActivationLocation": "Field",
-                "MaxActivations": 1,
-                "TargetingType": [ "manual" ],
-                "EffectTargetPlayType": [ "combatant" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ]
+                 "SubEffects":[
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Damage",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": false,
+                        "ActivationLocation": "Field",
+                        "MaxActivations": 1,
+                        "TargetingType": "manual",
+                        "EffectTargetPlayTypes": ["combatant"],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": ["Field"],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false
+                    }
+                 ]
             }
         ]
     },
@@ -152,19 +176,33 @@
         "Hp": 4,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Recruit", "Free Deploy" ],
-                "EffectAmount": [ 1, 0 ],
-                "EffectActivationIsMandatory": [ true, false ],
-                "TargetingType": [ "manual", "none" ],
-                "EffectTargetType": [ "monster", "none" ],
-                "EffectTargetOwner": [ "Player", "none" ],
-                "TargetLocation": [ "Deck", "none" ],
-                "EffectTargetAmount": [ 1, 98 ],
-                "AllowSelfTarget": [ false, false ],
-                "TargetStat": [ "cost", "name" ],
-                "TargetStatCondition": [ "==", "hasPhalanx" ],
-                "TargetStatAmount": [ 1, 0 ]
+                 "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Recruit",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": ["monster"],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": ["Deck"],
+                        "EffectTargetAmount": 1 ,
+                        "AllowSelfTarget": false,
+                        "TargetStats": ["cost"],
+                        "TargetStatConditions": ["=="],
+                        "TargetStatAmounts": [1]
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Free Deploy",
+                        "EffectAmount": 0,
+                        "EffectActivationIsMandatory": false,
+                        "EffectTargetAmount": 98,
+                        "AllowSelfTarget": false,
+                        "TargetStats": ["name"],
+                        "TargetStatConditions": ["hasPhalanx"],
+                    }
+                 ]
             }
         ]
     },
@@ -179,35 +217,55 @@
         "Hp": 15,
         "Effects": [
             {
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Rally" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetPlayType": [ "combatant" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 99 ],
-                "AllowSelfTarget": [ true ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Reinforcement" ],
-                "TriggerOwner": [ "Player" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Rally",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetPlayTypes": ["combatant"],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": ["Field"],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": true,
+                    }
+                ],
+                "TriggerLocations": ["Field"],
+                "TriggerStates": ["Reinforcement"],
+                "TriggerOwner": "Player"
             },
             {
-                "EffectType": [ "Chain", "Chain" ],
-                "EffectUsed": [ "Rally", "Damage" ],
-                "EffectAmount": [ 1, 1 ],
-                "EffectActivationIsMandatory": [ true, false ],
-                "TargetingType": [ "auto", "manual" ],
-                "EffectTargetType": [ "god", "monster" ],
-                "EffectTargetOwner": [ "Player", "Opponent" ],
-                "TargetLocation": [ "Field", "Field" ],
-                "EffectTargetAmount": [ 1, 1 ],
-                "AllowSelfTarget": [ true, false ],
-                "TriggerState": [ "Deployment", "none" ],
-                "TriggerInfo": [ "Strike", "none" ],
-                "TriggerLocation": [ "Field", "none" ],
-                "TriggerOwner": [ "Any", "none" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Rally",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": ["god"],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": ["Field"],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": true,
+                    },
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Damage",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": false,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": ["monster"],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": ["Field"],
+                        "EffectTargetAmount": 1 ,
+                        "AllowSelfTarget": false,
+                    }
+                ],
+                "TriggerStates": ["Deployment"],
+                "TriggerInfo": ["Strike"],
+                "TriggerLocations": ["Field"],
+                "TriggerOwner": "Any",
             }
         ]
     },
@@ -221,20 +279,35 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Target", "Damage" ],
-                "EffectAmount": [ 1, 98 ],
-                "EffectActivationIsMandatory": [ true, true ],
-                "TargetingType": [ "auto", "manual" ],
-                "EffectTargetType": [ "god", "none" ],
-                "EffectTargetPlayType": [ "none", "combatant" ],
-                "EffectTargetOwner": [ "Player", "Opponent" ],
-                "TargetLocation": [ "Field", "Field" ],
-                "EffectTargetAmount": [ 1, 1 ],
-                "AllowSelfTarget": [ false, false ],
-                "TargetStat": [ "current atk", "none" ],
-                "TargetStatCondition": [ ">=", "none" ],
-                "TargetStatAmount": [ 0, 0 ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Target",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": ["god"],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
+                        "TargetStats": [ "current atk" ],
+                        "TargetStatConditions": [ ">=" ],
+                        "TargetStatAmounts": [ 0 ]
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed":  "Damage",
+                        "EffectAmount":  98 ,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual" ,
+                        "EffectTargetPlayTypes": [ "combatant" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount":  1,
+                        "AllowSelfTarget":  false,
+                    }
+                ]
             }
         ]
     },
@@ -248,16 +321,20 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Damage" ],
-                "EffectAmount": [ 3 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetPlayType": [ "combatant" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Damage",
+                        "EffectAmount": 3,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetPlayTypes": [ "combatant" ],
+                        "EffectTargetOwner": [ "Opponent" ],
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount":  1 ,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -271,16 +348,20 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Vigor" ],
-                "EffectAmount": [ 2 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 99 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Vigor",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -294,19 +375,35 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Intimidate", "Shatter" ],
-                "EffectAmount": [ 2, 99 ],
-                "EffectActivationIsMandatory": [ true, false ],
-                "TargetingType": [ "auto", "auto" ],
-                "EffectTargetType": [ "monster", "monster" ],
-                "EffectTargetOwner": [ "Opponent", "Opponent" ],
-                "TargetLocation": [ "Field", "Field" ],
-                "EffectTargetAmount": [ 99, 99 ],
-                "AllowSelfTarget": [ false, false ],
-                "TargetStat": [ "none", "current atk" ],
-                "TargetStatCondition": [ "none", "==" ],
-                "TargetStatAmount": [ 0, 0 ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Intimidate",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field"],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": false,
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Shatter",
+                        "EffectAmount": 99,
+                        "EffectActivationIsMandatory": false,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": ["Field" ],
+                        "EffectTargetAmount": 99 ,
+                        "AllowSelfTarget": [ false ],
+                        "TargetStats": [ "current atk" ],
+                        "TargetStatConditions": [ "==" ],
+                        "TargetStatAmounts": [ 0 ]
+                    }
+                ]
             }
         ]
     },
@@ -320,16 +417,20 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Regeneration" ],
-                "EffectAmount": [ 4 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetPlayType": [ "combatant" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Regeneration",
+                        "EffectAmount": 4,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetPlayTypes": [ "combatant" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -344,22 +445,30 @@
         "Hp": 25,
         "Effects": [
             {
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Blood Recovery" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Death" ],
-                "TriggerOwner": [ "Player" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Blood Recovery",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TriggerLocations": [ "Field" ],
+                        "TriggerStates": [ "Death" ],
+                        "TriggerOwner": "Player"
+                    }
+                ]
             },
             {
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Reinforce" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ false ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Revive" ],
-                "TriggerOwner": [ "Any" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Reinforce",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": false,
+                        "TriggerLocations": [ "Field" ],
+                        "TriggerStates": [ "Revive" ],
+                        "TriggerOwner": "Any"
+                    }
+                ]
             }
         ]
     },
@@ -373,16 +482,32 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Shatter", "Free Revive" ],
-                "EffectAmount": [ 99, 99 ],
-                "EffectActivationIsMandatory": [ true, false ],
-                "TargetingType": [ "auto", "manual" ],
-                "EffectTargetType": [ "monster", "monster" ],
-                "EffectTargetOwner": [ "any", "any" ],
-                "TargetLocation": [ "Field", "Grave" ],
-                "EffectTargetAmount": [ 99, 5 ],
-                "AllowSelfTarget": [ false, false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Shatter",
+                        "EffectAmount": 99,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "any",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": false,
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Free Revive",
+                        "EffectAmount": 99,
+                        "EffectActivationIsMandatory": false,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "any",
+                        "TargetLocations": [ "Grave" ],
+                        "EffectTargetAmount": 5,
+                        "AllowSelfTarget": [ false ]
+                    }
+                ]
             }
         ]
     },
@@ -396,16 +521,32 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Intimidate", "Weaken" ],
-                "EffectAmount": [ 3, 5 ],
-                "EffectActivationIsMandatory": [ true, true ],
-                "TargetingType": [ "auto", "random" ],
-                "EffectTargetType": [ "monster", "monster" ],
-                "EffectTargetOwner": [ "Opponent", "Opponent" ],
-                "TargetLocation": [ "Field", "Field" ],
-                "EffectTargetAmount": [ 99, 1 ],
-                "AllowSelfTarget": [ false, false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Intimidate",
+                        "EffectAmount": 3,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster"],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": false
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Weaken",
+                        "EffectAmount": 5,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "random",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false 
+                    }
+                ]
             }
         ]
     },
@@ -419,17 +560,32 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Target", "Regeneration" ],
-                "EffectAmount": [ 1, 98 ],
-                "EffectActivationIsMandatory": [ true, true ],
-                "TargetingType": [ "auto", "manual" ],
-                "EffectTargetPlayType": [ "playable", "combatant" ],
-                "EffectTargetOwner": [ "any", "Player" ],
-                "TargetLocation": [ "Grave", "Field" ],
-                "EffectTargetAmount": [ 99, 1 ],
-                "AllowSelfTarget": [ false, false ],
-                "TargetCountModifier": [ 0.25, 0 ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Target",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetOwner": "any",
+                        "TargetLocations": [ "Grave" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": false,
+                        "TargetCountModifiers": [ 0.25 ]
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Regeneration",
+                        "EffectAmount": 98,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetPlayTypes": [ "combatant" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -443,16 +599,20 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Revive" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "any" ],
-                "TargetLocation": [ "Grave" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Revive",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "any",
+                        "TargetLocations": [ "Grave" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -466,16 +626,20 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Recover" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "any" ],
-                "TargetLocation": [ "Grave" ],
-                "EffectTargetAmount": [ 2 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Recover",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "any",
+                        "TargetLocations": [ "Grave" ],
+                        "EffectTargetAmount": 2,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -491,28 +655,36 @@
         "Hp": 2,
         "Effects": [
             {
-                "EffectType": [ "While Deployed" ],
-                "EffectUsed": [ "Taunt" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ true ]
+                "SubEffects":[
+                    {
+                        "EffectType": "While Deployed",
+                        "EffectUsed": "Taunt",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": true
+                    }
+                ]
             },
             {
-                "EffectType": [ "While Deployed" ],
-                "EffectUsed": [ "Armor" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ true ]
+                "SubEffects":[
+                    {
+                        "EffectType": "While Deployed",
+                        "EffectUsed": "Armor",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": true
+                    }
+                ]
             }
         ]
     },
@@ -528,16 +700,20 @@
         "Hp": 1,
         "Effects": [
             {
-                "EffectType": [ "While Deployed" ],
-                "EffectUsed": [ "Stealth" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ true ]
+                "SubEffects":[
+                    {
+                        "EffectType": "While Deployed",
+                        "EffectUsed": "Stealth",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": true
+                    }
+                ]
             }
         ]
     },
@@ -553,34 +729,42 @@
         "Hp": 2,
         "Effects": [
             {
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Bomb" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ],
-                "TriggerState": [ "Summon" ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerOwner": [ "Opponent" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Bomb",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
+                        "TriggerStates": [ "Summon" ],
+                        "TriggerLocations": [ "Field" ],
+                        "TriggerOwner": "Opponent"
+                    }
+                ]
             },
             {
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Bounce" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ],
-                "TriggerState": [ "Detonate" ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerOwner": [ "Any" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Bounce",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
+                        "TriggerStates": [ "Detonate" ],
+                        "TriggerLocations": [ "Field" ],
+                        "TriggerOwner": "Any"
+                    }
+                ]
             }
         ]
     },
@@ -596,17 +780,21 @@
         "Hp": 4,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Poison" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "Duration": 6,
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 99 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Poison",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "Duration": 6,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -620,16 +808,20 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Barrier" ],
-                "EffectAmount": [ 2 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Barrier",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -643,19 +835,23 @@
         "Cost": 1,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Shatter" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "manual" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ],
-                "TargetStat": [ "cost" ],
-                "TargetStatCondition": [ "==" ],
-                "TargetStatAmount": [ 1 ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Shatter",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
+                        "TargetStats": [ "cost" ],
+                        "TargetStatConditions": [ "==" ],
+                        "TargetStatAmounts": [ 1 ]
+                    }
+                ]
             }
         ]
     },
@@ -671,16 +867,20 @@
         "Hp": 3,
         "Effects": [
             {
-                "EffectType": [ "Deployment" ],
-                "EffectUsed": [ "Poison Detonate" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "monster" ],
-                "EffectTargetOwner": [ "Opponent" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 99 ],
-                "AllowSelfTarget": [ false ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Poison Detonate",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     },
@@ -696,21 +896,25 @@
         "Hp": 3,
         "Effects": [
             {
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Rally" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetPlayType": [ "combatant" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 99 ],
-                "AllowSelfTarget": [ true ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Reinforcement" ],
-                "TriggerOwner": [ "Player" ],
-                "TargetStat": [ "name" ],
-                "TargetStatCondition": [ "hasPhalanx" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Rally",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetPlayTypes": [ "combatant" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": true,
+                        "TriggerLocations": [ "Field" ],
+                        "TriggerStates": [ "Reinforcement" ],
+                        "TriggerOwner": "Player",
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "hasPhalanx" ]
+                    }
+                ]
             }
         ]
     },
@@ -726,22 +930,25 @@
         "Hp": 3,
         "Effects": [
             {
-
-                "EffectType": [ "Chain" ],
-                "EffectUsed": [ "Blood Recovery" ],
-                "EffectAmount": [ 1 ],
-                "EffectActivationIsMandatory": [ true ],
-                "TargetingType": [ "auto" ],
-                "EffectTargetType": [ "any" ],
-                "EffectTargetOwner": [ "Player" ],
-                "TargetLocation": [ "Field" ],
-                "EffectTargetAmount": [ 1 ],
-                "AllowSelfTarget": [ false ],
-                "TriggerLocation": [ "Field" ],
-                "TriggerState": [ "Deployment" ],
-                "TriggerOwner": [ "Player" ],
-                "TargetStat": [ "name" ],
-                "TargetStatCondition": [ "hasPhalanx" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Blood Recovery",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "any" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
+                        "TriggerLocations": [ "Field" ],
+                        "TriggerStates": [ "Deployment" ],
+                        "TriggerOwner": "Player",
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "hasPhalanx" ]
+                    }
+                ]
             }
         ]
     },
@@ -755,20 +962,34 @@
         "Cost": 2,
         "Effects": [
             {
-
-                "EffectType": [ "Deployment", "Deployment" ],
-                "EffectUsed": [ "Target", "Damage" ],
-                "EffectAmount": [ 1, 3 ],
-                "EffectActivationIsMandatory": [ true, true ],
-                "TargetingType": [ "auto", "manual" ],
-                "EffectTargetType": [ "monster", "none" ],
-                "EffectTargetPlayType": [ "none", "combatant" ],
-                "EffectTargetOwner": [ "Player", "Opponent" ],
-                "TargetLocation": [ "Field", "Field" ],
-                "EffectTargetAmount": [ 1, 1 ],
-                "AllowSelfTarget": [ false, false ],
-                "TargetStat": [ "name" ],
-                "TargetStatCondition": [ "hasPhalanx" ]
+                "SubEffects":[
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Target",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "auto",
+                        "EffectTargetTypes": [ "monster" ],
+                        "EffectTargetOwner": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "hasPhalanx" ]
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Damage",
+                        "EffectAmount": 3,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetPlayTypes": [ "combatant" ],
+                        "EffectTargetOwner": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false
+                    }
+                ]
             }
         ]
     }
