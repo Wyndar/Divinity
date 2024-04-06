@@ -36,8 +36,7 @@
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Reinforce",
-                        "EffectAmount": 1 ,
-                        "EffectActivationIsMandatory": false
+                        "EffectAmount": 1 
                     }
                  ]
             }
@@ -63,8 +62,7 @@
                         "EffectTargetTypes": ["monster"],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": ["Field"],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 1
                     }
                  ]
             }
@@ -87,13 +85,11 @@
                         "EffectType": "Deployment",
                         "EffectUsed": "Free Revive",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": false,
                         "TargetingType": "manual" ,
                         "EffectTargetTypes": ["monster"],
                         "EffectTargetOwner": "any",
                         "TargetLocations": ["Grave"],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TargetStats": ["cost"],
                         "TargetStatConditions": ["<="],
                         "TargetStatAmounts": [2]
@@ -107,10 +103,10 @@
         "CardType": "monster",
         "CardName": "Phalanx Medic",
         "CardText": "Deployed - 1: Regeneration-2 one Ally Combatant",
-        "CardFlavorText": "Dropped out of med school.",
+        "CardFlavorText": "Dropped out of med school but the phalanx welcomes all who wish to try.",
         "Traits": [ "Military", "Medicine" ],
         "Cost": 2,
-        "Atk": 1,
+        "Atk": 0,
         "Hp": 4,
         "Effects": [
             {
@@ -119,7 +115,6 @@
                         "EffectType": "Deployed",
                         "EffectUsed": "Regeneration",
                         "EffectAmount": 2,
-                        "EffectActivationIsMandatory": false,
                         "ActivationLocations": ["Field"],
                         "MaxActivations": 1,
                         "TargetingType": "manual",
@@ -150,15 +145,13 @@
                         "EffectType": "Deployed",
                         "EffectUsed": "Damage",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": false,
                         "ActivationLocation": "Field",
                         "MaxActivations": 1,
                         "TargetingType": "manual",
                         "EffectTargetPlayTypes": ["combatant"],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": ["Field"],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 1
                     }
                  ]
             }
@@ -187,7 +180,6 @@
                         "EffectTargetOwner": "Player",
                         "TargetLocations": ["Deck"],
                         "EffectTargetAmount": 1 ,
-                        "AllowSelfTarget": false,
                         "TargetStats": ["cost"],
                         "TargetStatConditions": ["=="],
                         "TargetStatAmounts": [1]
@@ -196,11 +188,9 @@
                         "EffectType": "Deployment",
                         "EffectUsed": "Free Deploy",
                         "EffectAmount": 0,
-                        "EffectActivationIsMandatory": false,
                         "EffectTargetAmount": 98,
-                        "AllowSelfTarget": false,
                         "TargetStats": ["name"],
-                        "TargetStatConditions": ["hasPhalanx"],
+                        "TargetStatConditions": ["hasPhalanx"]
                     }
                  ]
             }
@@ -228,7 +218,7 @@
                         "EffectTargetOwner": "Player",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 99,
-                        "AllowSelfTarget": true,
+                        "AllowSelfTarget": true
                     }
                 ],
                 "TriggerLocations": ["Field"],
@@ -247,25 +237,23 @@
                         "EffectTargetOwner": "Player",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": true,
+                        "AllowSelfTarget": true
                     },
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Damage",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": false,
                         "TargetingType": "manual",
                         "EffectTargetTypes": ["monster"],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": ["Field"],
-                        "EffectTargetAmount": 1 ,
-                        "AllowSelfTarget": false,
+                        "EffectTargetAmount": 1 
                     }
                 ],
                 "TriggerStates": ["Deployment"],
                 "TriggerInfo": ["Strike"],
                 "TriggerLocations": ["Field"],
-                "TriggerOwner": "Any",
+                "TriggerOwner": "Any"
             }
         ]
     },
@@ -290,7 +278,6 @@
                         "EffectTargetOwner": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TargetStats": [ "current atk" ],
                         "TargetStatConditions": [ ">=" ],
                         "TargetStatAmounts": [ 0 ]
@@ -304,8 +291,7 @@
                         "EffectTargetPlayTypes": [ "combatant" ],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount":  1,
-                        "AllowSelfTarget":  false,
+                        "EffectTargetAmount":  1
                     }
                 ]
             }
@@ -331,8 +317,7 @@
                         "EffectTargetPlayTypes": [ "combatant" ],
                         "EffectTargetOwner": [ "Opponent" ],
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount":  1 ,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount":  1
                     }
                 ]
             }
@@ -358,8 +343,7 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "Player",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 99,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 99
                     }
                 ]
             }
@@ -385,20 +369,17 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field"],
-                        "EffectTargetAmount": 99,
-                        "AllowSelfTarget": false,
+                        "EffectTargetAmount": 99
                     },
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Shatter",
                         "EffectAmount": 99,
-                        "EffectActivationIsMandatory": false,
                         "TargetingType": "auto",
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": ["Field" ],
                         "EffectTargetAmount": 99 ,
-                        "AllowSelfTarget": [ false ],
                         "TargetStats": [ "current atk" ],
                         "TargetStatConditions": [ "==" ],
                         "TargetStatAmounts": [ 0 ]
@@ -427,8 +408,7 @@
                         "EffectTargetPlayTypes": [ "combatant" ],
                         "EffectTargetOwner": "Player",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 1
                     }
                 ]
             }
@@ -463,7 +443,6 @@
                         "EffectType": "Chain",
                         "EffectUsed": "Reinforce",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": false,
                         "TriggerLocations": [ "Field" ],
                         "TriggerStates": [ "Revive" ],
                         "TriggerOwner": "Any"
@@ -492,20 +471,17 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "any",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 99,
-                        "AllowSelfTarget": false,
+                        "EffectTargetAmount": 99
                     },
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Free Revive",
                         "EffectAmount": 99,
-                        "EffectActivationIsMandatory": false,
                         "TargetingType": "manual",
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "any",
                         "TargetLocations": [ "Grave" ],
-                        "EffectTargetAmount": 5,
-                        "AllowSelfTarget": [ false ]
+                        "EffectTargetAmount": 5
                     }
                 ]
             }
@@ -531,8 +507,7 @@
                         "EffectTargetTypes": [ "monster"],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 99,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 99
                     },
                     {
                         "EffectType": "Deployment",
@@ -543,8 +518,7 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false 
+                        "EffectTargetAmount": 1 
                     }
                 ]
             }
@@ -570,7 +544,6 @@
                         "EffectTargetOwner": "any",
                         "TargetLocations": [ "Grave" ],
                         "EffectTargetAmount": 99,
-                        "AllowSelfTarget": false,
                         "TargetCountModifiers": [ 0.25 ]
                     },
                     {
@@ -582,8 +555,7 @@
                         "EffectTargetPlayTypes": [ "combatant" ],
                         "EffectTargetOwner": "Player",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 1
                     }
                 ]
             }
@@ -609,8 +581,7 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "any",
                         "TargetLocations": [ "Grave" ],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 1
                     }
                 ]
             }
@@ -636,8 +607,7 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "any",
                         "TargetLocations": [ "Grave" ],
-                        "EffectTargetAmount": 2,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 2
                     }
                 ]
             }
@@ -740,7 +710,6 @@
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TriggerStates": [ "Summon" ],
                         "TriggerLocations": [ "Field" ],
                         "TriggerOwner": "Opponent"
@@ -759,7 +728,6 @@
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TriggerStates": [ "Detonate" ],
                         "TriggerLocations": [ "Field" ],
                         "TriggerOwner": "Any"
@@ -791,8 +759,7 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 99,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 99
                     }
                 ]
             }
@@ -818,8 +785,7 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "Player",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 1
                     }
                 ]
             }
@@ -846,7 +812,6 @@
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TargetStats": [ "cost" ],
                         "TargetStatConditions": [ "==" ],
                         "TargetStatAmounts": [ 1 ]
@@ -877,8 +842,7 @@
                         "EffectTargetTypes": [ "monster" ],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 99,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 99
                     }
                 ]
             }
@@ -941,7 +905,6 @@
                         "EffectTargetOwner": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TriggerLocations": [ "Field" ],
                         "TriggerStates": [ "Deployment" ],
                         "TriggerOwner": "Player",
@@ -973,7 +936,6 @@
                         "EffectTargetOwner": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TargetStats": [ "name" ],
                         "TargetStatConditions": [ "hasPhalanx" ]
                     },
@@ -986,8 +948,7 @@
                         "EffectTargetPlayTypes": [ "combatant" ],
                         "EffectTargetOwner": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false
+                        "EffectTargetAmount": 1
                     }
                 ]
             }

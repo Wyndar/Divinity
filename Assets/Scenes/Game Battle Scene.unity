@@ -27353,7 +27353,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gm: {fileID: 1600093227}
   InputManager: {fileID: 1600093226}
-  enumConverter: {fileID: 1600093228}
   audioManager: {fileID: 1600093236}
   toolTipManager: {fileID: 1600093235}
   scrollingCardPanelHandler: {fileID: 1600093241}

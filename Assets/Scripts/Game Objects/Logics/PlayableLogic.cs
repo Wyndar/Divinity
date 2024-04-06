@@ -125,19 +125,16 @@ public class PlayableLogic : MonoBehaviour
         }
         if (logic.cardType == "spell")
         {
-            for (int i = 0; i < logic.effects.Count; i++)
+            foreach (Effect effect in logic.effects)
             {
-                
-                for (int j = 0; j < logic.effects[i].EffectUsed.Count; j++)
+                foreach (SubEffect subEffect in effect.SubEffects)
                 {
-                    Effect activatingEffect = logic.effects[i];
-                        if (activatingEffect.EffectType[j] != "Deployment" || activatingEffect.EffectActivationIsMandatory[j] == false)
+                    if (subEffect.effectType != EffectTypes.Deployment || subEffect.EffectActivationIsMandatory == false)
                         continue;
-                    if (activatingEffect.EffectTargetAmount == null)
+                    if (subEffect.effectTargetAmount == 0)
                         continue;
-                    if (activatingEffect.EffectTargetAmount[j] == 0)
-                        continue;
-                    List<CardLogic> allTargetsList = logic.GetValidTargets(i, j);
+                    List<CardLogic> allTargetsList = logic.GetValidTargets(logic.effects.FindIndex(a=>a==effect), 
+                        effect.SubEffects.FindIndex(a=>a==subEffect));
                     if (allTargetsList.Count == 0)
                         return "No valid targets";
                 }
@@ -153,32 +150,30 @@ public class PlayableLogic : MonoBehaviour
             GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
         logic.SetFocusCardLogic();
-        for (int i = 0; i < logic.effects.Count; i++)
+        foreach (Effect effect in logic.effects)
         {
+            foreach (SubEffect subEffect in effect.SubEffects)
             //deployment effects should resolve after chain stack
-            if (logic.effects[i].EffectType.Contains("Deployment"))
+            if (subEffect.effectType == EffectTypes.Deployment)
             {
-                int j = logic.effects[i].EffectType.FindIndex(a => a == "Deployment");
                 gm.activationChainList.Add(logic);
-                gm.activationChainNumber.Add(i);
-                gm.activationChainSubNumber.Add(j);
+                gm.activationChainNumber.Add(logic.effects.FindIndex(a=>a==effect));
+                    gm.activationChainSubNumber.Add(effect.SubEffects.FindIndex(a => a == subEffect));
                 break;
                 //only need to catch one, rest resolves via subsequent effect chain if any
             }
-        }
-        for (int i = 0; i < logic.effects.Count; i++)
-        { 
-            //passives should resolve as soon as possible, before chain stack if necessary...
-            //unfortunately this causes them to resolve in reverse the order written on the card
-            // in case of issues later, can reverse the loop
-            if (logic.effects[i].EffectType.Contains("While Deployed"))
-            {
-                int j = logic.effects[i].EffectType.FindIndex(a => a == "While Deployed");
-                gm.activationChainList.Insert(0,logic);
-                gm.activationChainNumber.Insert(0, i);
-                gm.activationChainSubNumber.Insert(0, j);
-                continue;
-            }
+            foreach (SubEffect subEffect in effect.SubEffects)
+                //passives should resolve as soon as possible, before chain stack if necessary...
+                //unfortunately this causes them to resolve in reverse the order written on the card
+                // in case of issues later, can reverse the loop
+                if (subEffect.effectType == EffectTypes.WhileDeployed)
+                {
+                    gm.activationChainList.Add(logic);
+                    gm.activationChainNumber.Add(logic.effects.FindIndex(a => a == effect));
+                    gm.activationChainSubNumber.Add(effect.SubEffects.FindIndex(a => a == subEffect));
+                    break;
+                    //only need to catch one, rest resolves via subsequent effect chain if any
+                }
         }
         gm.StateChange(GameState.Deployment);
         if (logic.cardController.isAI)

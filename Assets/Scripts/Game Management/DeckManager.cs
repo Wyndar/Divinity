@@ -167,9 +167,10 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.flavorText = cards[i].CardFlavorText;
                 cardCloneCardLogic.effects = new();
                 cardCloneCardLogic.traits = new();
+
                 foreach (string trait in cards[i].Traits)
                     cardCloneCardLogic.traits.Add(enumConverter.TraitStringToEnum(trait));
-                foreach (Effect effect in cardCloneCardLogic.effects)
+                foreach (Effect effect in cards[i].Effects)
                 {
                     effect.maxActivations = effect.MaxActivations;
                     effect.duration = effect.Duration;
@@ -224,6 +225,7 @@ public class DeckManager : MonoBehaviour
                             foreach (string playType in subEffect.EffectTargetPlayTypes)
                                 subEffect.effectTargetPlayTypes.Add(enumConverter.PlayTypeStringToEnum(playType));
                     }
+                    cardCloneCardLogic.effects.Add(effect);
                 }
 
                 //sets enums
