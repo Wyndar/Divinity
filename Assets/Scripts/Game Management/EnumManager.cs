@@ -44,7 +44,7 @@ public enum PlayType
 
 public enum Trait
 {
-    Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Undefined
+    Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Fashion, Undefined
 }
 
 public enum TargetState

@@ -16,16 +16,10 @@ public class DeckManager : MonoBehaviour
     {
         List<Card> database = new();
         database.AddRange(SaveManager.LoadCardDatabase(G_M.CardDatabasePath));
-        for (int i = 0; i < strings.Count; i++)
-        {
-            for (int j = 0; j < database.Count; j++)
-            {
-                if (strings[i] == database[j].Id)
-                {
-                    cards.Add(database[j]);
-                }
-            }
-        }
+        foreach(string cardID in strings)
+            foreach(Card card in database)
+                if (cardID == card.Id)
+                    cards.Add(card);
         return CreateDeck(cards, deckObject, playerManager, isHeroDeck);
     }
 
@@ -33,26 +27,26 @@ public class DeckManager : MonoBehaviour
     public List<CardLogic> CreateDeck(List<Card> cards, GameObject deckObject, PlayerManager playerManager, bool isHeroDeck)
     {
         List<CardLogic> returnList = new();
-        if (cards.Count >= 1)
+        if (cards.Count > 0)
         {
-            for (int i = 0; i < cards.Count; i++)
+            foreach (Card card in cards)
             {
                 GameObject cardClone;
                 CardLogic cardCloneCardLogic;
                 GodLogic cardCloneGodLogic;
 
                 //instantiates an empty incase art is missing
-                switch (cards[i].CardType)
+                switch (card.CardType)
                 {
-                    case "spell":
+                    case Type.Spell:
                         cardClone = Instantiate(emptySpellCardPrefab);
                         cardCloneCardLogic = cardClone.AddComponent<SpellLogic>();
                         break;
-                    case "monster":
+                    case Type.Fighter:
                         cardClone = Instantiate(emptyMonsterCardPrefab);
                         cardCloneCardLogic = cardClone.AddComponent<MonsterLogic>();
                         break;
-                    case "god":
+                    case Type.God:
                         cardClone = Instantiate(emptyHeroCardPrefab);
                         cardCloneCardLogic = cardClone.AddComponent<GodLogic>();
                         break;
@@ -68,9 +62,9 @@ public class DeckManager : MonoBehaviour
                 CombatantLogic cardCloneCombatantLogic;
 
                 //populates instance with data
-                cardCloneCardLogic.id = cards[i].Id;
-                cardCloneCardLogic.cardName = cards[i].CardName;
-                cardClone.name = cardCloneCardLogic.cardName +" "+ playerManager.PlayerID + i.ToString();
+                cardCloneCardLogic.id = card.Id;
+                cardCloneCardLogic.cardName = card.CardName;
+                cardClone.name = cardCloneCardLogic.cardName +" "+ playerManager.PlayerID;
                 cardCloneCardLogic.cardFace = cardClone.transform.Find("Card Front");
                 cardCloneCardLogic.cardBack = cardClone.transform.Find("Card Back");
                 cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");
@@ -79,9 +73,8 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.enumConverter = enumConverter;
                 cardCloneCardLogic.audioManager = audioManager;
 
-                //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a defaut
-
-                    cardCloneCardLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.id}", typeof(Sprite)) as Sprite;
+                //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a default
+                cardCloneCardLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.id}", typeof(Sprite)) as Sprite;
                 if(cardCloneCardLogic.image == null)
                 {
                     cardCloneCardLogic.image = Resources.Load("Sprites And Visuals/Card Images/Default", typeof(Sprite)) as Sprite;
@@ -92,56 +85,56 @@ public class DeckManager : MonoBehaviour
                 //disables unnecessary components till needed
                 cardCloneCardLogic.cardFace.gameObject.SetActive(false);
                 cardCloneCardLogic.cardOutline.gameObject.SetActive(false);
-                cardCloneCardLogic.cardType = cards[i].CardType;
+                cardCloneCardLogic.type = card.CardType;
 
                 //populates generic data based on card type
-                if (cardCloneCardLogic.cardType != "spell")
+                if (cardCloneCardLogic.type != Type.Spell)
                 {
                     cardCloneCombatantLogic = cardClone.AddComponent<CombatantLogic>();
                     cardCloneCombatantLogic.gm = G_M;
                     cardCloneCombatantLogic.logic = cardCloneCardLogic;
-                    cardCloneCombatantLogic.atk = cards[i].Atk;
-                    cardCloneCombatantLogic.hp = cards[i].Hp;
-                    cardCloneCombatantLogic.maxHp = cards[i].Hp;
-                    cardCloneCombatantLogic.currentAtk = cards[i].Atk;
-                    cardCloneCombatantLogic.currentHp = cards[i].Hp;
-                    if (cardCloneCardLogic.cardType == "monster" && cards[i].MaxAttacks == 0)
+                    cardCloneCombatantLogic.atk = card.Atk;
+                    cardCloneCombatantLogic.hp = card.Hp;
+                    cardCloneCombatantLogic.maxHp = card.Hp;
+                    cardCloneCombatantLogic.currentAtk = card.Atk;
+                    cardCloneCombatantLogic.currentHp = card.Hp;
+                    if (cardCloneCardLogic.type == Type.Fighter && card.MaxAttacks == 0)
                         cardCloneCombatantLogic.maxAttacks = 1;
                     else
-                        cardCloneCombatantLogic.maxAttacks = cards[i].MaxAttacks;
+                        cardCloneCombatantLogic.maxAttacks = card.MaxAttacks;
                 }
-                if (cardCloneCardLogic.cardType != "god")
+                if (cardCloneCardLogic.type != Type.God)
                 {
                     cardClonePlayableLogic = cardClone.AddComponent<PlayableLogic>();
                     cardClonePlayableLogic.gm = G_M;
                     cardClonePlayableLogic.logic = cardCloneCardLogic;
-                    cardClonePlayableLogic.cost = cards[i].Cost;
+                    cardClonePlayableLogic.cost = card.Cost;
                     if (isHeroDeck)
                         cardCloneCardLogic.currentLocation = Location.HeroDeck;
                     else
                         cardCloneCardLogic.currentLocation = Location.Deck;
 
-                    cardCloneCardLogic.locationOrderNumber = i;
-                    cardCloneCardLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x,deckObject.transform.position.y,deckObject.transform.position.z+0.5f), deckObject.transform.rotation);
+                    cardCloneCardLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x,
+                        deckObject.transform.position.y, deckObject.transform.position.z + 0.5f), deckObject.transform.rotation);
                     cardCloneCardLogic.isFaceDown = true;
                     cardCloneCardLogic.cardImage.gameObject.SetActive(false);
                     cardCloneCardLogic.cardBack.gameObject.SetActive(true);
                 }
              
                 //incase more card types are added eventually, switch allows easy implementation of additional logic
-                switch (cardCloneCardLogic.cardType)
+                switch (cardCloneCardLogic.type)
                 {
-                    case "spell":
+                    case Type.Spell:
                         cardClone.GetComponent<SpellLogic>().gm = G_M;
                         cardClone.GetComponent<SpellLogic>().U_I = U_I;
                         break;
-                    case "monster":
+                    case Type.Fighter:
                         cardClone.GetComponent<MonsterLogic>().gm = G_M;
                         cardClone.GetComponent<MonsterLogic>().U_I = U_I;
                         cardClone.GetComponent<MonsterLogic>().combatLogic = cardClone.GetComponent<CombatantLogic>();
                         cardClone.GetComponent<MonsterLogic>().playLogic = cardClone.GetComponent<PlayableLogic>();
                         break;
-                    case "god":
+                    case Type.God:
                         cardCloneCardLogic.currentLocation = Location.Field;
                         cardCloneCardLogic.locationOrderNumber = 99;
                         cardCloneCardLogic.transform.position = playerManager.hero.transform.position;
@@ -163,76 +156,48 @@ public class DeckManager : MonoBehaviour
                 //populates more generic data
                 cardCloneCardLogic.cardOwner = playerManager;
                 cardCloneCardLogic.cardController = playerManager;
-                cardCloneCardLogic.cardText = cards[i].CardText;
-                cardCloneCardLogic.flavorText = cards[i].CardFlavorText;
+                cardCloneCardLogic.cardText = card.CardText;
+                cardCloneCardLogic.flavorText = card.CardFlavorText;
                 cardCloneCardLogic.effects = new();
-                cardCloneCardLogic.traits = new();
-
-                foreach (string trait in cards[i].Traits)
-                    cardCloneCardLogic.traits.Add(enumConverter.TraitStringToEnum(trait));
-                foreach (Effect effect in cards[i].Effects)
+                if (card.Traits != null)
+                    cardCloneCardLogic.traits = new(card.Traits);
+                foreach (Effect effect in card.Effects)
                 {
                     effect.maxActivations = effect.MaxActivations;
                     effect.duration = effect.Duration;
-                    effect.triggerCardOwner = enumConverter.ControllerStringToEnum(effect.TriggerOwner);
-                    
-                    effect.activationLocations = new();
-                    effect.triggerLocations = new();
-                    effect.triggerStates = new();
-                    effect.triggerPhases = new();
-                    effect.triggerCardLocations = new();
-                    effect.triggerCardOwner = new();
+                    effect.triggerCardOwner = effect.TriggerController;
+                    effect.triggerCardOwner = effect.TriggerController;
 
-                    if (effect.TriggerEffects != null)
-                        foreach (string triggerEffect in effect.TriggerEffects)
-                            effect.triggerEffects.Add(enumConverter.EffectUsedStringToEnum(triggerEffect));
-                    if (effect.TriggerLocations != null)
-                        foreach (string location in effect.TriggerLocations)
-                            effect.triggerLocations.Add(enumConverter.LocationStringToEnum(location));
                     if (effect.ActivationLocations != null)
-                        foreach (string location in effect.ActivationLocations)
-                            effect.activationLocations.Add(enumConverter.LocationStringToEnum(location));
+                        effect.activationLocations = new(effect.ActivationLocations);
+                    if (effect.TriggerLocations != null)
+                        effect.triggerLocations = new(effect.TriggerLocations);
                     if (effect.TriggerStates != null)
-                        foreach (string state in effect.TriggerStates)
-                            effect.triggerStates.Add(enumConverter.StateStringToEnum(state));
+                        effect.triggerStates = new(effect.TriggerStates);
                     if (effect.TriggerPhases != null)
-                        foreach (string phase in effect.TriggerPhases)
-                            effect.triggerPhases.Add(enumConverter.PhaseStringToEnum(phase));
-                            
+                        effect.triggerPhases = new(effect.TriggerPhases);
                     if (effect.TriggerCardLocations != null)
-                        foreach (string location in effect.TriggerCardLocations)
-                            effect.triggerCardLocations.Add(enumConverter.LocationStringToEnum(location));
+                        effect.triggerCardLocations = new(effect.TriggerCardLocations);
+                    if (effect.TriggerEffects != null)
+                        effect.triggerEffects = new(effect.TriggerEffects);
 
                     foreach (SubEffect subEffect in effect.SubEffects)
                     {
                         subEffect.effectAmount = subEffect.EffectAmount;
                         subEffect.effectTargetAmount = subEffect.EffectTargetAmount;
-                        subEffect.effectUsed = enumConverter.EffectUsedStringToEnum(subEffect.EffectUsed);
-                        subEffect.effectType = enumConverter.EffectTypeStringToEnum(subEffect.EffectType);
-                        subEffect.effectTargetController = enumConverter.ControllerStringToEnum(subEffect.EffectTargetController);
-                        subEffect.targetingType = enumConverter.TargetingTypeStringToEnum(subEffect.TargetingType);
-                        subEffect.targetLocations = new();
-                        subEffect.effectTargetPlayTypes = new();
-                        subEffect.effectTargetTypes = new();
-                        
+                        subEffect.effectUsed = subEffect.EffectUsed;
+                        subEffect.effectType = subEffect.EffectType;
+                        subEffect.effectTargetController = subEffect.EffectTargetController;
+                        subEffect.targetingType = subEffect.TargetingType;
                         if (subEffect.TargetLocations != null)
-                            foreach (string location in subEffect.TargetLocations)
-                                subEffect.targetLocations.Add(enumConverter.LocationStringToEnum(location));
+                            subEffect.targetLocations = new(subEffect.TargetLocations);
                         if (subEffect.EffectTargetTypes != null)
-                            foreach (string type in subEffect.EffectTargetTypes)
-                                subEffect.effectTargetTypes.Add(enumConverter.TypeStringToEnum(type));
-                        if (subEffect.EffectTargetPlayTypes != null)
-                            foreach (string playType in subEffect.EffectTargetPlayTypes)
-                                subEffect.effectTargetPlayTypes.Add(enumConverter.PlayTypeStringToEnum(playType));
+                            subEffect.effectTargetTypes = new(subEffect.EffectTargetTypes);
                     }
                     cardCloneCardLogic.effects.Add(effect);
                 }
 
-                //sets enums
-                cardCloneCardLogic.type = enumConverter.TypeStringToEnum(cardCloneCardLogic.cardType);
-                cardCloneCardLogic.playTypes = new(enumConverter.PlayTypeStringToEnumList(cardCloneCardLogic.cardType));
-
-                if (cardCloneCardLogic.cardType != "god")
+                if (cardCloneCardLogic.type != Type.God)
                     returnList.Add(cardCloneCardLogic);
             }
         }

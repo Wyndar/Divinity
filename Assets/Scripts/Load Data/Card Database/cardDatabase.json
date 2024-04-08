@@ -2,7 +2,7 @@
     {
         "Id": "GP-01",
         "CardName": "Overflowing Ambrosia",
-        "CardType": "spell",
+        "CardType": "Spell",
         "CardText": "Deployment: Reinforce-2",
         "CardFlavorText": "It's a Kantharos. A vase. *Vase!*",
         "Traits": [ "Food" ],
@@ -22,7 +22,7 @@
     },
     {
         "Id": "GP-02",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Phalanx Soldier",
         "CardText": "Deployment: You can Reinforce-1",
         "CardFlavorText": "If you see one, there's three more nearby.",
@@ -44,7 +44,7 @@
     },
     {
         "Id": "GP-03",
-        "CardType": "spell",
+        "CardType": "Spell",
         "CardName": "Warning Strike",
         "CardText": "Deployment: Do Damage-2 to one Enemy Fighter.",
         "CardFlavorText": "People die to this, you know?",
@@ -58,9 +58,9 @@
                         "EffectUsed": "Damage",
                         "EffectAmount": 2,
                         "EffectActivationIsMandatory": true,
-                        "TargetingType": "manual",
-                        "EffectTargetTypes": ["monster"],
-                        "EffectTargetOwner": "Opponent",
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 1
                     }
@@ -70,7 +70,7 @@
     },
     {
         "Id": "GP-04",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "War Veteran Cerberus",
         "CardText": "Deployment: You can Free Revive one Cost-2 or lower Fighter from the Underworld",
         "CardFlavorText": "He lost two heads in battle.",
@@ -83,11 +83,11 @@
                  "SubEffects":[
                     {
                         "EffectType": "Deployment",
-                        "EffectUsed": "Free Revive",
+                        "EffectUsed": "FreeRevive",
                         "EffectAmount": 1,
-                        "TargetingType": "manual" ,
-                        "EffectTargetTypes": ["monster"],
-                        "EffectTargetOwner": "any",
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetController": "Any",
                         "TargetLocations": ["Grave"],
                         "EffectTargetAmount": 1,
                         "TargetStats": ["cost"],
@@ -100,7 +100,7 @@
     },
     {
         "Id": "GP-05",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Phalanx Medic",
         "CardText": "Deployed - 1: Regeneration-2 one Ally Combatant",
         "CardFlavorText": "Dropped out of med school but the phalanx welcomes all who wish to try.",
@@ -115,22 +115,22 @@
                         "EffectType": "Deployed",
                         "EffectUsed": "Regeneration",
                         "EffectAmount": 2,
-                        "ActivationLocations": ["Field"],
                         "MaxActivations": 1,
-                        "TargetingType": "manual",
-                        "EffectTargetPlayTypes": ["combatant"],
-                        "EffectTargetOwner": "Player",
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": ["Fighter","God"],
+                        "EffectTargetController": "Player",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 1,
                         "AllowSelfTarget": true
                     }
-                 ]
+                 ],
+                 "ActivationLocations": ["Field"]
             }
         ]
     },
     {
         "Id": "GP-06",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Phalanx Sniper",
         "CardText": "Deployed - 1: Do Damage-1 to one Enemy Combatant",
         "CardFlavorText": "Weapon heavily nerfed by popular demand during last patch update",
@@ -145,21 +145,21 @@
                         "EffectType": "Deployed",
                         "EffectUsed": "Damage",
                         "EffectAmount": 1,
-                        "ActivationLocation": "Field",
                         "MaxActivations": 1,
-                        "TargetingType": "manual",
-                        "EffectTargetPlayTypes": ["combatant"],
-                        "EffectTargetOwner": "Opponent",
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": ["Fighter","God"],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 1
                     }
-                 ]
+                 ],
+                 "ActivationLocation": "Field"
             }
         ]
     },
     {
         "Id": "GP-07",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Phalanx Captain",
         "CardText": "Deployment: Recruit a Cost-1 Fighter from your Reserve then you can Free Deploy it if it is a 'Phalanx' Fighter.",
         "CardFlavorText": "Makes a killing through connections with average skills",
@@ -175,9 +175,9 @@
                         "EffectUsed": "Recruit",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
-                        "TargetingType": "manual",
-                        "EffectTargetTypes": ["monster"],
-                        "EffectTargetOwner": "Player",
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetController": "Player",
                         "TargetLocations": ["Deck"],
                         "EffectTargetAmount": 1 ,
                         "TargetStats": ["cost"],
@@ -186,7 +186,7 @@
                     },
                     {
                         "EffectType": "Deployment",
-                        "EffectUsed": "Free Deploy",
+                        "EffectUsed": "FreeDeploy",
                         "EffectAmount": 0,
                         "EffectTargetAmount": 98,
                         "TargetStats": ["name"],
@@ -198,11 +198,11 @@
     },
     {
         "Id": "GP-ZE",
-        "CardType": "god",
+        "CardType": "God",
         "CardName": "Zeus",
         "CardText": "Chain - Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
-        "Traits": [ "Weather", "Head of Pantheon" ],
+        "Traits": [ "Weather", "HeadOfPantheon" ],
         "Atk": 0,
         "Hp": 15,
         "Effects": [
@@ -214,8 +214,8 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetPlayTypes": ["combatant"],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": ["Fighter","God"],
+                        "EffectTargetController": "Player",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 99,
                         "AllowSelfTarget": true
@@ -223,7 +223,7 @@
                 ],
                 "TriggerLocations": ["Field"],
                 "TriggerStates": ["Reinforcement"],
-                "TriggerOwner": "Player"
+                "TriggerController": "Player"
             },
             {
                 "SubEffects":[
@@ -233,8 +233,8 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": ["god"],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": ["God"],
+                        "EffectTargetController": "Player",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 1,
                         "AllowSelfTarget": true
@@ -244,8 +244,8 @@
                         "EffectUsed": "Damage",
                         "EffectAmount": 1,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": ["monster"],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": ["Field"],
                         "EffectTargetAmount": 1 
                     }
@@ -253,13 +253,13 @@
                 "TriggerStates": ["Deployment"],
                 "TriggerInfo": ["Strike"],
                 "TriggerLocations": ["Field"],
-                "TriggerOwner": "Any"
+                "TriggerController": "Any"
             }
         ]
     },
     {
         "Id": "GP-Z1",
-        "CardType": "spell",
+        "CardType": "Spell",
         "CardName": "Final Strike",
         "CardText": "Deployment: Do Damage-? equal to Zeus' current Attack to any Enemy Combatant.",
         "CardFlavorText": "It's over now. Everything will return to ash. There will be no survivors.",
@@ -274,8 +274,8 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": ["god"],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": ["God"],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "TargetStats": [ "current atk" ],
@@ -288,8 +288,8 @@
                         "EffectAmount":  98 ,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual" ,
-                        "EffectTargetPlayTypes": [ "combatant" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter", "God" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount":  1
                     }
@@ -314,8 +314,8 @@
                         "EffectAmount": 3,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "combatant" ],
-                        "EffectTargetOwner": [ "Opponent" ],
+                        "EffectTargetTypes": [ "Fighter","God" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount":  1
                     }
@@ -340,8 +340,8 @@
                         "EffectAmount": 2,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99
                     }
@@ -366,8 +366,8 @@
                         "EffectAmount": 2,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field"],
                         "EffectTargetAmount": 99
                     },
@@ -376,8 +376,8 @@
                         "EffectUsed": "Shatter",
                         "EffectAmount": 99,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": ["Field" ],
                         "EffectTargetAmount": 99 ,
                         "TargetStats": [ "current atk" ],
@@ -405,8 +405,8 @@
                         "EffectAmount": 4,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "combatant" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetPlayTypes": [ "Fighter","God"],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
                     }
@@ -428,14 +428,14 @@
                 "SubEffects":[
                     {
                         "EffectType": "Chain",
-                        "EffectUsed": "Blood Recovery",
+                        "EffectUsed": "BloodRecovery",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": true,
-                        "TriggerLocations": [ "Field" ],
-                        "TriggerStates": [ "Death" ],
-                        "TriggerOwner": "Player"
+                        "EffectActivationIsMandatory": true
                     }
-                ]
+                ],
+                "TriggerLocations": [ "Field" ],
+                "TriggerStates": [ "Death" ],
+                "TriggerController": "Player"
             },
             {
                 "SubEffects":[
@@ -443,11 +443,11 @@
                         "EffectType": "Chain",
                         "EffectUsed": "Reinforce",
                         "EffectAmount": 1,
-                        "TriggerLocations": [ "Field" ],
-                        "TriggerStates": [ "Revive" ],
-                        "TriggerOwner": "Any"
                     }
-                ]
+                ],
+                "TriggerLocations": [ "Field" ],
+                "TriggerStates": [ "Revive" ],
+                "TriggerController": "Any"
             }
         ]
     },
@@ -468,18 +468,18 @@
                         "EffectAmount": 99,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "any",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "any",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99
                     },
                     {
                         "EffectType": "Deployment",
-                        "EffectUsed": "Free Revive",
+                        "EffectUsed": "FreeRevive",
                         "EffectAmount": 99,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "any",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "any",
                         "TargetLocations": [ "Grave" ],
                         "EffectTargetAmount": 5
                     }
@@ -504,8 +504,8 @@
                         "EffectAmount": 3,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster"],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter"],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99
                     },
@@ -515,8 +515,8 @@
                         "EffectAmount": 5,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "random",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1 
                     }
@@ -541,7 +541,7 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetOwner": "any",
+                        "EffectTargetController": "any",
                         "TargetLocations": [ "Grave" ],
                         "EffectTargetAmount": 99,
                         "TargetCountModifiers": [ 0.25 ]
@@ -552,8 +552,8 @@
                         "EffectAmount": 98,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "combatant" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter", "God" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
                     }
@@ -578,8 +578,8 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "any",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "any",
                         "TargetLocations": [ "Grave" ],
                         "EffectTargetAmount": 1
                     }
@@ -604,8 +604,8 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "any",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "any",
                         "TargetLocations": [ "Grave" ],
                         "EffectTargetAmount": 2
                     }
@@ -615,7 +615,7 @@
     },
     {
         "Id": "GP-08",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Phalanx Minotaunt",
         "CardText": "While Deployed: Taunt | While Deployed: Armor-1",
         "CardFlavorText": "Will guard your life with everything he has.",
@@ -627,13 +627,13 @@
             {
                 "SubEffects":[
                     {
-                        "EffectType": "While Deployed",
+                        "EffectType": "WhileDeployed",
                         "EffectUsed": "Taunt",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "AllowSelfTarget": true
@@ -643,13 +643,13 @@
             {
                 "SubEffects":[
                     {
-                        "EffectType": "While Deployed",
+                        "EffectType": "WhileDeployed",
                         "EffectUsed": "Armor",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "AllowSelfTarget": true
@@ -660,7 +660,7 @@
     },
     {
         "Id": "GP-09",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Shadowless Bloom",
         "CardText": "While Deployed: Stealth",
         "CardFlavorText": "He's brave enough to go into enemy defenses alone but can't hold a conversation.",
@@ -672,13 +672,13 @@
             {
                 "SubEffects":[
                     {
-                        "EffectType": "While Deployed",
+                        "EffectType": "WhileDeployed",
                         "EffectUsed": "Stealth",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "AllowSelfTarget": true
@@ -689,7 +689,7 @@
     },
     {
         "Id": "GP-10",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Mine Drop",
         "CardText": "Chain - Summon(Enemy): Place 1 Bomb(Timer:3) on one deployed opposing Fighter | Chain - Detonate: Bounce one opposing Fighter.",
         "CardFlavorText": "Explosions and munitions fanatic",
@@ -706,15 +706,15 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "TriggerStates": [ "Summon" ],
-                        "TriggerLocations": [ "Field" ],
-                        "TriggerOwner": "Opponent"
+                        "EffectTargetAmount": 1
                     }
-                ]
+                ],
+                "TriggerStates": [ "Summon" ],
+                "TriggerLocations": [ "Field" ],
+                "TriggerController": "Opponent"
             },
             {
                 "SubEffects":[
@@ -724,21 +724,21 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "TriggerStates": [ "Detonate" ],
-                        "TriggerLocations": [ "Field" ],
-                        "TriggerOwner": "Any"
+                        "EffectTargetAmount": 1
                     }
-                ]
+                ],
+                "TriggerStates": [ "Detonate" ],
+                "TriggerLocations": [ "Field" ],
+                "TriggerController": "Any"
             }
         ]
     },
     {
         "Id": "GP-11",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Alchemy Poisoner",
         "CardText": "Deployment: Apply Poison(Timer:6) to all deployed opposing Fighters",
         "CardFlavorText": "Has a unique blend of dendrotoxins for everyone.",
@@ -756,8 +756,8 @@
                         "EffectActivationIsMandatory": true,
                         "Duration": 6,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99
                     }
@@ -782,8 +782,8 @@
                         "EffectAmount": 2,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
                     }
@@ -808,8 +808,8 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "TargetStats": [ "cost" ],
@@ -822,7 +822,7 @@
     },
     {
         "Id": "GP-14",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Alchemy Shaman",
         "CardText": "Deployment: Detonate all Poison on all deployed opposing Fighters",
         "CardFlavorText": "Contrary to popular opinion, they do not have a toxic personality and get along with people well.",
@@ -835,12 +835,12 @@
                 "SubEffects":[
                     {
                         "EffectType": "Deployment",
-                        "EffectUsed": "Poison Detonate",
+                        "EffectUsed": "PoisonDetonate",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99
                     }
@@ -850,7 +850,7 @@
     },
     {
         "Id": "GP-15",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Phalanx Pikeman",
         "CardText": "Chain - Reinforce: Rally-1 All 'Phalanx' Combatants",
         "CardFlavorText": "Leads the charge of his phalanx allies.",
@@ -867,24 +867,24 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetPlayTypes": [ "combatant" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter","God" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99,
                         "AllowSelfTarget": true,
-                        "TriggerLocations": [ "Field" ],
-                        "TriggerStates": [ "Reinforcement" ],
-                        "TriggerOwner": "Player",
                         "TargetStats": [ "name" ],
                         "TargetStatConditions": [ "hasPhalanx" ]
                     }
-                ]
+                ],
+                "TriggerLocations": [ "Field" ],
+                "TriggerStates": [ "Reinforcement" ],
+                "TriggerController": "Player",
             }
         ]
     },
     {
         "Id": "GP-16",
-        "CardType": "monster",
+        "CardType": "Fighter",
         "CardName": "Phalanx Standard Bearer",
         "CardText": "Chain-Deployment(Your 'Phalanx' Card): Blood Recovery-1",
         "CardFlavorText": "A sheltered young noble provides motivation for a consecutive assault.",
@@ -897,21 +897,21 @@
                 "SubEffects":[
                     {
                         "EffectType": "Chain",
-                        "EffectUsed": "Blood Recovery",
+                        "EffectUsed": "BloodRecovery",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "any" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter","Spell","God" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "TriggerLocations": [ "Field" ],
-                        "TriggerStates": [ "Deployment" ],
-                        "TriggerOwner": "Player",
                         "TargetStats": [ "name" ],
                         "TargetStatConditions": [ "hasPhalanx" ]
                     }
-                ]
+                ],
+                "TriggerLocations": [ "Field" ],
+                "TriggerStates": [ "Deployment" ],
+                "TriggerOwner": "Player"
             }
         ]
     },
@@ -932,8 +932,8 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "monster" ],
-                        "EffectTargetOwner": "Player",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "TargetStats": [ "name" ],
@@ -945,8 +945,8 @@
                         "EffectAmount": 3,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "combatant" ],
-                        "EffectTargetOwner": "Opponent",
+                        "EffectTargetPlayTypes": [ "Fighter","God" ],
+                        "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
                     }

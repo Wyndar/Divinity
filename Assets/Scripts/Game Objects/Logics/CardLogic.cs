@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class CardLogic : MonoBehaviour
@@ -21,7 +20,7 @@ public class CardLogic : MonoBehaviour
     public Transform cardFace, cardBack, cardImage, cardOutline;
     public Sprite image;
 
-    public string id, cardName, cardType, cardText, flavorText;
+    public string id, cardName, cardText, flavorText;
 
     public bool isFaceDown, isNormalColour;
 
@@ -153,12 +152,6 @@ public class CardLogic : MonoBehaviour
                 continue;
             if (target.cardController != cardController && controller == Controller.Player)
                 continue;
-
-            //successfully cleaned up the bloody nightmare code by splitting into two seperate types
-            if (focusSubEffect.effectTargetPlayTypes != null)
-                foreach(PlayType playType in focusSubEffect.effectTargetPlayTypes)
-                    if (!target.playTypes.Contains(playType))
-                        continue;
 
             if(focusSubEffect.effectTargetTypes!= null && !focusSubEffect.effectTargetTypes.Contains(target.type))
                 continue;
@@ -388,7 +381,7 @@ public class CardLogic : MonoBehaviour
             gameManager.ClearEffectTargetImages();
             targets?.Clear();
             validTargets?.Clear();
-            if (cardType == "spell")
+            if (type == Type.Spell)
                 gameObject.GetComponent<PlayableLogic>().MoveToGrave();
             audioManager.NewAudioPrefab(audioManager.effectResolution);
             //resolve chain after all possible effect chains are linked
@@ -609,7 +602,7 @@ public class CardLogic : MonoBehaviour
             return;
         }
         //if you need the targets from previous effect to resolve
-        if (effects[effectCountNumber].SubEffects[subCountNumber].TargetingType != null && 
+        if (effects[effectCountNumber].SubEffects[subCountNumber].TargetingType != TargetingTypes.Undefined && 
             effects[effectCountNumber].SubEffects[subCountNumber].EffectTargetAmount == 98)
             EffectResolution(effectCountNumber, subCountNumber);
         else

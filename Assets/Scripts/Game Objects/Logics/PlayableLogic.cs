@@ -114,7 +114,7 @@ public class PlayableLogic : MonoBehaviour
     {
         if (cost > player.costCount && !ignoreCost)
             return "Insufficient blood";
-        if (logic.cardType == "monster")
+        if (logic.type == Type.Fighter)
         {
             for (int i = 0; i < player.isEmptyCardSlot.Length; i++)
             {
@@ -123,7 +123,7 @@ public class PlayableLogic : MonoBehaviour
             }
             return "No fighter zones";
         }
-        if (logic.cardType == "spell")
+        if (logic.type == Type.Spell)
         {
             foreach (Effect effect in logic.effects)
             {

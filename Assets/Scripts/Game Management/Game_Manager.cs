@@ -521,7 +521,7 @@ public class Game_Manager : MonoBehaviour
             {
                 foreach (SubEffect subEffect in effect.SubEffects)
                 {
-                    if (!subEffect.EffectType.Contains("Deployed"))
+                    if (subEffect.effectType != EffectTypes.Deployed)
                         continue;
 
                     int subNum = effect.SubEffects.FindIndex(a => a == subEffect);
@@ -540,7 +540,7 @@ public class Game_Manager : MonoBehaviour
         {
             foreach (SubEffect subEffect in effect.SubEffects)
             {
-                if (!subEffect.EffectType.Contains("Deployed"))
+                if (subEffect.effectType != EffectTypes.Deployed)
                     continue;
                 int subNum = effect.SubEffects.FindIndex(a => a == subEffect);
                 int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);

@@ -209,7 +209,7 @@ public class UXManager : MonoBehaviour
                     clickedCard.SetFocusCardLogic();
                     focusCard = gm.currentFocusCardLogic;
                     focusCard.cardOutline.gameObject.SetActive(true);
-                    if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.cardType != "god")
+                    if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.type != Type.God)
                     {
                         bool showButton = false;
                         if (focusCard.effects != null)

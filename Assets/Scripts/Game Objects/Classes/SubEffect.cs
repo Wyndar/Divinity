@@ -9,22 +9,20 @@ public class SubEffect
     public Controller effectTargetController;
     public TargetingTypes targetingType;
     public List<Type> effectTargetTypes = new();
-    public List<PlayType> effectTargetPlayTypes = new();
 
     public int effectAmount;
     public int effectTargetAmount;
 
-    public string EffectType { get; set; }
-    public string EffectUsed { get; set; }
+    public EffectTypes EffectType { get; set; }
+    public EffectsUsed EffectUsed { get; set; }
     public int EffectAmount { get; set; }
     public bool EffectActivationIsMandatory { get; set; }
 
     //if needs targets
-    public string TargetingType { get; set; }
-    public List<string> EffectTargetTypes { get; set; }
-    public List<string> EffectTargetPlayTypes { get; set; }
-    public string EffectTargetController { get; set; }
-    public List<string> TargetLocations { get; set; }
+    public TargetingTypes TargetingType { get; set; }
+    public List<Type> EffectTargetTypes { get; set; }
+    public Controller EffectTargetController { get; set; }
+    public List<Location> TargetLocations { get; set; }
     public int EffectTargetAmount { get; set; }
     public bool AllowSelfTarget { get; set; }
 

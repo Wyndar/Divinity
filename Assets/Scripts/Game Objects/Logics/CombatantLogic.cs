@@ -363,9 +363,9 @@ public class CombatantLogic : MonoBehaviour
         foreach(CombatantLogic combatantLogic in validTargets)
         {
             Debug.Log(combatantLogic.logic.cardName);
-            if (combatantLogic.logic.cardType == "monster")
+            if (combatantLogic.logic.type == Type.Fighter)
                 combatantLogic.logic.cardController.attackTargets[combatantLogic.logic.locationOrderNumber].SetActive(true);
-            if (combatantLogic.logic.cardType == "god")
+            if (combatantLogic.logic.type == Type.God)
                 combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
         }
         logic.SetFocusCardLogic();
