@@ -9,7 +9,7 @@
         "Cost": 2,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Reinforce",
@@ -32,13 +32,13 @@
         "Hp": 2,
         "Effects": [
             {
-                 "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Reinforce",
-                        "EffectAmount": 1 
+                        "EffectAmount": 1
                     }
-                 ]
+                ]
             }
         ]
     },
@@ -52,19 +52,19 @@
         "Cost": 1,
         "Effects": [
             {
-                 "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Damage",
                         "EffectAmount": 2,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "Manual",
-                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Opponent",
-                        "TargetLocations": ["Field"],
+                        "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
                     }
-                 ]
+                ]
             }
         ]
     },
@@ -80,21 +80,21 @@
         "Hp": 2,
         "Effects": [
             {
-                 "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "FreeRevive",
                         "EffectAmount": 1,
                         "TargetingType": "Manual",
-                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Any",
-                        "TargetLocations": ["Grave"],
+                        "TargetLocations": [ "Grave" ],
                         "EffectTargetAmount": 1,
-                        "TargetStats": ["cost"],
-                        "TargetStatConditions": ["<="],
-                        "TargetStatAmounts": [2]
+                        "TargetStats": [ "cost" ],
+                        "TargetStatConditions": [ "<=" ],
+                        "TargetStatAmounts": [ 2 ]
                     }
-                 ]
+                ]
             }
         ]
     },
@@ -110,21 +110,21 @@
         "Hp": 4,
         "Effects": [
             {
-                 "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployed",
                         "EffectUsed": "Regeneration",
                         "EffectAmount": 2,
                         "MaxActivations": 1,
                         "TargetingType": "Manual",
-                        "EffectTargetTypes": ["Fighter","God"],
+                        "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Player",
-                        "TargetLocations": ["Field"],
+                        "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "AllowSelfTarget": true
                     }
-                 ],
-                 "ActivationLocations": ["Field"]
+                ],
+                "ActivationLocations": [ "Field" ]
             }
         ]
     },
@@ -140,20 +140,20 @@
         "Hp": 1,
         "Effects": [
             {
-                 "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployed",
                         "EffectUsed": "Damage",
                         "EffectAmount": 1,
                         "MaxActivations": 1,
                         "TargetingType": "Manual",
-                        "EffectTargetTypes": ["Fighter","God"],
+                        "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Opponent",
-                        "TargetLocations": ["Field"],
+                        "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
                     }
-                 ],
-                 "ActivationLocation": "Field"
+                ],
+                "ActivationLocation": "Field"
             }
         ]
     },
@@ -169,30 +169,30 @@
         "Hp": 4,
         "Effects": [
             {
-                 "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Recruit",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "Manual",
-                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Player",
-                        "TargetLocations": ["Deck"],
-                        "EffectTargetAmount": 1 ,
-                        "TargetStats": ["cost"],
-                        "TargetStatConditions": ["=="],
-                        "TargetStatAmounts": [1]
+                        "TargetLocations": [ "Deck" ],
+                        "EffectTargetAmount": 1,
+                        "TargetStats": [ "cost" ],
+                        "TargetStatConditions": [ "==" ],
+                        "TargetStatAmounts": [ 1 ]
                     },
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "FreeDeploy",
                         "EffectAmount": 0,
                         "EffectTargetAmount": 98,
-                        "TargetStats": ["name"],
-                        "TargetStatConditions": ["hasPhalanx"]
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "hasPhalanx" ]
                     }
-                 ]
+                ]
             }
         ]
     },
@@ -207,35 +207,35 @@
         "Hp": 15,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Rally",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": ["Fighter","God"],
+                        "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Player",
-                        "TargetLocations": ["Field"],
+                        "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99,
                         "AllowSelfTarget": true
                     }
                 ],
-                "TriggerLocations": ["Field"],
-                "TriggerStates": ["Reinforcement"],
+                "TriggerLocations": [ "Field" ],
+                "TriggerStates": [ "Reinforcement" ],
                 "TriggerController": "Player"
             },
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Rally",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": ["God"],
+                        "EffectTargetTypes": [ "God" ],
                         "EffectTargetController": "Player",
-                        "TargetLocations": ["Field"],
+                        "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
                         "AllowSelfTarget": true
                     },
@@ -244,15 +244,15 @@
                         "EffectUsed": "Damage",
                         "EffectAmount": 1,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": ["Fighter"],
+                        "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Opponent",
-                        "TargetLocations": ["Field"],
-                        "EffectTargetAmount": 1 
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
                     }
                 ],
-                "TriggerStates": ["Deployment"],
-                "TriggerInfo": ["Strike"],
-                "TriggerLocations": ["Field"],
+                "TriggerStates": [ "Deployment" ],
+                "TriggerInfo": [ "Strike" ],
+                "TriggerLocations": [ "Field" ],
                 "TriggerController": "Any"
             }
         ]
@@ -267,14 +267,14 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Target",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": ["God"],
+                        "EffectTargetTypes": [ "God" ],
                         "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
@@ -284,14 +284,14 @@
                     },
                     {
                         "EffectType": "Deployment",
-                        "EffectUsed":  "Damage",
-                        "EffectAmount":  98 ,
+                        "EffectUsed": "Damage",
+                        "EffectAmount": 98,
                         "EffectActivationIsMandatory": true,
-                        "TargetingType": "manual" ,
+                        "TargetingType": "manual",
                         "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount":  1
+                        "EffectTargetAmount": 1
                     }
                 ]
             }
@@ -307,17 +307,17 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Damage",
                         "EffectAmount": 3,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetTypes": [ "Fighter","God" ],
+                        "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount":  1
+                        "EffectTargetAmount": 1
                     }
                 ]
             }
@@ -333,7 +333,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Vigor",
@@ -359,7 +359,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Intimidate",
@@ -368,7 +368,7 @@
                         "TargetingType": "auto",
                         "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Opponent",
-                        "TargetLocations": [ "Field"],
+                        "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99
                     },
                     {
@@ -378,8 +378,8 @@
                         "TargetingType": "auto",
                         "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Opponent",
-                        "TargetLocations": ["Field" ],
-                        "EffectTargetAmount": 99 ,
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
                         "TargetStats": [ "current atk" ],
                         "TargetStatConditions": [ "==" ],
                         "TargetStatAmounts": [ 0 ]
@@ -398,14 +398,14 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Regeneration",
                         "EffectAmount": 4,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "Fighter","God"],
+                        "EffectTargetPlayTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
@@ -425,7 +425,7 @@
         "Hp": 25,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "BloodRecovery",
@@ -438,11 +438,11 @@
                 "TriggerController": "Player"
             },
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Reinforce",
-                        "EffectAmount": 1,
+                        "EffectAmount": 1
                     }
                 ],
                 "TriggerLocations": [ "Field" ],
@@ -461,7 +461,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Shatter",
@@ -497,14 +497,14 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Intimidate",
                         "EffectAmount": 3,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "Fighter"],
+                        "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99
@@ -518,7 +518,7 @@
                         "EffectTargetTypes": [ "Fighter" ],
                         "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1 
+                        "EffectTargetAmount": 1
                     }
                 ]
             }
@@ -534,7 +534,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Target",
@@ -571,7 +571,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Revive",
@@ -597,7 +597,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Recover",
@@ -625,7 +625,7 @@
         "Hp": 2,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "WhileDeployed",
                         "EffectUsed": "Taunt",
@@ -641,7 +641,7 @@
                 ]
             },
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "WhileDeployed",
                         "EffectUsed": "Armor",
@@ -670,7 +670,7 @@
         "Hp": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "WhileDeployed",
                         "EffectUsed": "Stealth",
@@ -699,7 +699,7 @@
         "Hp": 2,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Bomb",
@@ -717,7 +717,7 @@
                 "TriggerController": "Opponent"
             },
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Bounce",
@@ -748,7 +748,7 @@
         "Hp": 4,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Poison",
@@ -775,7 +775,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Barrier",
@@ -801,7 +801,7 @@
         "Cost": 1,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Shatter",
@@ -832,7 +832,7 @@
         "Hp": 3,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "PoisonDetonate",
@@ -860,14 +860,14 @@
         "Hp": 3,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Rally",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "Fighter","God" ],
+                        "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 99,
@@ -878,7 +878,7 @@
                 ],
                 "TriggerLocations": [ "Field" ],
                 "TriggerStates": [ "Reinforcement" ],
-                "TriggerController": "Player",
+                "TriggerController": "Player"
             }
         ]
     },
@@ -894,14 +894,14 @@
         "Hp": 3,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "BloodRecovery",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "Fighter","Spell","God" ],
+                        "EffectTargetTypes": [ "Fighter", "Spell", "God" ],
                         "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
@@ -925,7 +925,7 @@
         "Cost": 2,
         "Effects": [
             {
-                "SubEffects":[
+                "SubEffects": [
                     {
                         "EffectType": "Deployment",
                         "EffectUsed": "Target",
@@ -945,7 +945,7 @@
                         "EffectAmount": 3,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "Fighter","God" ],
+                        "EffectTargetPlayTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
@@ -953,6 +953,46 @@
                 ]
             }
         ]
+    },
+    {
+        "Id": "GP-18",
+        "CardType": "Spell",
+        "CardName": "Unfettered Greed",
+        "CardText": "Deployment: Shatter an Ally Fighter then Reinforce-? equal to that Fighter's Cost.",
+        "CardFlavorText": "Has no relations to any other vessels of any kind.",
+        "Traits": [ "DeadlySin" ],
+        "Cost": 1,
+        "Effects": [
+            {
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Shatter",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Target",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "EffectTargetAmount": 98,
+                        "TargetStats": [ "cost" ]
+                    },
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Reinforce",
+                        "EffectAmount": 98,
+                        "EffectActivationIsMandatory": true
+                    }
+                ]
+            }
+        ]
     }
+    //working fine above here
 ]
-   //working fine above here

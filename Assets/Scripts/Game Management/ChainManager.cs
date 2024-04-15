@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class ChainManager : MonoBehaviour
 {
     public Game_Manager gm;
-    public EnumManager enumConverter;
 
     //gets chain effects that trigger on phase change
     public void GetPhaseTriggers(Phase phase)

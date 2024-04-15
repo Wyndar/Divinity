@@ -43,8 +43,11 @@ public class Game_Manager : MonoBehaviour
     public int turnCount;
     public string CardDatabasePath, BluePlayerPath, RedPlayerPath, ToolTipsDatabasePath;
 
+    public float loadStartTime;
+    public float loadEndTime;
     void Start()
     {
+        loadStartTime = Time.realtimeSinceStartup;
         AudioManager.FindBGOBJ();
         AudioManager.SelectRandomBGMusic();
         AudioManager.LoadSFX();
@@ -55,6 +58,8 @@ public class Game_Manager : MonoBehaviour
         //after it's back from the cross country hike, we can move on
         popUpPanelText = popUpPanel.GetComponentInChildren<TMP_Text>();
         phaseChangeButtonText = phaseChangeButton.GetComponentInChildren<TMP_Text>();
+        loadEndTime = Time.realtimeSinceStartup;
+        Debug.Log($"Card Load time is :{loadEndTime - loadStartTime} seconds");
         StartCoroutine(TurnManager.ChooseFirstPlayer());
     }
 

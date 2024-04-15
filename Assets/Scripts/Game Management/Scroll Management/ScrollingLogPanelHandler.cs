@@ -91,6 +91,7 @@ public class ScrollingLogPanelHandler : MonoBehaviour
             {
                 scrollLogEntry.logTypeText.text = "Effect Activation";
                 string w;
+                string s = effect.loggedEffectUsed.ToString();
                 if (effect.effectTargets.Count == 1)
                 {
                     scrollLogEntry.SetTargetImage(true, effectImage, effect.effectTargets[0].image,
@@ -100,13 +101,24 @@ public class ScrollingLogPanelHandler : MonoBehaviour
                 }
                 else
                 {
-                    scrollLogEntry.TargetsButton.gameObject.SetActive(true);
-                    w = effect.effectTargets.Count > 0 ? "on multiple targets" : "but there were no valid targets";
-                    scrollLogEntry.TargetsButton.GetComponentInChildren<TMP_Text>().text = effect.effectTargets.Count.ToString();
-                    targetScroll.TargetButton = scrollLogEntry.TargetsButton;
-                    scrollLogEntry.targets.AddRange(effect.effectTargets);
+                    switch (effect.loggedEffectUsed)
+                    {
+                        case EffectsUsed.Reinforce:
+                        case EffectsUsed.Recruit:
+                        case EffectsUsed.BloodRecovery:
+                        case EffectsUsed.BloodBoost:
+                            w = "";
+                            scrollLogEntry.RemoveTargetImage();
+                            break;
+                        default:
+                            scrollLogEntry.TargetsButton.gameObject.SetActive(true);
+                            w = effect.effectTargets.Count > 0 ? "on multiple targets" : "but there were no valid targets";
+                            scrollLogEntry.TargetsButton.GetComponentInChildren<TMP_Text>().text = effect.effectTargets.Count.ToString();
+                            targetScroll.TargetButton = scrollLogEntry.TargetsButton;
+                            scrollLogEntry.targets.AddRange(effect.effectTargets);
+                            break;
+                    }
                 }
-                string s = effect.loggedEffectUsed.ToString();
                 string v = Regex.Replace(s, capsPattern, " $1", RegexOptions.Compiled).Trim();
                 scrollLogEntry.loggedText.text = $"{cardName} used effect {v} {w}.";
             }

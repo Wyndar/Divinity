@@ -27469,9 +27469,11 @@ MonoBehaviour:
   phaseChangeButtonText: {fileID: 1513986455}
   turnCount: 0
   CardDatabasePath: /Scripts/Load Data/Card Database/cardDatabase.json
-  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData1.json
+  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData3.json
   RedPlayerPath: /Scripts/Load Data/Player Data/PlayerData2.json
   ToolTipsDatabasePath: /Scripts/Load Data/Game Data/ToolTipsInfo.json
+  loadStartTime: 0
+  loadEndTime: 0
 --- !u!114 &1600093228
 MonoBehaviour:
   m_ObjectHideFlags: 0

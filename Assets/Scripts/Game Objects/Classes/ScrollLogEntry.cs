@@ -51,5 +51,13 @@ public class ScrollLogEntry : MonoBehaviour
         RectTransform rectTransform = targetHighlightImage.GetComponent<RectTransform>();
         rectTransform.sizeDelta = newSize;
     }
+
+    public void RemoveTargetImage()
+    {
+        targetImage.gameObject.SetActive(false);
+        targetText.gameObject.SetActive(false);
+        targetHighlightImage.gameObject.SetActive(false);
+        intermediateIconImage.gameObject.SetActive(false);
+    }
 }
 

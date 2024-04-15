@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class CardLogic : MonoBehaviour
 {
     public Game_Manager gameManager;
-
-    public EnumManager enumConverter;
 
     public AudioManager audioManager;
 
@@ -432,28 +431,34 @@ public class CardLogic : MonoBehaviour
         focusEffect = effects[countNumber];
         focusSubEffect = focusEffect.SubEffects[subCount];
         List<int> effectAmountIndexesToChange = new();
+
+        //use big E cos small e is supposed to be editable and change
         foreach(SubEffect subEffect in focusEffect.SubEffects)
-            if (subEffect.effectAmount == 98)
+            if (subEffect.EffectAmount == 98)
                 effectAmountIndexesToChange.Add(focusEffect.SubEffects.FindIndex(a=>a==subEffect));
         targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
         targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
 
-        foreach (int index in effectAmountIndexesToChange)
+        float mod = focusSubEffect.TargetCountModifier > 0 ? focusSubEffect.TargetCountModifier : 1;
+        if (focusSubEffect.TargetStats == null)
         {
-            if (focusSubEffect.TargetCountModifier != 0)
+            foreach (int index in effectAmountIndexesToChange)
             {
-                focusSubEffect.effectAmount = Mathf.CeilToInt(targets.Count * focusSubEffect.TargetCountModifier);
+                focusEffect.SubEffects[index].effectAmount = Mathf.CeilToInt(targets.Count * focusSubEffect.TargetCountModifier);
                 continue;
             }
-
+        }
+        else
+        { 
             string checkedStat = focusSubEffect.TargetStats[0];
+            int index = effectAmountIndexesToChange[0];
             switch (checkedStat)
             {
                 case "current atk":
-                    focusSubEffect.effectAmount = combatantStats.currentAtk;
+                    focusEffect.SubEffects[index].effectAmount = Mathf.CeilToInt(combatantStats.currentAtk * mod);
                     break;
                 case "cost":
-                    focusSubEffect.effectAmount = playableStats.cost;
+                    focusEffect.SubEffects[index].effectAmount = Mathf.CeilToInt(playableStats.cost * mod);
                     break;
                 default:
                     Debug.Log("unimplemented target stat");

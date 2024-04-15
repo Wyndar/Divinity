@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿//NB: null checks are not redundant
+using UnityEngine;
 using System.Collections.Generic;
 
 public class DeckManager : MonoBehaviour
 {
 	public Game_Manager G_M;
     public SaveManager SaveManager;
-    public EnumManager enumConverter;
     public AudioManager audioManager;
     public UIManager U_I;
     [SerializeField]
@@ -16,10 +16,13 @@ public class DeckManager : MonoBehaviour
     {
         List<Card> database = new();
         database.AddRange(SaveManager.LoadCardDatabase(G_M.CardDatabasePath));
-        foreach(string cardID in strings)
-            foreach(Card card in database)
+        foreach (string cardID in strings)
+            foreach (Card card in database)
                 if (cardID == card.Id)
+                {
                     cards.Add(card);
+                    break;
+                }
         return CreateDeck(cards, deckObject, playerManager, isHeroDeck);
     }
 
@@ -70,17 +73,14 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");
                 cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
                 cardCloneCardLogic.gameManager = G_M;
-                cardCloneCardLogic.enumConverter = enumConverter;
                 cardCloneCardLogic.audioManager = audioManager;
 
                 //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a default
                 cardCloneCardLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.id}", typeof(Sprite)) as Sprite;
                 if(cardCloneCardLogic.image == null)
-                {
                     cardCloneCardLogic.image = Resources.Load("Sprites And Visuals/Card Images/Default", typeof(Sprite)) as Sprite;
-                }
-                    cardCloneCardLogic.cardImage.gameObject.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.image;
 
+                cardCloneCardLogic.cardImage.gameObject.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.image;
                
                 //disables unnecessary components till needed
                 cardCloneCardLogic.cardFace.gameObject.SetActive(false);

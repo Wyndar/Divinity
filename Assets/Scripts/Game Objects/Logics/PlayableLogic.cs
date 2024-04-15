@@ -131,7 +131,8 @@ public class PlayableLogic : MonoBehaviour
                 {
                     if (subEffect.effectType != EffectTypes.Deployment || subEffect.EffectActivationIsMandatory == false)
                         continue;
-                    if (subEffect.effectTargetAmount == 0)
+                    //need to keep an eye on this
+                    if (subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
                         continue;
                     List<CardLogic> allTargetsList = logic.GetValidTargets(logic.effects.FindIndex(a=>a==effect), 
                         effect.SubEffects.FindIndex(a=>a==subEffect));
