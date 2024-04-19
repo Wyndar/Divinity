@@ -30,8 +30,8 @@ public class PlayerManager : MonoBehaviour
     public List<CardLogic> canAttackLogicList = new();
     public List<CardLogic> canUseEffectLogicList = new();
 
-    public List<int> canUseEffectNumber = new();
-    public List<int> canUseEffectSubNumber = new();
+    public List<Effect> canUseEffectList = new();
+    public List<SubEffect> canUseSubEffectList = new();
 
     public GodLogic heroCardLogic;
 

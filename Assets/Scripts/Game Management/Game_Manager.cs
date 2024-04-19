@@ -32,8 +32,7 @@ public class Game_Manager : MonoBehaviour
     public Phase currentPhase;
     public List<GameLogHistoryEntry> gameLogHistoryEntries = new();
     public List<CardLogic> activationChainList = new();
-    public List<int> activationChainNumber = new();
-    public List<int> activationChainSubNumber = new();
+    public List<SubEffect> activationChainSubEffectList = new();
 
     public CardLogic currentFocusCardLogic;
     public GameObject phaseChangeButton, popUpPanel;
@@ -162,7 +161,7 @@ public class Game_Manager : MonoBehaviour
             if (isNotFirstDraw)
                 StateChange(GameState.Reinforcement);
             if (currentFocusCardLogic != null && isActivatingEffect)
-                currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectCountNumber, currentFocusCardLogic.subCountNumber);
+                currentFocusCardLogic.FinishResolution(currentFocusCardLogic.focusSubEffect);
             else
                 ChainResolution();
            
@@ -371,15 +370,11 @@ public class Game_Manager : MonoBehaviour
 
     public void GetPhaseTriggers(Phase phase) => ChainManager.GetPhaseTriggers(phase);
 
-    public void GetEffectTriggers(int triggerEffectNumber, int triggerSubEffectNumber, CardLogic triggerCard)
-    {
-        ChainManager.GetEffectTriggers(triggerEffectNumber, triggerSubEffectNumber, triggerCard);
-    }
+    public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard)=>
+        ChainManager.GetEffectTriggers(subEffect, triggerCard);
 
-    public void GetStateTriggers(CardLogic triggerCard, GameState state)
-    {
+    public void GetStateTriggers(CardLogic triggerCard, GameState state)=>
         ChainManager.GetStateTriggers(triggerCard, state);
-    }
 
     public void ChainResolution()
     {
@@ -506,8 +501,8 @@ public class Game_Manager : MonoBehaviour
     {
         player.playableLogicList.Clear();
         player.canUseEffectLogicList.Clear();
-        player.canUseEffectNumber.Clear();
-        player.canUseEffectSubNumber.Clear();
+        player.canUseEffectList.Clear();
+        player.canUseSubEffectList.Clear();
         foreach (CardLogic cardLogic in player.handLogicList)
         {
             if (cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) != null)
@@ -528,16 +523,14 @@ public class Game_Manager : MonoBehaviour
                 {
                     if (subEffect.effectType != EffectTypes.Deployed)
                         continue;
-
-                    int subNum = effect.SubEffects.FindIndex(a => a == subEffect);
-                    int effNum = cardLogic.effects.FindIndex(a => a == effect);
-                    if (cardLogic.effects[effNum].currentActivations >= cardLogic.effects[effNum].maxActivations)
+                  
+                    if (effect.currentActivations >= effect.maxActivations)
                         continue;
-                    if (cardLogic.GetValidTargets(effNum, subNum).Count == 0)
+                    if (cardLogic.GetValidTargets(subEffect).Count == 0)
                         continue;
                     player.canUseEffectLogicList.Add(cardLogic);
-                    player.canUseEffectNumber.Add(effNum);
-                    player.canUseEffectSubNumber.Add(subNum);
+                    player.canUseEffectList.Add(effect);
+                    player.canUseSubEffectList.Add(subEffect);
                 }
             }
         }
@@ -547,13 +540,11 @@ public class Game_Manager : MonoBehaviour
             {
                 if (subEffect.effectType != EffectTypes.Deployed)
                     continue;
-                int subNum = effect.SubEffects.FindIndex(a => a == subEffect);
-                int effNum = player.heroCardLogic.effects.FindIndex(a => a == effect);
-                if (player.heroCardLogic.GetValidTargets(effNum, subNum).Count == 0)
+                if (player.heroCardLogic.GetValidTargets(subEffect).Count == 0)
                     continue;
                 player.canUseEffectLogicList.Add(player.heroCardLogic);
-                player.canUseEffectNumber.Add(effNum);
-                player.canUseEffectSubNumber.Add(subNum);
+                player.canUseEffectList.Add(effect);
+                player.canUseSubEffectList.Add(subEffect);
             }
         }
     }

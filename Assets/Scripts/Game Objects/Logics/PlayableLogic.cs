@@ -134,8 +134,7 @@ public class PlayableLogic : MonoBehaviour
                     //need to keep an eye on this
                     if (subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
                         continue;
-                    List<CardLogic> allTargetsList = logic.GetValidTargets(logic.effects.FindIndex(a=>a==effect), 
-                        effect.SubEffects.FindIndex(a=>a==subEffect));
+                    List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect);
                     if (allTargetsList.Count == 0)
                         return "No valid targets";
                 }
@@ -158,8 +157,7 @@ public class PlayableLogic : MonoBehaviour
             if (subEffect.effectType == EffectTypes.Deployment)
             {
                 gm.activationChainList.Add(logic);
-                gm.activationChainNumber.Add(logic.effects.FindIndex(a=>a==effect));
-                    gm.activationChainSubNumber.Add(effect.SubEffects.FindIndex(a => a == subEffect));
+                gm.activationChainSubEffectList.Add(subEffect);
                 break;
                 //only need to catch one, rest resolves via subsequent effect chain if any
             }
@@ -170,8 +168,7 @@ public class PlayableLogic : MonoBehaviour
                 if (subEffect.effectType == EffectTypes.WhileDeployed)
                 {
                     gm.activationChainList.Add(logic);
-                    gm.activationChainNumber.Add(logic.effects.FindIndex(a => a == effect));
-                    gm.activationChainSubNumber.Add(effect.SubEffects.FindIndex(a => a == subEffect));
+                    gm.activationChainSubEffectList.Add(subEffect);
                     break;
                     //only need to catch one, rest resolves via subsequent effect chain if any
                 }

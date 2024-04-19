@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
-//thank you random stackoverflow user
-public static class EM
+//https://stackoverflow.com/questions/10443461/c-sharp-array-findallindexof-which-findall-indexof
+//thank you random Nikhil Agrawal
+public static class CollectionsExtender
 {
     public static int[] FindAllIndexof<T>(this IEnumerable<T> values, T val)
     {

@@ -32,6 +32,6 @@ public class Poison : Debuff
 
         //unnecesary bloat just so broken chain execution in detonate effects work
         if (gm.currentFocusCardLogic != null && gm.isActivatingEffect && !gm.isWaitingForResponse && gm.gameState == GameState.Detonate)
-            gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+            gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.focusSubEffect);
     }
 }

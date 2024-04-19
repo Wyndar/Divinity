@@ -209,7 +209,8 @@ public class UXManager : MonoBehaviour
                     clickedCard.SetFocusCardLogic();
                     focusCard = gm.currentFocusCardLogic;
                     focusCard.cardOutline.gameObject.SetActive(true);
-                    if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController && focusCard.type != Type.God)
+                    if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController &&
+                        focusCard.type != Type.God)
                     {
                         bool showButton = false;
                         if (focusCard.effects != null)
@@ -228,7 +229,7 @@ public class UXManager : MonoBehaviour
                 }
                 //targeting for effect
                 else if (gm.gameState == GameState.Targeting && focusCard != null && clickedCard.currentLocation == Location.Field)
-                    clickedCard.ManualTargetAcquisition(focusCard.effectCountNumber, focusCard.subCountNumber);
+                    clickedCard.ManualTargetAcquisition(focusCard.focusSubEffect);
 
                 //targeting for attack
                 else if (gm.gameState == GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == Location.Field)
@@ -323,7 +324,8 @@ public class UXManager : MonoBehaviour
     {
         CardLogic activatingCard = gm.currentFocusCardLogic;
         Effect activatingEffect = activatingCard.effects[effectCount];
-        List<CardLogic> validTargets = new(activatingCard.GetValidTargets(effectCount, 0));
+        SubEffect activatingSubEffect = activatingEffect.SubEffects[0];
+        List<CardLogic> validTargets = new(activatingCard.GetValidTargets(activatingSubEffect));
         for (int i = 0; i < effectPanelTexts.Length; i++)
         {
             //only show buttons if its not the current effect
@@ -340,23 +342,25 @@ public class UXManager : MonoBehaviour
         effects[effectCount].SetActive(true);
         effectPanelTexts[effectCount].text = effectText[effectCount];
         switchButtons[effectCount].SetActive(false);
-        if (activatingEffect.ActivationLocations == null || activatingCard.effects[effectCount].currentActivations >= activatingCard.effects[effectCount].maxActivations || validTargets.Count == 0)
+        if (activatingEffect.currentActivations >= activatingEffect.maxActivations || validTargets.Count == 0)
         {
             activateButtons[effectCount].SetActive(false);
             return;
         }
         //only show activation button if it's not a chain effect and in correct activation location
-        if (activatingEffect.activationLocations.Contains(activatingCard.currentLocation) && activatingEffect.SubEffects[effectCount].effectType != EffectTypes.Chain)
+        if ((activatingEffect.activationLocations == null || activatingEffect.activationLocations.Contains(activatingCard.currentLocation)) 
+            && activatingEffect.triggerLocations == null)
         {
             activateButtons[effectCount].SetActive(true);
-            activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effects[effectCount].maxActivations - activatingCard.effects[effectCount].currentActivations).ToString();
+            activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effects[effectCount].maxActivations
+                - activatingCard.effects[effectCount].currentActivations).ToString();
         }
     }
 
     public void EffectActivation(int num)
     {
         gm.isActivatingEffect = true;
-        gm.currentFocusCardLogic.EffectActivation(num, 0);
+        gm.currentFocusCardLogic.EffectActivation(gm.currentFocusCardLogic.effects[num].SubEffects[0]);
         DisableEffectPanel();
     }
 
@@ -494,7 +498,7 @@ public class UXManager : MonoBehaviour
 
     public void ResolveOptionalTargeting()
     {
-    gm.currentFocusCardLogic.EffectResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+    gm.currentFocusCardLogic.EffectResolution(gm.currentFocusCardLogic.focusSubEffect);
         DisableCardScrollScreen();
     }
 

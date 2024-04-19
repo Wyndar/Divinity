@@ -3,22 +3,24 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Card
 {
-    public string Id { get; set; }
-    public string CardName { get; set; }
-    public Type CardType { get; set; }
+    public string Id { get; private set; }
+    public string CardName { get; private set; }
+    public Type CardType { get; private set; }
 
-    public string CardText { get; set; }
-    public string CardFlavorText { get; set; }
+    public Rarity Rarity { get; private set; }
 
-    public List<Trait> Traits { get; set; }
+    public string CardText { get; private set; }
+    public string CardFlavorText { get; private set; }
+
+    public List<Trait> Traits { get; private set; }
 
     //if !god
-    public int Cost { get; set; }
+    public int Cost { get; private set; }
 
     //if !spell
-    public int Atk { get; set; }
-    public int Hp { get; set; }
-    public int MaxAttacks { get; set; }
+    public int Atk { get; private set; }
+    public int Hp { get; private set; }
+    public int MaxAttacks { get; private set; }
 
-    public List<Effect> Effects { get; set; }
+    public List<Effect> Effects { get; private set; }
 }

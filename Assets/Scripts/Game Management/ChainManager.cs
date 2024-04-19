@@ -39,14 +39,13 @@ public class ChainManager : MonoBehaviour
                 {
                     int[] indexes = gm.activationChainList.FindAllIndexof(triggeredCard);
                     foreach (int index in indexes)
-                        if (gm.activationChainNumber[index] == effNum)
+                        if (gm.activationChainSubEffectList[index].parentEffect == effect)
                             addCard = false;
                 }
                 if (addCard == false)
                     continue;
                 gm.activationChainList.Add(triggeredCard);
-                gm.activationChainNumber.Add(effNum);
-                gm.activationChainSubNumber.Add(0);
+                gm.activationChainSubEffectList.Add(effect.SubEffects[0]);
                 break;
                 //because we only need to catch one sub effect per effect with trigger, the rest resolves at chain resolution
             }
@@ -54,10 +53,10 @@ public class ChainManager : MonoBehaviour
     }
 
     //gets chain effects that trigger by card effect and additional requirements beyond game state
-    public void GetEffectTriggers(int countNum, int subCount, CardLogic triggerCard)
+    public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard)
     {
         List<CardLogic> triggered = new(FindObjectsOfType<CardLogic>());
-        EffectsUsed triggerEffectType = triggerCard.effects[countNum].SubEffects[subCount].effectUsed;
+        EffectsUsed triggerEffectType = subEffect.effectUsed;
 
         foreach(CardLogic triggeredCard in triggered)
         {
@@ -115,14 +114,13 @@ public class ChainManager : MonoBehaviour
                 {
                     int[] indexes = gm.activationChainList.FindAllIndexof<CardLogic>(triggeredCard);
                     foreach (int index in indexes)
-                        if (gm.activationChainNumber[index] == effNum)
+                        if (gm.activationChainSubEffectList[index].parentEffect == effect)
                             addCard = false;
                 }
                 if (addCard == false)
                     continue;
                 gm.activationChainList.Add(triggeredCard);
-                gm.activationChainNumber.Add(effNum);
-                gm.activationChainSubNumber.Add(0);
+                gm.activationChainSubEffectList.Add(effect.SubEffects[0]);
                 break;
                 //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
             }
@@ -192,14 +190,13 @@ public class ChainManager : MonoBehaviour
                 {
                     int[] indexes = gm.activationChainList.FindAllIndexof<CardLogic>(triggeredCard);
                     foreach (int index in indexes)
-                        if (gm.activationChainNumber[index] == effNum)
+                        if (gm.activationChainSubEffectList[index].parentEffect == triggeredEffect)
                             addCard = false;
                 }
                 if (addCard == false)
                     continue;
                 gm.activationChainList.Add(triggeredCard);
-                gm.activationChainNumber.Add(effNum);
-                gm.activationChainSubNumber.Add(0);
+                gm.activationChainSubEffectList.Add(triggeredEffect.SubEffects[0]);
                 break;
                 //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
             }
@@ -245,14 +242,13 @@ public class ChainManager : MonoBehaviour
                 {
                     int[] indexes = gm.activationChainList.FindAllIndexof<CardLogic>(triggeredCard);
                     foreach (int index in indexes)
-                        if (gm.activationChainNumber[index] == effNum)
+                        if (gm.activationChainSubEffectList[index].parentEffect == triggeredEffect)
                             addCard = false;
                 }
                 if (addCard == false)
                     continue;
                 gm.activationChainList.Add(triggeredCard);
-                gm.activationChainNumber.Add(effNum);
-                gm.activationChainSubNumber.Add(0);
+                gm.activationChainSubEffectList.Add(triggeredEffect.SubEffects[0]);
                 //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
             }
         }
@@ -263,26 +259,23 @@ public class ChainManager : MonoBehaviour
     {
         gm.StateChange(GameState.ChainResolution);
         //get reference to each so that they can be safely removed then activated before coroutines ruin call sequence
-        CardLogic resolvingCard = gm.activationChainList[0];
-        int resolvingEffectNumber = gm.activationChainNumber[0];
-        int resolvingSubEffectNumber = gm.activationChainSubNumber[0];
+        CardLogic cardLogic = gm.activationChainList[0];
+        SubEffect subEffect = gm.activationChainSubEffectList[0];
         gm.activationChainList.RemoveAt(0);
-        gm.activationChainNumber.RemoveAt(0);
-        gm.activationChainSubNumber.RemoveAt(0);
+        gm.activationChainSubEffectList.RemoveAt(0);
         //for non ai players to decide to use optionals
-        if (!resolvingCard.effects[resolvingEffectNumber].SubEffects[resolvingSubEffectNumber].EffectActivationIsMandatory && !resolvingCard.cardController.isAI)
+        if (subEffect.EffectActivationIsMandatory && !cardLogic.cardController.isAI)
         {
-            resolvingCard.effectCountNumber = resolvingEffectNumber;
-            resolvingCard.subCountNumber = resolvingSubEffectNumber;
-            resolvingCard.SetFocusCardLogic();
+            cardLogic.focusSubEffect = subEffect;
+            cardLogic.SetFocusCardLogic();
             gm.EnableActivationPanel();
             return;
         }
         //ai optionals negation check
-        else if (!resolvingCard.effects[resolvingEffectNumber].SubEffects[resolvingSubEffectNumber].EffectActivationIsMandatory && resolvingCard.cardController.isAI)
-            if (!resolvingCard.cardController.AIManager.ActivateOptionalEffect())
+        else if (subEffect.EffectActivationIsMandatory && cardLogic.cardController.isAI)
+            if (!cardLogic.cardController.AIManager.ActivateOptionalEffect())
                 gm.ChainResolution();
         //else it's mandatory or has been accepted to go forward
-        resolvingCard.EffectActivation(resolvingEffectNumber, resolvingSubEffectNumber);
+        cardLogic.EffectActivation(subEffect);
     }
 }

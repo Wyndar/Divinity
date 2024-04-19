@@ -12,7 +12,7 @@ public enum Phase
 
 public enum EffectTypes
 {
-    Deployment, Chain, WhileDeployed, Deployed, Vengeance, Undefined
+    Deployment, Chain, WhileDeployed, Deployed, Vengeance, Counter, Assault, Undefined
 }
 
 public enum EffectsUsed
@@ -72,4 +72,9 @@ public enum Status
 public enum Controller
 {
     Player, Opponent, Any, Undefined
+}
+
+public enum Rarity
+{
+    L, UR, SR, R, UC, C, Undefined
 }

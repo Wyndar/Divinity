@@ -107,6 +107,10 @@ public class MonsterLogic : CardLogic
         audioManager.SelectCharacterDeathSFX(id);
         LeavingFieldSequence();
         cardController.SetStat(locationOrderNumber, Status.Death, 0);
+        foreach (Effect effect in effects)
+            foreach (SubEffect subEffect in effect.SubEffects)
+                if (subEffect.effectType == EffectTypes.Vengeance)
+                    EffectActivation(subEffect);
         playLogic.MoveToGrave();
         gm.StateChange(GameState.Death);
     }

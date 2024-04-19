@@ -71,10 +71,10 @@
     {
         "Id": "GP-04",
         "CardType": "Fighter",
-        "CardName": "War Veteran Cerberus",
+        "CardName": "Alchemy Experiment Zombie Cerberus",
         "CardText": "Deployment: You can Free Revive one Cost-2 or lower Fighter from the Underworld",
         "CardFlavorText": "He lost two heads in battle.",
-        "Traits": [ "Animal", "Military", "Undead" ],
+        "Traits": [ "Animal", "Undead" ],
         "Cost": 2,
         "Atk": 2,
         "Hp": 2,
@@ -958,7 +958,7 @@
         "Id": "GP-18",
         "CardType": "Spell",
         "CardName": "Unfettered Greed",
-        "CardText": "Deployment: Shatter an Ally Fighter then Reinforce-? equal to that Fighter's Cost.",
+        "CardText": "Deployment: Shatter an Ally Fighter then Reinforce-? equal to that Fighter's Cost",
         "CardFlavorText": "Has no relations to any other vessels of any kind.",
         "Traits": [ "DeadlySin" ],
         "Cost": 1,
@@ -993,6 +993,34 @@
                 ]
             }
         ]
-    }
+    },
     //working fine above here
+    {
+        "Id": "GP-19",
+        "CardType": "Fighter",
+        "CardName": "Alchemy Experiment Plague Source Bubon",
+        "CardText": "Vengeance: Apply Poison to one deployed opposing Fighter",
+        "CardFlavorText": "He lost two heads in battle.",
+        "Traits": [ "Animal", "Undead" ],
+        "Cost": 1,
+        "Atk": 2,
+        "Hp": 1,
+        "Effects": [
+            {
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Poison",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
+                    }
+                ]
+            }
+        ]
+    }
 ]

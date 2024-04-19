@@ -18,7 +18,11 @@ public class SaveManager:MonoBehaviour
     public Player LoadPlayerFromJson(string path)
     {
         string json = File.ReadAllText(Application.dataPath + path);
-        Player data = JsonConvert.DeserializeObject<Player>(json);
+        Player data = JsonConvert.DeserializeObject<Player>(json, new JsonSerializerSettings()
+        {
+            ContractResolver = new PrivateResolver(),
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        });
         return data;
     }
 
@@ -26,7 +30,11 @@ public class SaveManager:MonoBehaviour
     public List<string> LoadIDFromJson(string path)
     {
         string json = File.ReadAllText(Application.dataPath + path);
-        List<string> data = JsonConvert.DeserializeObject<List<string>>(json);
+        List<string> data = JsonConvert.DeserializeObject<List<string>>(json, new JsonSerializerSettings()
+        {
+            ContractResolver = new PrivateResolver(),
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        });
         return data;
     }
 
@@ -34,7 +42,11 @@ public class SaveManager:MonoBehaviour
     public List<Card> LoadCardDatabase(string path)
     {
         string json = File.ReadAllText(Application.dataPath + path);
-        List<Card> data = JsonConvert.DeserializeObject<List<Card>>(json);
+        List<Card> data = JsonConvert.DeserializeObject<List<Card>>(json, new JsonSerializerSettings()
+        {
+            ContractResolver = new PrivateResolver(),
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        });
         return data;
     }
 
@@ -42,7 +54,11 @@ public class SaveManager:MonoBehaviour
     public List<ToolTipInfo> LoadToolTipInfoDatabase(string path)
     {
         string json = File.ReadAllText(Application.dataPath + path);
-        List<ToolTipInfo> data = JsonConvert.DeserializeObject<List<ToolTipInfo>>(json);
+        List<ToolTipInfo> data = JsonConvert.DeserializeObject<List<ToolTipInfo>>(json, new JsonSerializerSettings()
+        {
+            ContractResolver = new PrivateResolver(),
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        });
         return data;
     }
 }

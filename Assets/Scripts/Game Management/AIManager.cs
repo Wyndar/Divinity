@@ -97,7 +97,7 @@ public class AIManager : MonoBehaviour
     //for now, just using random targets. will write logic later
     public void GetEffectTarget()
     {
-        gm.currentFocusCardLogic.RandomTargetAcquisition(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+        gm.currentFocusCardLogic.RandomTargetAcquisition(gm.currentFocusCardLogic.focusSubEffect);
     }
 
     private void UseLegalEffects()
@@ -109,9 +109,8 @@ public class AIManager : MonoBehaviour
         if (gm.isPlayingCard)
             return;
         CardLogic cardLogic = AIPlayer.canUseEffectLogicList[0];
-        int effNum = AIPlayer.canUseEffectNumber[0];
-        int subNum = AIPlayer.canUseEffectSubNumber[0];
-        cardLogic.EffectActivation(effNum, subNum);
+        SubEffect subEffect = AIPlayer.canUseSubEffectList[0];
+        cardLogic.EffectActivation(subEffect);
     }
 
     public bool UseShield(int damage, bool wasAttack)

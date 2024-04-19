@@ -52,7 +52,7 @@ public class GodLogic : CardLogic
         StartCoroutine(gm.GetShieldCard(1, cardOwner));
         if (!wasAttack)
         {
-            gm.isWaitingForResponse = false; gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+            gm.isWaitingForResponse = false; gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.focusSubEffect);
         }
     }
 
@@ -62,7 +62,7 @@ public class GodLogic : CardLogic
         if (wasAttack)
             return;
         gm.isWaitingForResponse = false;
-        gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.effectCountNumber, gm.currentFocusCardLogic.subCountNumber);
+        gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.focusSubEffect);
     }
 
     public void ShieldRefresh()

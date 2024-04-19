@@ -183,6 +183,7 @@ public class DeckManager : MonoBehaviour
 
                     foreach (SubEffect subEffect in effect.SubEffects)
                     {
+                        subEffect.parentEffect = effect;
                         subEffect.effectAmount = subEffect.EffectAmount;
                         subEffect.effectTargetAmount = subEffect.EffectTargetAmount;
                         subEffect.effectUsed = subEffect.EffectUsed;

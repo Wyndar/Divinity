@@ -26,9 +26,6 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
                 Game_Manager.DisableLog();
             return;
         }
-
-        int effectNum = Game_Manager.currentFocusCardLogic.effectCountNumber;
-        int subEffectNum = Game_Manager.currentFocusCardLogic.subCountNumber;
         
         if (isTargeted)
         {
@@ -40,7 +37,7 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
         {
             isTargeted = true;
             highlightImage.color = Color.yellow;
-            cardLogic.ManualTargetAcquisition(effectNum, subEffectNum);
+            cardLogic.ManualTargetAcquisition(cardLogic.focusSubEffect);
         }
     }
 }

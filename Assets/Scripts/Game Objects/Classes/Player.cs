@@ -1,12 +1,12 @@
 ﻿[System.Serializable]
 public class Player
 {
-    public string PlayerName { get; set; }
-    public string PlayerID { get; set; }
-    public string DeckPath { get; set; }
-    public string HeroDeckPath { get; set; }
+    public string PlayerName { get; private set; }
+    public string PlayerID { get; private set; }
+    public string DeckPath { get; private set; }
+    public string HeroDeckPath { get; private set; }
 
-    public bool IsAI { get; set; }
-    public bool IsLocal { get; set; }
+    public bool IsAI { get; private set; }
+    public bool IsLocal { get; private set; }
 }
 
