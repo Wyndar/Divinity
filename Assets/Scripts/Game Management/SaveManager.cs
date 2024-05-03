@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class SaveManager:MonoBehaviour
 {
-    public Game_Manager Game_Manager;
-
     //saves card ID to json for decks
     public void SaveIDToJson(string path, List<string> data)
     {

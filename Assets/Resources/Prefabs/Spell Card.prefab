@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 4303156327509605246}
   - component: {fileID: 2272700939772257333}
   - component: {fileID: 2877273801368345103}
+  - component: {fileID: -9119728861020753109}
   m_Layer: 3
   m_Name: Spell Card
   m_TagString: card
@@ -537,3 +538,50 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-9119728861020753109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8631525344601337069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6e22cf9b4ae6db4985dbc04544043fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  audioManager: {fileID: 0}
+  U_I: {fileID: 0}
+  type: 0
+  rarity: 0
+  playTypes: 
+  traits: 
+  cardOwner: {fileID: 0}
+  cardController: {fileID: 0}
+  cardFace: {fileID: 0}
+  cardBack: {fileID: 0}
+  cardImage: {fileID: 0}
+  cardOutline: {fileID: 0}
+  image: {fileID: 0}
+  id: 
+  cardName: 
+  cardText: 
+  flavorText: 
+  isFaceDown: 0
+  isNormalColour: 0
+  currentLocation: 0
+  locationOrderNumber: 0
+  targets: []
+  validTargets: []
+  effects: []
+  focusSubEffect:
+    effectType: 0
+    effectUsed: 0
+    targetLocations: 
+    effectTargetController: 0
+    targetingType: 0
+    effectTargetTypes: 
+    effectAmount: 0
+    effectTargetAmount: 0
+  movementSpeed: 3

@@ -40,7 +40,7 @@ public class Game_Manager : MonoBehaviour
     public TMP_Text bluePlayerText, redPlayerText, turnCountText, turnPhaseText, popUpPanelText, phaseChangeButtonText;
 
     public int turnCount;
-    public string CardDatabasePath, BluePlayerPath, RedPlayerPath, ToolTipsDatabasePath;
+    public string CardDatabasePath, GodDatabasePath, BluePlayerPath, RedPlayerPath, ToolTipsDatabasePath;
 
     public float loadStartTime;
     public float loadEndTime;
@@ -58,7 +58,7 @@ public class Game_Manager : MonoBehaviour
         popUpPanelText = popUpPanel.GetComponentInChildren<TMP_Text>();
         phaseChangeButtonText = phaseChangeButton.GetComponentInChildren<TMP_Text>();
         loadEndTime = Time.realtimeSinceStartup;
-        Debug.Log($"Card Load time is :{loadEndTime - loadStartTime} seconds");
+        Debug.Log($"Card Load time is : {loadEndTime - loadStartTime} seconds");
         StartCoroutine(TurnManager.ChooseFirstPlayer());
     }
 

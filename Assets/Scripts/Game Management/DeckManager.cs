@@ -1,28 +1,62 @@
 ﻿//NB: null checks are not redundant
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Diagnostics;
 
 public class DeckManager : MonoBehaviour
 {
-	public Game_Manager G_M;
-    public SaveManager SaveManager;
-    public AudioManager audioManager;
-    public UIManager U_I;
-    [SerializeField]
-    private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
+    [SerializeField] private Game_Manager G_M;
+    [SerializeField] private SaveManager SaveManager;
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private UIManager U_I;
+    [SerializeField] private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
+    [SerializeField] private List<Card> database = new();
+    [SerializeField] private List<Card> godDatabase = new();
 
-    //loads both deck and shield cards
+    //loads both deck and shield cards... for now
     public List<CardLogic> LoadDeck(List<string> strings, List<Card> cards, GameObject deckObject, PlayerManager playerManager, bool isHeroDeck)
     {
-        List<Card> database = new();
-        database.AddRange(SaveManager.LoadCardDatabase(G_M.CardDatabasePath));
-        foreach (string cardID in strings)
-            foreach (Card card in database)
-                if (cardID == card.Id)
+        if (!isHeroDeck)
+        {
+            if (database.Count == 0)
+                database.AddRange(SaveManager.LoadCardDatabase(G_M.CardDatabasePath));
+            foreach (string cardID in strings)
+            {
+                //try faster direct lookup first
+                try
                 {
-                    cards.Add(card);
-                    break;
+                    Card c = database[int.Parse(cardID.Split("-")[1]) - 1];
+                    if (c.Id == cardID)
+                    {
+                        cards.Add(c);
+                        continue;
+                    }
                 }
+                catch
+                {
+                    foreach (Card card in database)
+                        if (card.Id == cardID)
+                        {
+                            cards.Add(card);
+                            break;
+                        }
+                    continue;
+                }
+            }
+        }
+        else
+        {
+            if (godDatabase.Count == 0)
+                godDatabase.AddRange(SaveManager.LoadCardDatabase(G_M.GodDatabasePath));
+            foreach (string cardID in strings)
+                foreach (Card card in godDatabase)
+                    if (cardID == card.Id)
+                    {
+                        cards.Add(card);
+                        break;
+                    }
+        }
         return CreateDeck(cards, deckObject, playerManager, isHeroDeck);
     }
 
@@ -67,7 +101,7 @@ public class DeckManager : MonoBehaviour
                 //populates instance with data
                 cardCloneCardLogic.id = card.Id;
                 cardCloneCardLogic.cardName = card.CardName;
-                cardClone.name = cardCloneCardLogic.cardName +" "+ playerManager.PlayerID;
+                cardClone.name = $"{playerManager.PlayerName}'s {cardCloneCardLogic.cardName} {returnList.Count}";
                 cardCloneCardLogic.cardFace = cardClone.transform.Find("Card Front");
                 cardCloneCardLogic.cardBack = cardClone.transform.Find("Card Back");
                 cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");

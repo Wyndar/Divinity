@@ -4,11 +4,11 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class ScaleImageToFitScreen : MonoBehaviour
 {
-    private Image sr;
+    //private Image sr;
 
     private void Start()
     {
-        sr = GetComponent<Image>();
+        //sr = GetComponent<Image>();
 
         // world height is always camera's orthographicSize * 2
         float worldScreenHeight = Camera.main.orthographicSize * 2;
@@ -22,7 +22,7 @@ public class ScaleImageToFitScreen : MonoBehaviour
         // size y of the sprite
         transform.localScale = new Vector3(
             worldScreenWidth * worldScreenHeight/10
-            // sr.sprite.bounds.size.x
+            //sr.sprite.bounds.size.x
             ,
             worldScreenHeight * worldScreenHeight/10
             // sr.sprite.bounds.size.y

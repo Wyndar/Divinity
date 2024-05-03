@@ -1777,8 +1777,8 @@ MonoBehaviour:
   playableLogicList: []
   canAttackLogicList: []
   canUseEffectLogicList: []
-  canUseEffectNumber: 
-  canUseEffectSubNumber: 
+  canUseEffectList: []
+  canUseSubEffectList: []
   heroCardLogic: {fileID: 0}
   activationZone: {fileID: 1285124117}
   deck: {fileID: 592893483}
@@ -7615,8 +7615,8 @@ MonoBehaviour:
   playableLogicList: []
   canAttackLogicList: []
   canUseEffectLogicList: []
-  canUseEffectNumber: 
-  canUseEffectSubNumber: 
+  canUseEffectList: []
+  canUseSubEffectList: []
   heroCardLogic: {fileID: 0}
   activationZone: {fileID: 1285124117}
   deck: {fileID: 1865804221}
@@ -27290,7 +27290,6 @@ GameObject:
   - component: {fileID: 1600093227}
   - component: {fileID: 1600093230}
   - component: {fileID: 1600093229}
-  - component: {fileID: 1600093228}
   - component: {fileID: 1600093226}
   - component: {fileID: 1600093225}
   - component: {fileID: 1600093223}
@@ -27338,7 +27337,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448a69f9c229f8a468384bf42f8f10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Game_Manager: {fileID: 1600093227}
 --- !u!114 &1600093225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27456,8 +27454,7 @@ MonoBehaviour:
   currentPhase: 0
   gameLogHistoryEntries: []
   activationChainList: []
-  activationChainNumber: 
-  activationChainSubNumber: 
+  activationChainSubEffectList: []
   currentFocusCardLogic: {fileID: 0}
   phaseChangeButton: {fileID: 342968765}
   popUpPanel: {fileID: 2027922524}
@@ -27469,23 +27466,12 @@ MonoBehaviour:
   phaseChangeButtonText: {fileID: 1513986455}
   turnCount: 0
   CardDatabasePath: /Scripts/Load Data/Card Database/cardDatabase.json
+  GodDatabasePath: /Scripts/Load Data/Card Database/divineDatabase.json
   BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData3.json
   RedPlayerPath: /Scripts/Load Data/Player Data/PlayerData2.json
   ToolTipsDatabasePath: /Scripts/Load Data/Game Data/ToolTipsInfo.json
   loadStartTime: 0
   loadEndTime: 0
---- !u!114 &1600093228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1600093219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f9e062079190442a0d14b91d2b2f47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1600093229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27499,7 +27485,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gm: {fileID: 1600093227}
-  enumConverter: {fileID: 1600093228}
 --- !u!114 &1600093230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27514,12 +27499,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   G_M: {fileID: 1600093227}
   SaveManager: {fileID: 1600093223}
-  enumConverter: {fileID: 1600093228}
   audioManager: {fileID: 1600093236}
   U_I: {fileID: 1600093239}
   emptyHeroCardPrefab: {fileID: 7757688674157102176, guid: fe199f28349cc934eba8d1a2af745f7a, type: 3}
   emptySpellCardPrefab: {fileID: 8631525344601337069, guid: ef5199ab7583b1e49a8776fce18a81ac, type: 3}
   emptyMonsterCardPrefab: {fileID: 7892383611414394747, guid: 649d10d9fb5c4954a980719e3f258314, type: 3}
+  database: []
+  godDatabase: []
 --- !u!114 &1600093232
 MonoBehaviour:
   m_ObjectHideFlags: 0
