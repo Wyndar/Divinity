@@ -4166,7 +4166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afe74b8e79ccd442b0f0a97e3755839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 0}
+  cardPrefab: {fileID: 7892383611414394747, guid: 649d10d9fb5c4954a980719e3f258314, type: 3}
   card: {fileID: 0}
   cardSelectionScreen: {fileID: 1306607321}
   costSetter: {fileID: 1234901595}
@@ -5814,7 +5814,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1607739248}
         m_TargetAssemblyTypeName: CardMaker, Assembly-CSharp
-        m_MethodName: AtkUp
+        m_MethodName: AtkDown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
