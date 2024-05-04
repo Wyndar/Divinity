@@ -1,8 +1,6 @@
 ﻿//NB: null checks are not redundant
 using UnityEngine;
 using System.Collections.Generic;
-using System;
-using System.Diagnostics;
 
 public class DeckManager : MonoBehaviour
 {

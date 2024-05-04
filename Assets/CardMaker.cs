@@ -1,14 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class CardMaker : MonoBehaviour
 {
+    private const string capsPattern = "(?<=[a-z])([A-Z])";
+
     public GameObject cardPrefab;
+    public GameObject effectDropdownPrefab;
     public GameObject card;
     public GameObject cardSelectionScreen;
 
+    public GameObject newEffectButton;
     public GameObject costSetter;
     public GameObject atkSetter;
     public GameObject hpSetter;
@@ -40,15 +45,39 @@ public class CardMaker : MonoBehaviour
     public TMP_Text atk;
     public TMP_Text hp;
 
-    public Dropdown traitSelector;
-    public Dropdown raritySelector;
-    public Dropdown typeSelector;
-    public Dropdown playTypeSelector;
+    public TMP_Dropdown traitSelector;
+    public TMP_Dropdown raritySelector;
+    public TMP_Dropdown currentEffectSelector;
+
+    public void Awake()
+    {
+        RarityDropDownRefresh();
+        TraitDropDownRefresh();
+    }
+
+    public void RarityDropDownRefresh()
+    {
+        raritySelector.ClearOptions();
+        foreach (Rarity r in (IEnumerable<Rarity>)Enum.GetValues(typeof(Rarity)))
+            if (r != Rarity.Undefined)
+                raritySelector.options.Add(new TMP_Dropdown.OptionData(Regex.Replace(r.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
+        raritySelector.RefreshShownValue();
+    }
+    public void TraitDropDownRefresh()
+    {
+        traitSelector.ClearOptions();
+        foreach (Trait t in (IEnumerable<Trait>)Enum.GetValues(typeof(Trait)))
+            if (t != Trait.Undefined)
+                traitSelector.options.Add(new TMP_Dropdown.OptionData(Regex.Replace(t.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
+        traitSelector.RefreshShownValue();
+    }
 
     public void ShowCardSelectionScreen() => cardSelectionScreen.SetActive(true);
     public void DisableCardSelectionScreen()=>cardSelectionScreen.SetActive(false);
     public void NewCard(string typeString)
     {
+        RarityDropDownRefresh();
+        TraitDropDownRefresh();
         Type type = Enum.Parse<Type>(typeString, true);
         bool isPlayable = false;
         bool isCombatant = false;
