@@ -3,10 +3,14 @@ using TMPro;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine.UI;
+using System.Linq;
 
 public class CardMaker : MonoBehaviour
 {
     private const string capsPattern = "(?<=[a-z])([A-Z])";
+
+    public TextScrollerHandler TextScrollerHandler;
 
     public GameObject cardPrefab;
     public GameObject effectDropdownPrefab;
@@ -14,6 +18,7 @@ public class CardMaker : MonoBehaviour
     public GameObject cardSelectionScreen;
 
     public GameObject newEffectButton;
+    public GameObject newCardButton;
     public GameObject costSetter;
     public GameObject atkSetter;
     public GameObject hpSetter;
@@ -24,11 +29,11 @@ public class CardMaker : MonoBehaviour
     public GameObject hpUpButton;
     public GameObject hpDownButton;
 
+    public GameObject traitAddButton;
     public GameObject removeTraitButton;
-    public GameObject removePlayTypeButton;
     public GameObject removeEffectButton;
     public GameObject removeSubEffectButton;
-    
+
     public bool autoID = true;
     public bool autoFill = true;
 
@@ -45,44 +50,88 @@ public class CardMaker : MonoBehaviour
     public TMP_Text atk;
     public TMP_Text hp;
 
-    public TMP_Dropdown traitSelector;
+    public TMP_Dropdown traitRemoveSelector;
+    public TMP_Dropdown traitAddSelector;
     public TMP_Dropdown raritySelector;
     public TMP_Dropdown currentEffectSelector;
+
+    public GameObject activeSelector;
+    public Color warningColor;
+    public float warningTime;
 
     public void Awake()
     {
         RarityDropDownRefresh();
-        TraitDropDownRefresh();
+        removeTraitButton.SetActive(false);
+        EnableSelector(cardSelectionScreen);
     }
+
+    public void EnableSelector(GameObject gameObject)
+    {
+        if (activeSelector != null)
+        {
+            Warning(activeSelector);
+            return;
+        }
+        if (gameObject == cardSelectionScreen)
+        {
+            gameObject.SetActive(true);
+            activeSelector = gameObject;
+            return;
+        }
+        if (newCardLogic == null)
+        {
+            Warning(newCardButton);
+            return;
+        }
+        if (gameObject == traitRemoveSelector && newCardLogic.traits.Count == 0)
+        {
+            Warning(traitAddButton);
+            return;
+        }
+        TraitDropDownRefresh(traitRemoveSelector, newCardLogic.traits);
+        TraitDropDownRefresh(traitAddSelector, (IEnumerable<Trait>)Enum.GetValues(typeof(Trait)));
+        gameObject.SetActive(true);
+        activeSelector = gameObject;
+    }
+
+    public void DisableSelector(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+        activeSelector = null;
+    }    
+
+    public void Warning(GameObject gameObject) => gameObject.GetComponent<Image>().CrossFadeColor(warningColor, warningTime, false, false);
 
     public void RarityDropDownRefresh()
     {
         raritySelector.ClearOptions();
+        raritySelector.options.Add(new(" "));
         foreach (Rarity r in (IEnumerable<Rarity>)Enum.GetValues(typeof(Rarity)))
             if (r != Rarity.Undefined)
-                raritySelector.options.Add(new TMP_Dropdown.OptionData(Regex.Replace(r.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
+                raritySelector.options.Add(new(Regex.Replace(r.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
         raritySelector.RefreshShownValue();
     }
-    public void TraitDropDownRefresh()
+    public void TraitDropDownRefresh(TMP_Dropdown dropdown, IEnumerable<Trait> traits)
     {
-        traitSelector.ClearOptions();
-        foreach (Trait t in (IEnumerable<Trait>)Enum.GetValues(typeof(Trait)))
+        dropdown.ClearOptions();
+        dropdown.options.Add(new(" "));
+        foreach (Trait t in traits)
             if (t != Trait.Undefined)
-                traitSelector.options.Add(new TMP_Dropdown.OptionData(Regex.Replace(t.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
-        traitSelector.RefreshShownValue();
+                if (dropdown != traitAddSelector || !newCardLogic.traits.Contains(t))
+                    dropdown.options.Add(new(Regex.Replace(t.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
+        dropdown.RefreshShownValue();
     }
 
-    public void ShowCardSelectionScreen() => cardSelectionScreen.SetActive(true);
-    public void DisableCardSelectionScreen()=>cardSelectionScreen.SetActive(false);
     public void NewCard(string typeString)
     {
         RarityDropDownRefresh();
-        TraitDropDownRefresh();
         Type type = Enum.Parse<Type>(typeString, true);
         bool isPlayable = false;
         bool isCombatant = false;
-        DisableCardSelectionScreen();
-        if(card != null) 
+        DisableSelector(cardSelectionScreen);
+        TextScrollerHandler.scrollingTMP.text = "";
+        if (card != null) 
             Destroy(card);
         switch(type)
         {
@@ -95,9 +144,7 @@ public class CardMaker : MonoBehaviour
             case Type.God:
                 isCombatant= true; break;
             default:
-                Debug.Log("Unimplemented Type assertion attempted");
-                break;
-
+                throw new MissingReferenceException("Unimplemented Type assertion attempted");
         }
         card = Instantiate(cardPrefab);
         card.SetActive(false);
@@ -233,32 +280,44 @@ public class CardMaker : MonoBehaviour
             autoFill = true;
     }
 
-    public void AddTrait(Trait trait)
+    public void AddTrait()
     {
-        if (!newCardLogic.traits.Contains(trait))
+        string traitString = traitAddSelector.options[traitAddSelector.value].text;
+        if (traitString == "")
+            return;
+        Trait trait = Enum.Parse<Trait>(traitString.Replace(" ", ""), true);
+        newCardLogic.traits ??= new();
+        if(!newCardLogic.traits.Contains(trait))
+        {
             newCardLogic.traits.Add(trait);
+            if (TextScrollerHandler.scrollingTMP.text.Trim() == "")
+                TextScrollerHandler.scrollingTMP.text = traitString;
+            else
+                TextScrollerHandler.scrollingTMP.text += $", {traitString}";
+            DisableSelector(traitAddSelector.gameObject);
+        }
         if (newCardLogic.traits.Count > 0)
             removeTraitButton.SetActive(true);
     }
-    public void RemoveTrait(Trait trait)
+    public void RemoveTrait()
     {
-        if(newCardLogic.traits.Contains(trait)) 
+        string traitString = traitRemoveSelector.options[traitRemoveSelector.value].text;
+        Trait trait = Enum.Parse<Trait>(traitString.Replace(" ", ""), true);
+        if (newCardLogic.traits.Contains(trait))
+        {
             newCardLogic.traits.Remove(trait);
+            List<string>li = new(TextScrollerHandler.scrollingTMP.text.Split(","));
+            foreach (string s in li)
+                if (traitString == s.Trim())
+                {
+                    li.Remove(s);
+                    break;
+                }
+            TextScrollerHandler.scrollingTMP.text = string.Join<string>(", ", li);
+            TextScrollerHandler.scrollingTMP.text.Replace("  ", " ");
+            DisableSelector(traitRemoveSelector.gameObject);
+        }
         if (newCardLogic.traits.Count == 0)
             removeTraitButton.SetActive(false);
-    }
-    public void AddPlayType(PlayType playType)
-    {
-        if (!newCardLogic.playTypes.Contains(playType))
-            newCardLogic.playTypes.Add(playType);
-        if (newCardLogic.playTypes.Count > 0)
-            removePlayTypeButton.SetActive(true);
-    }
-    public void RemovePlayType(PlayType playType)
-    {
-        if (newCardLogic.playTypes.Contains(playType))
-            newCardLogic.playTypes.Remove(playType);
-        if (newCardLogic.playTypes.Count == 0)
-            removePlayTypeButton.SetActive(false);
     }
 }

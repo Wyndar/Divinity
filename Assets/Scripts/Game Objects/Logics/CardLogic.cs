@@ -12,8 +12,8 @@ public class CardLogic : MonoBehaviour
 
     public Type type;
     public Rarity rarity;
-    public List<PlayType> playTypes;
-    public List<Trait> traits;
+    public List<PlayType> playTypes = new();
+    public List<Trait> traits = new();
 
     public PlayerManager cardOwner, cardController;
     public Transform cardFace, cardBack, cardImage, cardOutline;
@@ -334,7 +334,7 @@ public class CardLogic : MonoBehaviour
                 foreach (CardLogic target in tempTargets)
                     target.EffectHandler(subEffect);
                 break;
-                //these are unedefined effects
+            //these are unedefined effects
             case EffectsUsed.FreeRevive:
             case EffectsUsed.Revive:
             case EffectsUsed.FreeDeploy:
@@ -343,8 +343,7 @@ public class CardLogic : MonoBehaviour
                     target.GetComponent<PlayableLogic>().PlayCard(effectUsed, cardController);
                 break;
             default:
-                Debug.Log("Attempting to use an unimplemented effect");
-                break;
+                throw new MissingReferenceException("Attempting to use an unimplemented effect");
         }
         if (!gameManager.isWaitingForResponse)
             FinishResolution(subEffect);
@@ -438,18 +437,12 @@ public class CardLogic : MonoBehaviour
         { 
             string checkedStat = subEffect.TargetStats[0];
             int index = effectAmountIndexesToChange[0];
-            switch (checkedStat)
+            subEffect.parentEffect.SubEffects[index].effectAmount = checkedStat switch
             {
-                case "current atk":
-                    subEffect.parentEffect.SubEffects[index].effectAmount = Mathf.CeilToInt(combatantStats.currentAtk * mod);
-                    break;
-                case "cost":
-                    subEffect.parentEffect.SubEffects[index].effectAmount = Mathf.CeilToInt(playableStats.cost * mod);
-                    break;
-                default:
-                    Debug.Log("unimplemented target stat");
-                    break;
-            }
+                "current atk" => Mathf.CeilToInt(combatantStats.currentAtk * mod),
+                "cost" => Mathf.CeilToInt(playableStats.cost * mod),
+                _ => throw new MissingReferenceException("unimplemented target stat"),
+            };
         }
     }
 
@@ -688,7 +681,7 @@ public class CardLogic : MonoBehaviour
         gameObject.transform.rotation = player.deck.transform.rotation;
     }
 
-    virtual public void StatAdjustment(int value, Status status) => Debug.Log($"Failed virtual override for status of {cardName}");
+    public virtual void StatAdjustment(int value, Status status) => throw new MissingReferenceException($"Failed virtual override for status of {cardName}");
 
     public void EffectLogger(SubEffect subEffect, List<CardLogic> cards)
     {
@@ -864,8 +857,7 @@ public class CardLogic : MonoBehaviour
                 combatantLogic.AddNonStackingDebuff(silence);
                 break;
             default:
-                Debug.Log("effect not found");
-                return;
+                throw new MissingReferenceException("effect not found");
         }
     }
 }

@@ -79,8 +79,7 @@ public class UIManager : MonoBehaviour
                 stat.GetComponentInChildren<TMP_Text>().color = numColour;
                 break;
             default:
-                Debug.Log("Failed to assert status type");
-                break;
+                throw new MissingReferenceException("Failed to assert status type");
         }
     }
 
@@ -138,8 +137,7 @@ public class UIManager : MonoBehaviour
                 heroAtkStatus.GetComponentInChildren<TMP_Text>().color = numColour;
                 break;
             default:
-                Debug.Log("Failed to assert status type");
-                break;
+                throw new MissingReferenceException("Failed to assert status type");
         }
     }
 
