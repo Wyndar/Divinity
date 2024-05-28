@@ -264,7 +264,7 @@ public class ChainManager : MonoBehaviour
         gm.activationChainList.RemoveAt(0);
         gm.activationChainSubEffectList.RemoveAt(0);
         //for non ai players to decide to use optionals
-        if (subEffect.EffectActivationIsMandatory && !cardLogic.cardController.isAI)
+        if (!subEffect.EffectActivationIsMandatory && !cardLogic.cardController.isAI)
         {
             cardLogic.focusSubEffect = subEffect;
             cardLogic.SetFocusCardLogic();

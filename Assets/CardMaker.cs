@@ -16,8 +16,11 @@ public class CardMaker : MonoBehaviour
     public GameObject effectDropdownPrefab;
     public GameObject card;
     public GameObject cardSelectionScreen;
+    public GameObject effectEditingScreen;
 
-    public GameObject newEffectButton;
+    public GameObject addNewEffectButton;
+    public GameObject removeNewEffectButton;
+    public GameObject effectEditButton;
     public GameObject newCardButton;
     public GameObject costSetter;
     public GameObject atkSetter;
@@ -52,18 +55,33 @@ public class CardMaker : MonoBehaviour
 
     public TMP_Dropdown traitRemoveSelector;
     public TMP_Dropdown traitAddSelector;
+    public TMP_Dropdown effectRemoveSelector;
+    public TMP_Dropdown effectAddSelector;
     public TMP_Dropdown raritySelector;
-    public TMP_Dropdown currentEffectSelector;
 
     public GameObject activeSelector;
     public Color warningColor;
     public float warningTime;
 
+    private Effect focusEffect;
+    private SubEffect focusSubEffect;
     public void Awake()
     {
         RarityDropDownRefresh();
         removeTraitButton.SetActive(false);
         EnableSelector(cardSelectionScreen);
+    }
+    public void EffectSelectorEnable()
+    {
+        focusEffect ??= new Effect();
+
+        //EffectTypeDropDownRefresh(effectRemoveSelector, newCardLogic.);
+        EffectTypeDropDownRefresh(effectAddSelector, (IEnumerable<EffectTypes>)Enum.GetValues(typeof(EffectTypes)));
+    }
+
+    public void SubEffectsEditing()
+    {
+       // focusSubEffect = focusEffect.SubEffects ??= new List<SubEffect> { new() };
     }
 
     public void EnableSelector(GameObject gameObject)
@@ -73,7 +91,7 @@ public class CardMaker : MonoBehaviour
             Warning(activeSelector);
             return;
         }
-        if (gameObject == cardSelectionScreen)
+        if (gameObject == cardSelectionScreen || gameObject == effectEditingScreen)
         {
             gameObject.SetActive(true);
             activeSelector = gameObject;
@@ -95,12 +113,13 @@ public class CardMaker : MonoBehaviour
         activeSelector = gameObject;
     }
 
-    public void DisableSelector(GameObject gameObject)
+    public void DisableSelector()
     {
-        gameObject.SetActive(false);
+        activeSelector.SetActive(false);
         activeSelector = null;
     }    
 
+    //definitely should be a coroutine, change this later
     public void Warning(GameObject gameObject) => gameObject.GetComponent<Image>().CrossFadeColor(warningColor, warningTime, false, false);
 
     public void RarityDropDownRefresh()
@@ -123,13 +142,33 @@ public class CardMaker : MonoBehaviour
         dropdown.RefreshShownValue();
     }
 
+    public void EffectTypeDropDownRefresh(TMP_Dropdown dropdown, IEnumerable<EffectTypes> traits)
+    {
+        dropdown.ClearOptions();
+        dropdown.options.Add(new(" "));
+        foreach (EffectTypes t in traits)
+            if (t != EffectTypes.Undefined)
+                dropdown.options.Add(new(Regex.Replace(t.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
+        dropdown.RefreshShownValue();
+    }
+
+    public void EffectUsedDropDownRefresh(TMP_Dropdown dropdown, IEnumerable<EffectsUsed> traits)
+    {
+        dropdown.ClearOptions();
+        dropdown.options.Add(new(" "));
+        foreach (EffectsUsed t in traits)
+            if (t != EffectsUsed.Undefined)
+                    dropdown.options.Add(new(Regex.Replace(t.ToString(), capsPattern, " $1", RegexOptions.Compiled).Trim()));
+        dropdown.RefreshShownValue();
+    }
+
     public void NewCard(string typeString)
     {
         RarityDropDownRefresh();
         Type type = Enum.Parse<Type>(typeString, true);
         bool isPlayable = false;
         bool isCombatant = false;
-        DisableSelector(cardSelectionScreen);
+        DisableSelector();
         TextScrollerHandler.scrollingTMP.text = "";
         if (card != null) 
             Destroy(card);
@@ -294,7 +333,7 @@ public class CardMaker : MonoBehaviour
                 TextScrollerHandler.scrollingTMP.text = traitString;
             else
                 TextScrollerHandler.scrollingTMP.text += $", {traitString}";
-            DisableSelector(traitAddSelector.gameObject);
+            DisableSelector();
         }
         if (newCardLogic.traits.Count > 0)
             removeTraitButton.SetActive(true);
@@ -315,7 +354,7 @@ public class CardMaker : MonoBehaviour
                 }
             TextScrollerHandler.scrollingTMP.text = string.Join<string>(", ", li);
             TextScrollerHandler.scrollingTMP.text.Replace("  ", " ");
-            DisableSelector(traitRemoveSelector.gameObject);
+            DisableSelector();
         }
         if (newCardLogic.traits.Count == 0)
             removeTraitButton.SetActive(false);

@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 [System.Serializable]
 public class Effect
 {
+    public string EffectName;
     public List<SubEffect> SubEffects;
     public List<Location> activationLocations;
     public List<EffectsUsed> triggerEffects;
