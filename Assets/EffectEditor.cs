@@ -39,6 +39,8 @@ public class EffectEditor : MonoBehaviour
         }
         GameObject dropdownGO = Instantiate(dropdownPrefab, button.transform.parent, false);
         string parentName = dropdownGO.transform.parent.name;
+        dropdownGO.name = parentName;
+        dropdownGO.transform.parent = gameObject.transform;
         TMP_Dropdown dropdown = dropdownGO.GetComponent<TMP_Dropdown>();
         activeSelector = dropdown;
         isAdd = button.name.Contains("Add");
@@ -105,7 +107,7 @@ public class EffectEditor : MonoBehaviour
 
     public void DropdownEditTrigger()
     {
-        string parentName = activeSelector.transform.parent.name;
+        string parentName = activeSelector.transform.name;
         if (parentName.Contains("Activation Location"))
             EditInfoWithDropdown(focusEffect.activationLocations);
         if (parentName.Contains("Trigger Location"))

@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 [System.Serializable]
 public class SubEffect
 {
     //this is just a reference, we don't want to break the code with some weird infinite recursion now, do we?
-    [NonSerialized]
-    public Effect parentEffect;
+    [NonSerialized] public Effect parentEffect;
     public EffectTypes effectType;
     public EffectsUsed effectUsed;
     public List<Location> targetLocations = new();
@@ -38,4 +36,16 @@ public class SubEffect
     public List<string> TargetStats { get; private set; }
     public List<string> TargetStatConditions { get; private set; }
     public List<int> TargetStatAmounts { get; private set; }
+
+    public void SetDataFromInfo()
+    {
+        EffectType = effectType;
+        EffectUsed = effectUsed;
+        EffectAmount = effectAmount;
+        TargetingType = targetingType;
+        EffectTargetTypes = effectTargetTypes;
+        EffectTargetAmount = effectTargetAmount;
+        TargetLocations = targetLocations;
+        EffectTargetController = effectTargetController;
+    }
 }
