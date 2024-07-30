@@ -8,7 +8,7 @@ public class CardLogic : MonoBehaviour
 
     public AudioManager audioManager;
 
-    public UIManager U_I;
+    public SecondaryUIManager U_I;
 
     public Type type;
     public Rarity rarity;
@@ -34,6 +34,7 @@ public class CardLogic : MonoBehaviour
 
     public float movementSpeed = 3f;
 
+    //why repeat text???
     private IEnumerator ActivationCoroutine(SubEffect subEffect)
     {
         gameManager.isActivatingEffect = true;
@@ -48,6 +49,8 @@ public class CardLogic : MonoBehaviour
 
         gameManager.StateChange(GameState.EffectActivation);
         audioManager.NewAudioPrefab(audioManager.effectActivation);
+
+        //tween and grow then shrink animation
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
         Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
@@ -85,6 +88,8 @@ public class CardLogic : MonoBehaviour
         }
 
         gameManager.StateChange(GameState.EffectResolution);
+
+        //tween and grow then shrink animation
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
         Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
@@ -484,8 +489,7 @@ public class CardLogic : MonoBehaviour
                     cardController.AIManager.GetEffectTarget();
                     return;
                 }
-                if (focusSubEffect.targetLocations.Contains(Location.Field))
-                    gameManager.EnableCardScrollScreen(validTargets, !focusSubEffect.EffectActivationIsMandatory);
+                gameManager.EnableCardScrollScreen(validTargets, !focusSubEffect.EffectActivationIsMandatory);
                 return;
             }
             if (focusSubEffect.targetingType == TargetingTypes.Auto)

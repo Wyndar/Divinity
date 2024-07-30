@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class UIManager : MonoBehaviour
+public class SecondaryUIManager : MonoBehaviour
 {
 	public Game_Manager gm;
     public Sprite targetSprite, provokeSprite, deathSprite, tauntSprite, buffSprite, hpSprite, 

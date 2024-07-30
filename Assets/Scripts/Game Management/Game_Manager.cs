@@ -12,9 +12,9 @@ public class Game_Manager : MonoBehaviour
     [SerializeField]
     private ChainManager ChainManager;
     [SerializeField]
-    private UIManager UIManager;
+    private SecondaryUIManager UIManager;
     [SerializeField]
-    private UXManager UXManager;
+    private MainUIManager MainUIManager;
     [SerializeField]
     private DeckManager DeckManager;
     [SerializeField]
@@ -48,6 +48,7 @@ public class Game_Manager : MonoBehaviour
     {
         loadStartTime = Time.realtimeSinceStartup;
         AudioManager.FindBGOBJ();
+        AudioManager.FindBattleOBJ();
         AudioManager.SelectRandomBGMusic();
         AudioManager.LoadSFX();
         LoadPlayers(BluePlayerManager, BluePlayerPath);
@@ -409,15 +410,15 @@ public class Game_Manager : MonoBehaviour
         turnCountText.gameObject.SetActive(true);
     }
 
-    public void DisableRayBlocker() => UXManager.DisableRayBlocker();
+    public void DisableRayBlocker() => MainUIManager.DisableRayBlocker();
 
-    public void ShowEffectInfoPanel() => UXManager.ShowEffectInfoPanel();
+    public void ShowEffectInfoPanel() => MainUIManager.ShowEffectInfoPanel();
 
-    public void DisableEffectInfoPanels() => UXManager.DisableEffectInfoPanels();
+    public void DisableEffectInfoPanels() => MainUIManager.DisableEffectInfoPanels();
 
-    public void EnableActivationPanel() => UXManager.EnableEffectActivationPanel();
+    public void EnableActivationPanel() => MainUIManager.EnableEffectActivationPanel();
 
-    public void ShowShieldPrompt(PlayerManager cardOwner) => UXManager.ShowShieldPrompt(cardOwner);
+    public void ShowShieldPrompt(PlayerManager cardOwner) => MainUIManager.ShowShieldPrompt(cardOwner);
 
     public void StatusCountdown(CardStatus cardStatus) => StatusManager.Countdown(cardStatus);
     public void StatusCountdownReset(CardStatus cardStatus) => StatusManager.CountdownReset(cardStatus);
@@ -579,7 +580,7 @@ public class Game_Manager : MonoBehaviour
 
     public void GameOver(PlayerManager winner)
     {
-        UXManager.GameOver(winner);
+        MainUIManager.GameOver(winner);
         isNotFirstDraw = false;
     }
 
@@ -600,10 +601,10 @@ public class Game_Manager : MonoBehaviour
             loggedLogics.Add(entry.loggedCard);
     }
 
-    public void DisableLog() => UXManager.DisableLog();
+    public void DisableLog() => MainUIManager.DisableLog();
 
     public void EnableCardScrollScreen(List<CardLogic> cardLogics, bool shouldShowButton) =>
-        UXManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
+        MainUIManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
 
-    public void DisableCardScrollScreen() => UXManager.DisableCardScrollScreen();
+    public void DisableCardScrollScreen() => MainUIManager.DisableCardScrollScreen();
 }

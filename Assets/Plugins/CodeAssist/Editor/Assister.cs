@@ -5,6 +5,11 @@ using UnityEngine;
 using UnityEditor;
 
 
+#pragma warning disable IDE0005
+using Serilog = Meryel.UnityCodeAssist.Serilog;
+#pragma warning restore IDE0005
+
+
 #nullable enable
 
 
@@ -12,7 +17,7 @@ namespace Meryel.UnityCodeAssist.Editor
 {
     public class Assister
     {
-        public const string Version = "1.1.11";
+        public const string Version = "1.1.12";
 
 #if MERYEL_UCA_LITE_VERSION
         public const string Title = "Code Assist Lite";

@@ -6,7 +6,7 @@ public class Bomb : Debuff
     public Bomb(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
         toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        uIManager = GameObject.FindObjectOfType<UIManager>();
+        uIManager = GameObject.FindObjectOfType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Bomb");
         debuff = Debuffs.Bombed;
         applierLogic = debufferLogic;

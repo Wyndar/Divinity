@@ -4,7 +4,7 @@ using UnityEngine;
 public class StatusManager : MonoBehaviour
 {
     public Game_Manager gm;
-    public UIManager ui;
+    public SecondaryUIManager ui;
     public GameObject animatedTimerPrefab;
 
     public void CountdownReset(CardStatus cardStatus) => cardStatus.hasDoneCountDownThisTurn = false;

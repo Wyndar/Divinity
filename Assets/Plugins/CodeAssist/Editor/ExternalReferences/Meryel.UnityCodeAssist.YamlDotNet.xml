@@ -1655,7 +1655,7 @@
             indentation level if needed.
             </summary>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Core.Scanner.FetchFlowScalar(System.Boolean)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Core.Scanner.FetchQuotedScalar(System.Boolean)">
             <summary>
             Produce the SCALAR(...,single-quoted) or SCALAR(...,double-quoted) tokens.
             </summary>
@@ -2513,6 +2513,16 @@
             <summary>
             Pooling of StringBuilder instances.
             </summary>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.ReflectionExtensions.HasDefaultConstructor(System.Type,System.Boolean)">
+            <summary>
+            Determines whether the specified type has a default constructor.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="allowPrivateConstructors">Whether to include private constructors</param>
+            <returns>
+                <c>true</c> if the type has a default constructor; otherwise, <c>false</c>.
+            </returns>
         </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.RepresentationModel.DocumentLoadingState">
             <summary>
@@ -3677,6 +3687,13 @@
             Sets the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention" /> that will be used by the (de)serializer.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.BuilderSkeleton`1.WithEnumNamingConvention(Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
+            <summary>
+            Sets the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention"/> to use when handling enum's.
+            </summary>
+            <param name="enumNamingConvention">Naming convention to use when handling enum's</param>
+            <returns></returns>
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.BuilderSkeleton`1.WithTypeResolver(Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeResolver)">
             <summary>
             Sets the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeResolver" /> that will be used by the (de)serializer.
@@ -3755,6 +3772,14 @@
             Unregisters an existing <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeInspector" /> of type <param name="inspectorType" />.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.BuilderSkeleton`1.WithYamlFormatter(Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlFormatter)">
+            <summary>
+            Override the default yaml formatter with the one passed in
+            </summary>
+            <param name="formatter"><seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlFormatter"/>to use when serializing and deserializing objects.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.WrapperFactory`2">
             <summary>
             A factory that creates instances of <typeparamref name="TComponent" /> based on an existing <typeparamref name="TComponentBase" />.
@@ -3774,6 +3799,45 @@
             <param name="wrapped">The component that is to be wrapped.</param>
             <param name="argument">The argument of the factory.</param>
             <returns>Returns a new instance of <typeparamref name="TComponent" /> that is based on <paramref name="wrapped" /> and <paramref name="argument" />.</returns>
+        </member>
+        <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateOnlyConverter">
+            <summary>
+            This represents the YAML converter entity for <see cref="T:System.DateOnly"/>.
+            </summary>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateOnlyConverter.#ctor(System.IFormatProvider,System.Boolean,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateOnlyConverter"/> class.
+            </summary>
+            <param name="provider"><see cref="T:System.IFormatProvider"/> instance. Default value is <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.</param>
+            <param name="doubleQuotes">If true, will use double quotes when writing the value to the stream.</param>
+            <param name="formats">List of date/time formats for parsing. Default value is "<c>d</c>".</param>
+            <remarks>On deserializing, all formats in the list are used for conversion, while on serializing, the first format in the list is used.</remarks>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateOnlyConverter.Accepts(System.Type)">
+            <summary>
+            Gets a value indicating whether the current converter supports converting the specified type.
+            </summary>
+            <param name="type"><see cref="T:System.Type"/> to check.</param>
+            <returns>Returns <c>True</c>, if the current converter supports; otherwise returns <c>False</c>.</returns>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateOnlyConverter.ReadYaml(Meryel.UnityCodeAssist.YamlDotNet.Core.IParser,System.Type)">
+            <summary>
+            Reads an object's state from a YAML parser.
+            </summary>
+            <param name="parser"><see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Core.IParser"/> instance.</param>
+            <param name="type"><see cref="T:System.Type"/> to convert.</param>
+            <returns>Returns the <see cref="T:System.DateOnly"/> instance converted.</returns>
+            <remarks>On deserializing, all formats in the list are used for conversion.</remarks>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateOnlyConverter.WriteYaml(Meryel.UnityCodeAssist.YamlDotNet.Core.IEmitter,System.Object,System.Type)">
+            <summary>
+            Writes the specified object's state to a YAML emitter.
+            </summary>
+            <param name="emitter"><see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Core.IEmitter"/> instance.</param>
+            <param name="value">Value to write.</param>
+            <param name="type"><see cref="T:System.Type"/> to convert.</param>
+            <remarks>On serializing, the first format in the list is used.</remarks>
         </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateTimeConverter">
             <summary>
@@ -3815,6 +3879,48 @@
             <param name="type"><see cref="T:System.Type"/> to convert.</param>
             <remarks>On serializing, the first format in the list is used.</remarks>
         </member>
+        <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateTimeOffsetConverter">
+            <summary>
+            Converts the <seealso cref="T:System.DateTimeOffset"/> object to a string representation
+            To use this converter, call WithTypeConverter(new DateTimeOffsetConverter()) on the
+            <seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.DeserializerBuilder"/> or <seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateTimeOffsetConverter.#ctor(System.IFormatProvider,Meryel.UnityCodeAssist.YamlDotNet.Core.ScalarStyle,System.Globalization.DateTimeStyles,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateTimeOffsetConverter"/> class.
+            </summary>
+            <param name="provider"><see cref="T:System.IFormatProvider"/> instance. Default value is <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.</param>
+            <param name="style">If true, will use double quotes when writing the value to the stream.</param>
+            <param name="dateStyle"></param>
+            <param name="formats">List of date/time formats for parsing. Default value is "<c>O</c>".</param>
+            <remarks>On deserializing, all formats in the list are used for conversion, while on serializing, the first format in the list is used.</remarks>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateTimeOffsetConverter.Accepts(System.Type)">
+            <summary>
+            Gets a value indicating whether the current converter supports converting the specified type.
+            </summary>
+            <param name="type"><see cref="T:System.Type"/> to check.</param>
+            <returns>Returns <c>True</c>, if the current converter supports; otherwise returns <c>False</c>.</returns>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateTimeOffsetConverter.ReadYaml(Meryel.UnityCodeAssist.YamlDotNet.Core.IParser,System.Type)">
+            <summary>
+            Reads an object's state from a YAML parser.
+            </summary>
+            <param name="parser"><see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Core.IParser"/> instance.</param>
+            <param name="type"><see cref="T:System.Type"/> to convert.</param>
+            <returns>Returns the <see cref="T:System.DateTime"/> instance converted.</returns>
+            <remarks>On deserializing, all formats in the list are used for conversion.</remarks>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.DateTimeOffsetConverter.WriteYaml(Meryel.UnityCodeAssist.YamlDotNet.Core.IEmitter,System.Object,System.Type)">
+            <summary>
+            Writes the specified object's state to a YAML emitter.
+            </summary>
+            <param name="emitter"><see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Core.IEmitter"/> instance.</param>
+            <param name="value">Value to write.</param>
+            <param name="type"><see cref="T:System.Type"/> to convert.</param>
+            <remarks>On serializing, the first format in the list is used.</remarks>
+        </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.GuidConverter">
             <summary>
             Converter for System.Guid.
@@ -3827,6 +3933,45 @@
             <remarks>
             Converts <see cref="T:System.Type" /> to a scalar containing the assembly qualified name of the type.
             </remarks>
+        </member>
+        <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.TimeOnlyConverter">
+            <summary>
+            This represents the YAML converter entity for <see cref="T:System.TimeOnly"/>.
+            </summary>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.TimeOnlyConverter.#ctor(System.IFormatProvider,System.Boolean,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.TimeOnlyConverter"/> class.
+            </summary>
+            <param name="provider"><see cref="T:System.IFormatProvider"/> instance. Default value is <see cref="P:System.Globalization.CultureInfo.InvariantCulture"/>.</param>
+            <param name="doubleQuotes">If true, will use double quotes when writing the value to the stream.</param>
+            <param name="formats">List of date/time formats for parsing. Default value is "<c>T</c>".</param>
+            <remarks>On deserializing, all formats in the list are used for conversion, while on serializing, the first format in the list is used.</remarks>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.TimeOnlyConverter.Accepts(System.Type)">
+            <summary>
+            Gets a value indicating whether the current converter supports converting the specified type.
+            </summary>
+            <param name="type"><see cref="T:System.Type"/> to check.</param>
+            <returns>Returns <c>True</c>, if the current converter supports; otherwise returns <c>False</c>.</returns>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.TimeOnlyConverter.ReadYaml(Meryel.UnityCodeAssist.YamlDotNet.Core.IParser,System.Type)">
+            <summary>
+            Reads an object's state from a YAML parser.
+            </summary>
+            <param name="parser"><see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Core.IParser"/> instance.</param>
+            <param name="type"><see cref="T:System.Type"/> to convert.</param>
+            <returns>Returns the <see cref="T:System.TimeOnly"/> instance converted.</returns>
+            <remarks>On deserializing, all formats in the list are used for conversion.</remarks>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Converters.TimeOnlyConverter.WriteYaml(Meryel.UnityCodeAssist.YamlDotNet.Core.IEmitter,System.Object,System.Type)">
+            <summary>
+            Writes the specified object's state to a YAML emitter.
+            </summary>
+            <param name="emitter"><see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Core.IEmitter"/> instance.</param>
+            <param name="value">Value to write.</param>
+            <param name="type"><see cref="T:System.Type"/> to convert.</param>
+            <remarks>On serializing, the first format in the list is used.</remarks>
         </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.DefaultValuesHandling">
             <summary>
@@ -4177,6 +4322,30 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectFactory.ExecuteOnDeserializing(System.Object)">
+            <summary>
+            Executes the methods on the object that has the <seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Callbacks.OnDeserializingAttribute"/> attribute
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectFactory.ExecuteOnDeserialized(System.Object)">
+            <summary>
+            Executes the methods on the object that has the <seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Callbacks.OnDeserializedAttribute"/> attribute
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectFactory.ExecuteOnSerializing(System.Object)">
+            <summary>
+            Executes the methods on the object that has the <seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Callbacks.OnSerializingAttribute"/> attribute
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectFactory.ExecuteOnSerialized(System.Object)">
+            <summary>
+            Executes the methods on the object that has the <seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Callbacks.OnSerializedAttribute"/> attribute
+            </summary>
+            <param name="value"></param>
+        </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphTraversalStrategy">
             <summary>
             Defines a strategy that walks through an object graph.
@@ -4293,17 +4462,24 @@
             Registers the component in place of the already registered component of type <typeparamref name="TRegistrationType" />.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ISerializer.Serialize(System.Object)">
+            <summary>
+            Serializes the specified object into a string.
+            </summary>
+            <param name="graph">The object to serialize.</param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ISerializer.Serialize(System.Object,System.Type)">
+            <summary>
+            Serializes the specified object into a string.
+            </summary>
+            <param name="graph">The object to serialize.</param>
+            <param name="type">The static type of the object to serialize.</param> 
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ISerializer.Serialize(System.IO.TextWriter,System.Object)">
             <summary>
             Serializes the specified object.
             </summary>
             <param name="writer">The <see cref="T:System.IO.TextWriter" /> where to serialize the object.</param>
-            <param name="graph">The object to serialize.</param>
-        </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ISerializer.Serialize(System.Object)">
-            <summary>
-            Serializes the specified object into a string.
-            </summary>
             <param name="graph">The object to serialize.</param>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ISerializer.Serialize(System.IO.TextWriter,System.Object,System.Type)">
@@ -4485,6 +4661,18 @@
             Creates objects using a Func{Type,object}"/>.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ObjectFactories.ObjectFactoryBase.ExecuteOnDeserialized(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ObjectFactories.ObjectFactoryBase.ExecuteOnDeserializing(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ObjectFactories.ObjectFactoryBase.ExecuteOnSerialized(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ObjectFactories.ObjectFactoryBase.ExecuteOnSerializing(System.Object)">
+            <inheritdoc />
+        </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ObjectFactories.StaticObjectFactory">
             <summary>
             Gets information about and creates statically known, serializable, types.
@@ -4605,17 +4793,24 @@
             deserializer is to use <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder" />.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Serializer.Serialize(System.Object)">
+            <summary>
+            Serializes the specified object into a string.
+            </summary>
+            <param name="graph">The object to serialize.</param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Serializer.Serialize(System.Object,System.Type)">
+            <summary>
+            Serializes the specified object into a string.
+            </summary>
+            <param name="graph">The object to serialize.</param>
+            <param name="type">The static type of the object to serialize.</param> 
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Serializer.Serialize(System.IO.TextWriter,System.Object)">
             <summary>
             Serializes the specified object.
             </summary>
             <param name="writer">The <see cref="T:System.IO.TextWriter" /> where to serialize the object.</param>
-            <param name="graph">The object to serialize.</param>
-        </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Serializer.Serialize(System.Object)">
-            <summary>
-            Serializes the specified object into a string.
-            </summary>
             <param name="graph">The object to serialize.</param>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Serializer.Serialize(System.IO.TextWriter,System.Object,System.Type)">
@@ -4654,6 +4849,11 @@
             Put double quotes around strings that need it, for example Null, True, False, a number. This should be called before any other "With" methods if you want this feature enabled.
             </summary>
             <param name="quoteYaml1_1Strings">Also quote strings that are valid scalars in the YAML 1.1 specification (which includes boolean Yes/No/On/Off, base 60 numbers and more)</param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithDefaultScalarStyle(Meryel.UnityCodeAssist.YamlDotNet.Core.ScalarStyle)">
+            <summary>
+            Sets the default quoting style for scalar values. The default value is <see cref="F:Meryel.UnityCodeAssist.YamlDotNet.Core.ScalarStyle.Any"/>
+            </summary>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithMaximumRecursion(System.Int32)">
             <summary>
@@ -4729,7 +4929,7 @@
             </summary>
             <remarks>
             If more control is needed, create a class that extends from ChainedObjectGraphVisitor and override its EnterMapping methods.
-            Then register it as follows: 
+            Then register it as follows:
             WithEmissionPhaseObjectGraphVisitor(args => new MyDefaultHandlingStrategy(args.InnerVisitor));
             </remarks>
         </member>
@@ -4756,6 +4956,18 @@
             </remarks>
             <param name="objectGraphVisitor">The type inspector.</param>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(System.Func{System.Collections.Generic.IEnumerable{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IYamlTypeConverter},``0})">
+            <summary>
+            Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
+            before emitting an object graph.
+            </summary>
+            <remarks>
+            Registering a visitor in the pre-processing phase enables to traverse the object graph once
+            before actually emitting it. This allows a visitor to collect information about the graph that
+            can be used later by another visitor registered in the emission phase.
+            </remarks>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector.</param>
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(``0,System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
             <summary>
             Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
@@ -4769,6 +4981,19 @@
             <param name="objectGraphVisitor">The type inspector.</param>
             <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(System.Func{System.Collections.Generic.IEnumerable{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IYamlTypeConverter},``0},System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
+            <summary>
+            Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
+            before emitting an object graph.
+            </summary>
+            <remarks>
+            Registering a visitor in the pre-processing phase enables to traverse the object graph once
+            before actually emitting it. This allows a visitor to collect information about the graph that
+            can be used later by another visitor registered in the emission phase.
+            </remarks>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector.</param>
+            <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(Meryel.UnityCodeAssist.YamlDotNet.Serialization.WrapperFactory{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing},``0},System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITrackingRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
             <summary>
             Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
@@ -4779,7 +5004,20 @@
             before actually emitting it. This allows a visitor to collect information about the graph that
             can be used later by another visitor registered in the emission phase.
             </remarks>
-            <param name="objectGraphVisitorFactory">A factory that creates the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> based on a previously registered <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" />.</param>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector based on a previously registered <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" />.</param>
+            <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(Meryel.UnityCodeAssist.YamlDotNet.Serialization.WrapperFactory{System.Collections.Generic.IEnumerable{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IYamlTypeConverter},Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing},``0},System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITrackingRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
+            <summary>
+            Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
+            before emitting an object graph.
+            </summary>
+            <remarks>
+            Registering a visitor in the pre-processing phase enables to traverse the object graph once
+            before actually emitting it. This allows a visitor to collect information about the graph that
+            can be used later by another visitor registered in the emission phase.
+            </remarks>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector based on a previously registered <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" />.</param>
             <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.SerializerBuilder.WithoutPreProcessingPhaseObjectGraphVisitor``1">
@@ -4870,6 +5108,13 @@
             Sets the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention" /> that will be used by the (de)serializer.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticBuilderSkeleton`1.WithEnumNamingConvention(Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
+            <summary>
+            Sets the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention"/> to use when handling enum's.
+            </summary>
+            <param name="enumNamingConvention">Naming convention to use when handling enum's</param>
+            <returns></returns>
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticBuilderSkeleton`1.WithTypeResolver(Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeResolver)">
             <summary>
             Sets the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeResolver" /> that will be used by the (de)serializer.
@@ -4934,10 +5179,31 @@
             Unregisters an existing <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeInspector" /> of type <param name="inspectorType" />.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticBuilderSkeleton`1.WithYamlFormatter(Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlFormatter)">
+            <summary>
+            Override the default yaml formatter with the one passed in
+            </summary>
+            <param name="formatter"><seealso cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlFormatter"/>to use when serializing and deserializing objects.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticContext">
             <summary>
             Holds the static object factory and type inspector to use when statically serializing/deserializing YAML.
             </summary>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticContext.IsKnownType(System.Type)">
+            <summary>
+            Gets whether the type is known to the context
+            </summary>
+            <param name="type">Type to check</param>
+            <returns></returns>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticContext.GetTypeResolver">
+            <summary>
+            Gets the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeResolver"/> to use for serialization
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticContext.GetFactory">
             <summary>
@@ -5084,9 +5350,20 @@
             with the desired customizations.
             </summary>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithQuotingNecessaryStrings(System.Boolean)">
+            <summary>
+            Put double quotes around strings that need it, for example Null, True, False, a number. This should be called before any other "With" methods if you want this feature enabled.
+            </summary>
+            <param name="quoteYaml1_1Strings">Also quote strings that are valid scalars in the YAML 1.1 specification (which includes boolean Yes/No/On/Off, base 60 numbers and more)</param>
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithQuotingNecessaryStrings">
             <summary>
             Put double quotes around strings that need it, for example Null, True, False, a number. This should be called before any other "With" methods if you want this feature enabled.
+            </summary>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithDefaultScalarStyle(Meryel.UnityCodeAssist.YamlDotNet.Core.ScalarStyle)">
+            <summary>
+            Sets the default quoting style for scalar values. The default value is <see cref="F:Meryel.UnityCodeAssist.YamlDotNet.Core.ScalarStyle.Any"/>
             </summary>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithMaximumRecursion(System.Int32)">
@@ -5190,6 +5467,18 @@
             </remarks>
             <param name="objectGraphVisitor">The type inspector.</param>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(System.Func{System.Collections.Generic.IEnumerable{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IYamlTypeConverter},``0})">
+            <summary>
+            Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
+            before emitting an object graph.
+            </summary>
+            <remarks>
+            Registering a visitor in the pre-processing phase enables to traverse the object graph once
+            before actually emitting it. This allows a visitor to collect information about the graph that
+            can be used later by another visitor registered in the emission phase.
+            </remarks>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector.</param>
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(``0,System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
             <summary>
             Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
@@ -5203,6 +5492,19 @@
             <param name="objectGraphVisitor">The type inspector.</param>
             <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
         </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(System.Func{System.Collections.Generic.IEnumerable{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IYamlTypeConverter},``0},System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
+            <summary>
+            Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
+            before emitting an object graph.
+            </summary>
+            <remarks>
+            Registering a visitor in the pre-processing phase enables to traverse the object graph once
+            before actually emitting it. This allows a visitor to collect information about the graph that
+            can be used later by another visitor registered in the emission phase.
+            </remarks>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector.</param>
+            <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
+        </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(Meryel.UnityCodeAssist.YamlDotNet.Serialization.WrapperFactory{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing},``0},System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITrackingRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
             <summary>
             Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
@@ -5213,7 +5515,20 @@
             before actually emitting it. This allows a visitor to collect information about the graph that
             can be used later by another visitor registered in the emission phase.
             </remarks>
-            <param name="objectGraphVisitorFactory">A factory that creates the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> based on a previously registered <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" />.</param>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector based on a previously registered <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" />.</param>
+            <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithPreProcessingPhaseObjectGraphVisitor``1(Meryel.UnityCodeAssist.YamlDotNet.Serialization.WrapperFactory{System.Collections.Generic.IEnumerable{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IYamlTypeConverter},Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing},``0},System.Action{Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITrackingRegistrationLocationSelectionSyntax{Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor{Meryel.UnityCodeAssist.YamlDotNet.Serialization.Nothing}}})">
+            <summary>
+            Registers an additional <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /> to be used by the serializer
+            before emitting an object graph.
+            </summary>
+            <remarks>
+            Registering a visitor in the pre-processing phase enables to traverse the object graph once
+            before actually emitting it. This allows a visitor to collect information about the graph that
+            can be used later by another visitor registered in the emission phase.
+            </remarks>
+            <param name="objectGraphVisitorFactory">A function that instantiates the type inspector based on a previously registered <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" />.</param>
             <param name="where">Configures the location where to insert the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.IObjectGraphVisitor`1" /></param>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticSerializerBuilder.WithoutPreProcessingPhaseObjectGraphVisitor``1">
@@ -5383,7 +5698,7 @@
         </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.TypeResolvers.StaticTypeResolver">
             <summary>
-            The type returned will always be the static type.
+            Except for primitive types, the type returned will always be the static type.
             </summary>
         </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.IPostDeserializationCallback">
@@ -5392,12 +5707,13 @@
             needs to be notified after deserialization.
             </summary>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.ITypeConverter.ChangeType(System.Object,System.Type)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.ITypeConverter.ChangeType(System.Object,System.Type,Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
             <summary>
             Convert a value to a specified type
             </summary>
             <param name="value"></param>
             <param name="expectedType"></param>
+            <param name="enumNamingConvention">Naming convention to use on enums in the type converter.</param>
             <returns></returns>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.ObjectAnchorCollection.Add(System.String,System.Object)">
@@ -5470,56 +5786,62 @@
             Performs type conversions using every standard provided by the .NET library.
             </summary>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType``1(System.Object)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType``1(System.Object,Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
             <summary>
             Converts the specified value.
             </summary>
             <typeparam name="T">The type to which the value is to be converted.</typeparam>
             <param name="value">The value to convert.</param>
+            <param name="enumNamingConvention">Naming convention to apply to enums.</param>
             <returns></returns>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType``1(System.Object,System.IFormatProvider)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType``1(System.Object,System.IFormatProvider,Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
             <summary>
             Converts the specified value.
             </summary>
             <typeparam name="T">The type to which the value is to be converted.</typeparam>
             <param name="value">The value to convert.</param>
             <param name="provider">The provider.</param>
+            <param name="enumNamingConvention">Naming convention to apply to enums.</param>
             <returns></returns>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType``1(System.Object,System.Globalization.CultureInfo)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType``1(System.Object,System.Globalization.CultureInfo,Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
             <summary>
             Converts the specified value.
             </summary>
             <typeparam name="T">The type to which the value is to be converted.</typeparam>
             <param name="value">The value to convert.</param>
             <param name="culture">The culture.</param>
+            <param name="enumNamingConvention">Naming convention to apply to enums.</param>
             <returns></returns>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType(System.Object,System.Type)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType(System.Object,System.Type,Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
             <summary>
             Converts the specified value using the invariant culture.
             </summary>
             <param name="value">The value to convert.</param>
             <param name="destinationType">The type to which the value is to be converted.</param>
+            <param name="enumNamingConvention">Naming convention to apply to enums.</param>
             <returns></returns>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType(System.Object,System.Type,System.IFormatProvider)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType(System.Object,System.Type,System.IFormatProvider,Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
             <summary>
             Converts the specified value.
             </summary>
             <param name="value">The value to convert.</param>
             <param name="destinationType">The type to which the value is to be converted.</param>
             <param name="provider">The format provider.</param>
+            <param name="enumNamingConvention">Naming convention to apply to enums.</param>
             <returns></returns>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType(System.Object,System.Type,System.Globalization.CultureInfo)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.ChangeType(System.Object,System.Type,System.Globalization.CultureInfo,Meryel.UnityCodeAssist.YamlDotNet.Serialization.INamingConvention)">
             <summary>
             Converts the specified value.
             </summary>
             <param name="value">The value to convert.</param>
             <param name="destinationType">The type to which the value is to be converted.</param>
             <param name="culture">The culture.</param>
+            <param name="enumNamingConvention">Naming convention to apply to enums.</param>
             <returns></returns>
         </member>
         <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.Utilities.TypeConverter.RegisterTypeConverter``2">
@@ -5566,6 +5888,18 @@
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlAttributesTypeInspector">
             <summary>
             Applies the Yaml* attributes to another <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.ITypeInspector"/>.
+            </summary>
+        </member>
+        <member name="P:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlFormatter.FormatEnum">
+            <summary>
+            Converts an enum to it's string representation.
+            By default it will be the string representation of the enum passed through the naming convention.
+            </summary>
+            <returns>A string representation of the enum</returns>
+        </member>
+        <member name="P:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlFormatter.PotentiallyQuoteEnums">
+            <summary>
+            If this function returns true, the serializer will put quotes around the formatted enum value if necessary. Defaults to true.
             </summary>
         </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlIgnoreAttribute">
@@ -5627,18 +5961,20 @@
         </member>
         <member name="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlSerializableAttribute">
             <summary>
-            Put this attribute on classes that you want the static analyzer to detect and use.
+            Put this attribute either on serializable types or on the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticContext"/> that you want
+            the static analyzer to detect and use.
             </summary>
         </member>
-        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.ReflectionExtensions.HasDefaultConstructor(System.Type,System.Boolean)">
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlSerializableAttribute.#ctor">
             <summary>
-            Determines whether the specified type has a default constructor.
+            Use this constructor if the attribute is placed on a serializable class.
             </summary>
-            <param name="type">The type.</param>
-            <param name="allowPrivateConstructors">Whether to include private constructors</param>
-            <returns>
-                <c>true</c> if the type has a default constructor; otherwise, <c>false</c>.
-            </returns>
+        </member>
+        <member name="M:Meryel.UnityCodeAssist.YamlDotNet.Serialization.YamlSerializableAttribute.#ctor(System.Type)">
+            <summary>
+            Use this constructor if the attribute is placed on the <see cref="T:Meryel.UnityCodeAssist.YamlDotNet.Serialization.StaticContext"/>.
+            </summary>
+            <param name="serializableType">The type for which to include static code generation.</param>
         </member>
     </members>
 </doc>

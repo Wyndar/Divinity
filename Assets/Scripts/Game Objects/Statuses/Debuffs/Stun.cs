@@ -5,7 +5,7 @@ public class Stun : Debuff
     public Stun(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
         toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        uIManager = GameObject.FindObjectOfType<UIManager>();
+        uIManager = GameObject.FindObjectOfType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Stun");
         debuff = Debuffs.Stunned;
         applierLogic = debufferLogic;

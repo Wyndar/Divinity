@@ -1,58 +1,43 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
 
-    private GameObject BGMusicPlayer;
-    private GameObject BattleMusicPlayer;
-    private AudioSource BattleMusicSource;
-    private AudioSource BGAudioSource;
+    private GameObject BGMusicPlayer, BattleMusicPlayer;
+    private AudioSource BattleMusicSource, BGAudioSource;
 
     [SerializeField]
-    private List<AudioClip> BGAudioClips;
-    [SerializeField]
-    private List<AudioClip> DamageAudioClips;
-    [SerializeField]    
-    private List<AudioClip> DeathAudioClips;
+    private List<AudioClip> BGAudioClips, DamageAudioClips, DeathAudioClips;
 
     public GameObject sfxAudioPrefab;
 
-    public AudioClip select;
-    public AudioClip unselect;
-    public AudioClip click;
-    public AudioClip draw;
-    public AudioClip shuffleDeck;
-    public AudioClip shuffleHand;
-    public AudioClip playCard;
-    public AudioClip flipCard;
-    public AudioClip passTurn;
-    public AudioClip error;
-    public AudioClip battlePhase;
-    public AudioClip attackDeclaration;
-    public AudioClip attackResolution;
-    public AudioClip attackResolutionArmored;
-    public AudioClip effectActivation;
-    public AudioClip effectResolution;
-    public AudioClip summon;
-    public AudioClip buff;
+    public AudioClip select, unselect, click, draw, shuffleDeck, shuffleHand, playCard, flipCard, passTurn, error, battlePhase, attackDeclaration,
+    attackResolution, attackResolutionArmored, effectActivation, effectResolution, summon, buff;
 
+    private AudioClip battleMusic, hyperBattleMusic;
+    public void FindBattleOBJ()
+    {
+        BattleMusicPlayer = GameObject.Find("Battle Phase Music");
+        BattleMusicSource = BattleMusicPlayer.GetComponent<AudioSource>();
+        hyperBattleMusic = (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Hyper War Drums", typeof(AudioClip));
+        battleMusic = (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Basic War Drums", typeof(AudioClip));
+    }
 
     public void FindBGOBJ()
     {
         BGMusicPlayer = GameObject.Find("Background Music");
         BGAudioSource = BGMusicPlayer.GetComponent<AudioSource>();
         BGAudioClips.Clear();
-        foreach (AudioClip audioClip in Resources.LoadAll($"Music/{SceneManager.GetActiveScene().name}", typeof(AudioClip)))
+        foreach (AudioClip audioClip in Resources.LoadAll($"Music/{SceneManager.GetActiveScene().name}", typeof(AudioClip)).Cast<AudioClip>())
             BGAudioClips.Add(audioClip);
     }
 
     public void BattlePhaseMusic(bool isHyper)
     {
-        BattleMusicPlayer = GameObject.Find("Battle Phase Music");
-        BattleMusicSource = BattleMusicPlayer.GetComponent<AudioSource>();
-        BattleMusicSource.clip = isHyper ? (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Hyper War Drums", typeof(AudioClip)) : (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Basic War Drums", typeof(AudioClip));
+        BattleMusicSource.clip = isHyper ? hyperBattleMusic : battleMusic;
         BattleMusicSource.Play();
         BGAudioSource.volume = 0.2f;
     }

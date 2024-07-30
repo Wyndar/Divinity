@@ -7,7 +7,7 @@ public class ToolTipManager : MonoBehaviour
 {
     public Game_Manager gm;
 
-    public UXManager ux;
+    public MainUIManager ux;
 
     public GameObject infoTextPanel, canvasGO;
 

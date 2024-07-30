@@ -4,12 +4,18 @@ using System.Linq;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
-using NetMQ;
-using NetMQ.Sockets;
+using Meryel.UnityCodeAssist.NetMQ;
+using Meryel.UnityCodeAssist.NetMQ.Sockets;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 //using CancellationToken = System.Threading;
 using Application = UnityEngine.Application;
+
+
+#pragma warning disable IDE0005
+using Serilog = Meryel.UnityCodeAssist.Serilog;
+using NetMQ = Meryel.UnityCodeAssist.NetMQ;
+#pragma warning restore IDE0005
 
 
 #nullable enable

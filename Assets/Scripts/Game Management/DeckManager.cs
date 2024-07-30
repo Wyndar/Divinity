@@ -7,7 +7,7 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private Game_Manager G_M;
     [SerializeField] private SaveManager SaveManager;
     [SerializeField] private AudioManager audioManager;
-    [SerializeField] private UIManager U_I;
+    [SerializeField] private SecondaryUIManager U_I;
     [SerializeField] private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
     [SerializeField] private List<Card> database = new();
     [SerializeField] private List<Card> godDatabase = new();
@@ -123,6 +123,7 @@ public class DeckManager : MonoBehaviour
                 if (cardCloneCardLogic.type != Type.Spell)
                 {
                     cardCloneCombatantLogic = cardClone.AddComponent<CombatantLogic>();
+                    cardCloneCardLogic.playTypes.Add(PlayType.Combatant);
                     cardCloneCombatantLogic.gm = G_M;
                     cardCloneCombatantLogic.logic = cardCloneCardLogic;
                     cardCloneCombatantLogic.atk = card.Atk;
@@ -138,6 +139,7 @@ public class DeckManager : MonoBehaviour
                 if (cardCloneCardLogic.type != Type.God)
                 {
                     cardClonePlayableLogic = cardClone.AddComponent<PlayableLogic>();
+                    cardCloneCardLogic.playTypes.Add(PlayType.Playable);
                     cardClonePlayableLogic.gm = G_M;
                     cardClonePlayableLogic.logic = cardCloneCardLogic;
                     cardClonePlayableLogic.cost = card.Cost;

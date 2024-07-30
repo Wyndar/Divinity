@@ -1,13 +1,19 @@
 List of new features, bug fixes and improvements
 
+# Version 1.1.12
+* External binary files have been customized and minimized
+* Domain reloading time have been reduced
+* Stability and usability improvements for exporter/updater
+* Bugfix for Feedback window
+
 # Version 1.1.11
-* GPT completion endpoint fixed for OpenAI API changes
+* Gpt completion endpoint fixed for OpenAI API changes
 * Bugfix for Input Manager monitor
 * Bugfix for logging to Visual Studio output window
 * Bugfix for About window
 
 # Version 1.1.10
-* Version skipped for compatibity with other assets
+* Version skipped for compatibility with other assets
 
 # Version 1.1.9
 * Gpt support for chat and edit

@@ -5,7 +5,7 @@ public class Taunt : Buff
     public Taunt(CardLogic bufferLogic, CardLogic buffedLogic, int duration)
     {
         toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        uIManager = GameObject.FindObjectOfType<UIManager>();
+        uIManager = GameObject.FindObjectOfType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Taunt");
         buff = Buffs.Taunt;
         applierLogic = bufferLogic;

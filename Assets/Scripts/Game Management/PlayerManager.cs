@@ -5,7 +5,7 @@ using TMPro;
 public class PlayerManager : MonoBehaviour
 {
     public Game_Manager gm;
-    public UIManager ui;
+    public SecondaryUIManager ui;
     public SaveManager SaveManager;
     public PlayerManager enemy;
     public AIManager AIManager;

@@ -5,7 +5,7 @@ public class Silence : Debuff
     public Silence(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
         toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        uIManager = GameObject.FindObjectOfType<UIManager>();
+        uIManager = GameObject.FindObjectOfType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Silence");
         debuff = Debuffs.Stunned;
         applierLogic = debufferLogic;

@@ -5,7 +5,7 @@ public class Sleep : Debuff
     public Sleep(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
         toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        uIManager = GameObject.FindObjectOfType<UIManager>();
+        uIManager = GameObject.FindObjectOfType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Sleep");
         debuff = Debuffs.Stunned;
         applierLogic = debufferLogic;

@@ -15,7 +15,7 @@ public class CardStatus
     public ToolTipInfo toolTipInfo;
     public FieldIconHolder fieldIconHolder;
     public ToolTipManager toolTipManager;
-    public UIManager uIManager;
+    public SecondaryUIManager uIManager;
 
     //empty constructor for flexible inheritance, do not delete... vs might show 0 refs but it's important
     public CardStatus()

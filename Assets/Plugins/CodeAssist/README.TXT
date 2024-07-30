@@ -27,14 +27,14 @@ https://marketplace.visualstudio.com/items?itemName=MerryYellow.UCA-Lite
 
 
 Restrictions:
-* Unity 2020.3 and newer.
+* Unity 2020.2 and newer.
 * Visual Studio 2022. Does not work with Visual Studio Code, Visual Studio for Mac, Rider or any other IDE or text editor.
 
 
 
 How to Setup:
 * Import the asset under folder "Assets"
-* Install Meryel.UnityCodeAssist.VSIX.vsix under folder "Assets/Plugins/CodeAssist" (You can skip this step if you have installed it for another project)
+* Install Meryel.UnityCodeAssist.VSIX.vsix under folder "Assets/Plugins/CodeAssist" (You can skip this step if you have installed it before for another project)
 * Open your Unity project with Visual Studio. Code Assist loads in background with low priority, so it will be ready in a minute when Visual Studio first starts up.
 * To check if setup is successfull, in Unity, choose "Tools"->"Code Assist"->"Status" from menu. The windows should display "Code Assist is working!".
 
@@ -71,7 +71,7 @@ To use generative AI with your comments:
 
 Troubleshooting:
 * Make sure in Unity, "Tools"->"Code Assist"->"Status" is available from the menu bar. If not, reimport the asset.
-* Make sure in Visual Studio, "Extensions"->"Unity Code Assist"->Status is available from the menu bar. If not, reinstall the UnityCodeAssistVSIX.vsix file.
+* Make sure in Visual Studio, "Extensions"->"Unity Code Assist"->Status is available from the menu bar. If not, reinstall the Meryel.UnityCodeAssist.VSIX.vsix file (under folder "Assets/Plugins/CodeAssist").
 * If Visual Studio has just been started, just wait; it usually takes around one minute to fully load Code Assist.
 * If still not working, in Unity try "Tools"->"Code Assist"->"Synchronize" from the menu bar. This will attempt a new connection with Visual Studio.
 * If none works above, try restarting both Unity and Visual Studio; sometimes an unclosed background thread blocks communication channels (network ports).

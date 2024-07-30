@@ -5,13 +5,18 @@ using UnityEngine;
 using UnityEditor;
 
 
+#pragma warning disable IDE0005
+using Serilog = Meryel.UnityCodeAssist.Serilog;
+#pragma warning restore IDE0005
+
+
 #nullable enable
 
 
 namespace Meryel.UnityCodeAssist.Editor
 {
 
-    [InitializeOnLoad]
+    //[InitializeOnLoad]
     public static class MainThreadDispatcher
     {
         readonly static ConcurrentBag<System.Action> actions;
@@ -21,6 +26,11 @@ namespace Meryel.UnityCodeAssist.Editor
             actions = new ConcurrentBag<System.Action>();
             EditorApplication.update += Update;
         }
+
+        /// <summary>
+        /// Empty method for invoking static class ctor
+        /// </summary>
+        public static void Bump() {}
 
         static void Update()
         {

@@ -6,6 +6,12 @@ using System.Linq;
 using System.Security.Cryptography;
 
 
+#pragma warning disable IDE0005
+using Serilog = Meryel.UnityCodeAssist.Serilog;
+using YamlDotNet = Meryel.UnityCodeAssist.YamlDotNet;
+#pragma warning restore IDE0005
+
+
 #nullable enable
 
 
