@@ -236,9 +236,9 @@ public class CardLogic : MonoBehaviour
                         if (condition == "<" && stat >= amount)
                             continue;
                     }
+                    returnList.Add(target);
                 }
             }
-            returnList.Add(target);
         }
         if (returnList.Count < 1)
             Debug.Log($"No valid targets for {cardName}'s {effectUsed} ability at {gameManager.turnPlayer.PlayerName}'s turn at phase {gameManager.currentPhase}");
@@ -369,9 +369,8 @@ public class CardLogic : MonoBehaviour
             //resolve chain after all possible effect chains are linked
             if (cardController.isAI)
                 cardController.AIManager.isPerformingAction = false;
-            if (!gameManager.isActivatingEffect && !gameManager.isPlayingCard)
-                gameManager.ChainResolution();
-        };
+        }
+            gameManager.ChainResolution();
     }
 
     private bool ResolveSubsequentSubeffects(SubEffect subEffect)
@@ -597,8 +596,7 @@ public class CardLogic : MonoBehaviour
 
     public void SetFocusCardLogic()
     {
-        if (gameManager.currentFocusCardLogic != null)
-            gameManager.currentFocusCardLogic.RemoveFocusCardLogic();
+        gameManager.currentFocusCardLogic?.RemoveFocusCardLogic();
         gameManager.currentFocusCardLogic = this;
         EnableCardOutline();
     }
