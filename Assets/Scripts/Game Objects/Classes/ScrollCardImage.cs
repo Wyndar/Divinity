@@ -37,7 +37,7 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
         {
             isTargeted = true;
             highlightImage.color = Color.yellow;
-            cardLogic.ManualTargetAcquisition(cardLogic.focusSubEffect);
+            cardLogic.ManualTargetAcquisition(Game_Manager.currentFocusCardLogic.focusSubEffect);
         }
     }
 }

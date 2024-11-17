@@ -53,7 +53,7 @@ public class CombatantLogic : MonoBehaviour
             //audioClip ??= logic.audioManager.attackResolutionBarrier;
             //add audio for barrier later, k?
         }
-        audioClip ??= logic.audioManager.attackResolution;
+        audioClip = audioClip == null ? logic.audioManager.attackResolution : audioClip;
         logic.audioManager.NewAudioPrefab(audioClip);
         gm.ClearAttackTargetImages();
 
@@ -85,6 +85,15 @@ public class CombatantLogic : MonoBehaviour
     {
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
+        foreach (Effect effect in logic.effects)
+            foreach (SubEffect subEffect in effect.SubEffects)
+                if (subEffect.effectType == EffectTypes.Counter)
+                {
+                    gm.activationChainList.Add(logic);
+                    gm.activationChainSubEffectList.Add(subEffect);
+                    break;
+                    //only need to catch one sub effect per effect, rest resolves at chain resolution
+                }
         logic.cardController.AIManager.isPerformingAction = false;
         logic.cardController.enemy.AIManager.isPerformingAction = false;
         gm.ChainResolution();
@@ -147,6 +156,15 @@ public class CombatantLogic : MonoBehaviour
     public void AttackResolution()
     {
         CombatantLogic attacker = gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>();
+        foreach (Effect effect in gm.currentFocusCardLogic.effects)
+            foreach (SubEffect subEffect in effect.SubEffects)
+                if (subEffect.effectType == EffectTypes.Assault)
+                {
+                    gm.activationChainList.Add(gm.currentFocusCardLogic);
+                    gm.activationChainSubEffectList.Add(subEffect);
+                    break;
+                    //only need to catch one sub effect per effect, rest resolves at chain resolution
+                }
         //bugged needs reconsideration
         //logic.U_I.DrawAttackArrow(attacker.logic, logic);
         TakeDamage(attacker.currentAtk, true);
@@ -361,7 +379,6 @@ public class CombatantLogic : MonoBehaviour
         validTargets = new(GetValidAttackTargets());
         foreach(CombatantLogic combatantLogic in validTargets)
         {
-            Debug.Log(combatantLogic.logic.cardName);
             if (combatantLogic.logic.type == Type.Fighter)
                 combatantLogic.logic.cardController.attackTargets[combatantLogic.logic.locationOrderNumber].SetActive(true);
             if (combatantLogic.logic.type == Type.God)

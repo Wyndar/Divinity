@@ -44,6 +44,7 @@ public class ChainManager : MonoBehaviour
                 }
                 if (addCard == false)
                     continue;
+                Debug.Log(triggeredCard.gameObject.name + " "+effect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(effect.SubEffects[0]);
                 break;
@@ -79,21 +80,25 @@ public class ChainManager : MonoBehaviour
                     continue;
                 if (effect.TriggerInfo != null)
                 {
+                    bool foundTrigger = false;
                     foreach (string info in effect.TriggerInfo)
                     {
                         if (info[..3] == "has")
-                            if (!triggeredCard.cardName.Contains(info[3..]))
+                            if (!triggerCard.cardName.Contains(info[3..]))
                                 continue;
                         if (info[..4] == "nhas")
-                            if (triggeredCard.cardName.Contains(info[4..]))
+                            if (triggerCard.cardName.Contains(info[4..]))
                                 continue;
                         if (info[..2] == "is")
-                            if (triggeredCard.cardName != info[2..])
+                            if (triggerCard.cardName != info[2..])
                                 continue;
                         if (info[..3] == "not")
-                            if (triggeredCard.cardName == info[3..])
+                            if (triggerCard.cardName == info[3..])
                                 continue;
+                        foundTrigger = true;
                     }
+                    if (foundTrigger == false)
+                        continue;
                 }
                 if (effect.triggerLocations == null)
                     continue;
@@ -119,6 +124,7 @@ public class ChainManager : MonoBehaviour
                 }
                 if (addCard == false)
                     continue;
+                Debug.Log(triggeredCard.gameObject.name + " " + effect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(effect.SubEffects[0]);
                 break;
@@ -147,33 +153,38 @@ public class ChainManager : MonoBehaviour
                 //must be right game state, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct
                 if (!triggeredEffect.triggerStates.Contains(gameState))
                     continue;
-                if (triggeredEffect.triggerCardTypes != null && triggeredEffect.triggerCardTypes.Contains(cardLogic.type))
+                if (triggeredEffect.triggerLocations == null)
+                    continue;
+                if (!triggeredEffect.triggerLocations.Contains(triggeredCard.currentLocation))
+                    continue;
+                if (triggeredEffect.triggerCardTypes != null && !triggeredEffect.triggerCardTypes.Contains(cardLogic.type))
+                    continue;
+                if (triggeredEffect.triggerCardLocations != null && !triggeredEffect.triggerCardLocations.Contains(cardLogic.currentLocation))
                     continue;
                 if (triggeredEffect.TriggerInfo != null)
                 {
+                    bool foundTrigger = false;
                     foreach (string info in triggeredEffect.TriggerInfo)
                     {
+                        
                         if (info[..3] == "has")
-                            if (!triggeredCard.cardName.Contains(info[3..]))
+                            if (!cardLogic.cardName.Contains(info[3..]))
                                 continue;
                         if (info[..4] == "nhas")
-                            if (triggeredCard.cardName.Contains(info[4..]))
+                            if (cardLogic.cardName.Contains(info[4..]))
                                 continue;
                         if (info[..2] == "is")
-                            if (triggeredCard.cardName != info[2..])
+                            if (cardLogic.cardName != info[2..])
                                 continue;
                         if (info[..3] == "not")
-                            if (triggeredCard.cardName == info[3..])
+                            if (cardLogic.cardName == info[3..])
                                 continue;
+                        foundTrigger = true; 
                     }
-                }
-                if (triggeredEffect.triggerLocations == null)
-                    continue;
-                if (triggeredEffect.triggerLocations.Contains(triggeredCard.currentLocation))
-                    continue;
-                   
-                if (triggeredEffect.triggerCardLocations != null && !triggeredEffect.triggerCardLocations.Contains(cardLogic.currentLocation))
-                    continue;
+                    if (foundTrigger == false)
+                        continue;
+                }  
+                
                 int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
 
                 //ensures that the trigger activates due to correct owner
@@ -192,9 +203,12 @@ public class ChainManager : MonoBehaviour
                     foreach (int index in indexes)
                         if (gm.activationChainSubEffectList[index].parentEffect == triggeredEffect)
                             addCard = false;
+                        else
+                            Debug.Log(gm.activationChainSubEffectList[index].parentEffect.EffectName + " " + triggeredEffect.EffectName);
                 }
                 if (addCard == false)
                     continue;
+                Debug.Log(triggeredCard.gameObject.name + " " + triggeredEffect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(triggeredEffect.SubEffects[0]);
                 break;
@@ -222,19 +236,20 @@ public class ChainManager : MonoBehaviour
                 if (!triggeredEffect.triggerStates.Contains(gameState))
                     continue;
 
-                if (triggeredEffect.triggerCardTypes != null)
+                if (triggeredEffect.triggerCardTypes != null && triggeredEffect.triggerCardTypes.Count > 0)
                     continue;
-                if (triggeredEffect.TriggerInfo != null)
+                if (triggeredEffect.TriggerInfo != null && triggeredEffect.TriggerInfo.Count > 0)
                     continue;
                 if (!triggeredEffect.triggerLocations.Contains(triggeredCard.currentLocation))
                     continue;
-                int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
                 if (triggeredEffect.triggerCardOwner != Controller.Undefined)
                 {
                     if ((triggeredEffect.triggerCardOwner == Controller.Opponent && gm.turnPlayer == triggeredCard.cardController) ||
                          (triggeredEffect.triggerCardOwner == Controller.Player && gm.turnPlayer != triggeredCard.cardController))
                         continue;
                 }
+                int effNum = triggeredCard.effects.FindIndex(a => a == triggeredEffect);
+
 
                 //ensures one activation of an effect per card per chain
                 bool addCard = true;
@@ -247,6 +262,7 @@ public class ChainManager : MonoBehaviour
                 }
                 if (addCard == false)
                     continue;
+                Debug.Log(triggeredCard.gameObject.name+" " +triggeredEffect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(triggeredEffect.SubEffects[0]);
                 //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution

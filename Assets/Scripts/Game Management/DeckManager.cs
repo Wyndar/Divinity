@@ -1,6 +1,7 @@
 ﻿//NB: null checks are not redundant
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class DeckManager : MonoBehaviour
 {
@@ -93,8 +94,8 @@ public class DeckManager : MonoBehaviour
 
                 //activates and adds logic to empty then references the logic
                 cardClone.SetActive(true);
-                PlayableLogic cardClonePlayableLogic;
-                CombatantLogic cardCloneCombatantLogic;
+                PlayableLogic cardClonePlayableLogic = null;
+                CombatantLogic cardCloneCombatantLogic = null;
 
                 //populates instance with data
                 cardCloneCardLogic.id = card.Id;
@@ -103,25 +104,34 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardFace = cardClone.transform.Find("Card Front");
                 cardCloneCardLogic.cardBack = cardClone.transform.Find("Card Back");
                 cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");
+                cardCloneCardLogic.cardImageBorder = cardClone.transform.Find("Card Image Border");
                 cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
+                cardCloneCardLogic.textCanvas = cardClone.transform.Find("Canvas");
+                cardCloneCardLogic.nameText = cardCloneCardLogic.textCanvas.Find("Name Text").GetComponent<TMP_Text>();
+                cardCloneCardLogic.effectText = cardCloneCardLogic.textCanvas.Find("Effect Text").GetComponent<TMP_Text>();
+
                 cardCloneCardLogic.gameManager = G_M;
                 cardCloneCardLogic.audioManager = audioManager;
 
                 //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a default
                 cardCloneCardLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.id}", typeof(Sprite)) as Sprite;
-                if(cardCloneCardLogic.image == null)
+                if (cardCloneCardLogic.image == null)
                     cardCloneCardLogic.image = Resources.Load("Sprites And Visuals/Card Images/Default", typeof(Sprite)) as Sprite;
 
                 cardCloneCardLogic.cardImage.gameObject.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.image;
-               
+
                 //disables unnecessary components till needed
                 cardCloneCardLogic.cardFace.gameObject.SetActive(false);
                 cardCloneCardLogic.cardOutline.gameObject.SetActive(false);
+                cardCloneCardLogic.cardImageBorder.gameObject.SetActive(false); 
+                cardCloneCardLogic.textCanvas.gameObject.SetActive(false);
                 cardCloneCardLogic.type = card.CardType;
 
                 //populates generic data based on card type
                 if (cardCloneCardLogic.type != Type.Spell)
                 {
+                    cardCloneCardLogic.ATKText = cardCloneCardLogic.textCanvas.Find("ATK Text").GetComponent<TMP_Text>();
+                    cardCloneCardLogic.HPText = cardCloneCardLogic.textCanvas.Find("HP Text").GetComponent<TMP_Text>();
                     cardCloneCombatantLogic = cardClone.AddComponent<CombatantLogic>();
                     cardCloneCardLogic.playTypes.Add(PlayType.Combatant);
                     cardCloneCombatantLogic.gm = G_M;
@@ -131,6 +141,8 @@ public class DeckManager : MonoBehaviour
                     cardCloneCombatantLogic.maxHp = card.Hp;
                     cardCloneCombatantLogic.currentAtk = card.Atk;
                     cardCloneCombatantLogic.currentHp = card.Hp;
+                    cardCloneCardLogic.ATKText.text = cardCloneCombatantLogic.atk.ToString();
+                    cardCloneCardLogic.HPText.text = cardCloneCombatantLogic.hp.ToString();
                     if (cardCloneCardLogic.type == Type.Fighter && card.MaxAttacks == 0)
                         cardCloneCombatantLogic.maxAttacks = 1;
                     else
@@ -138,11 +150,13 @@ public class DeckManager : MonoBehaviour
                 }
                 if (cardCloneCardLogic.type != Type.God)
                 {
+                    cardCloneCardLogic.costText = cardCloneCardLogic.textCanvas.Find("Cost Text").GetComponent<TMP_Text>();
                     cardClonePlayableLogic = cardClone.AddComponent<PlayableLogic>();
                     cardCloneCardLogic.playTypes.Add(PlayType.Playable);
                     cardClonePlayableLogic.gm = G_M;
                     cardClonePlayableLogic.logic = cardCloneCardLogic;
                     cardClonePlayableLogic.cost = card.Cost;
+                    cardCloneCardLogic.costText.text = cardClonePlayableLogic.cost.ToString();
                     if (isHeroDeck)
                         cardCloneCardLogic.currentLocation = Location.HeroDeck;
                     else
@@ -154,7 +168,6 @@ public class DeckManager : MonoBehaviour
                     cardCloneCardLogic.cardImage.gameObject.SetActive(false);
                     cardCloneCardLogic.cardBack.gameObject.SetActive(true);
                 }
-             
                 //incase more card types are added eventually, switch allows easy implementation of additional logic
                 switch (cardCloneCardLogic.type)
                 {
@@ -192,6 +205,8 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.cardController = playerManager;
                 cardCloneCardLogic.cardText = card.CardText;
                 cardCloneCardLogic.flavorText = card.CardFlavorText;
+                cardCloneCardLogic.nameText.text = cardCloneCardLogic.cardName;
+                cardCloneCardLogic.effectText.text = cardCloneCardLogic.cardText.Replace("|", System.Environment.NewLine);
                 cardCloneCardLogic.effects = new();
                 if (card.Traits != null)
                     cardCloneCardLogic.traits = new(card.Traits);
@@ -231,7 +246,7 @@ public class DeckManager : MonoBehaviour
                     }
                     cardCloneCardLogic.effects.Add(effect);
                 }
-
+     
                 if (cardCloneCardLogic.type != Type.God)
                     returnList.Add(cardCloneCardLogic);
             }

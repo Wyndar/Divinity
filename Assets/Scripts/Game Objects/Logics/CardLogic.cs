@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CardLogic : MonoBehaviour
@@ -16,8 +17,9 @@ public class CardLogic : MonoBehaviour
     public List<Trait> traits = new();
 
     public PlayerManager cardOwner, cardController;
-    public Transform cardFace, cardBack, cardImage, cardOutline;
+    public Transform cardFace, cardBack, cardImage, cardImageBorder, cardOutline, textCanvas;
     public Sprite image;
+    public TMP_Text nameText, costText, ATKText, HPText, effectText;
 
     public string id, cardName, cardText, flavorText;
 
@@ -33,6 +35,7 @@ public class CardLogic : MonoBehaviour
     public SubEffect focusSubEffect;
 
     public float movementSpeed = 3f;
+
 
     //why repeat text???
     private IEnumerator ActivationCoroutine(SubEffect subEffect)
@@ -185,7 +188,6 @@ public class CardLogic : MonoBehaviour
                 {
                     string checkedStat = subEffect.TargetStats[i];
                     string condition = subEffect.TargetStatConditions[i];
-                    int amount = subEffect.TargetStatAmounts[i];
                     int stat = 0;
                     //as more types of effects are added, more checks will be needed
                     if (checkedStat == "none")
@@ -219,17 +221,21 @@ public class CardLogic : MonoBehaviour
                         if (target.cardName == checkedStat[3..])
                             continue;
 
-                    // don't target stats not equal requirements
-                    if (condition == "==" && stat != amount)
-                        continue;
-                    if (condition == ">=" && stat < amount)
-                        continue;
-                    if (condition == "<=" && stat > amount)
-                        continue;
-                    if (condition == ">" && stat <= amount)
-                        continue;
-                    if (condition == "<" && stat >= amount)
-                        continue;
+                    if (subEffect.TargetStatAmounts != null)
+                    {
+                        int amount = subEffect.TargetStatAmounts[i];
+                        // don't target stats not equal requirements
+                        if (condition == "==" && stat != amount)
+                            continue;
+                        if (condition == ">=" && stat < amount)
+                            continue;
+                        if (condition == "<=" && stat > amount)
+                            continue;
+                        if (condition == ">" && stat <= amount)
+                            continue;
+                        if (condition == "<" && stat >= amount)
+                            continue;
+                    }
                 }
             }
             returnList.Add(target);
@@ -245,29 +251,13 @@ public class CardLogic : MonoBehaviour
     private void EffectActivationAfterAnimation(SubEffect subEffect)
     {
         focusSubEffect = subEffect;
-        switch (subEffect.effectType)
-        {
-            //on play
-            case EffectTypes.Deployment:
-            //in response to
-            case EffectTypes.Chain:
-            //continuous on field
-            case EffectTypes.WhileDeployed:
-            //while on field, manual trigger
-            case EffectTypes.Deployed:
-            //on destroyed, auto trigger
-            case EffectTypes.Vengeance:
-            //on attacked, auto trigger
-            case EffectTypes.Counter:
-                if(subEffect.parentEffect.activationLocations==null || subEffect.parentEffect.activationLocations.Contains(currentLocation))
-                TargetCheck(subEffect);
-                break;
-        }
+        if (subEffect.parentEffect.activationLocations == null || subEffect.parentEffect.activationLocations.Contains(currentLocation))
+            TargetCheck(subEffect);
+
         SetFocusCardLogic();
     }
 
-    public void EffectResolution(SubEffect subEffect) => StartCoroutine(ResolutionCoroutine(subEffect));
-
+    public void EffectResolution(SubEffect subEffect)=>StartCoroutine(ResolutionCoroutine(subEffect));
     private void EffectResolutionAfterAnimation(SubEffect subEffect)
     {
         EffectsUsed effectUsed = subEffect.effectUsed;
@@ -625,6 +615,8 @@ public class CardLogic : MonoBehaviour
         cardBack.gameObject.SetActive(false);
         cardFace.gameObject.SetActive(true);
         cardImage.gameObject.SetActive(true);
+        cardImageBorder.gameObject.SetActive(true);
+        textCanvas.gameObject.SetActive(true);
         audioManager.NewAudioPrefab(audioManager.flipCard);
     }
 
@@ -634,6 +626,8 @@ public class CardLogic : MonoBehaviour
         cardBack.gameObject.SetActive(true);
         cardFace.gameObject.SetActive(false);
         cardImage.gameObject.SetActive(false);
+        cardImageBorder.gameObject.SetActive(false);
+        textCanvas.gameObject.SetActive(false);
         audioManager.NewAudioPrefab(audioManager.flipCard);
     }
 
@@ -670,6 +664,7 @@ public class CardLogic : MonoBehaviour
         isNormalColour = false;
         cardFace.GetComponent<SpriteRenderer>().color = Color.grey;
         cardImage.GetComponent<SpriteRenderer>().color = Color.grey;
+        cardImageBorder.GetComponent<SpriteRenderer>().color = Color.grey;  
     }
 
     public void NormalColour()
@@ -677,6 +672,7 @@ public class CardLogic : MonoBehaviour
         isNormalColour = true;
         cardFace.GetComponent<SpriteRenderer>().color = Color.white;
         cardImage.GetComponent<SpriteRenderer>().color = Color.white;
+        cardImageBorder.GetComponent <SpriteRenderer>().color = Color.white;
     }
 
     public void ControllerSwap(PlayerManager player)

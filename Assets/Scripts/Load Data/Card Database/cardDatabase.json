@@ -32,6 +32,7 @@
         "Hp": 2,
         "Effects": [
             {
+                "EffectName": "Phalanx Charge",
                 "SubEffects": [
                     {
                         "EffectType": "Deployment",
@@ -80,6 +81,7 @@
         "Hp": 2,
         "Effects": [
             {
+                "EffectName": "Two for Two",
                 "SubEffects": [
                     {
                         "EffectType": "Deployment",
@@ -110,6 +112,7 @@
         "Hp": 4,
         "Effects": [
             {
+                "EffectName": "Stim Infusion",
                 "SubEffects": [
                     {
                         "EffectType": "Deployed",
@@ -131,7 +134,7 @@
     {
         "Id": "GP-06",
         "CardType": "Fighter",
-        "CardName": "Phalanx Sniper",
+        "CardName": "Phalanx Archer",
         "CardText": "Deployed - 1: Do Damage-1 to one Enemy Combatant",
         "CardFlavorText": "Weapon heavily nerfed by popular demand during last patch update",
         "Traits": [ "Military" ],
@@ -140,6 +143,7 @@
         "Hp": 1,
         "Effects": [
             {
+                "EffectName": "Hidden Strike",
                 "SubEffects": [
                     {
                         "EffectType": "Deployed",
@@ -169,6 +173,7 @@
         "Hp": 4,
         "Effects": [
             {
+                "EffectName": "Phalanx Assault",
                 "SubEffects": [
                     {
                         "EffectType": "Deployment",
@@ -282,6 +287,7 @@
         "Hp": 2,
         "Effects": [
             {
+                "EffectName": "It's a trap!'",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -300,6 +306,7 @@
                 "TriggerController": "Opponent"
             },
             {
+                "EffectName": "Concussive Blast Wave",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -331,6 +338,7 @@
         "Hp": 4,
         "Effects": [
             {
+                "EffectName": "Poison Mist Dispersion",
                 "SubEffects": [
                     {
                         "EffectType": "Deployment",
@@ -415,6 +423,7 @@
         "Hp": 3,
         "Effects": [
             {
+                "EffectName": "Overdose",
                 "SubEffects": [
                     {
                         "EffectType": "Deployment",
@@ -443,6 +452,7 @@
         "Hp": 3,
         "Effects": [
             {
+                "EffectName": "Phalanx Rousing Cheer",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -477,6 +487,7 @@
         "Hp": 3,
         "Effects": [
             {
+                "EffectName": "Phalanx Tactics",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -577,22 +588,81 @@
             }
         ]
     },
-    //working fine above here
+    //works fine above here
     {
         "Id": "GP-19",
         "CardType": "Fighter",
         "CardName": "Alchemy Experiment Plague Source Bubon",
         "CardText": "Vengeance: Apply Poison to one deployed opposing Fighter",
-        "CardFlavorText": "He lost two heads in battle.",
+        "CardFlavorText": "The greatest alchemic disaster, the weakest alchemy experiment.",
+        "Traits": [ "Animal", "Undead" ],
+        "Cost": 1,
+        "Atk": 1,
+        "Hp": 1,
+        "Effects": [
+            {
+                "EffectName": "Black Death",
+                "SubEffects": [
+                    {
+                        "EffectType": "Vengeance",
+                        "EffectUsed": "Poison",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-20",
+        "CardType": "Fighter",
+        "CardName": "Alchemy Experiment Plague Source Ebol",
+        "CardText": "Counter: Apply Poison to the attacking Fighter",
+        "CardFlavorText": "She just wants a hug",
+        "Traits": [ "Animal", "Undead" ],
+        "Cost": 1,
+        "Atk": 1,
+        "Hp": 3,
+        "Effects": [
+            {
+                "EffectName": "Infection",
+                "SubEffects": [
+                    {
+                        "EffectType": "Counter",
+                        "EffectUsed": "Poison",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-21",
+        "CardType": "Fighter",
+        "CardName": "Alchemy Experiment Plague Source Rabid",
+        "CardText": "Assault: Apply Poison to the attacked Fighter",
+        "CardFlavorText": "Note: Invasion not included in package and sold separately.",
         "Traits": [ "Animal", "Undead" ],
         "Cost": 1,
         "Atk": 2,
         "Hp": 1,
         "Effects": [
             {
+                "EffectName": "Infection",
                 "SubEffects": [
                     {
-                        "EffectType": "Deployment",
+                        "EffectType": "Assault",
                         "EffectUsed": "Poison",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,

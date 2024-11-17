@@ -54,7 +54,7 @@
                     }
                 ],
                 "TriggerStates": [ "Deployment" ],
-                "TriggerInfo": [ "Strike" ],
+                "TriggerInfo": [ "hasStrike" ],
                 "TriggerLocations": [ "Field" ],
                 "TriggerController": "Any"
             }

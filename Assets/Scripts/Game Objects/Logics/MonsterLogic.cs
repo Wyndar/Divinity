@@ -110,7 +110,12 @@ public class MonsterLogic : CardLogic
         foreach (Effect effect in effects)
             foreach (SubEffect subEffect in effect.SubEffects)
                 if (subEffect.effectType == EffectTypes.Vengeance)
-                    EffectActivation(subEffect);
+                {
+                    gm.activationChainList.Add(this);
+                    gm.activationChainSubEffectList.Add(subEffect);
+                    break;
+                    //only need to catch one sub effect per effect, rest resolves at chain resolution
+                }
         playLogic.MoveToGrave();
         gm.StateChange(GameState.Death);
     }

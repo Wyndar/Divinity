@@ -382,9 +382,11 @@ public class Game_Manager : MonoBehaviour
         //nothing to do if in middle of effect
         if (isActivatingEffect)
             return;
+        if (gameState == GameState.ChainResolution)
+            return;
         if (isWaitingForResponse)
             return;
-        if(isPlayingCard)
+        if (isPlayingCard)
             return;
         //if empty chain, reset and get new decision
         if (activationChainList.Count == 0)
