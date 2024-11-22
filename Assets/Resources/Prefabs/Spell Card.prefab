@@ -961,8 +961,8 @@ Transform:
   m_GameObject: {fileID: 7944569297245110322}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.002, y: 0.1599, z: 0}
-  m_LocalScale: {x: 0.059278995, y: 0.046534874, z: 1}
+  m_LocalPosition: {x: 0.0020000003, y: 0.1599, z: 0}
+  m_LocalScale: {x: 0.059278995, y: 0.046534877, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2193101251681927792}
@@ -1076,7 +1076,6 @@ GameObject:
   - component: {fileID: 4303156327509605246}
   - component: {fileID: 2272700939772257333}
   - component: {fileID: 2877273801368345103}
-  - component: {fileID: -9119728861020753109}
   m_Layer: 3
   m_Name: Spell Card
   m_TagString: card
@@ -1098,11 +1097,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 591191303287873829}
+  - {fileID: 5552721245730326817}
+  - {fileID: 2755363738916154522}
   - {fileID: 1127213500637184045}
   - {fileID: 7781165284401391871}
   - {fileID: 8508191427039874519}
-  - {fileID: 5552721245730326817}
-  - {fileID: 2755363738916154522}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4303156327509605246
@@ -1176,57 +1175,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-9119728861020753109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8631525344601337069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6e22cf9b4ae6db4985dbc04544043fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  audioManager: {fileID: 0}
-  U_I: {fileID: 0}
-  type: 0
-  rarity: 0
-  playTypes: 
-  traits: 
-  cardOwner: {fileID: 0}
-  cardController: {fileID: 0}
-  cardFace: {fileID: 0}
-  cardBack: {fileID: 0}
-  cardImage: {fileID: 0}
-  cardImageBorder: {fileID: 0}
-  cardOutline: {fileID: 0}
-  textCanvas: {fileID: 0}
-  image: {fileID: 0}
-  nameText: {fileID: 0}
-  costText: {fileID: 0}
-  ATKText: {fileID: 0}
-  HPText: {fileID: 0}
-  effectText: {fileID: 0}
-  id: 
-  cardName: 
-  cardText: 
-  flavorText: 
-  isFaceDown: 0
-  isNormalColour: 0
-  currentLocation: 0
-  locationOrderNumber: 0
-  targets: []
-  validTargets: []
-  effects: []
-  focusSubEffect:
-    effectType: 0
-    effectUsed: 0
-    targetLocations: 
-    effectTargetController: 0
-    targetingType: 0
-    effectTargetTypes: 
-    effectAmount: 0
-    effectTargetAmount: 0
-  movementSpeed: 3

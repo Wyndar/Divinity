@@ -596,7 +596,8 @@ public class CardLogic : MonoBehaviour
 
     public void SetFocusCardLogic()
     {
-        gameManager.currentFocusCardLogic?.RemoveFocusCardLogic();
+        if (gameManager.currentFocusCardLogic != null)
+            gameManager.currentFocusCardLogic.RemoveFocusCardLogic();
         gameManager.currentFocusCardLogic = this;
         EnableCardOutline();
     }
