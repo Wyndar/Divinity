@@ -14799,7 +14799,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -15170,7 +15170,7 @@ GameObject:
   - component: {fileID: 789274743}
   - component: {fileID: 789274745}
   - component: {fileID: 789274744}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Phase Change Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28527,7 +28527,7 @@ MonoBehaviour:
   back: {fileID: 1512625673}
   outline: {fileID: 779635152}
   border: {fileID: 701725836}
-  canvas: {fileID: 0}
+  canvas: {fileID: 482027665}
   topCard: {fileID: 0}
   nameText: {fileID: 658088658}
   effectText: {fileID: 689569463}
@@ -29556,7 +29556,7 @@ MonoBehaviour:
   turnCount: 0
   CardDatabasePath: /Scripts/Load Data/Card Database/cardDatabase.json
   GodDatabasePath: /Scripts/Load Data/Card Database/divineDatabase.json
-  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData3.json
+  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData1.json
   RedPlayerPath: /Scripts/Load Data/Player Data/PlayerData2.json
   ToolTipsDatabasePath: /Scripts/Load Data/Game Data/ToolTipsInfo.json
   loadStartTime: 0
@@ -38241,7 +38241,7 @@ GameObject:
   - component: {fileID: 2027922528}
   - component: {fileID: 2027922530}
   - component: {fileID: 2027922529}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Phase Change Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

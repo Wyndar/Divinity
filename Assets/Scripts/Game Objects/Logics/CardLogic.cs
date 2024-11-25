@@ -140,7 +140,6 @@ public class CardLogic : MonoBehaviour
 
         EffectsUsed effectUsed = subEffect.effectUsed;
         Controller controller = subEffect.effectTargetController;
-
         foreach (CardLogic target in allTargetsList)
         {
             target.TryGetComponent<CombatantLogic>(out var combatantStats);
@@ -181,9 +180,10 @@ public class CardLogic : MonoBehaviour
             //don't target no poisons with poison detonate
             if (effectUsed == EffectsUsed.PoisonDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Poisoned) == null))
                 continue;
-
-            if (subEffect.TargetStats != null)
-            {
+            if (subEffect.TargetStats == null)
+                returnList.Add(target);    
+            else
+            { 
                 for (int i = 0; i < subEffect.TargetStats.Count; i++)
                 {
                     string checkedStat = subEffect.TargetStats[i];

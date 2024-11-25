@@ -114,31 +114,37 @@ public class PlayableLogic : MonoBehaviour
     {
         if (cost > player.costCount && !ignoreCost)
             return "Insufficient blood";
-        if (logic.type == Type.Fighter)
+        switch (logic.type)
         {
-            for (int i = 0; i < player.isEmptyCardSlot.Length; i++)
-            {
-                if (player.isEmptyCardSlot[i] == true)
-                    return null;
-            }
-            return "No fighter zones";
-        }
-        if (logic.type == Type.Spell)
-        {
-            foreach (Effect effect in logic.effects)
-            {
-                foreach (SubEffect subEffect in effect.SubEffects)
+            case Type.Fighter:
                 {
-                    if (subEffect.effectType != EffectTypes.Deployment || subEffect.EffectActivationIsMandatory == false)
-                        continue;
-                    //need to keep an eye on this
-                    if (subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
-                        continue;
-                    List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect);
-                    if (allTargetsList.Count == 0)
-                        return "No valid targets";
+                    for (int i = 0; i < player.isEmptyCardSlot.Length; i++)
+                    {
+                        if (player.isEmptyCardSlot[i])
+                            return null;
+                    }
+                    return "No fighter zones";
                 }
-            }
+
+            case Type.Spell:
+                {
+                    foreach (Effect effect in logic.effects)
+                    {
+                        foreach (SubEffect subEffect in effect.SubEffects)
+                        {
+                            if (subEffect.effectType != EffectTypes.Deployment || subEffect.EffectActivationIsMandatory == false)
+                                continue;
+                            //need to keep an eye on this
+                            if (subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
+                                continue;
+                            List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect);
+                            if (allTargetsList.Count == 0)
+                                return "No valid targets";
+                        }
+                    }
+
+                    break;
+                }
         }
         return null;
     }

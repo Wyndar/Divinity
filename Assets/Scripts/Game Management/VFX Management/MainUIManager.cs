@@ -123,10 +123,7 @@ public class MainUIManager : MonoBehaviour
             }
             else
                 if (playableLogic != null)
-            {
-                Debug.Log("got the playable");
                 playableLogic.EnableHover();
-            }
         }
         hasRaycast = false;
     }

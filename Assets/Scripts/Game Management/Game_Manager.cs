@@ -44,7 +44,8 @@ public class Game_Manager : MonoBehaviour
 
     public float loadStartTime;
     public float loadEndTime;
-    void Start()
+
+    private void Start()
     {
         loadStartTime = Time.realtimeSinceStartup;
         AudioManager.FindBGOBJ();
@@ -63,7 +64,7 @@ public class Game_Manager : MonoBehaviour
         StartCoroutine(TurnManager.ChooseFirstPlayer());
     }
 
-    void Update()
+    private void Update()
     {
         UIManager.UIUpdate(BluePlayerManager);
         UIManager.UIUpdate(RedPlayerManager);
@@ -249,13 +250,9 @@ public class Game_Manager : MonoBehaviour
 
         for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
         {
-            if (player.isEmptyHandSlot[i] == false)
+            if (!player.isEmptyHandSlot[i])
                 continue;
-            if (player.heroDeckLogicList.Count <= 0)
-                break;
-            if (drawAmount <= 0)
-                break;
-            if (player.handSize >= 10)
+            if (player.heroDeckLogicList.Count <= 0 || drawAmount <= 0 || player.handSize >= 10)
                 break;
             int randomNumber = Random.Range(0, player.heroDeckLogicList.Count);
             CardLogic randomCardDraw = player.heroDeckLogicList[randomNumber];
@@ -348,14 +345,14 @@ public class Game_Manager : MonoBehaviour
     public void StateChange(GameState state)
     {
         gameState = state;
-        if (gameState == GameState.Open)
-            return;
-        if (gameState == GameState.EffectActivation)
-            return;
-        if (gameState == GameState.Targeting)
-            return;
-        if (gameState == GameState.ChainResolution)
-            return;
+        switch (gameState)
+        {
+            case GameState.Open:
+            case GameState.EffectActivation:
+            case GameState.Targeting:
+            case GameState.ChainResolution:
+                return;
+        }
         ChainManager.GetEmptyStateTriggers(state);
         if (currentFocusCardLogic == null)
             return;
@@ -380,11 +377,7 @@ public class Game_Manager : MonoBehaviour
     public void ChainResolution()
     {
         //nothing to do if in middle of effect
-        if (isActivatingEffect)
-            return;
-        if (isWaitingForResponse)
-            return;
-        if (isPlayingCard)
+        if (isActivatingEffect || isWaitingForResponse || isPlayingCard)
             return;
         //if empty chain, reset and get new decision
         if (activationChainList.Count == 0)
@@ -484,13 +477,7 @@ public class Game_Manager : MonoBehaviour
 
     public void SwitchControl(PlayerManager player)
     {
-        if (player.isAI)
-            return;
-        if (!player.isLocal)
-            return;
-        if (player.enemy.isAI)
-            return;
-        if (!player.enemy.isLocal)
+        if (player.isAI || !player.isLocal || player.enemy.isAI || !player.enemy.isLocal)
             return;
         foreach (CardLogic cardLogic in player.enemy.handLogicList)
                 cardLogic.FlipFaceDown();
