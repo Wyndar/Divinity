@@ -13,6 +13,9 @@ public class Card
     public string CardFlavorText { get; private set; }
 
     public List<Trait> Traits { get; private set; }
+    public List<Attunement> Attunements { get; private set; }
+
+    public List<int>AttunementRates { get; private set; }
 
     //if !god
     public int Cost { get; private set; }

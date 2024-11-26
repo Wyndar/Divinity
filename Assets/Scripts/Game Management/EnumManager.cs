@@ -20,7 +20,8 @@ public enum EffectsUsed
     Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor,
     Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep,
     Stun, Provoke, Disarm, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate,
-    Barrier, BuffDispel, DebuffDispel, Silence, BloodBoost,
+    Barrier, BuffDispel, DebuffDispel, Silence, BloodBoost, Advancement, Knockback, Pull, Shift, Immortality, Immunity,
+    Spin, Discard, Mill, ForceRetreat, Return, Retreat, DeathCurse, Mark, Freeze,
     Undefined
 }
 
@@ -31,7 +32,12 @@ public enum TargetingTypes
 
 public enum Type
 {
-    Spell, God, Fighter, Undefined
+    Spell, God, Fighter, Relic, Terrain, Undefined
+}
+
+public enum Attunement
+{
+    Ira, Amyna, Enkrateia, Katara, Eulogia, Areta, Untuned, Undefined
 }
 
 public enum PlayType
@@ -41,7 +47,8 @@ public enum PlayType
 
 public enum Trait
 {
-    Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Fashion, DeadlySin, Undefined
+    Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Fashion, DeadlySin,
+    GreekPantheon, Undefined
 }
 
 public enum TargetState
@@ -77,4 +84,9 @@ public enum Controller
 public enum Rarity
 {
     L, UR, SR, R, UC, C, Undefined
+}
+
+public enum BloodState
+{
+    Active, Inactive, Locked, Undefined
 }

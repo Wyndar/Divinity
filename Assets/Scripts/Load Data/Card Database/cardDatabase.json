@@ -6,6 +6,7 @@
         "CardText": "Deployment: Reinforce-2",
         "CardFlavorText": "It's a Kantharos. A vase. *Vase!*",
         "Traits": [ "Food" ],
+        "Attunements": [ "Enkrateia" ],
         "Cost": 2,
         "Effects": [
             {
@@ -27,6 +28,7 @@
         "CardText": "Deployment: You can Reinforce-1",
         "CardFlavorText": "If you see one, there's three more nearby.",
         "Traits": [ "Military" ],
+        "Attunements": [ "Enkrateia" ],
         "Cost": 1,
         "Atk": 1,
         "Hp": 2,
@@ -50,6 +52,7 @@
         "CardText": "Deployment: Do Damage-2 to one Enemy Fighter.",
         "CardFlavorText": "People die to this, you know?",
         "Traits": [ "Weather" ],
+        "Attunements": [ "Ira" ],
         "Cost": 1,
         "Effects": [
             {
@@ -76,6 +79,7 @@
         "CardText": "Deployment: You can Free Revive one Cost-2 or lower Fighter from the Underworld",
         "CardFlavorText": "He lost two heads in battle.",
         "Traits": [ "Animal", "Undead" ],
+        "Attunements": [ "Eulogia" ],
         "Cost": 2,
         "Atk": 2,
         "Hp": 2,
@@ -107,6 +111,7 @@
         "CardText": "Deployed - 1: Regeneration-2 one Ally Combatant",
         "CardFlavorText": "Dropped out of med school but the phalanx welcomes all who wish to try.",
         "Traits": [ "Military", "Medicine" ],
+        "Attunements": [ "Eulogia" ],
         "Cost": 2,
         "Atk": 0,
         "Hp": 4,
@@ -138,8 +143,9 @@
         "CardText": "Deployed - 1: Do Damage-1 to one Enemy Combatant",
         "CardFlavorText": "Weapon heavily nerfed by popular demand during last patch update",
         "Traits": [ "Military" ],
+        "Attunements": [ "Ira" ],
         "Cost": 1,
-        "Atk": 0,
+        "Atk": 2,
         "Hp": 1,
         "Effects": [
             {
@@ -168,6 +174,7 @@
         "CardText": "Deployment: Recruit a Cost-1 Fighter from your Reserve then you can Free Deploy it if it is a 'Phalanx' Fighter.",
         "CardFlavorText": "Makes a killing through connections with average skills",
         "Traits": [ "Military" ],
+        "Attunements": [ "Enkrateia" ],
         "Cost": 3,
         "Atk": 2,
         "Hp": 4,
@@ -208,6 +215,7 @@
         "CardText": "While Deployed: Taunt | While Deployed: Armor-1",
         "CardFlavorText": "Will guard your life with everything he has.",
         "Traits": [ "Animal", "Military" ],
+        "Attunements": [ "Amyna" ],
         "Cost": 1,
         "Atk": 0,
         "Hp": 2,
@@ -253,6 +261,7 @@
         "CardText": "While Deployed: Stealth",
         "CardFlavorText": "He's brave enough to go into enemy defenses alone but can't hold a conversation.",
         "Traits": [ "Plant" ],
+        "Attunements": [ "Ira" ],
         "Cost": 2,
         "Atk": 5,
         "Hp": 1,
@@ -282,6 +291,7 @@
         "CardText": "Chain - Summon(Enemy): Place 1 Bomb(Timer:3) on one deployed opposing Fighter | Chain - Detonate: Bounce one opposing Fighter.",
         "CardFlavorText": "Explosions and munitions fanatic",
         "Traits": [ "Military" ],
+        "Attunements": [ "Katara" ],
         "Cost": 1,
         "Atk": 1,
         "Hp": 2,
@@ -333,6 +343,7 @@
         "CardText": "Deployment: Apply Poison(Timer:6) to all deployed opposing Fighters",
         "CardFlavorText": "Has a unique blend of dendrotoxins for everyone.",
         "Traits": [ "Medicine" ],
+        "Attunements": [ "Katara" ],
         "Cost": 4,
         "Atk": 4,
         "Hp": 4,
@@ -363,6 +374,7 @@
         "CardText": "Deployment: Grant a Barrier-2 to one deployed Fighter",
         "CardFlavorText": "A symbol of a legendary NEET who died in a truck accident.",
         "Traits": [ "Fashion", "Tarot" ],
+        "Attunements": [ "Amyna" ],
         "Cost": 1,
         "Effects": [
             {
@@ -383,12 +395,14 @@
         ]
     },
     {
+        //buff this card, it's pathetic
         "Id": "GP-13",
         "CardType": "spell",
         "CardName": "Chariot's Rampage",
         "CardText": "Deployment: Shatter a Cost-1 Enemy Fighter.",
         "CardFlavorText": "Do NOT look a gift horse in the mouth. Do not look ANY horse in the mouth... Actually, stay away from their heads... or them entirely.",
         "Traits": [ "Animal", "Tarot" ],
+        "Attunements": [ "Katara" ],
         "Cost": 1,
         "Effects": [
             {
@@ -418,6 +432,7 @@
         "CardText": "Deployment: Detonate all Poison on all deployed opposing Fighters",
         "CardFlavorText": "Contrary to popular opinion, they do not have a toxic personality and get along with people well.",
         "Traits": [ "Medicine" ],
+        "Attunements": [ "Katara" ],
         "Cost": 3,
         "Atk": 2,
         "Hp": 3,
@@ -447,6 +462,7 @@
         "CardText": "Chain - Reinforce: Rally-1 All 'Phalanx' Combatants",
         "CardFlavorText": "Leads the charge of his phalanx allies.",
         "Traits": [ "Military" ],
+        "Attunements": [ "Eulogia" ],
         "Cost": 2,
         "Atk": 2,
         "Hp": 3,
@@ -482,6 +498,7 @@
         "CardText": "Chain-Deployment(Your 'Phalanx' Card): Blood Recovery-1",
         "CardFlavorText": "A sheltered young noble provides motivation for a consecutive assault.",
         "Traits": [ "Military" ],
+        "Attunements": [ "Enkrateia" ],
         "Cost": 1,
         "Atk": 0,
         "Hp": 3,
@@ -516,6 +533,7 @@
         "CardText": "Deployment: Do Damage-3 to one Combatant. You must have a 'Phalanx' Fighter deployed to play this.",
         "CardFlavorText": "People die to this, you know?",
         "Traits": [ "Weather" ],
+        "Attunements": [ "Ira" ],
         "Cost": 2,
         "Effects": [
             {
@@ -555,6 +573,7 @@
         "CardText": "Deployment: Shatter an Ally Fighter then Reinforce-? equal to that Fighter's Cost",
         "CardFlavorText": "Has no relations to any other vessels of any kind.",
         "Traits": [ "DeadlySin" ],
+        "Attunements": [ "Enkrateia", "Katara" ],
         "Cost": 1,
         "Effects": [
             {
@@ -596,6 +615,7 @@
         "CardText": "Vengeance: Apply Poison to one deployed opposing Fighter",
         "CardFlavorText": "The greatest alchemic disaster, the weakest alchemy experiment.",
         "Traits": [ "Animal", "Undead" ],
+        "Attunements": [ "Katara" ],
         "Cost": 1,
         "Atk": 1,
         "Hp": 1,
@@ -625,6 +645,7 @@
         "CardText": "Counter: Apply Poison to the attacking Fighter",
         "CardFlavorText": "She just wants a hug",
         "Traits": [ "Animal", "Undead" ],
+        "Attunements": [ "Amyna", "Katara" ],
         "Cost": 1,
         "Atk": 1,
         "Hp": 3,
@@ -654,6 +675,7 @@
         "CardText": "Assault: Apply Poison to the attacked Fighter",
         "CardFlavorText": "Note: Invasion not included in package and sold separately.",
         "Traits": [ "Animal", "Undead" ],
+        "Attunements": [ "Ira", "Katara" ],
         "Cost": 1,
         "Atk": 2,
         "Hp": 1,

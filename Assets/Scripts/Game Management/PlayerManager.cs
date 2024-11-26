@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using System;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -46,6 +47,8 @@ public class PlayerManager : MonoBehaviour
     public TMP_Text deckCountText, graveCountText, heroHpText, heroAtkText, shieldText, costText;
 
     public int deckCount, graveCount, shieldCount, costCount;
+    public Blood[] bloods;
+    public Color[] bloodSprites;
 
     public int costPhaseGain = 1;
     public int handSize;
@@ -60,6 +63,42 @@ public class PlayerManager : MonoBehaviour
             stat = statusIcons2[orderNum];
         GameObject num = damageNums[orderNum];
         ui.StatUpdate(status, statusChangeAmount, stat, num);
+    }
+    public void BloodGain(Attunement attunement)
+    {
+        foreach (Blood b in bloods)
+        {
+            if (b.bloodState != BloodState.Inactive)
+                continue;
+            b.BloodGain();
+            break;
+        }
+        if (attunement != Attunement.Untuned)
+            BloodAttunement(attunement);
+    }
+    //public void BloodLoss(Attunement attunement)
+    //{
+    //    foreach (Blood b in bloods)
+    //    {
+    //        if (b.bloodState != BloodState.Active)
+    //            continue;
+    //        if (attunement == Attunement.Undefined && b.attunement = || attunement == b.attunement)
+    //            b.BloodLoss();
+    //        else
+    //            continue;
+    //        break;
+    //    }
+    //}
+    public void BloodAttunement(Attunement attunement)
+    {
+        foreach (Blood blood in bloods)
+            if (blood.attunement == Attunement.Untuned && blood.bloodState == BloodState.Active)
+            {
+                if(attunement == Attunement.Undefined)
+                 attunement = (Attunement)UnityEngine.Random.Range(0, heroCardLogic.attunements.Count - 1);
+                blood.Attune(attunement, bloodSprites[(int)attunement]);
+                break;
+            } 
     }
 
     public void SetHeroStatus(Status status, int statusChangeAmount)

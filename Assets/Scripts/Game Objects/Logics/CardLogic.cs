@@ -15,6 +15,7 @@ public class CardLogic : MonoBehaviour
     public Rarity rarity;
     public List<PlayType> playTypes = new();
     public List<Trait> traits = new();
+    public List<Attunement> attunements = new();
 
     public PlayerManager cardOwner, cardController;
     public Transform cardFace, cardBack, cardImage, cardImageBorder, cardOutline, textCanvas;

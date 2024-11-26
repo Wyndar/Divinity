@@ -5,7 +5,9 @@
         "CardName": "Zeus",
         "CardText": "Chain - Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
-        "Traits": [ "Weather", "HeadOfPantheon" ],
+        "Traits": [ "Weather", "HeadOfPantheon", "GreekPantheon" ],
+        "Attunements": [ "Ira", "Eulogia", "Enkrateia" ],
+        "AttunementRates": [50,25,25],
         "Atk": 0,
         "Hp": 15,
         "Effects": [
@@ -67,6 +69,7 @@
         "CardText": "Deployment: Do Damage-? equal to Zeus' current Attack to any Enemy Combatant.",
         "CardFlavorText": "It's over now. Everything will return to ash. There will be no survivors.",
         "Traits": [ "Weather" ],
+        "Attunements": [ "Ira" ],
         "Cost": 1,
         "Effects": [
             {
@@ -107,6 +110,7 @@
         "CardText": "Deployment: Do Damage-3 to any Enemy Combatant.",
         "CardFlavorText": "Triple zig, triple zag... hit a twig, just a drag.",
         "Traits": [ "Weather" ],
+        "Attunements": [ "Ira" ],
         "Cost": 1,
         "Effects": [
             {
@@ -133,6 +137,7 @@
         "CardText": "Deployment: Vigor-2 all Ally Fighters",
         "CardFlavorText": "Have no fear, Zeus is with you... a bolt of lightning streaking across the sky has a powerful effect on his ardent followers.",
         "Traits": [ "Weather" ],
+        "Attunements": ["Eulogia"],
         "Cost": 1,
         "Effects": [
             {
@@ -153,12 +158,14 @@
         ]
     },
     {
+        //change this shit... out of class
         "Id": "GP-Z4",
         "CardType": "spell",
         "CardName": "Crimson Devastation Strike",
         "CardText": "Deployment: Intimidate-2 then you can Shatter all Atk-0 Enemy Fighters.",
         "CardFlavorText": "The feeble-hearts fail at the sound of this intimidating strike.",
         "Traits": [ "Weather" ],
+        "Attunements": [ "Katara" ],
         "Cost": 1,
         "Effects": [
             {
@@ -198,6 +205,7 @@
         "CardText": "Deployment: Regenerate-4 one Ally Combatant.",
         "CardFlavorText": "Clear!",
         "Traits": [ "Weather" ],
+        "Attunements": [ "Eulogia" ],
         "Cost": 1,
         "Effects": [
             {
@@ -223,7 +231,9 @@
         "CardName": "Hades",
         "CardText": "Chain - Death: Blood Recovery-1 | Chain - Revive: Reinforce-1",
         "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
-        "Traits": [ "Undead", "Medicine" ],
+        "Traits": [ "Undead", "Medicine", "GreekPantheon" ],
+        "Attunements": [ "Katara", "Eulogia", "Enkrateia" ],
+        "AttunementRates": [ 50, 25, 25 ],
         "Atk": 0,
         "Hp": 25,
         "Effects": [
@@ -261,6 +271,7 @@
         "CardText": "Deployment: Shatter All Fighters then you can Free Revive up to 5 Fighters from either Underworld.",
         "CardFlavorText": "A retelling of legend, he brings disaster to all for his own desires.",
         "Traits": [ "Weather", "Medicine", "Undead" ],
+        "Attunements": [ "Katara", "Eulogia" ],
         "Cost": 1,
         "Effects": [
             {
@@ -297,6 +308,7 @@
         "CardText": "Deployment: Intimidate-3 all deployed opposing Fighters then Weaken-5 one Random deployed opposing Fighter.",
         "CardFlavorText": "It's just a minor fever, all effects are placebo.",
         "Traits": [ "Medicine" ],
+        "Attunements": [ "Katara" ],
         "Cost": 1,
         "Effects": [
             {
@@ -334,6 +346,7 @@
         "CardText": "Deployment: Regeneration-1 for every 4 cards in both Underworld",
         "CardFlavorText": "If it hurts, it means it's working",
         "Traits": [ "Medicine" ],
+        "Attunements": [ "Eulogia" ],
         "Cost": 1,
         "Effects": [
             {
@@ -371,6 +384,7 @@
         "CardText": "Deployment: Revive one fighter from either Underworld.",
         "CardFlavorText": "A thriller, A cinematic masterpiece.",
         "Traits": [ "Medicine", "Undead" ],
+        "Attunements": [ "Eulogia" ],
         "Cost": 1,
         "Effects": [
             {
@@ -391,12 +405,14 @@
         ]
     },
     {
+        //out of class
         "Id": "GP-H5",
         "CardType": "spell",
         "CardName": "Underworld Merchant, Soul Exchange",
         "CardText": "Deployment: Recover two Fighters from either Underworld.",
         "CardFlavorText": "Everything has a price but the price doesn't have to be paid.",
         "Traits": [ "Undead", "Commerce" ],
+        "Attunements": [ "Areta" ],
         "Cost": 1,
         "Effects": [
             {

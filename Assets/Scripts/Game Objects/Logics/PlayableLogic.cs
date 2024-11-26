@@ -75,8 +75,8 @@ public class PlayableLogic : MonoBehaviour
                 logic.NormalColour();
             logic.SetFocusCardLogic();
             gm.StateChange(GameState.Activation);
-            if(!ignoreCost)
-                player.costCount -= cost;
+            if (!ignoreCost)
+                gm.CostChange(cost, logic.cardController, false);
             transform.SetParent(null);
 
                 //not a real location to be logged
@@ -142,7 +142,6 @@ public class PlayableLogic : MonoBehaviour
                                 return "No valid targets";
                         }
                     }
-
                     break;
                 }
         }
