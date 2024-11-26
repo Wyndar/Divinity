@@ -194,17 +194,9 @@ public class MainUIManager : MonoBehaviour
                 CardLogic clickedCard = gameObject.GetComponent<CardLogic>();
                 if (gm.gameState == GameState.Open)
                 {
-                    if (clickedCard.currentLocation == Location.Deck)
+                    if (clickedCard.currentLocation == Location.Deck || clickedCard.currentLocation == Location.HeroDeck)
                         return;
-                    if (clickedCard.currentLocation == Location.HeroDeck)
-                        return;
-                    if (gm.isActivatingEffect)
-                        return;
-                    if (gm.isPlayingCard)
-                        return;
-                    if (!allowCardLogicSwap)
-                        return;
-                    if (gm.activationChainList.Count > 0)
+                    if (gm.isActivatingEffect || gm.isPlayingCard || !allowCardLogicSwap || gm.activationChainList.Count > 0)
                         return;
                     clickedCard.SetFocusCardLogic();
                     focusCard = gm.currentFocusCardLogic;

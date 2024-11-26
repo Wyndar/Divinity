@@ -113,12 +113,12 @@
         "Effects": [
             {
                 "EffectName": "Stim Infusion",
+                "MaxActivations": 1,
                 "SubEffects": [
                     {
                         "EffectType": "Deployed",
                         "EffectUsed": "Regeneration",
                         "EffectAmount": 2,
-                        "MaxActivations": 1,
                         "TargetingType": "Manual",
                         "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Player",
@@ -144,12 +144,12 @@
         "Effects": [
             {
                 "EffectName": "Hidden Strike",
+                "MaxActivations": 1,
                 "SubEffects": [
                     {
                         "EffectType": "Deployed",
                         "EffectUsed": "Damage",
                         "EffectAmount": 1,
-                        "MaxActivations": 1,
                         "TargetingType": "Manual",
                         "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Opponent",
