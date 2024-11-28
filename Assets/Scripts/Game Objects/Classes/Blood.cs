@@ -8,19 +8,19 @@ public class Blood : MonoBehaviour
     public void Attune(Attunement toSet, Color color)
     {
         attunement = toSet;
-        GetComponentInChildren<SpriteRenderer>().color = color;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = color;
     }
 
     public void BloodGain()
     {
         attunement = Attunement.Untuned;
         bloodState = BloodState.Active;
-        GetComponentInChildren<SpriteRenderer>().color = Color.white;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
     }
     public void BloodLoss()
     {
         attunement = Attunement.Untuned;
         bloodState = BloodState.Inactive;
-        GetComponentInChildren<SpriteRenderer>().color = Color.black;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.black;
     }
 }

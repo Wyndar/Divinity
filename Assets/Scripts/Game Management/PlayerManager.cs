@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using System;
+using System.Threading;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -64,40 +65,81 @@ public class PlayerManager : MonoBehaviour
         GameObject num = damageNums[orderNum];
         ui.StatUpdate(status, statusChangeAmount, stat, num);
     }
-    public void BloodGain(Attunement attunement)
+    public void BloodGain(Attunement attunement, int count)
     {
+        int tempCount = count;
         foreach (Blood b in bloods)
         {
-            if (b.bloodState != BloodState.Inactive)
+            if (b.bloodState is not BloodState.Inactive and not BloodState.Undefined)
                 continue;
             b.BloodGain();
-            break;
+            tempCount--;
+            costCount++;
+            gm.StateChange(GameState.Cost);
+            if (tempCount == 0)
+                break;
         }
         if (attunement != Attunement.Untuned)
-            BloodAttunement(attunement);
+            BloodAttunement(attunement, count);
     }
-    //public void BloodLoss(Attunement attunement)
-    //{
-    //    foreach (Blood b in bloods)
-    //    {
-    //        if (b.bloodState != BloodState.Active)
-    //            continue;
-    //        if (attunement == Attunement.Undefined && b.attunement = || attunement == b.attunement)
-    //            b.BloodLoss();
-    //        else
-    //            continue;
-    //        break;
-    //    }
-    //}
-    public void BloodAttunement(Attunement attunement)
+    public void BloodLoss(List<Attunement> attunements, int count)
+    {
+        foreach (Attunement attunement in attunements)
+        {
+            foreach (Blood b in bloods)
+            {
+                if (b.bloodState != BloodState.Active || b.attunement != attunement)
+                    continue;
+                b.BloodLoss();
+                count--;
+                costCount--;
+                gm.StateChange(GameState.Cost);
+                if (count == 0)
+                    return;
+            }
+        }
+    }
+
+    public int BloodAttunementCheck(Attunement attunement)
+    {
+        int count = 0;
+        foreach(Blood b in bloods)
+        {
+            if (attunement != Attunement.Undefined || b.attunement == Attunement.Untuned)
+                if (b.attunement != attunement || b.bloodState == BloodState.Inactive)
+                    continue;
+
+            count++;
+        }
+        return count;
+    }
+    public void BloodAttunement(Attunement attunement, int count)
     {
         foreach (Blood blood in bloods)
             if (blood.attunement == Attunement.Untuned && blood.bloodState == BloodState.Active)
             {
-                if(attunement == Attunement.Undefined)
-                 attunement = (Attunement)UnityEngine.Random.Range(0, heroCardLogic.attunements.Count - 1);
+                if (attunement == Attunement.Undefined)
+                {
+                    if (heroCardLogic.attunementRates.Count != 1)
+                    {
+                        int attunementOdds = UnityEngine.Random.Range(1, 101);
+                        int rateOdds = 0;
+                        for (int i = 0; i < heroCardLogic.attunementRates.Count; i++)
+                        {
+                            rateOdds += heroCardLogic.attunementRates[i];
+                            if (attunementOdds <= rateOdds)
+                                attunement = heroCardLogic.attunements[i];
+                            else
+                                continue;
+                        }
+                    }
+                    else
+                        attunement = heroCardLogic.attunements[0];
+                }
                 blood.Attune(attunement, bloodSprites[(int)attunement]);
-                break;
+                count--;
+                if (count == 0)
+                    break;
             } 
     }
 

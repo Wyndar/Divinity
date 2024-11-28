@@ -1829,7 +1829,7 @@ MonoBehaviour:
   activationZone: {fileID: 1285124117}
   deck: {fileID: 592893483}
   grave: {fileID: 1567230713}
-  hero: {fileID: 0}
+  hero: {fileID: 2060584356}
   shield: {fileID: 846100096}
   shieldPanel: {fileID: 2002641312}
   activateShieldButton: {fileID: 949664157}
@@ -1960,12 +1960,12 @@ MonoBehaviour:
   - {fileID: 1818593234}
   - {fileID: 1775003926}
   bloodSprites:
-  - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0.006791761, g: 0, b: 0.335849, a: 0}
-  - {r: 0, g: 0.96981126, b: 0.055045635, a: 0}
-  - {r: 0.78867924, g: 0, b: 0.69352865, a: 0}
-  - {r: 1, g: 0.9888344, b: 0, a: 0}
-  - {r: 0.73018867, g: 1, b: 0.99947375, a: 0}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.99947375, a: 1}
   costPhaseGain: 1
   handSize: 0
 --- !u!1 &111242506
@@ -2868,7 +2868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &170992273
 GameObject:
   m_ObjectHideFlags: 0
@@ -4881,7 +4881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &265121750
 GameObject:
   m_ObjectHideFlags: 0
@@ -5069,7 +5069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &283754319
 GameObject:
   m_ObjectHideFlags: 0
@@ -5679,7 +5679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &300089647
 GameObject:
   m_ObjectHideFlags: 0
@@ -6925,7 +6925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &345238198
 GameObject:
   m_ObjectHideFlags: 0
@@ -8954,7 +8954,7 @@ MonoBehaviour:
   activationZone: {fileID: 1285124117}
   deck: {fileID: 1865804221}
   grave: {fileID: 18612324}
-  hero: {fileID: 0}
+  hero: {fileID: 1521200015}
   shield: {fileID: 1333814781}
   shieldPanel: {fileID: 1333814781}
   activateShieldButton: {fileID: 1224821498}
@@ -9080,12 +9080,12 @@ MonoBehaviour:
   - {fileID: 1833799176}
   - {fileID: 257795471}
   bloodSprites:
-  - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0.006791761, g: 0, b: 0.335849, a: 0}
-  - {r: 0, g: 0.96981126, b: 0.055045635, a: 0}
-  - {r: 0.78867924, g: 0, b: 0.69352865, a: 0}
-  - {r: 1, g: 0.9888344, b: 0, a: 0}
-  - {r: 0.73018867, g: 1, b: 0.99947375, a: 0}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.99947375, a: 1}
   costPhaseGain: 1
   handSize: 0
 --- !u!1 &436438142
@@ -9977,7 +9977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &454870598
 GameObject:
   m_ObjectHideFlags: 0
@@ -10344,7 +10344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &458238380
 GameObject:
   m_ObjectHideFlags: 0
@@ -12843,7 +12843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &568798328
 GameObject:
   m_ObjectHideFlags: 0
@@ -15664,7 +15664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &711913806
 GameObject:
   m_ObjectHideFlags: 0
@@ -21349,7 +21349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1033356843
 GameObject:
   m_ObjectHideFlags: 0
@@ -21978,7 +21978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1062806815
 GameObject:
   m_ObjectHideFlags: 0
@@ -23067,7 +23067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1139282721
 GameObject:
   m_ObjectHideFlags: 0
@@ -26905,7 +26905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1332313180
 GameObject:
   m_ObjectHideFlags: 0
@@ -27336,7 +27336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1350754199
 GameObject:
   m_ObjectHideFlags: 0
@@ -35746,7 +35746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1778754160
 GameObject:
   m_ObjectHideFlags: 0
@@ -36331,7 +36331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1827891685
 GameObject:
   m_ObjectHideFlags: 0
@@ -36659,7 +36659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1843022438
 GameObject:
   m_ObjectHideFlags: 0
@@ -38382,7 +38382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1888536858
 GameObject:
   m_ObjectHideFlags: 0
@@ -38482,7 +38482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1893360305
 GameObject:
   m_ObjectHideFlags: 0
@@ -39391,7 +39391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attunement: 6
-  bloodState: 3
+  bloodState: 1
 --- !u!1 &1949704034
 GameObject:
   m_ObjectHideFlags: 0

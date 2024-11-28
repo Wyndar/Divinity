@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class PlayableLogic : MonoBehaviour
 {
@@ -76,7 +77,12 @@ public class PlayableLogic : MonoBehaviour
             logic.SetFocusCardLogic();
             gm.StateChange(GameState.Activation);
             if (!ignoreCost)
-                gm.CostChange(cost, logic.cardController, false);
+            {
+                List<Attunement> attunements = new(logic.attunements);
+                //add a check for forced tuning here later
+                attunements.Add(Attunement.Untuned);
+                player.BloodLoss(attunements, cost);
+            }
             transform.SetParent(null);
 
                 //not a real location to be logged
@@ -114,6 +120,18 @@ public class PlayableLogic : MonoBehaviour
     {
         if (cost > player.costCount && !ignoreCost)
             return "Insufficient blood";
+        if (!ignoreCost && player.BloodAttunementCheck(Attunement.Untuned) != player.costCount)
+        {
+            int tempCost = cost;
+            foreach (Blood b in player.bloods)
+            {
+                foreach (Attunement attunement in logic.attunements)
+                    if (b.attunement == attunement)
+                        tempCost--;
+            }
+            if (player.BloodAttunementCheck(Attunement.Untuned) < tempCost)
+                return "Blood Requirements not met!";
+        }
         switch (logic.type)
         {
             case Type.Fighter:

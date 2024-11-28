@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class GodLogic : CardLogic
 {
@@ -14,6 +16,7 @@ public class GodLogic : CardLogic
     private int incomingDamage;
     private bool wasAttack;
 
+    public List<int> attunementRates = new();
     public bool ShieldTrigger(int damage, bool wasAttack)
     {
         if (cardOwner.shieldCount == 0)

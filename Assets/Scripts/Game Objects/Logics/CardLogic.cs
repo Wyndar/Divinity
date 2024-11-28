@@ -279,7 +279,7 @@ public class CardLogic : MonoBehaviour
                 StartCoroutine(gameManager.DrawCard(effectAmount, cardController));
                 break;
             case EffectsUsed.BloodRecovery:
-                gameManager.CostChange(effectAmount, cardController, true);
+                cardController.BloodGain(Attunement.Untuned, effectAmount);
                 break;
             case EffectsUsed.Recruit:
                 foreach (CardLogic target in tempTargets)
@@ -600,13 +600,15 @@ public class CardLogic : MonoBehaviour
         if (gameManager.currentFocusCardLogic != null)
             gameManager.currentFocusCardLogic.RemoveFocusCardLogic();
         gameManager.currentFocusCardLogic = this;
-        EnableCardOutline();
+        if (type != Type.God)
+            EnableCardOutline();
     }
 
     public void RemoveFocusCardLogic()
     {
         gameManager.currentFocusCardLogic = null;
-        DisableCardOutline();
+        if (type != Type.God)
+            DisableCardOutline();
     }
 
     public void FlipFaceUp()

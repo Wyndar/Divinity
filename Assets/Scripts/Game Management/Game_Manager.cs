@@ -98,19 +98,6 @@ public class Game_Manager : MonoBehaviour
 
     public void LoadToolTips() => ToolTipManager.tooltipInfos.AddRange(SaveManager.LoadToolTipInfoDatabase(ToolTipsDatabasePath));
 
-    public void CostChange(int changeAmount, PlayerManager player, bool add)
-    {
-        if (add)
-            player.costCount += changeAmount;
-        else
-            player.costCount -= changeAmount;
-        if (player.costCount > 10)
-            player.costCount = 10;
-        if (player.costCount < 0)
-            player.costCount = 0;
-        StateChange(GameState.Cost);
-    }
-
     public IEnumerator DrawCard(int drawAmount, PlayerManager player)
     {
         hasFinishedDrawEffect = false;

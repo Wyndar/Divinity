@@ -164,8 +164,9 @@ public class TurnManager : MonoBehaviour
         gm.PhaseChange(Phase.CostPhase);
         yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
 
-        int amount = player.costPhaseGain;
-        gm.CostChange(amount, player, true);
+        if (player.costCount > 0)
+            player.BloodAttunement(Attunement.Undefined, player.BloodAttunementCheck(Attunement.Untuned));
+        player.BloodGain(Attunement.Untuned, player.costPhaseGain);
         gm.ChainResolution();
         yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
 
