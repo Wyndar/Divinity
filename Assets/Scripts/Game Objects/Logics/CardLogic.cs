@@ -37,62 +37,38 @@ public class CardLogic : MonoBehaviour
 
     public float movementSpeed = 3f;
 
-
-    //why repeat text???
-    private IEnumerator ActivationCoroutine(SubEffect subEffect)
+    public void EffectActivation(SubEffect subEffect)
     {
         gameManager.isActivatingEffect = true;
         gameManager.DisableRayBlocker();
 
         //these technically don't activate, they are passives
-        if (subEffect.effectType == EffectTypes.WhileDeployed)
+        if (subEffect.effectType != EffectTypes.WhileDeployed)
         {
-            EffectActivationAfterAnimation(subEffect);
-            yield break;
+            gameManager.StateChange(GameState.EffectActivation);
+            audioManager.NewAudioPrefab(audioManager.effectActivation);
+            if (type != Type.God)
+                StartCoroutine(TweenAnimationCoroutine());
         }
-
-        gameManager.StateChange(GameState.EffectActivation);
-        audioManager.NewAudioPrefab(audioManager.effectActivation);
-
-        //tween and grow then shrink animation
-        float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
-        Vector3 originalPosition = transform.position;
-        Vector3 direction = (cardController.activationZone.position - transform.position).normalized;
-        float distanceTravelled = 0;
-        while (distanceTravelled < distance)
-        {
-            Vector3 translationDistance = (cardController.activationZone.position - transform.position);
-            if (Vector3.SqrMagnitude(translationDistance) <= Vector3.SqrMagnitude(direction))
-                transform.position = cardController.activationZone.position;
-            else
-                transform.Translate(direction * movementSpeed, Space.World);
-            distanceTravelled = Vector3.Distance(originalPosition, transform.position);
-            yield return null;
-        }
-        Vector3 originalScale = transform.localScale;
-        transform.localScale = new(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
-        yield return new WaitForSeconds(0.4f);
-
-        transform.localScale = originalScale;
-        transform.localPosition = originalPosition;
-
         EffectActivationAfterAnimation(subEffect);
-        yield break;
     }
 
-    private IEnumerator ResolutionCoroutine(SubEffect subEffect)
+    public void EffectResolution(SubEffect subEffect)
     {
         gameManager.DisableRayBlocker();
 
         //these technically don't resolve
-        if (subEffect.effectType == EffectTypes.WhileDeployed)
+        if (subEffect.effectType != EffectTypes.WhileDeployed)
         {
-            EffectResolutionAfterAnimation(subEffect);
-            yield break;
+            gameManager.StateChange(GameState.EffectResolution);
+            if (type != Type.God)
+                StartCoroutine(TweenAnimationCoroutine());
         }
+        EffectResolutionAfterAnimation(subEffect);
+    }
 
-        gameManager.StateChange(GameState.EffectResolution);
-
+    private IEnumerator TweenAnimationCoroutine()
+    {
         //tween and grow then shrink animation
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
         Vector3 originalPosition = transform.position;
@@ -114,7 +90,6 @@ public class CardLogic : MonoBehaviour
 
         transform.localScale = originalScale;
         transform.localPosition = originalPosition;
-        EffectResolutionAfterAnimation(subEffect);
         yield break;
     }
 
@@ -246,9 +221,6 @@ public class CardLogic : MonoBehaviour
         return returnList;
     }
 
-    public void EffectActivation(SubEffect subEffect) =>
-        StartCoroutine(ActivationCoroutine(subEffect));
-
     private void EffectActivationAfterAnimation(SubEffect subEffect)
     {
         focusSubEffect = subEffect;
@@ -258,7 +230,6 @@ public class CardLogic : MonoBehaviour
         SetFocusCardLogic();
     }
 
-    public void EffectResolution(SubEffect subEffect)=>StartCoroutine(ResolutionCoroutine(subEffect));
     private void EffectResolutionAfterAnimation(SubEffect subEffect)
     {
         EffectsUsed effectUsed = subEffect.effectUsed;

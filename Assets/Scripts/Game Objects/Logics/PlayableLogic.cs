@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using System;
 
 public class PlayableLogic : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class PlayableLogic : MonoBehaviour
 
     public int cost;
     public bool hasBeenPlayed, hasGottenTargets, hasDoneHoverEffect;
+    public bool isForcedTuning = false;
 
     public float movementSpeed = 30f;
 
@@ -79,8 +79,8 @@ public class PlayableLogic : MonoBehaviour
             if (!ignoreCost)
             {
                 List<Attunement> attunements = new(logic.attunements);
-                //add a check for forced tuning here later
-                attunements.Add(Attunement.Untuned);
+                if (!isForcedTuning)
+                    attunements.Add(Attunement.Untuned);
                 player.BloodLoss(attunements, cost);
             }
             transform.SetParent(null);
@@ -196,6 +196,7 @@ public class PlayableLogic : MonoBehaviour
                     //only need to catch one, rest resolves via subsequent effect chain if any
                 }
         }
+        AttunementPenalty(player);
         gm.StateChange(GameState.Deployment);
         if (logic.cardController.isAI)
             logic.cardController.AIManager.isPerformingAction = false;
@@ -214,6 +215,16 @@ public class PlayableLogic : MonoBehaviour
         logic.LocationChange(Location.Grave, i);
         gm.StateChange(GameState.Grave);
         return;
+    }
+    private void AttunementPenalty(PlayerManager player)
+    {
+        foreach(Attunement attunement in logic.attunements)
+        {
+            if (player.heroCardLogic.attunements.Contains(attunement))
+                continue;
+            player.heroCardLogic.combatantLogic.currentHp -= cost;
+            player.heroCardLogic.combatantLogic.maxHp -= cost;
+        }    
     }
 }
 
