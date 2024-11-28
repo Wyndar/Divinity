@@ -88,8 +88,8 @@ public class CardLogic : MonoBehaviour
         transform.localScale = new(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
         yield return new WaitForSeconds(0.4f);
 
-        transform.localScale = originalScale;
-        transform.localPosition = originalPosition;
+        transform.localScale = new(originalScale.x, originalScale.y);
+        transform.localPosition = new(originalPosition.x, originalPosition.y);
         yield break;
     }
 
