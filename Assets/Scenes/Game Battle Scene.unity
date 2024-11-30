@@ -451,7 +451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 21581225}
   - component: {fileID: 21581226}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,8 +511,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -908,7 +908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 46828433}
   - component: {fileID: 46828434}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cap R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -968,8 +968,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9c91055bf836a4147875ba30590f6660, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1978,7 +1978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 111242507}
   - component: {fileID: 111242508}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2038,8 +2038,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -2521,7 +2521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 141802867}
   - component: {fileID: 141802868}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2581,8 +2581,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -2605,7 +2605,7 @@ GameObject:
   m_Component:
   - component: {fileID: 142103724}
   - component: {fileID: 142103725}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2665,8 +2665,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -2780,7 +2780,7 @@ GameObject:
   - component: {fileID: 166934450}
   - component: {fileID: 166934451}
   - component: {fileID: 166934452}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2841,8 +2841,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3157,9 +3157,9 @@ GameObject:
   m_Component:
   - component: {fileID: 175117787}
   - component: {fileID: 175117788}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: God Border Blue
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4793,7 +4793,7 @@ GameObject:
   - component: {fileID: 257795469}
   - component: {fileID: 257795470}
   - component: {fileID: 257795471}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4854,8 +4854,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4981,7 +4981,7 @@ GameObject:
   - component: {fileID: 282969011}
   - component: {fileID: 282969012}
   - component: {fileID: 282969013}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5042,8 +5042,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5591,7 +5591,7 @@ GameObject:
   - component: {fileID: 298982844}
   - component: {fileID: 298982845}
   - component: {fileID: 298982846}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5652,8 +5652,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5885,7 +5885,7 @@ GameObject:
   m_Component:
   - component: {fileID: 313862937}
   - component: {fileID: 313862938}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5945,8 +5945,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -6837,7 +6837,7 @@ GameObject:
   - component: {fileID: 343774508}
   - component: {fileID: 343774509}
   - component: {fileID: 343774510}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6898,8 +6898,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7447,7 +7447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 376995715}
   - component: {fileID: 376995716}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7507,8 +7507,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -9889,7 +9889,7 @@ GameObject:
   - component: {fileID: 454836421}
   - component: {fileID: 454836422}
   - component: {fileID: 454836423}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9950,8 +9950,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10256,7 +10256,7 @@ GameObject:
   - component: {fileID: 456956115}
   - component: {fileID: 456956116}
   - component: {fileID: 456956117}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10317,8 +10317,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -10953,7 +10953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 494391045}
   - component: {fileID: 494391046}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11013,8 +11013,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -12755,7 +12755,7 @@ GameObject:
   - component: {fileID: 554430956}
   - component: {fileID: 554430957}
   - component: {fileID: 554430958}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12816,8 +12816,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -14187,7 +14187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 669936234}
   - component: {fileID: 669936235}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14247,8 +14247,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -15576,7 +15576,7 @@ GameObject:
   - component: {fileID: 706138373}
   - component: {fileID: 706138374}
   - component: {fileID: 706138375}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15637,8 +15637,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -17668,7 +17668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 826771685}
   - component: {fileID: 826771686}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cap R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17728,8 +17728,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9c91055bf836a4147875ba30590f6660, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -18946,7 +18946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 888114583}
   - component: {fileID: 888114584}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19006,8 +19006,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -19632,7 +19632,7 @@ GameObject:
   m_Component:
   - component: {fileID: 917911381}
   - component: {fileID: 917911382}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19692,8 +19692,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -21261,7 +21261,7 @@ GameObject:
   - component: {fileID: 1029740121}
   - component: {fileID: 1029740122}
   - component: {fileID: 1029740123}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21322,8 +21322,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -21890,7 +21890,7 @@ GameObject:
   - component: {fileID: 1061374674}
   - component: {fileID: 1061374675}
   - component: {fileID: 1061374676}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21951,8 +21951,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -22102,7 +22102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1073011387}
   - component: {fileID: 1073011388}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22162,8 +22162,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -22979,7 +22979,7 @@ GameObject:
   - component: {fileID: 1138593679}
   - component: {fileID: 1138593680}
   - component: {fileID: 1138593681}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23040,8 +23040,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -23244,7 +23244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1149498477}
   - component: {fileID: 1149498478}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23304,8 +23304,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -25304,9 +25304,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1229147440}
   - component: {fileID: 1229147441}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: God Border Red
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26598,7 +26598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1316071419}
   - component: {fileID: 1316071420}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cap L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26658,8 +26658,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9c91055bf836a4147875ba30590f6660, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -26817,7 +26817,7 @@ GameObject:
   - component: {fileID: 1329258904}
   - component: {fileID: 1329258905}
   - component: {fileID: 1329258906}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26878,8 +26878,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -27248,7 +27248,7 @@ GameObject:
   - component: {fileID: 1344241874}
   - component: {fileID: 1344241875}
   - component: {fileID: 1344241876}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27309,8 +27309,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -28004,7 +28004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1385535039}
   - component: {fileID: 1385535040}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28064,8 +28064,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -29050,7 +29050,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1424930024}
   - component: {fileID: 1424930025}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29110,8 +29110,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -29319,7 +29319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10.699999}
+  m_AnchoredPosition: {x: -0, y: 10.43}
   m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1443556007
@@ -29338,7 +29338,7 @@ MonoBehaviour:
   m_Color: {r: 0.8509804, g: 0.3925085, b: 0.37254903, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -30816,9 +30816,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1521200016}
   - component: {fileID: 1521200017}
-  m_Layer: 0
+  - component: {fileID: 1521200018}
+  m_Layer: 3
   m_Name: God Image Red
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30890,6 +30891,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &1521200018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521200015}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 13.4400015, y: 7.680001, z: 0.2}
+  m_Center: {x: 0, y: -0.0000019073486, z: 0}
 --- !u!1 &1529370665
 GameObject:
   m_ObjectHideFlags: 0
@@ -31412,7 +31434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1564798195}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood Bar Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34701,7 +34723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1694631828}
   - component: {fileID: 1694631829}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34761,8 +34783,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -34860,7 +34882,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1708374300}
   - component: {fileID: 1708374301}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34920,8 +34942,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -35248,7 +35270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1741647076}
   - component: {fileID: 1741647077}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35308,8 +35330,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -35658,7 +35680,7 @@ GameObject:
   - component: {fileID: 1775003924}
   - component: {fileID: 1775003925}
   - component: {fileID: 1775003926}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35719,8 +35741,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -36243,7 +36265,7 @@ GameObject:
   - component: {fileID: 1818593232}
   - component: {fileID: 1818593233}
   - component: {fileID: 1818593234}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36304,8 +36326,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -36342,7 +36364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1827891686}
   - component: {fileID: 1827891687}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36402,8 +36424,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -36571,7 +36593,7 @@ GameObject:
   - component: {fileID: 1833799174}
   - component: {fileID: 1833799175}
   - component: {fileID: 1833799176}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36632,8 +36654,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -36822,7 +36844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1851253420}
   - component: {fileID: 1851253421}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36882,8 +36904,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -38294,7 +38316,7 @@ GameObject:
   - component: {fileID: 1888468190}
   - component: {fileID: 1888468191}
   - component: {fileID: 1888468192}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38355,8 +38377,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -38394,7 +38416,7 @@ GameObject:
   - component: {fileID: 1888536859}
   - component: {fileID: 1888536860}
   - component: {fileID: 1888536861}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38455,8 +38477,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -39303,7 +39325,7 @@ GameObject:
   - component: {fileID: 1945368418}
   - component: {fileID: 1945368419}
   - component: {fileID: 1945368420}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bar_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39364,8 +39386,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f8fc8c95967b506419d0baa2d77a15ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -42117,7 +42139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2023115204}
   - component: {fileID: 2023115205}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cap L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42177,8 +42199,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 451202187
-  m_SortingLayer: 7
+  m_SortingLayerID: 909766063
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9c91055bf836a4147875ba30590f6660, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -42463,7 +42485,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10.7}
+  m_AnchoredPosition: {x: 0.01, y: 10.59}
   m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2034953407
@@ -42513,7 +42535,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2041236851}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood Bar Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42861,9 +42883,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2060584357}
   - component: {fileID: 2060584358}
-  m_Layer: 0
+  - component: {fileID: 2060584359}
+  m_Layer: 3
   m_Name: God Image Blue
-  m_TagString: Untagged
+  m_TagString: card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42935,6 +42958,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &2060584359
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060584356}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 13.4400015, y: 7.680001, z: 0.2}
+  m_Center: {x: 0, y: -0.0000019073486, z: 0}
 --- !u!1 &2064611996
 GameObject:
   m_ObjectHideFlags: 0
@@ -44096,7 +44140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2107469542}
   - component: {fileID: 2107469543}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Blood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44156,8 +44200,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 897639901
-  m_SortingLayer: 8
+  m_SortingLayerID: 1984073181
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e8481141d9d6aa94d88510033ab7a440, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}

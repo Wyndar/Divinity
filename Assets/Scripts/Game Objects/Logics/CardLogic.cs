@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class CardLogic : MonoBehaviour
@@ -41,14 +42,16 @@ public class CardLogic : MonoBehaviour
     {
         gameManager.isActivatingEffect = true;
         gameManager.DisableRayBlocker();
-
         //these technically don't activate, they are passives
         if (subEffect.effectType != EffectTypes.WhileDeployed)
         {
             gameManager.StateChange(GameState.EffectActivation);
             audioManager.NewAudioPrefab(audioManager.effectActivation);
             if (type != Type.God)
-                StartCoroutine(TweenAnimationCoroutine());
+            {
+                StartCoroutine(TweenAnimationCoroutine(subEffect, true));
+                return;
+            }
         }
         EffectActivationAfterAnimation(subEffect);
     }
@@ -56,18 +59,20 @@ public class CardLogic : MonoBehaviour
     public void EffectResolution(SubEffect subEffect)
     {
         gameManager.DisableRayBlocker();
-
         //these technically don't resolve
         if (subEffect.effectType != EffectTypes.WhileDeployed)
         {
             gameManager.StateChange(GameState.EffectResolution);
             if (type != Type.God)
-                StartCoroutine(TweenAnimationCoroutine());
+            {
+                StartCoroutine(TweenAnimationCoroutine(subEffect, false));
+                return;
+            }
         }
         EffectResolutionAfterAnimation(subEffect);
     }
 
-    private IEnumerator TweenAnimationCoroutine()
+    private IEnumerator TweenAnimationCoroutine(SubEffect subEffect, bool isActivation)
     {
         //tween and grow then shrink animation
         float distance = Vector3.Distance(transform.position, cardController.activationZone.position);
@@ -85,11 +90,15 @@ public class CardLogic : MonoBehaviour
             yield return null;
         }
         Vector3 originalScale = transform.localScale;
-        transform.localScale = new(originalScale.x * 2.5f, originalScale.y * 2.5f, originalScale.z * 1f);
+        transform.localScale = new(originalScale.x * 2.5f, originalScale.y * 2.5f);
         yield return new WaitForSeconds(0.4f);
 
-        transform.localScale = new(originalScale.x, originalScale.y);
-        transform.localPosition = new(originalPosition.x, originalPosition.y);
+        transform.localScale = originalScale;
+        transform.localPosition = originalPosition;
+        if (isActivation)
+            EffectActivationAfterAnimation(subEffect);
+        else
+            EffectResolutionAfterAnimation(subEffect);
         yield break;
     }
 
@@ -606,6 +615,8 @@ public class CardLogic : MonoBehaviour
 
     public void EnableCardOutline()
     {
+        if (type == Type.God)
+            return;
         if (currentLocation != Location.Grave)
             cardOutline.gameObject.SetActive(true);
         else
@@ -614,6 +625,8 @@ public class CardLogic : MonoBehaviour
 
     public void DisableCardOutline()
     {
+        if (type == Type.God)
+            return;
         if (currentLocation != Location.Grave)
             cardOutline.gameObject.SetActive(false);
         else

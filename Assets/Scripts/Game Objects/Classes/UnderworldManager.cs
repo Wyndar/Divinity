@@ -50,11 +50,7 @@ public class UnderworldManager : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (player.graveLogicList.Count == 0)
-            return;
-        if (manager.gameState != GameState.Open)
-            return;
-        if (manager.isActivatingEffect)
+        if (player.graveLogicList.Count == 0 || manager.gameState != GameState.Open || manager.isActivatingEffect)
             return;
         if (manager.isPlayingCard)
             return;
