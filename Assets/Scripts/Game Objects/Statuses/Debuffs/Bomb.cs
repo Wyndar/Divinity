@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 public class Bomb : Debuff
@@ -33,7 +32,7 @@ public class Bomb : Debuff
             logIndex = gm.gameLogHistoryEntries.Count
         };
         gm.gameLogHistoryEntries.Add(cardStatusHistoryEntry);
-        affectedLogic.cardController.SetStatusIcon(affectedLogic.locationOrderNumber, stun);
+        affectedLogic.GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(stun);
         gm.StateChange(GameState.Stun);
         if (fieldIconHolder != null)
         {

@@ -20,8 +20,6 @@ public class SecondaryUIManager : MonoBehaviour
 
         playerManager.deckCountText.text = playerManager.deckCount.ToString();
         playerManager.graveCountText.text = playerManager.graveCount.ToString();
-        playerManager.shieldText.text = playerManager.shieldCount.ToString();
-        playerManager.costText.text = playerManager.costCount.ToString();
     }
 
     public void StatUpdate(Status status, int statusChangeAmount, GameObject stat, GameObject num)
@@ -158,7 +156,7 @@ public class SecondaryUIManager : MonoBehaviour
     public void StatIconUpdate(CardLogic logic)
     {
         CombatantLogic combatant = logic.GetComponent<CombatantLogic>();
-        GameObject icon = logic.cardController.fieldIcons[logic.locationOrderNumber];
+        GameObject icon = logic.GetComponent<MonsterLogic>().currentSlot.fieldIcon;
         if (combatant.cardStatuses.Count == 0)
             return;
         while (icon.transform.childCount < 4)

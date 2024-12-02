@@ -259,7 +259,7 @@ public class CombatantLogic : MonoBehaviour
         targetStatus = status;
         targetState = state;
         cardStatuses.Add(status);
-        logic.cardController.SetStatusIcon(logic.locationOrderNumber, status);
+        logic.GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(status);
     }
 
     public void  AddNonStackingBuff(Buff buff)
@@ -278,7 +278,7 @@ public class CombatantLogic : MonoBehaviour
             RemoveCardStatus(cardStatus);
         }
         cardStatuses.Add(buff);
-        logic.cardController.SetStatusIcon(logic.locationOrderNumber, buff);
+        logic.GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(buff);
     }
 
     public void AddNonStackingDebuff(Debuff debuff)
@@ -297,7 +297,7 @@ public class CombatantLogic : MonoBehaviour
             RemoveCardStatus(cardStatus);
         }
         cardStatuses.Add(debuff);
-        logic.cardController.SetStatusIcon(logic.locationOrderNumber, debuff);
+        logic.GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(debuff);
     }
 
     //can safely implement for a buff/debuff cleanse effect
@@ -380,7 +380,7 @@ public class CombatantLogic : MonoBehaviour
         foreach(CombatantLogic combatantLogic in validTargets)
         {
             if (combatantLogic.logic.type == Type.Fighter)
-                combatantLogic.logic.cardController.attackTargets[combatantLogic.logic.locationOrderNumber].SetActive(true);
+                combatantLogic.GetComponent<MonsterLogic>().currentSlot.attackTarget.SetActive(true);
             if (combatantLogic.logic.type == Type.God)
                 combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
         }

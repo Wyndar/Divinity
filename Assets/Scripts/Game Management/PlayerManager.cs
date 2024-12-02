@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-using System;
-using System.Threading;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -39,32 +37,26 @@ public class PlayerManager : MonoBehaviour
 
     public Transform activationZone;
 
-    public GameObject deck, grave, hero, shield, shieldPanel, activateShieldButton, ignoreShieldButton, raycastBlocker, graveTarget, deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton, hourglassIcon, heroHpStatus, heroAtkStatus, heroNumbers, heroStatus, heroStatus2;
+    public GameObject deck, grave, hero, shield, shieldPanel, activateShieldButton, ignoreShieldButton, raycastBlocker, graveTarget,
+        deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton, hourglassIcon, heroHpStatus,
+        heroAtkStatus, heroNumbers, heroStatus, heroStatus2, hand;
 
-    public GameObject[] cardSlots, handSlots, effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets, attackTargets, fieldIcons, statusIcons, statusIcons2, damageNums, attackProjectileIcons, effectProjectileIcons;
+    public List<GameObject> handSlots;
 
-    public bool[] isEmptyCardSlot, isEmptyHandSlot;
+    public bool[] isEmptyHandSlot;
+    public List<CardSlot> cardSlots;
 
-    public TMP_Text deckCountText, graveCountText, heroHpText, heroAtkText, shieldText, costText;
+    public TMP_Text deckCountText, graveCountText, heroHpText, heroAtkText;
 
     public int deckCount, graveCount, shieldCount, costCount;
     public Blood[] bloods;
-    public Color[] bloodSprites;
+    public Color[] bloodColours, shieldColours;
+    public SpriteRenderer[] shieldSprites;
+    public Color playerColor;
 
     public int costPhaseGain = 1;
     public int handSize;
 
-    public void SetStat(int orderNum, Status status, int statusChangeAmount)
-    {
-        //array out of bounds error catch, very important
-        if (orderNum >= statusIcons.Length)
-            return;
-        GameObject stat = statusIcons[orderNum];
-        if (stat.GetComponent<StatusIconMoveAndFadeAway>().inUse)
-            stat = statusIcons2[orderNum];
-        GameObject num = damageNums[orderNum];
-        ui.StatUpdate(status, statusChangeAmount, stat, num);
-    }
     public void BloodGain(Attunement attunement, int count)
     {
         int tempCount = count;
@@ -136,12 +128,26 @@ public class PlayerManager : MonoBehaviour
                     else
                         attunement = heroCardLogic.attunements[0];
                 }
-                blood.Attune(attunement, bloodSprites[(int)attunement]);
+                blood.Attune(attunement, bloodColours[(int)attunement]);
                 count--;
                 if (count == 0)
                     break;
             } 
     }
+
+    public void SetShield(int shouldRemove, int count)
+    {
+        foreach (SpriteRenderer sprite in shieldSprites)
+        {
+            if (count == 0)
+                break;
+            if (sprite.color != shieldColours[shouldRemove])
+                continue;
+            sprite.color = shieldColours[shouldRemove];
+            count--;
+            continue;
+        }
+    }    
 
     public void SetHeroStatus(Status status, int statusChangeAmount)
     {
@@ -150,7 +156,4 @@ public class PlayerManager : MonoBehaviour
             stat = heroStatus2;
         ui.HeroStatUpdate(status, statusChangeAmount, stat, this);
     }
-
-    public void SetStatusIcon(int orderNum, CardStatus status) =>
-        ui.AddStatIcon(fieldIcons[orderNum], status);
 }

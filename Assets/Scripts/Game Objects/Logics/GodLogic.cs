@@ -45,6 +45,7 @@ public class GodLogic : CardLogic
     public void ActivateShield()
     {
         cardOwner.shieldCount -= 1;
+        cardOwner.SetShield(1, 1);
         gm.StateChange(GameState.Shielded);
         gm.ClearAttackTargetImages();
         cardController.AIManager.isPerformingAction = false;

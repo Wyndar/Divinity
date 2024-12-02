@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using TMPro;
 using System.Collections;
 
 public class TurnManager : MonoBehaviour
@@ -47,6 +46,8 @@ public class TurnManager : MonoBehaviour
         gm.bluePlayerText.text = gm.BluePlayerManager.PlayerName;
         gm.redPlayerText.text = gm.RedPlayerManager.PlayerName;
         gm.turnCountText.text = gm.turnCount.ToString();
+        gm.BluePlayerManager.playerColor = playerColor;
+        gm.RedPlayerManager.playerColor = enemyColor;
         gm.phaseChangeButtonText.text = "COMBAT";
 
         StartCoroutine(gm.DrawCard(5, gm.RedPlayerManager));

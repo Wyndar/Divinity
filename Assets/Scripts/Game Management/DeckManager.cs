@@ -119,20 +119,14 @@ public class DeckManager : MonoBehaviour
                 //populates generic data based on card type
                 if (cardCloneCardLogic.type != Type.God)
                 {
-                    cardCloneCardLogic.cardFace = cardClone.transform.Find("Card Front");
                     cardCloneCardLogic.cardBack = cardClone.transform.Find("Card Back");
                     cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");
                     cardCloneCardLogic.cardImageBorder = cardClone.transform.Find("Card Image Border");
                     cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
                     cardCloneCardLogic.textCanvas = cardClone.transform.Find("Canvas");
-                    cardCloneCardLogic.nameText = cardCloneCardLogic.textCanvas.Find("Name Text").GetComponent<TMP_Text>();
-                    cardCloneCardLogic.effectText = cardCloneCardLogic.textCanvas.Find("Effect Text").GetComponent<TMP_Text>();
                     cardCloneCardLogic.costText = cardCloneCardLogic.textCanvas.Find("Cost Text").GetComponent<TMP_Text>();
-                    cardCloneCardLogic.nameText.text = cardCloneCardLogic.cardName;
-                    cardCloneCardLogic.effectText.text = cardCloneCardLogic.cardText.Replace("|", System.Environment.NewLine);
-
+                   
                     //disables unnecessary components till needed
-                    cardCloneCardLogic.cardFace.gameObject.SetActive(false);
                     cardCloneCardLogic.cardOutline.gameObject.SetActive(false);
                     cardCloneCardLogic.cardImageBorder.gameObject.SetActive(false);
                     cardCloneCardLogic.textCanvas.gameObject.SetActive(false);

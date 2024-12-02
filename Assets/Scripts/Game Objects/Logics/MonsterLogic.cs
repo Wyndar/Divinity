@@ -2,47 +2,49 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 
 public class MonsterLogic : CardLogic
 {
     public Game_Manager gm;
     public CombatantLogic combatLogic;
     public PlayableLogic playLogic;
+    public CardSlot currentSlot;
 
     public void OnFieldAtkRefresh()
     {
-        TMP_Text atkText = cardController.atkIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>();
+        TMP_Text atkText = currentSlot.atkIcon.GetComponentInChildren<TMP_Text>();
         atkText.color = combatLogic.atk != combatLogic.currentAtk ? combatLogic.currentAtk < combatLogic.atk
             ? Color.red : Color.blue : Color.black;
         atkText.text = combatLogic.currentAtk.ToString();
     }
     public void OnFieldHpRefresh()
     {
-        TMP_Text hpText = cardController.hpIcons[locationOrderNumber].GetComponentInChildren<TMP_Text>();
+        TMP_Text hpText = currentSlot.hpIcon.GetComponentInChildren<TMP_Text>();
         hpText.color = combatLogic.currentHp != combatLogic.maxHp ? combatLogic.currentHp < combatLogic.maxHp 
             ? Color.red : Color.blue : Color.black;
         hpText.text = combatLogic.currentHp.ToString();
     }
     public void MonsterSummon(PlayerManager player)
     {
-        for (int slotNumber = 0; slotNumber < player.isEmptyCardSlot.Length; slotNumber++)
+        foreach (CardSlot cardSlot in player.cardSlots)
         {
-            if (!player.isEmptyCardSlot[slotNumber])
+            if (!cardSlot.isEmptyCardSlot || cardSlot.isFrontline)
                 continue;
-            transform.position = player.cardSlots[slotNumber].transform.position;
-            player.isEmptyCardSlot[slotNumber] = false;
-            LocationChange(Location.Field, slotNumber);
+            currentSlot = cardSlot;
+            cardSlot.cardInZone = this;
+            transform.position = cardSlot.transform.position;
+            cardSlot.isEmptyCardSlot = false;
+            LocationChange(Location.Field, cardSlot.column);
             player.fieldLogicList.Add(this);
             combatLogic.currentAtk = combatLogic.atk;
             combatLogic.maxHp = combatLogic.hp;
             combatLogic.currentHp = combatLogic.hp;
-            player.atkIcons[locationOrderNumber].SetActive(true);
-            player.hpIcons[locationOrderNumber].SetActive(true);
+            currentSlot.atkIcon.SetActive(true);
+            currentSlot.hpIcon.SetActive(true);
             OnFieldAtkRefresh();
             OnFieldHpRefresh();
             audioManager.NewAudioPrefab(audioManager.summon);
-            GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, cardController.atkIcons[locationOrderNumber].transform);
+            GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.atkIcon.transform);
             go.transform.position = cardController.cardSlots[locationOrderNumber].transform.position;
             break;
         }
@@ -53,7 +55,7 @@ public class MonsterLogic : CardLogic
 
     override public void StatAdjustment(int value, Status status)
     {
-        cardController.SetStat(locationOrderNumber, status, value);
+        currentSlot.SetStat(status, value);
         OnFieldAtkRefresh();
         OnFieldHpRefresh();
         DeathCheck();
@@ -105,8 +107,8 @@ public class MonsterLogic : CardLogic
     public void MonsterDeath()
     {
         audioManager.SelectCharacterDeathSFX(id);
+        currentSlot.SetStat(Status.Death, 0);
         LeavingFieldSequence();
-        cardController.SetStat(locationOrderNumber, Status.Death, 0);
         foreach (Effect effect in effects)
             foreach (SubEffect subEffect in effect.SubEffects)
                 if (subEffect.effectType == EffectTypes.Vengeance)
@@ -123,16 +125,17 @@ public class MonsterLogic : CardLogic
     public void LeavingFieldSequence()
     {
         combatLogic.currentHp = 0;
-        cardController.atkIcons[locationOrderNumber].SetActive(false);
-        cardController.hpIcons[locationOrderNumber].SetActive(false);
+        currentSlot.atkIcon.SetActive(false);
+        currentSlot.hpIcon.SetActive(false);
         List<GameObject> allChildren = new();
-        foreach (Transform child in cardController.fieldIcons[locationOrderNumber].transform)
+        foreach (Transform child in currentSlot.fieldIcon.transform)
             allChildren.Add(child.gameObject);
         foreach (GameObject child in allChildren)
             Destroy(child);
         combatLogic.cardStatuses.Clear();
         combatLogic.hasDoneCountdown = false;
-        cardController.isEmptyCardSlot[locationOrderNumber] = true;
+        currentSlot.isEmptyCardSlot = true;
+        currentSlot.cardInZone = null;
         cardController.fieldLogicList.Remove(this);
     }
 }

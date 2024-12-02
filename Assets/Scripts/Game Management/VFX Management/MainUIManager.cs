@@ -39,8 +39,6 @@ public class MainUIManager : MonoBehaviour
     private float touchStartTime, touchEndTime;
     private Coroutine trailCoroutine;
     private List<string> effectText;
-    private int activeEffectButton, activeAttackButton;
-    private PlayerManager effectActivatingPlayer, attackDeclaringPlayer;
     private bool hasRaycast;
     private bool allowCardLogicSwap = true;
     private bool isUsingshield;
@@ -212,10 +210,10 @@ public class MainUIManager : MonoBehaviour
                                         if (effect.currentActivations < effect.maxActivations)
                                             showButton = true;
                         if (showButton)
-                            EnableOnFieldEffectActivationPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
+                            monsterLogic.currentSlot.effectActivationButton.SetActive(true);
                         if (gm.currentPhase == Phase.BattlePhase)
                             if (combatant.attacksLeft > 0 && combatant.currentAtk > 0)
-                                EnableOnFieldAttackPopupButton(monsterLogic.cardController, monsterLogic.locationOrderNumber);
+                                monsterLogic.currentSlot.attackDeclarationButton.SetActive(true);
                         return;
                     }
                 }
@@ -285,9 +283,9 @@ public class MainUIManager : MonoBehaviour
 
     public void DeclareAttack()
     {
-        if (effectActivatingPlayer != null)
-            DisableOnFieldEffectActivationPopupButton(effectActivatingPlayer, activeEffectButton);
-        DisableOnFieldAttackPopupButton(attackDeclaringPlayer, activeAttackButton); gm.currentFocusCardLogic.GetComponent<CombatantLogic>().DeclareAttack();
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.effectActivationButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.attackDeclarationButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<CombatantLogic>().DeclareAttack();
     }
 
     public void ShowShieldPrompt(PlayerManager player)
@@ -307,9 +305,8 @@ public class MainUIManager : MonoBehaviour
         effectText = new List<string>(gm.currentFocusCardLogic.cardText.Split("|"));
         gm.DisableTurnUI();
         SwitchEffectPanel(0);
-        DisableOnFieldEffectActivationPopupButton(effectActivatingPlayer, activeEffectButton);
-        if (attackDeclaringPlayer != null)
-            DisableOnFieldAttackPopupButton(attackDeclaringPlayer, activeAttackButton);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.effectActivationButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.attackDeclarationButton.SetActive(false);
     }
 
     public void SwitchEffectPanel(int effectCount)
@@ -507,37 +504,28 @@ public class MainUIManager : MonoBehaviour
         position.z = 25f;
         return Camera.main.ScreenToWorldPoint(position);
     }
-    private void EnableOnFieldEffectActivationPopupButton(PlayerManager playerManager, int locationOrderNumber)
-    {
-        playerManager.effectActivationButtons[locationOrderNumber].SetActive(true);
-        activeEffectButton = locationOrderNumber;
-        effectActivatingPlayer = playerManager;
-    }
-    private void EnableOnFieldAttackPopupButton(PlayerManager playerManager, int locationOrderNumber)
-    {
-        playerManager.attackDeclarationButtons[locationOrderNumber].SetActive(true);
-        activeAttackButton = locationOrderNumber;
-        attackDeclaringPlayer = playerManager;
-    }
-    private void DisableOnFieldEffectActivationPopupButton(PlayerManager playerManager, int locationOrderNumber)
-    {
-        playerManager.effectActivationButtons[locationOrderNumber].SetActive(false);
-        effectActivatingPlayer = null;
-    }
-    private void DisableOnFieldAttackPopupButton(PlayerManager playerManager, int locationOrderNumber)
-    {
-        playerManager.attackDeclarationButtons[locationOrderNumber].SetActive(false);
-        attackDeclaringPlayer = null;
-    }
 
     private void DisableAllPopups()
     {
-        for(int i = 0; i<5;i++)
+        foreach (CardSlot slot in gm.Row1)
         {
-            DisableOnFieldAttackPopupButton(gm.BluePlayerManager, i);
-            DisableOnFieldEffectActivationPopupButton(gm.BluePlayerManager, i);
-            DisableOnFieldAttackPopupButton(gm.RedPlayerManager, i);
-            DisableOnFieldEffectActivationPopupButton(gm.RedPlayerManager, i);
+            slot.attackDeclarationButton.SetActive(false);
+            slot.effectActivationButton.SetActive(false);
+        }
+        foreach (CardSlot slot in gm.Row2)
+        {
+            slot.attackDeclarationButton.SetActive(false);
+            slot.effectActivationButton.SetActive(false);
+        }
+        foreach (CardSlot slot in gm.Row3)
+        {
+            slot.attackDeclarationButton.SetActive(false);
+            slot.effectActivationButton.SetActive(false);
+        }
+        foreach (CardSlot slot in gm.Row4)
+        {
+            slot.attackDeclarationButton.SetActive(false);
+            slot.effectActivationButton.SetActive(false);
         }
     }
 }

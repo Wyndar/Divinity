@@ -19,9 +19,9 @@ public class CardLogic : MonoBehaviour
     public List<Attunement> attunements = new();
 
     public PlayerManager cardOwner, cardController;
-    public Transform cardFace, cardBack, cardImage, cardImageBorder, cardOutline, textCanvas;
+    public Transform cardBack, cardImage, cardImageBorder, cardOutline, textCanvas;
     public Sprite image;
-    public TMP_Text nameText, costText, ATKText, HPText, effectText;
+    public TMP_Text costText, ATKText, HPText;
 
     public string id, cardName, cardText, flavorText;
 
@@ -446,7 +446,7 @@ public class CardLogic : MonoBehaviour
                 foreach (CardLogic target in validTargets)
                 {
                     if (target.type == Type.Fighter && target.currentLocation == Location.Field)
-                        target.cardController.effectTargets[target.locationOrderNumber].SetActive(true);
+                        target.GetComponent<MonsterLogic>().currentSlot.effectTarget.SetActive(true);
                     if (target.type == Type.God && target.currentLocation == Location.Field)
                         target.cardController.heroEffectTarget.SetActive(true);
                     if (target.currentLocation == Location.Grave)
@@ -595,7 +595,6 @@ public class CardLogic : MonoBehaviour
     {
         isFaceDown = false;
         cardBack.gameObject.SetActive(false);
-        cardFace.gameObject.SetActive(true);
         cardImage.gameObject.SetActive(true);
         cardImageBorder.gameObject.SetActive(true);
         textCanvas.gameObject.SetActive(true);
@@ -606,7 +605,6 @@ public class CardLogic : MonoBehaviour
     {
         isFaceDown = true;
         cardBack.gameObject.SetActive(true);
-        cardFace.gameObject.SetActive(false);
         cardImage.gameObject.SetActive(false);
         cardImageBorder.gameObject.SetActive(false);
         textCanvas.gameObject.SetActive(false);
@@ -648,7 +646,6 @@ public class CardLogic : MonoBehaviour
     public void GreyScaleEffect()
     {
         isNormalColour = false;
-        cardFace.GetComponent<SpriteRenderer>().color = Color.grey;
         cardImage.GetComponent<SpriteRenderer>().color = Color.grey;
         cardImageBorder.GetComponent<SpriteRenderer>().color = Color.grey;  
     }
@@ -656,7 +653,6 @@ public class CardLogic : MonoBehaviour
     public void NormalColour()
     {
         isNormalColour = true;
-        cardFace.GetComponent<SpriteRenderer>().color = Color.white;
         cardImage.GetComponent<SpriteRenderer>().color = Color.white;
         cardImageBorder.GetComponent <SpriteRenderer>().color = Color.white;
     }
@@ -764,19 +760,19 @@ public class CardLogic : MonoBehaviour
                 //burns have a default timer of two turns, if duration is set to 0/not defined(int), default applies
                 Burn burn = new(logic, this, effect.duration);
                 combatantLogic.cardStatuses.Add(burn);
-                cardController.SetStatusIcon(locationOrderNumber, burn);
+                GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(burn);
                 break;
             case EffectsUsed.Poison:
                 //poisons have a default timer of four turns, if duration is set to 0/not defined(int), default applies
                 Poison poison = new(logic, this, effect.duration);
                 combatantLogic.cardStatuses.Add(poison);
-                cardController.SetStatusIcon(locationOrderNumber, poison);
+                GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(poison);
                 break;
             case EffectsUsed.Bomb:
                 //bombs have a default timer of three turns, if duration is set to 0/not defined(int), default applies
                 Bomb bomb = new(logic, this, effect.duration);
                 combatantLogic.cardStatuses.Add(bomb);
-                cardController.SetStatusIcon(locationOrderNumber, bomb);
+                GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(bomb);
                 break;
                 //till here
             case EffectsUsed.Spot:

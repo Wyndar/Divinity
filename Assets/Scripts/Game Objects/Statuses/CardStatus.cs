@@ -29,7 +29,7 @@ public class CardStatus
             hasDoneCountDownThisTurn = true;
             return;
         }
-        GameObject.Instantiate(timerPrefab, affectedLogic.cardController.fieldIcons[affectedLogic.locationOrderNumber].transform);
+        GameObject.Instantiate(timerPrefab, affectedLogic.GetComponent<MonsterLogic>().currentSlot.fieldIcon.transform);
         Timer--;
         hasDoneCountDownThisTurn = true;
         if (fieldIconHolder != null)

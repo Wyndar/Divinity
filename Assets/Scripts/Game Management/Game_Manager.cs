@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Game_Manager : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class Game_Manager : MonoBehaviour
     public List<GameLogHistoryEntry> gameLogHistoryEntries = new();
     public List<CardLogic> activationChainList = new();
     public List<SubEffect> activationChainSubEffectList = new();
+    public CardSlot[] Row1, Row2, Row3, Row4;
 
     public CardLogic currentFocusCardLogic;
     public GameObject phaseChangeButton, popUpPanel;
@@ -45,8 +47,10 @@ public class Game_Manager : MonoBehaviour
     public float loadStartTime;
     public float loadEndTime;
 
+#pragma warning disable IDE0051 // Remove unused private members
     private void Start()
     {
+#pragma warning restore IDE0051 // Remove unused private members
         loadStartTime = Time.realtimeSinceStartup;
         AudioManager.FindBGOBJ();
         AudioManager.FindBattleOBJ();
@@ -59,15 +63,33 @@ public class Game_Manager : MonoBehaviour
         //after it's back from the cross country hike, we can move on
         popUpPanelText = popUpPanel.GetComponentInChildren<TMP_Text>();
         phaseChangeButtonText = phaseChangeButton.GetComponentInChildren<TMP_Text>();
+        UIManager.UIUpdate(BluePlayerManager);
+        UIManager.UIUpdate(RedPlayerManager);
+        foreach (CardSlot slot in Row1)
+            slot.ChangeController(RedPlayerManager);
+        RedPlayerManager.cardSlots = new(Row1);
+        foreach (CardSlot slot in Row2)
+        {
+            slot.ChangeController(RedPlayerManager);
+            slot.isFrontline = true;
+        }
+        RedPlayerManager.cardSlots.AddRange(Row2);
+        foreach (CardSlot slot in Row3)
+        {
+            slot.ChangeController(BluePlayerManager);
+            slot.isFrontline = true;
+        }
+        BluePlayerManager.cardSlots = new(Row3);
+        foreach (CardSlot slot in Row4)
+            slot.ChangeController(BluePlayerManager);
+        BluePlayerManager.cardSlots.AddRange(Row4);
+        for(int i = 0; i < BluePlayerManager.hand.transform.childCount; i++)
+            BluePlayerManager.handSlots.Add(BluePlayerManager.hand.transform.GetChild(i).gameObject);
+        for (int i = 0; i < RedPlayerManager.hand.transform.childCount; i++)
+            RedPlayerManager.handSlots.Add(RedPlayerManager.hand.transform.GetChild(i).gameObject);
         loadEndTime = Time.realtimeSinceStartup;
         Debug.Log($"Card Load time is : {loadEndTime - loadStartTime} seconds");
         StartCoroutine(TurnManager.ChooseFirstPlayer());
-    }
-
-    private void Update()
-    {
-        UIManager.UIUpdate(BluePlayerManager);
-        UIManager.UIUpdate(RedPlayerManager);
     }
 
     //will remove this later
@@ -84,6 +106,8 @@ public class Game_Manager : MonoBehaviour
         if (playerManager.isAI)
             playerManager.transform.GetChild(0).gameObject.SetActive(true);
         LoadDeckID(playerManager);
+        playerManager.SetShield(0, playerManager.shieldCount);
+        
     }
 
     public void LoadDeckID(PlayerManager playerManager)
@@ -275,7 +299,7 @@ public class Game_Manager : MonoBehaviour
     {
         AudioManager.NewAudioPrefab(AudioManager.shuffleHand);
         //resets hand to zero transform and empty
-        for (int i = 0; i < player.handSlots.Length; i++)
+        for (int i = 0; i < player.handSlots.Count; i++)
         {
             player.handSlots[i].transform.localPosition = Vector3.zero;
             player.isEmptyHandSlot[i] = true;
@@ -290,7 +314,7 @@ public class Game_Manager : MonoBehaviour
         //reattaches cards to handslots
         foreach (CardLogic logic in handCards)
         {
-            for (int i = 0; i < player.handSlots.Length; i++)
+            for (int i = 0; i < player.handSlots.Count; i++)
             {
                 if (player.isEmptyHandSlot[i] == true)
                 {
@@ -331,6 +355,8 @@ public class Game_Manager : MonoBehaviour
 
     public void StateChange(GameState state)
     {
+        UIManager.UIUpdate(BluePlayerManager);
+        UIManager.UIUpdate(RedPlayerManager);
         gameState = state;
         switch (gameState)
         {
@@ -540,10 +566,15 @@ public class Game_Manager : MonoBehaviour
 
     public void ClearEffectTargetImages()
     {
-        foreach (GameObject image in BluePlayerManager.effectTargets)
-            image.SetActive(false);
-        foreach (GameObject image in RedPlayerManager.effectTargets)
-            image.SetActive(false);
+        foreach (CardSlot slot in Row1)
+            slot.effectTarget.SetActive(false);
+        foreach (CardSlot slot in Row2)
+            slot.effectTarget.SetActive(false);
+        foreach (CardSlot slot in Row3)
+            slot.effectTarget.SetActive(false);
+        foreach (CardSlot slot in Row4)
+            slot.effectTarget.SetActive(false);
+
         RedPlayerManager.heroEffectTarget.SetActive(false);
         RedPlayerManager.deckTarget.SetActive(false);
         RedPlayerManager.graveTarget.SetActive(false);
@@ -560,10 +591,15 @@ public class Game_Manager : MonoBehaviour
 
     public void ClearAttackTargetImages()
     {
-        foreach (GameObject image in BluePlayerManager.attackTargets)
-            image.SetActive(false);
-        foreach (GameObject image in RedPlayerManager.attackTargets)
-            image.SetActive(false);
+        foreach (CardSlot slot in Row1)
+            slot.attackTarget.SetActive(false);
+        foreach (CardSlot slot in Row2)
+            slot.attackTarget.SetActive(false);
+        foreach (CardSlot slot in Row3)
+            slot.attackTarget.SetActive(false);
+        foreach (CardSlot slot in Row4)
+            slot.attackTarget.SetActive(false);
+
         RedPlayerManager.heroAttackTarget.SetActive(false);
         BluePlayerManager.heroAttackTarget.SetActive(false);
     }

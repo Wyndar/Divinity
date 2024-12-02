@@ -136,10 +136,11 @@ public class PlayableLogic : MonoBehaviour
         {
             case Type.Fighter:
                 {
-                    for (int i = 0; i < player.isEmptyCardSlot.Length; i++)
+                    foreach (CardSlot cardSlot in player.cardSlots)
                     {
-                        if (player.isEmptyCardSlot[i])
-                            return null;
+                        if (!cardSlot.isEmptyCardSlot || cardSlot.isFrontline)
+                            continue;
+                        return null;
                     }
                     return "No fighter zones";
                 }
