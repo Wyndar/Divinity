@@ -254,10 +254,6 @@ public class TurnManager : MonoBehaviour
             gm.phaseChangeButton.SetActive(true);
         else
             gm.phaseChangeButton.SetActive(false);
-        if (player == gm.BluePlayerManager)
-            gm.phaseChangeButton.transform.rotation = Quaternion.Euler(Vector3.zero);
-        else
-            gm.phaseChangeButton.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 180f));
     }
 }
 

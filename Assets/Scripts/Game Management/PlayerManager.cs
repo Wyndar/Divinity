@@ -41,9 +41,7 @@ public class PlayerManager : MonoBehaviour
         deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton, hourglassIcon, heroHpStatus,
         heroAtkStatus, heroNumbers, heroStatus, heroStatus2, hand;
 
-    public List<GameObject> handSlots;
-
-    public bool[] isEmptyHandSlot;
+    public List<HandSlot> handSlots;
     public List<CardSlot> cardSlots;
 
     public TMP_Text deckCountText, graveCountText, heroHpText, heroAtkText;
@@ -139,13 +137,12 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (SpriteRenderer sprite in shieldSprites)
         {
-            if (count == 0)
-                break;
             if (sprite.color != shieldColours[shouldRemove])
                 continue;
-            sprite.color = shieldColours[shouldRemove];
+            sprite.color = shouldRemove == 0 ? shieldColours[1] : shieldColours[0];
             count--;
-            continue;
+            if (count == 0)
+                break;
         }
     }    
 

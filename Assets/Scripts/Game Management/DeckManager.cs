@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class DeckManager : MonoBehaviour
 {
@@ -143,8 +144,9 @@ public class DeckManager : MonoBehaviour
                     else
                         cardCloneCardLogic.currentLocation = Location.Deck;
 
-                    cardCloneCardLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x,
-                        deckObject.transform.position.y, deckObject.transform.position.z + 0.5f), deckObject.transform.rotation);
+                    cardCloneCardLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x - 0.5f,
+                        deckObject.transform.position.y, deckObject.transform.position.z),
+                        deckObject.transform.rotation);
                     cardCloneCardLogic.isFaceDown = true;
                     cardCloneCardLogic.cardImage.gameObject.SetActive(false);
                     cardCloneCardLogic.cardBack.gameObject.SetActive(true);

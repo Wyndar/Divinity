@@ -13,10 +13,8 @@ public class CardSlot : MonoBehaviour
     public GameObject effectActivationButton, attackDeclarationButton, atkIcon, hpIcon, effectTarget,
         attackTarget, fieldIcon, statusIcon, statusIcon2, damageNum, attackProjectileIcon, effectProjectileIcon;
 
-#pragma warning disable IDE0051 // Remove unused private members
-    private void Start()
+    public void InitializeSlot()
     {
-#pragma warning restore IDE0051 // Remove unused private members
         sprite = GetComponent<SpriteRenderer>();
         effectActivationButton = effectActivationButtons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
         attackDeclarationButton = attackDeclarationButtons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;

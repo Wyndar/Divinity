@@ -65,28 +65,38 @@ public class Game_Manager : MonoBehaviour
         phaseChangeButtonText = phaseChangeButton.GetComponentInChildren<TMP_Text>();
         UIManager.UIUpdate(BluePlayerManager);
         UIManager.UIUpdate(RedPlayerManager);
+        BluePlayerManager.SetShield(0, BluePlayerManager.shieldCount);
+        RedPlayerManager.SetShield(0, RedPlayerManager.shieldCount);
         foreach (CardSlot slot in Row1)
+        {
+            slot.InitializeSlot();
             slot.ChangeController(RedPlayerManager);
+        }
         RedPlayerManager.cardSlots = new(Row1);
         foreach (CardSlot slot in Row2)
         {
+            slot.InitializeSlot();
             slot.ChangeController(RedPlayerManager);
             slot.isFrontline = true;
         }
         RedPlayerManager.cardSlots.AddRange(Row2);
         foreach (CardSlot slot in Row3)
         {
+            slot.InitializeSlot();
             slot.ChangeController(BluePlayerManager);
             slot.isFrontline = true;
         }
         BluePlayerManager.cardSlots = new(Row3);
         foreach (CardSlot slot in Row4)
+        {
+            slot.InitializeSlot();
             slot.ChangeController(BluePlayerManager);
+        }
         BluePlayerManager.cardSlots.AddRange(Row4);
         for(int i = 0; i < BluePlayerManager.hand.transform.childCount; i++)
-            BluePlayerManager.handSlots.Add(BluePlayerManager.hand.transform.GetChild(i).gameObject);
+            BluePlayerManager.handSlots.Add(BluePlayerManager.hand.transform.GetChild(i).GetComponent<HandSlot>());
         for (int i = 0; i < RedPlayerManager.hand.transform.childCount; i++)
-            RedPlayerManager.handSlots.Add(RedPlayerManager.hand.transform.GetChild(i).gameObject);
+            RedPlayerManager.handSlots.Add(RedPlayerManager.hand.transform.GetChild(i).GetComponent<HandSlot>());
         loadEndTime = Time.realtimeSinceStartup;
         Debug.Log($"Card Load time is : {loadEndTime - loadStartTime} seconds");
         StartCoroutine(TurnManager.ChooseFirstPlayer());
@@ -106,8 +116,6 @@ public class Game_Manager : MonoBehaviour
         if (playerManager.isAI)
             playerManager.transform.GetChild(0).gameObject.SetActive(true);
         LoadDeckID(playerManager);
-        playerManager.SetShield(0, playerManager.shieldCount);
-        
     }
 
     public void LoadDeckID(PlayerManager playerManager)
@@ -134,40 +142,38 @@ public class Game_Manager : MonoBehaviour
 
         bool drewCards = false;
 
-        for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
+        foreach (HandSlot handSlot in player.handSlots)
         {
             //if deck is empty, has drawn required amount or hand is full, break
             if (player.deckLogicList.Count <= 0 || drawAmount <= 0 || player.handSize >= 10)
                 break;
             //checking for empty handslots
-            if (player.isEmptyHandSlot[i] == false)
+            if (handSlot.cardInZone != null)
                 continue;
             //get random card and activate it
             int randomNumber = Random.Range(0, player.deckLogicList.Count);
             CardLogic randomCardDraw = player.deckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
-            randomCardDraw.transform.position = Vector3.zero;
 
             //implementing a game log
-            randomCardDraw.LocationChange(Location.Hand, i);
-            randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
+            randomCardDraw.LocationChange(Location.Hand, player.handSize);
+            randomCardDraw.transform.SetParent(handSlot.transform, false);
+            randomCardDraw.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
-
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 randomCardDraw.FlipFaceUp();
           
-            player.isEmptyHandSlot[i] = false;
+            handSlot.cardInZone = randomCardDraw;
             player.deckLogicList.Remove(randomCardDraw);
             player.handLogicList.Add(randomCardDraw);
             drawAmount--;
             player.handSize = player.handLogicList.Count;
             drewCards = true;
-            yield return new WaitUntil(()=>drawSound==null);
-            ShuffleHand(player);
+            yield return new WaitUntil(() => drawSound == null);
         }
-
+        //ShuffleHand(player);
         //ensures that unnecessary chains and shuffles don't occur on unresolved draws
         if (drewCards)
         {
@@ -188,23 +194,23 @@ public class Game_Manager : MonoBehaviour
         if (player.handSize >= 10)
             yield break;
 
-        for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
+        foreach (HandSlot handSlot in player.handSlots)
         {
-            if (player.isEmptyHandSlot[i] == false)
+            if (handSlot.cardInZone != null)
                 continue;
             if (player.handSize >= 10)
                 break;
             logic.gameObject.SetActive(true);
-            logic.transform.position = Vector3.zero;
 
             //implementing a battle log
-            logic.LocationChange(Location.Hand, i);
-            logic.transform.SetParent(player.handSlots[i].transform, false);
+            logic.LocationChange(Location.Hand, player.handSize);
+            logic.transform.SetParent(handSlot.transform, false);
+            logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 logic.FlipFaceUp();
-            player.isEmptyHandSlot[i] = false;
+            handSlot.cardInZone = logic;
             player.deckLogicList.Remove(logic);
             player.handLogicList.Add(logic);
             player.handSize = player.handLogicList.Count;
@@ -223,24 +229,25 @@ public class Game_Manager : MonoBehaviour
         if (player.handSize >= 10)
             yield break;
 
-        for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
+        foreach (HandSlot handSlot in player.handSlots)
         {
-            if (player.isEmptyHandSlot[i] == false)
+            if (handSlot.cardInZone != null)
                 continue;
             if (player.handSize >= 10)
                 break;
             logic.gameObject.SetActive(true);
-            logic.transform.position = Vector3.zero;
+
             //implementing a battle log
-            logic.LocationChange(Location.Hand, i);
+            logic.LocationChange(Location.Hand, player.handSize);
 
             logic.ControllerSwap(player);
-            logic.transform.SetParent(player.handSlots[i].transform, false);
+            logic.transform.SetParent(handSlot.transform, false);
+            logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 logic.FlipFaceUp();
-            player.isEmptyHandSlot[i] = false;
+            handSlot.cardInZone = logic;
             logic.cardOwner.graveLogicList.Remove(logic);
             player.handLogicList.Add(logic);
             player.handSize = player.handLogicList.Count;
@@ -259,25 +266,25 @@ public class Game_Manager : MonoBehaviour
         if (player.handSize >= 10)
             yield break;
 
-        for (int i = 0; i < player.isEmptyHandSlot.Length; i++)
+        foreach (HandSlot handSlot in player.handSlots)
         {
-            if (!player.isEmptyHandSlot[i])
+            if (handSlot.cardInZone != null)
                 continue;
             if (player.heroDeckLogicList.Count <= 0 || drawAmount <= 0 || player.handSize >= 10)
                 break;
             int randomNumber = Random.Range(0, player.heroDeckLogicList.Count);
             CardLogic randomCardDraw = player.heroDeckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
-            randomCardDraw.transform.position = Vector3.zero;
 
             //implementing a battle log
-            randomCardDraw.LocationChange(Location.Hand, i);
-            randomCardDraw.transform.SetParent(player.handSlots[i].transform, false);
+            randomCardDraw.LocationChange(Location.Hand, player.handSize);
+            randomCardDraw.transform.SetParent(handSlot.transform, false);
+            randomCardDraw.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
             if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
                 randomCardDraw.FlipFaceUp();
-            player.isEmptyHandSlot[i] = false;
+            handSlot.cardInZone = randomCardDraw;
             player.heroDeckLogicList.Remove(randomCardDraw);
             player.handLogicList.Add(randomCardDraw);
             drawAmount--;
@@ -297,48 +304,62 @@ public class Game_Manager : MonoBehaviour
 
     public void ShuffleHand(PlayerManager player)
     {
+        //we need to do more work here fr
+        return;
+        
+
         AudioManager.NewAudioPrefab(AudioManager.shuffleHand);
         //resets hand to zero transform and empty
-        for (int i = 0; i < player.handSlots.Count; i++)
+        foreach (HandSlot handSlot in player.handSlots)
         {
-            player.handSlots[i].transform.localPosition = Vector3.zero;
-            player.isEmptyHandSlot[i] = true;
+            handSlot.transform.localPosition = Vector3.zero;
+            handSlot.cardInZone = null;
         }
 
         //gets list of all cards in player hand then set parent to null and hold a reference to it;
 
         List<CardLogic> handCards = new(player.handLogicList);
-        foreach(CardLogic logic in handCards)
+        player.handLogicList.Clear();
+        foreach (CardLogic logic in handCards)
             logic.transform.SetParent(null);
-
         //reattaches cards to handslots
         foreach (CardLogic logic in handCards)
         {
-            for (int i = 0; i < player.handSlots.Count; i++)
+            foreach (HandSlot handSlot in player.handSlots)
             {
-                if (player.isEmptyHandSlot[i] == true)
-                {
-                    logic.locationOrderNumber = i;
-                    logic.transform.position = Vector3.zero;
-                    logic.transform.SetParent(player.handSlots[i].transform, false);
-                    player.isEmptyHandSlot[i] = false;
-                    break;
-                }
+                if (handSlot.cardInZone != null)
+                    continue;
+                logic.locationOrderNumber = player.handSize;
+                logic.transform.position = Vector3.zero;
+                logic.transform.SetParent(handSlot.transform, false);
+                handSlot.cardInZone = logic;
+                player.handLogicList.Add(logic);
+                player.handSize = player.handLogicList.Count;
             }
         }
-
-        //gets reference to all taken slots
-        int[] handSlotsTaken = player.isEmptyHandSlot.FindAllIndexof<bool>(false);
-        //if list isn't empty, arrange handslots
-        if (handSlotsTaken != null)
+        //do not fuck with this, DO NOT FUCK WITH THIS!
+        float xDist = 2.1f;
+        float yDist = -0.82f;
+        float cardSize = 0.511f;
+        int count = 0;
+        foreach(HandSlot handSlot in player.handSlots)
         {
-            for(int i = 0;i< handSlotsTaken.Length;i++)
+            if (handSlot.cardInZone == null)
+                continue;
+            count++;
+            float yPosition = player.handSize < 4 ? yDist/2 : count < player.handSize / 2 ? 0 : yDist;
+            float xPosition;
+            if (player.handSize < 4)
+                xPosition = (float)(xDist / (player.handSize + 1) * count);
+            else
             {
-                    float xPosition = 15f / handSlotsTaken.Length;
-                    player.handSlots[handSlotsTaken[i]].transform.localPosition += new Vector3(i * xPosition, 0, 0);
+                xPosition = player.handSize < 9 || (player.handSize == 9 && count < 5)
+                    ? (player.handSize / 2 + 1) * count
+                    : count == 0 || count == player.handSize - 4 ? 0 : count
+                        < player.handSize / 2 ? cardSize * (count - 1) : Mathf.Abs(cardSize * (player.handSize - 4 - count));
             }
+           handSlot.transform.localPosition += new Vector3(xPosition, yPosition, 0);
         }
-        player.handSize = player.handLogicList.Count;
     }
 
     public void StateReset() {

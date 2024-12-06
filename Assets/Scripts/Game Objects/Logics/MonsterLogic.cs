@@ -32,7 +32,8 @@ public class MonsterLogic : CardLogic
                 continue;
             currentSlot = cardSlot;
             cardSlot.cardInZone = this;
-            transform.position = cardSlot.transform.position;
+            transform.position = new(cardSlot.transform.position.x - 0.7f, cardSlot.transform.position.y, 0);
+            transform.localScale = new(6, 5);
             cardSlot.isEmptyCardSlot = false;
             LocationChange(Location.Field, cardSlot.column);
             player.fieldLogicList.Add(this);
@@ -43,6 +44,7 @@ public class MonsterLogic : CardLogic
             currentSlot.hpIcon.SetActive(true);
             OnFieldAtkRefresh();
             OnFieldHpRefresh();
+            textCanvas.gameObject.SetActive(false);
             audioManager.NewAudioPrefab(audioManager.summon);
             GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.atkIcon.transform);
             go.transform.position = cardController.cardSlots[locationOrderNumber].transform.position;
@@ -68,9 +70,9 @@ public class MonsterLogic : CardLogic
             playLogic.MoveToGrave();
             yield break;
         }
-        for (int i = 0; i < cardOwner.isEmptyHandSlot.Length; i++)
+        foreach(HandSlot handSlot in cardOwner.handSlots)
         {
-            if (cardOwner.isEmptyHandSlot[i] == false)
+            if (handSlot.cardInZone == null)
                 continue;
             if (cardOwner.handSize >= 10)
                 break;
@@ -78,15 +80,15 @@ public class MonsterLogic : CardLogic
             LeavingFieldSequence();
             transform.position = Vector3.zero;
             //implementing a battle log
-            LocationChange(Location.Hand, i);
-            transform.SetParent(cardOwner.handSlots[i].transform, false);
+            LocationChange(Location.Hand, cardOwner.handSize);
+            transform.SetParent(handSlot.transform, false);
             //when playing with another player on same device flip face up only if you bounce on your turn...might implement more to support this
             if (cardOwner.isLocal && !cardOwner.isAI && (cardOwner == gm.turnPlayer || cardOwner.enemy.isAI || !cardOwner.enemy.isLocal))
                 FlipFaceUp();
             else
                 FlipFaceDown();
 
-            cardOwner.isEmptyHandSlot[i] = false;
+            handSlot.cardInZone = this;
             cardOwner.handLogicList.Add(this);
             cardOwner.handSize = cardOwner.handLogicList.Count;
             break;

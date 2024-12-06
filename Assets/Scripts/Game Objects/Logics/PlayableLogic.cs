@@ -48,9 +48,9 @@ public class PlayableLogic : MonoBehaviour
         if (hasBeenPlayed == false && logic.currentLocation ==Location.Hand && hasDoneHoverEffect == false && gm.gameState == GameState.Open)
         {
             if (logic.cardController == gm.BluePlayerManager)
-                transform.position += Vector3.up * 3;
+                transform.localPosition += Vector3.up * 3;
             else
-                transform.position -= Vector3.up * 3;
+                transform.localPosition -= Vector3.up * 3;
             hasDoneHoverEffect = true;
         }
     }
@@ -90,8 +90,13 @@ public class PlayableLogic : MonoBehaviour
 
             if (deploy)
             {
-                player.handLogicList.Remove(logic);               
-                player.isEmptyHandSlot[logic.locationOrderNumber] = true;
+                player.handLogicList.Remove(logic);
+                foreach (HandSlot slot in player.handSlots)
+                    if (slot.cardInZone == logic)
+                    {
+                        slot.cardInZone = null;
+                        break;
+                    }
                 gm.ShuffleHand(player);
             }
             else

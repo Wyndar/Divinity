@@ -105,8 +105,8 @@ public class MainUIManager : MonoBehaviour
             //swipe check to play
             if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && Vector2.Distance(touchEndPosition, touchStartPosition) >= 3f)
             {
-                float playDist = Mathf.Abs(touchEndPosition.y - touchStartPosition.y);
-                if (playDist > 3f && gm.currentPhase == Phase.MainPhase && playableLogic != null)
+                float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x);
+                if (playDist > 2f && gm.currentPhase == Phase.MainPhase && playableLogic != null)
                 {
                     playableLogic.DisableHover();
                     playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
@@ -198,7 +198,8 @@ public class MainUIManager : MonoBehaviour
                         return;
                     clickedCard.SetFocusCardLogic();
                     focusCard = gm.currentFocusCardLogic;
-                    focusCard.cardOutline.gameObject.SetActive(true);
+                    if (focusCard.type != Type.God)
+                        focusCard.cardOutline.gameObject.SetActive(true);
                     if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController &&
                         focusCard.type != Type.God)
                     {
@@ -248,7 +249,6 @@ public class MainUIManager : MonoBehaviour
         gm.currentFocusCardLogic.TryGetComponent(out CombatantLogic combatantLogic);
 
         rayBlocker.SetActive(true);
-        gm.DisableTurnUI();
         if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
             cost = playableLogic.cost.ToString();
 

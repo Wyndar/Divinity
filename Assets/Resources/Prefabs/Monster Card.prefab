@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.282, y: -0.031}
-  m_SizeDelta: {x: 0.14, y: 0.0834}
+  m_AnchoredPosition: {x: -0.2763, y: -0.178}
+  m_SizeDelta: {x: 0.14, y: 0.1101}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6880027467294361820
 CanvasRenderer:
@@ -92,11 +92,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.05
+  m_fontSize: 0.08
   m_fontSizeBase: 0.025
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 0.031
+  m_fontSizeMin: 0.08
   m_fontSizeMax: 108
   m_fontStyle: 17
   m_HorizontalAlignment: 2
@@ -298,7 +298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.022}
+  m_AnchoredPosition: {x: 0, y: -0.175}
   m_SizeDelta: {x: 0.2178, y: 0.1398}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2255586073633559556
@@ -734,8 +734,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.1504}
+  m_SizeDelta: {x: 1, y: 0.4859}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3516202421964110090
 Canvas:
@@ -834,8 +834,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.262, y: -0.031}
-  m_SizeDelta: {x: 0.143, y: 0.0834}
+  m_AnchoredPosition: {x: 0.262, y: -0.1822}
+  m_SizeDelta: {x: 0.143, y: 0.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3489657174878092804
 CanvasRenderer:
@@ -892,11 +892,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.05
+  m_fontSize: 0.08
   m_fontSizeBase: 0.025
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 0.031
+  m_fontSizeMin: 0.08
   m_fontSizeMax: 108
   m_fontStyle: 17
   m_HorizontalAlignment: 2
@@ -1027,8 +1027,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 532632161533126796}
-  - component: {fileID: 6230772265916502022}
-  - component: {fileID: 531252321887260227}
   - component: {fileID: 1976107539099117341}
   m_Layer: 3
   m_Name: Monster Card
@@ -1047,7 +1045,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 1.8, z: 1}
+  m_LocalScale: {x: 4, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4480071232973329348}
@@ -1058,56 +1056,6 @@ Transform:
   - {fileID: 1638960088675352531}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6230772265916502022
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7892383611414394747}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &531252321887260227
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7892383611414394747}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &1976107539099117341
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1127,5 +1075,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.038729, y: 0.5437212, z: 0.25933486}
+  m_Center: {x: -0.019364476, y: 0.13794498, z: 0.012777649}
