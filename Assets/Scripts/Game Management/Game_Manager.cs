@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
+using System.Linq;
 
 public class Game_Manager : MonoBehaviour
 {
@@ -151,7 +151,7 @@ public class Game_Manager : MonoBehaviour
             if (handSlot.cardInZone != null)
                 continue;
             //get random card and activate it
-            int randomNumber = Random.Range(0, player.deckLogicList.Count);
+            int randomNumber = UnityEngine.Random.Range(0, player.deckLogicList.Count);
             CardLogic randomCardDraw = player.deckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
 
@@ -173,7 +173,7 @@ public class Game_Manager : MonoBehaviour
             drewCards = true;
             yield return new WaitUntil(() => drawSound == null);
         }
-        //ShuffleHand(player);
+        ShuffleHand(player);
         //ensures that unnecessary chains and shuffles don't occur on unresolved draws
         if (drewCards)
         {
@@ -272,7 +272,7 @@ public class Game_Manager : MonoBehaviour
                 continue;
             if (player.heroDeckLogicList.Count <= 0 || drawAmount <= 0 || player.handSize >= 10)
                 break;
-            int randomNumber = Random.Range(0, player.heroDeckLogicList.Count);
+            int randomNumber = UnityEngine.Random.Range(0, player.heroDeckLogicList.Count);
             CardLogic randomCardDraw = player.heroDeckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
 
@@ -304,10 +304,6 @@ public class Game_Manager : MonoBehaviour
 
     public void ShuffleHand(PlayerManager player)
     {
-        //we need to do more work here fr
-        return;
-        
-
         AudioManager.NewAudioPrefab(AudioManager.shuffleHand);
         //resets hand to zero transform and empty
         foreach (HandSlot handSlot in player.handSlots)
@@ -317,11 +313,14 @@ public class Game_Manager : MonoBehaviour
         }
 
         //gets list of all cards in player hand then set parent to null and hold a reference to it;
-
-        List<CardLogic> handCards = new(player.handLogicList);
+        System.Random random = new();
+        IOrderedEnumerable<CardLogic> shuffledHandCards = player.handLogicList.OrderBy(x => random.Next());
+        List<CardLogic> handCards = new(shuffledHandCards);
         player.handLogicList.Clear();
         foreach (CardLogic logic in handCards)
             logic.transform.SetParent(null);
+
+        
         //reattaches cards to handslots
         foreach (CardLogic logic in handCards)
         {
@@ -330,11 +329,13 @@ public class Game_Manager : MonoBehaviour
                 if (handSlot.cardInZone != null)
                     continue;
                 logic.locationOrderNumber = player.handSize;
-                logic.transform.position = Vector3.zero;
+                logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                logic.transform.localScale = new(4, 3, 1);
                 logic.transform.SetParent(handSlot.transform, false);
                 handSlot.cardInZone = logic;
                 player.handLogicList.Add(logic);
                 player.handSize = player.handLogicList.Count;
+                break;
             }
         }
         //do not fuck with this, DO NOT FUCK WITH THIS!
@@ -342,23 +343,22 @@ public class Game_Manager : MonoBehaviour
         float yDist = -0.82f;
         float cardSize = 0.511f;
         int count = 0;
-        foreach(HandSlot handSlot in player.handSlots)
+        int topCount = Mathf.FloorToInt(player.handSize / 2 + 0.5f);
+        int bottomCount = player.handSize - topCount;
+       
+        foreach (HandSlot handSlot in player.handSlots)
         {
             if (handSlot.cardInZone == null)
                 continue;
             count++;
-            float yPosition = player.handSize < 4 ? yDist/2 : count < player.handSize / 2 ? 0 : yDist;
-            float xPosition;
-            if (player.handSize < 4)
-                xPosition = (float)(xDist / (player.handSize + 1) * count);
-            else
-            {
-                xPosition = player.handSize < 9 || (player.handSize == 9 && count < 5)
-                    ? (player.handSize / 2 + 1) * count
-                    : count == 0 || count == player.handSize - 4 ? 0 : count
-                        < player.handSize / 2 ? cardSize * (count - 1) : Mathf.Abs(cardSize * (player.handSize - 4 - count));
-            }
-           handSlot.transform.localPosition += new Vector3(xPosition, yPosition, 0);
+            int trueCount = count - topCount;
+            float yPosition = player.handSize < 4 ? yDist / 2 : count <= player.handSize / 2 ? 0 : yDist;
+            float xPosition = player.handSize < 4
+                ? xDist / (player.handSize + 1) * count
+                : player.handSize < 7
+                    ? count <= topCount ? xDist / (topCount + 1) * count : xDist / (bottomCount + 1) * trueCount
+                    : count == 1 || trueCount == 1 ? 0 : count <= topCount ? cardSize * (count - 1) : cardSize * (trueCount-1);
+            handSlot.transform.localPosition += new Vector3(xPosition, yPosition, 0);
         }
     }
 
