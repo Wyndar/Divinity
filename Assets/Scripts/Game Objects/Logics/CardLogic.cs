@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class CardLogic : MonoBehaviour
@@ -19,7 +18,7 @@ public class CardLogic : MonoBehaviour
     public List<Attunement> attunements = new();
 
     public PlayerManager cardOwner, cardController;
-    public Transform cardBack, cardImage, cardImageBorder, cardOutline, textCanvas;
+    public Transform cardBack, cardImage, cardImageBorder, cardOutline, textCanvas, EnergyIcon;
     public Sprite image;
     public TMP_Text costText, ATKText, HPText;
 

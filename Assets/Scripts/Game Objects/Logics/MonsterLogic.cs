@@ -45,6 +45,7 @@ public class MonsterLogic : CardLogic
             OnFieldAtkRefresh();
             OnFieldHpRefresh();
             textCanvas.gameObject.SetActive(false);
+            EnergyIcon.gameObject.SetActive(false);
             audioManager.NewAudioPrefab(audioManager.summon);
             GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.atkIcon.transform);
             go.transform.position = cardController.cardSlots[locationOrderNumber].transform.position;

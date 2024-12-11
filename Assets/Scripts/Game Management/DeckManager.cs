@@ -125,6 +125,7 @@ public class DeckManager : MonoBehaviour
                     cardCloneCardLogic.cardImageBorder = cardClone.transform.Find("Card Image Border");
                     cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
                     cardCloneCardLogic.textCanvas = cardClone.transform.Find("Canvas");
+                    cardCloneCardLogic.EnergyIcon = cardClone.transform.Find("Energy");
                     cardCloneCardLogic.costText = cardCloneCardLogic.textCanvas.Find("Cost Text").GetComponent<TMP_Text>();
                    
                     //disables unnecessary components till needed
