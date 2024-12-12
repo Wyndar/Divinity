@@ -7562,9 +7562,10 @@ GameObject:
   - component: {fileID: 285896067}
   - component: {fileID: 285896068}
   - component: {fileID: 285896069}
+  - component: {fileID: 285896070}
   m_Layer: 0
   m_Name: Card Cell_1
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7679,6 +7680,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &285896070
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285896066}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.00000071525574, y: 0.0000014305115, z: 0}
 --- !u!1 &286188553
 GameObject:
   m_ObjectHideFlags: 0
@@ -16767,9 +16789,10 @@ GameObject:
   - component: {fileID: 572285680}
   - component: {fileID: 572285681}
   - component: {fileID: 572285682}
+  - component: {fileID: 572285683}
   m_Layer: 0
   m_Name: Card Cell_1
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16884,6 +16907,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &572285683
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572285679}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.00000047683716, y: -0.0000009536743, z: 0}
 --- !u!1 &592893483
 GameObject:
   m_ObjectHideFlags: 0
@@ -18159,9 +18203,10 @@ GameObject:
   - component: {fileID: 639111377}
   - component: {fileID: 639111378}
   - component: {fileID: 639111379}
+  - component: {fileID: 639111380}
   m_Layer: 0
   m_Name: Card Cell
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18276,6 +18321,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &639111380
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639111376}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.000002861023, y: -0.0000009536743, z: 0}
 --- !u!1 &640322222
 GameObject:
   m_ObjectHideFlags: 0
@@ -18518,9 +18584,10 @@ GameObject:
   - component: {fileID: 652087956}
   - component: {fileID: 652087957}
   - component: {fileID: 652087958}
+  - component: {fileID: 652087959}
   m_Layer: 0
   m_Name: Card Cell_2
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18635,6 +18702,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &652087959
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652087955}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.0000017881393, y: -0.0000009536743, z: 0}
 --- !u!1 &653027353
 GameObject:
   m_ObjectHideFlags: 0
@@ -19578,9 +19666,10 @@ GameObject:
   - component: {fileID: 673259762}
   - component: {fileID: 673259763}
   - component: {fileID: 673259764}
+  - component: {fileID: 673259765}
   m_Layer: 0
   m_Name: Card Cell
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19695,6 +19784,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &673259765
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673259761}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.000002861023, y: 0.0000014305115, z: 0}
 --- !u!1 &673331349
 GameObject:
   m_ObjectHideFlags: 0
@@ -27689,9 +27799,10 @@ GameObject:
   - component: {fileID: 970078036}
   - component: {fileID: 970078037}
   - component: {fileID: 970078038}
+  - component: {fileID: 970078039}
   m_Layer: 0
   m_Name: Card Cell_2
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27806,6 +27917,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &970078039
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970078035}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.000002026558, y: 0.0000009536743, z: 0}
 --- !u!1 &975972320
 GameObject:
   m_ObjectHideFlags: 0
@@ -28085,9 +28217,10 @@ GameObject:
   - component: {fileID: 978731285}
   - component: {fileID: 978731286}
   - component: {fileID: 978731287}
+  - component: {fileID: 978731288}
   m_Layer: 0
   m_Name: Card Cell_3
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28202,6 +28335,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &978731288
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978731284}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.0000052452087, y: 0.000002861023, z: 0}
 --- !u!1 &980933906
 GameObject:
   m_ObjectHideFlags: 0
@@ -29036,9 +29190,10 @@ GameObject:
   - component: {fileID: 1008006485}
   - component: {fileID: 1008006486}
   - component: {fileID: 1008006487}
+  - component: {fileID: 1008006488}
   m_Layer: 0
   m_Name: Card Cell_3
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29153,6 +29308,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &1008006488
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008006484}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.0000052452087, y: -0.0000009536743, z: 0}
 --- !u!1 &1020561736
 GameObject:
   m_ObjectHideFlags: 0
@@ -29164,9 +29340,10 @@ GameObject:
   - component: {fileID: 1020561737}
   - component: {fileID: 1020561738}
   - component: {fileID: 1020561739}
+  - component: {fileID: 1020561740}
   m_Layer: 0
   m_Name: Card Cell_2
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29281,6 +29458,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &1020561740
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020561736}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.000002026558, y: -0.0000014305115, z: 0}
 --- !u!1 &1029724210
 GameObject:
   m_ObjectHideFlags: 0
@@ -40296,9 +40494,10 @@ GameObject:
   - component: {fileID: 1393770959}
   - component: {fileID: 1393770960}
   - component: {fileID: 1393770961}
+  - component: {fileID: 1393770962}
   m_Layer: 0
   m_Name: Card Cell_3
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40413,6 +40612,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &1393770962
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393770958}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.0000047683716, y: -0.0000019073486, z: 0}
 --- !u!1 &1395595995
 GameObject:
   m_ObjectHideFlags: 0
@@ -43430,9 +43650,10 @@ GameObject:
   - component: {fileID: 1500892391}
   - component: {fileID: 1500892392}
   - component: {fileID: 1500892393}
+  - component: {fileID: 1500892394}
   m_Layer: 0
   m_Name: Card Cell_1
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43547,6 +43768,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &1500892394
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500892390}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.00000047683716, y: 0.0000038146973, z: 0}
 --- !u!1 &1507024111
 GameObject:
   m_ObjectHideFlags: 0
@@ -44471,6 +44713,7 @@ GameObject:
   - component: {fileID: 1540753824}
   - component: {fileID: 1540753823}
   - component: {fileID: 1540753822}
+  - component: {fileID: 1540753825}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -44552,6 +44795,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1540753825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540753821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &1553333435
 GameObject:
   m_ObjectHideFlags: 0
@@ -51184,9 +51443,10 @@ GameObject:
   - component: {fileID: 1738266294}
   - component: {fileID: 1738266295}
   - component: {fileID: 1738266296}
+  - component: {fileID: 1738266297}
   m_Layer: 0
   m_Name: Card Cell
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51301,6 +51561,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &1738266297
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738266293}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.000002861023, y: -0.0000009536743, z: 0}
 --- !u!1 &1741647075
 GameObject:
   m_ObjectHideFlags: 0
@@ -52326,9 +52607,10 @@ GameObject:
   - component: {fileID: 1797924084}
   - component: {fileID: 1797924085}
   - component: {fileID: 1797924086}
+  - component: {fileID: 1797924087}
   m_Layer: 0
   m_Name: Card Cell_3
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52443,6 +52725,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &1797924087
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797924083}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.0000047683716, y: 0.0000014305115, z: 0}
 --- !u!1 &1797934937
 GameObject:
   m_ObjectHideFlags: 0
@@ -56567,9 +56870,10 @@ GameObject:
   - component: {fileID: 1923634878}
   - component: {fileID: 1923634879}
   - component: {fileID: 1923634880}
+  - component: {fileID: 1923634881}
   m_Layer: 0
   m_Name: Card Cell_1
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56684,6 +56988,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &1923634881
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1923634877}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.00000071525574, y: -0.0000019073486, z: 0}
 --- !u!1 &1934735785
 GameObject:
   m_ObjectHideFlags: 0
@@ -60602,9 +60927,10 @@ GameObject:
   - component: {fileID: 2029145506}
   - component: {fileID: 2029145507}
   - component: {fileID: 2029145508}
+  - component: {fileID: 2029145509}
   m_Layer: 0
   m_Name: Card Cell_2
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60719,6 +61045,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &2029145509
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029145505}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: 0.0000021457672, y: 0.0000038146973, z: 0}
 --- !u!1 &2032902998
 GameObject:
   m_ObjectHideFlags: 0
@@ -64245,9 +64592,10 @@ GameObject:
   - component: {fileID: 2137010215}
   - component: {fileID: 2137010216}
   - component: {fileID: 2137010217}
+  - component: {fileID: 2137010218}
   m_Layer: 0
   m_Name: Card Cell
-  m_TagString: Untagged
+  m_TagString: Card Slot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64362,6 +64710,27 @@ MonoBehaviour:
   damageNum: {fileID: 0}
   attackProjectileIcon: {fileID: 0}
   effectProjectileIcon: {fileID: 0}
+--- !u!65 &2137010218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137010214}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.1200027, y: 7.4000044, z: 0.2}
+  m_Center: {x: -0.000002861023, y: 0.0000038146973, z: 0}
 --- !u!1 &2137238625
 GameObject:
   m_ObjectHideFlags: 0

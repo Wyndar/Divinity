@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CardSlot : MonoBehaviour
 {
@@ -42,4 +43,12 @@ public class CardSlot : MonoBehaviour
     }
     public void SetStatusIcon(CardStatus status) =>
         controller.ui.AddStatIcon(fieldIcon, status);
+    public void OnMouseEnter()
+    {
+        sprite.color = Color.yellow;
+    }
+    public void OnMouseExit()
+    {
+        sprite.color = controller.playerColor;
+    }
 }

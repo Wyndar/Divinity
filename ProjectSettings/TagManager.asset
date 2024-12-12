@@ -11,6 +11,7 @@ TagManager:
   - Background
   - deck
   - Card Image
+  - Card Slot
   layers:
   - Default
   - TransparentFX

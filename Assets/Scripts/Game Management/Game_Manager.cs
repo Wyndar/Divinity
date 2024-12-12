@@ -355,9 +355,11 @@ public class Game_Manager : MonoBehaviour
             float yPosition = player.handSize < 4 ? yDist / 2 : count <= player.handSize / 2 ? 0 : yDist;
             float xPosition = player.handSize < 4
                 ? xDist / (player.handSize + 1) * count
-                : player.handSize < 7
-                    ? count <= topCount ? xDist / (topCount + 1) * count : xDist / (bottomCount + 1) * trueCount
-                    : count == 1 || trueCount == 1 ? 0 : count <= topCount ? cardSize * (count - 1) : cardSize * (trueCount-1);
+                : (trueCount <= 0 && topCount < 4) || (trueCount > 0 && bottomCount < 4)
+                    ? trueCount <= 0 ? xDist / (topCount + 1) * count : xDist / (bottomCount + 1) * trueCount
+                    : count == 1 || trueCount == 1 ? 0 : trueCount <= 0 ? cardSize * (count - 1) : cardSize * (trueCount - 1);
+            if (trueCount <= 0 && topCount == 4 || trueCount > 0 && bottomCount == 4)
+                xPosition += 0.11f * (trueCount <= 0 ? count : trueCount);
             handSlot.transform.localPosition += new Vector3(xPosition, yPosition, 0);
         }
     }

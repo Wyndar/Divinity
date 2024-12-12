@@ -43,12 +43,15 @@ public class MainUIManager : MonoBehaviour
     private bool allowCardLogicSwap = true;
     private bool isUsingshield;
 
+#pragma warning disable IDE0051 // Remove unused private members
     private void OnEnable()
     {
         InputManager.OnStartTouch += TouchStart;
         InputManager.OnEndTouch += TouchEnd;
     }
+
     private void OnDisable()
+#pragma warning restore IDE0051 // Remove unused private members
     {
         InputManager.OnEndTouch -= TouchStart;
         InputManager.OnStartTouch -= TouchEnd;
@@ -82,7 +85,8 @@ public class MainUIManager : MonoBehaviour
         {
             trail.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             if (gm.currentFocusCardLogic != null)
-                if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase && gm.turnPlayer == gm.currentFocusCardLogic.cardController)
+                if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase && 
+                    gm.turnPlayer == gm.currentFocusCardLogic.cardController)
                     gm.currentFocusCardLogic.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             yield return null;
         }
@@ -103,7 +107,8 @@ public class MainUIManager : MonoBehaviour
         {
             gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);
             //swipe check to play
-            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && Vector2.Distance(touchEndPosition, touchStartPosition) >= 3f)
+            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && Vector2.Distance(touchEndPosition,
+                touchStartPosition) >= 3f)
             {
                 float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x);
                 if (playDist > 2f && gm.currentPhase == Phase.MainPhase && playableLogic != null)
@@ -114,13 +119,10 @@ public class MainUIManager : MonoBehaviour
                 gm.currentFocusCardLogic.RemoveFocusCardLogic();
             }
             //hold check to show card information
-            else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f)
-            {
-                if (!gm.currentFocusCardLogic.isFaceDown)
+            else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f && 
+                !gm.currentFocusCardLogic.isFaceDown)
                     ShowEffectInfoPanel();
-            }
-            else
-                if (playableLogic != null)
+            else if (playableLogic != null)
                 playableLogic.EnableHover();
         }
         hasRaycast = false;
