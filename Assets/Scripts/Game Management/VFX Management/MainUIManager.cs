@@ -85,6 +85,7 @@ public class MainUIManager : MonoBehaviour
 
         while (rayBlocker.activeInHierarchy == false)
         {
+            //card slot highlight
             Ray ray = Camera.main.ScreenPointToRay(new Vector3(InputManager.CurrentFingerPosition.x, 
                 InputManager.CurrentFingerPosition.y, Camera.main.nearClipPlane));
             if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, cardSlotLayer))
@@ -92,6 +93,7 @@ public class MainUIManager : MonoBehaviour
             else if (gm.currentFocusCardSlot != null)
                 gm.currentFocusCardSlot.DeselectSlot();
                     
+            //trail movement
             trail.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             if (gm.currentFocusCardLogic != null)
                 if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase && 
@@ -104,7 +106,8 @@ public class MainUIManager : MonoBehaviour
     private void TouchEnd(Vector2 screenPosition, float time)
     {
         trail.SetActive(false);
-        StopCoroutine(trailCoroutine);
+        if (trailCoroutine != null)
+            StopCoroutine(trailCoroutine);
         touchEndPosition = ScreenToWorld(screenPosition);
         touchEndTime = time;
         if (gm.gameState != GameState.Open)
@@ -120,10 +123,12 @@ public class MainUIManager : MonoBehaviour
                 touchStartPosition) >= 3f)
             {
                 float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x);
-                if (playDist > 2f && gm.currentPhase == Phase.MainPhase && playableLogic != null)
+                if (gm.currentPhase == Phase.MainPhase && playableLogic != null)
                 {
-                    playableLogic.DisableHover();
-                    playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
+                    if (playDist > 2f && gm.currentFocusCardLogic.type == Type.Spell)
+                        playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
+                    if (gm.currentFocusCardSlot != null && gm.currentFocusCardLogic.type == Type.Fighter)
+                        playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
                 }
                 gm.currentFocusCardLogic.RemoveFocusCardLogic();
             }

@@ -26,31 +26,31 @@ public class MonsterLogic : CardLogic
     }
     public void MonsterSummon(PlayerManager player)
     {
-        foreach (CardSlot cardSlot in player.cardSlots)
-        {
-            if (!cardSlot.isEmptyCardSlot || cardSlot.isFrontline)
-                continue;
-            currentSlot = cardSlot;
-            cardSlot.cardInZone = this;
-            transform.position = new(cardSlot.transform.position.x - 0.7f, cardSlot.transform.position.y, 0);
-            transform.localScale = new(6, 5);
-            cardSlot.isEmptyCardSlot = false;
-            LocationChange(Location.Field, cardSlot.column);
-            player.fieldLogicList.Add(this);
-            combatLogic.currentAtk = combatLogic.atk;
-            combatLogic.maxHp = combatLogic.hp;
-            combatLogic.currentHp = combatLogic.hp;
-            currentSlot.atkIcon.SetActive(true);
-            currentSlot.hpIcon.SetActive(true);
-            OnFieldAtkRefresh();
-            OnFieldHpRefresh();
-            textCanvas.gameObject.SetActive(false);
-            EnergyIcon.gameObject.SetActive(false);
-            audioManager.NewAudioPrefab(audioManager.summon);
-            GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.atkIcon.transform);
-            go.transform.position = cardController.cardSlots[locationOrderNumber].transform.position;
-            break;
-        }
+        if (gm.currentFocusCardSlot != null)
+            currentSlot = gm.currentFocusCardSlot;
+        else foreach (CardSlot cardSlot in player.cardSlots)
+                if (cardSlot.cardInZone == null && !cardSlot.isFrontline)
+                {
+                    currentSlot = cardSlot;
+                    break;
+                }
+        currentSlot.cardInZone = this;
+        transform.position = new(currentSlot.transform.position.x - 0.7f, currentSlot.transform.position.y, 0);
+        transform.localScale = new(6, 5);
+        LocationChange(Location.Field, currentSlot.column);
+        player.fieldLogicList.Add(this);
+        combatLogic.currentAtk = combatLogic.atk;
+        combatLogic.maxHp = combatLogic.hp;
+        combatLogic.currentHp = combatLogic.hp;
+        currentSlot.atkIcon.SetActive(true);
+        currentSlot.hpIcon.SetActive(true);
+        OnFieldAtkRefresh();
+        OnFieldHpRefresh();
+        textCanvas.gameObject.SetActive(false);
+        EnergyIcon.gameObject.SetActive(false);
+        audioManager.NewAudioPrefab(audioManager.summon);
+        GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.transform, false);
+        go.transform.localPosition = Vector3.zero;
 
         combatLogic.attacksLeft = combatLogic.maxAttacks;
         gm.StateChange(GameState.Summon);
@@ -137,7 +137,6 @@ public class MonsterLogic : CardLogic
             Destroy(child);
         combatLogic.cardStatuses.Clear();
         combatLogic.hasDoneCountdown = false;
-        currentSlot.isEmptyCardSlot = true;
         currentSlot.cardInZone = null;
         cardController.fieldLogicList.Remove(this);
     }

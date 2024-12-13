@@ -58,6 +58,7 @@ public class PlayableLogic : MonoBehaviour
     //borrowing effects used even if all plays aren't effects to avoid redundancies in enums... should cause no issues
     public void PlayCard(EffectsUsed effectsUsed, PlayerManager player)
     {
+        DisableHover();
         bool ignoreCost = false;
         bool deploy = false;
         if (effectsUsed == EffectsUsed.FreeRevive || effectsUsed == EffectsUsed.FreeDeploy)
@@ -141,9 +142,18 @@ public class PlayableLogic : MonoBehaviour
         {
             case Type.Fighter:
                 {
-                    foreach (CardSlot cardSlot in player.cardSlots)
+                    if (gm.currentFocusCardSlot != null)
                     {
-                        if (!cardSlot.isEmptyCardSlot || cardSlot.isFrontline)
+                        if (gm.currentFocusCardSlot.controller != logic.cardController)
+                            return "Zone is not under your control";
+                        if (gm.currentFocusCardSlot.isFrontline)
+                            return "Cannot deploy to Frontline directly";
+                        if (gm.currentFocusCardSlot.cardInZone != null)
+                            return "Occupied Zone";
+                    }
+                    else foreach (CardSlot cardSlot in player.cardSlots)
+                    {
+                        if (cardSlot.cardInZone != null || cardSlot.isFrontline)
                             continue;
                         return null;
                     }

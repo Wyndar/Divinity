@@ -5,7 +5,7 @@ public class CardSlot : MonoBehaviour
 {
     [SerializeField] private GameObject effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets,
         attackTargets, fieldIcons, statusIcons, statusIcons2, damageNums, attackProjectileIcons, effectProjectileIcons;
-    public bool isFrontline, isEmptyCardSlot;
+    public bool isFrontline;
     public int column;
     public int row;
     public CardLogic cardInZone;
@@ -49,7 +49,18 @@ public class CardSlot : MonoBehaviour
     {
         if (gm.currentFocusCardSlot != null)
             gm.currentFocusCardSlot.DeselectSlot();
-        sprite.color = Color.yellow;
+        if (gm.currentFocusCardLogic != null)
+        {
+            if (gm.currentFocusCardLogic.type != Type.Fighter)
+                return;
+            sprite.color = Color.green;
+            if (isFrontline || cardInZone != null)
+                sprite.color = Color.grey;
+            if (gm.currentFocusCardLogic.cardController != controller)
+                sprite.color = Color.red;
+        }
+        else
+            sprite.color = Color.yellow;
         gm.currentFocusCardSlot = this;
     }
     public void DeselectSlot()
