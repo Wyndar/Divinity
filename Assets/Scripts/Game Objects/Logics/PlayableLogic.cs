@@ -90,6 +90,7 @@ public class PlayableLogic : MonoBehaviour
             else
             {
                 logic.cardOwner.graveLogicList.Remove(logic);
+                logic.cardOwner.underworldManager.ResetTopCard();
                 gm.StateChange(GameState.Revive);
             }
             hasBeenPlayed = true;

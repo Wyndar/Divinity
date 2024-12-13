@@ -119,7 +119,8 @@ public class MainUIManager : MonoBehaviour
                 gm.currentFocusCardLogic.transform.localPosition = Vector3.zero;
             //swipe check to play
             if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && 
-                Vector2.Distance(touchEndPosition, touchStartPosition) >= 0.05f)
+                Vector2.Distance(touchEndPosition, touchStartPosition) >= 0.05f &&
+                gm.currentFocusCardLogic.currentLocation == Location.Hand)
             {
                 float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x );
                 gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);

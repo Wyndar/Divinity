@@ -100,10 +100,13 @@ MonoBehaviour:
     sprite: {fileID: 0}
     shouldCountdown: 0
     hasDoneCountDownThisTurn: 0
+    canDetonate: 0
     toolTipInfo:
       key: 
       value: 
     fieldIconHolder: {fileID: 0}
+    toolTipManager: {fileID: 0}
+    uIManager: {fileID: 0}
 --- !u!1 &7159601256319930567
 GameObject:
   m_ObjectHideFlags: 0
