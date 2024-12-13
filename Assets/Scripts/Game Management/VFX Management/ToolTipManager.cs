@@ -39,7 +39,9 @@ public class ToolTipManager : MonoBehaviour
         gm.isShowingInfo = true;
         //trying to get it to appear on the opposite half of the screen to the clicked target
         Vector3 viewPos = Camera.main.WorldToViewportPoint(ux.touchEndPosition);
-        floater.transform.position = new(viewPos.x < 0.5f ? ux.touchEndPosition.x + 1 : ux.touchEndPosition.x - 1f, viewPos.y > 0.5f ? ux.touchEndPosition.y - 4f : ux.touchEndPosition.y + 4f, floater.transform.position.z);
+        //inverted because of landscape
+        floater.transform.position = new(viewPos.y > 0.5f ? ux.touchEndPosition.y - 4f : ux.touchEndPosition.y + 4f,
+            viewPos.x < 0.5f ? ux.touchEndPosition.x + 1 : ux.touchEndPosition.x - 1f, floater.transform.position.z);
         FloatingText floatingText = floater.GetComponent<FloatingText>();
         floatingInfoTexts.Add(floatingText);
         floatingText.header.text = toolTip.key;

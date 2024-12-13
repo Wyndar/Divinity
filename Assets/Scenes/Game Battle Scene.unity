@@ -5195,8 +5195,8 @@ Transform:
   m_GameObject: {fileID: 206754543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0.577, z: 0}
-  m_LocalScale: {x: 32.446465, y: 9.840093, z: 1}
+  m_LocalPosition: {x: 0, y: -1.5769, z: 0}
+  m_LocalScale: {x: 28.137575, y: 9.840093, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -7662,7 +7662,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 2
   row: 2
   cardInZone: {fileID: 0}
@@ -16889,7 +16888,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 2
   row: 3
   cardInZone: {fileID: 0}
@@ -18303,7 +18301,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 1
   row: 4
   cardInZone: {fileID: 0}
@@ -18684,7 +18681,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 3
   row: 4
   cardInZone: {fileID: 0}
@@ -19766,7 +19762,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 1
   row: 2
   cardInZone: {fileID: 0}
@@ -27899,7 +27894,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 3
   row: 2
   cardInZone: {fileID: 0}
@@ -28317,7 +28311,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 4
   row: 1
   cardInZone: {fileID: 0}
@@ -29290,7 +29283,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 4
   row: 3
   cardInZone: {fileID: 0}
@@ -29440,7 +29432,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 3
   row: 3
   cardInZone: {fileID: 0}
@@ -40594,7 +40585,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 4
   row: 4
   cardInZone: {fileID: 0}
@@ -43750,7 +43740,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 2
   row: 1
   cardInZone: {fileID: 0}
@@ -51547,7 +51536,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 1
   row: 3
   cardInZone: {fileID: 0}
@@ -52711,7 +52699,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 4
   row: 2
   cardInZone: {fileID: 0}
@@ -56974,7 +56961,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 2
   row: 4
   cardInZone: {fileID: 0}
@@ -61031,7 +61017,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 3
   row: 1
   cardInZone: {fileID: 0}
@@ -64696,7 +64681,6 @@ MonoBehaviour:
   attackProjectileIcons: {fileID: 0}
   effectProjectileIcons: {fileID: 0}
   isFrontline: 0
-  isEmptyCardSlot: 1
   column: 1
   row: 1
   cardInZone: {fileID: 0}

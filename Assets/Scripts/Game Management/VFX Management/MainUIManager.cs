@@ -62,12 +62,9 @@ public class MainUIManager : MonoBehaviour
     private void TouchStart(Vector2 screenPosition, float time)
     {
         audioManager.NewAudioPrefab(audioManager.click);
-        if (gm.currentFocusCardLogic != null)
-        {
-            if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
-                playableLogic.DisableHover();
+        if (gm.currentFocusCardLogic != null)    
             gm.currentFocusCardLogic.DisableCardOutline();
-        }
+
         touchStartPosition = ScreenToWorld(screenPosition);
         touchStartTime = time;
         trail.SetActive(true);
@@ -105,6 +102,7 @@ public class MainUIManager : MonoBehaviour
 
     private void TouchEnd(Vector2 screenPosition, float time)
     {
+        
         trail.SetActive(false);
         if (trailCoroutine != null)
             StopCoroutine(trailCoroutine);
@@ -117,27 +115,26 @@ public class MainUIManager : MonoBehaviour
         }
         if (gm.currentFocusCardLogic != null)
         {
-            gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);
+            if(gm.currentFocusCardLogic.currentLocation == Location.Hand)
+                gm.currentFocusCardLogic.transform.localPosition = Vector3.zero;
             //swipe check to play
             if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && 
-                Vector2.Distance(touchEndPosition, touchStartPosition) >= 3f)
+                Vector2.Distance(touchEndPosition, touchStartPosition) >= 0.05f)
             {
                 float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x );
-                if (gm.currentPhase == Phase.MainPhase && playableLogic != null && playDist > 2f)
+                gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);
+                if (gm.currentPhase == Phase.MainPhase && playableLogic != null )
                 {
-                    if (gm.currentFocusCardLogic.type == Type.Spell)
+                    if (gm.currentFocusCardLogic.type == Type.Spell && playDist > 2f)
                         playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
                     if (gm.currentFocusCardSlot != null && gm.currentFocusCardLogic.type == Type.Fighter)
                         playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
                 }
-                gm.currentFocusCardLogic.RemoveFocusCardLogic();
             }
             //hold check to show card information
-            else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f &&
+            else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 1f &&
                 !gm.currentFocusCardLogic.isFaceDown)
                 ShowEffectInfoPanel();
-            else if (playableLogic != null)
-                playableLogic.EnableHover();
         }
         hasRaycast = false;
     }

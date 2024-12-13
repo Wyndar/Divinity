@@ -8,7 +8,7 @@ public class PlayableLogic : MonoBehaviour
     public CardLogic logic;
 
     public int cost;
-    public bool hasBeenPlayed, hasGottenTargets, hasDoneHoverEffect;
+    public bool hasBeenPlayed, hasGottenTargets;
     public bool isForcedTuning = false;
 
     public float movementSpeed = 30f;
@@ -43,22 +43,9 @@ public class PlayableLogic : MonoBehaviour
         yield break;
     }
 
-    public void EnableHover()
-    {
-        if (hasBeenPlayed == false && logic.currentLocation ==Location.Hand && hasDoneHoverEffect == false && gm.gameState == GameState.Open)
-        {
-            if (logic.cardController == gm.BluePlayerManager)
-                transform.localPosition = Vector3.up * 3;
-            else
-                transform.localPosition = Vector3.down * 3;
-            hasDoneHoverEffect = true;
-        }
-    }
-
     //borrowing effects used even if all plays aren't effects to avoid redundancies in enums... should cause no issues
     public void PlayCard(EffectsUsed effectsUsed, PlayerManager player)
     {
-        DisableHover();
         bool ignoreCost = false;
         bool deploy = false;
         if (effectsUsed == EffectsUsed.FreeRevive || effectsUsed == EffectsUsed.FreeDeploy)
@@ -111,15 +98,6 @@ public class PlayableLogic : MonoBehaviour
         }
         else
             Debug.Log($"Cannot Play {logic.cardName} legally because of {playError}.");
-    }
-
-    public void DisableHover()
-    {
-        if (hasBeenPlayed == false && logic.currentLocation == Location.Hand && gm.gameState != GameState.Targeting)
-        {
-            hasDoneHoverEffect = false;
-            transform.localPosition = Vector3.zero;
-        }
     }
 
     public string LegalPlayCheck(bool ignoreCost, PlayerManager player)
