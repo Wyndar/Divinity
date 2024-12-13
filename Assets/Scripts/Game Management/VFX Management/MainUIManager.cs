@@ -35,6 +35,8 @@ public class MainUIManager : MonoBehaviour
 
     [SerializeField] private string effectActivationText;
 
+    [SerializeField] private LayerMask cardSlotLayer;
+
     public Vector2 touchStartPosition, touchEndPosition;
     private float touchStartTime, touchEndTime;
     private Coroutine trailCoroutine;
@@ -80,9 +82,16 @@ public class MainUIManager : MonoBehaviour
             hasRaycast = true;
             RaycastTargeting(screenPosition);
         }
-        yield return new WaitForSeconds(0.2f);
+
         while (rayBlocker.activeInHierarchy == false)
         {
+            Ray ray = Camera.main.ScreenPointToRay(new Vector3(InputManager.CurrentFingerPosition.x, 
+                InputManager.CurrentFingerPosition.y, Camera.main.nearClipPlane));
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, cardSlotLayer))
+                raycastHit.transform.gameObject.GetComponent<CardSlot>().SelectSlot();
+            else if (gm.currentFocusCardSlot != null)
+                gm.currentFocusCardSlot.DeselectSlot();
+                    
             trail.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             if (gm.currentFocusCardLogic != null)
                 if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase && 
@@ -131,9 +140,8 @@ public class MainUIManager : MonoBehaviour
     private void RaycastTargeting(Vector2 screenPosition)
     {
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(screenPosition.x, screenPosition.y, Camera.main.nearClipPlane));
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f))
-            if (raycastHit.transform != null)
-                CurrentClickedGameObject(raycastHit.transform.gameObject);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, ~cardSlotLayer))
+            CurrentClickedGameObject(raycastHit.transform.gameObject);
     }
 
     private void CurrentClickedGameObject(GameObject gameObject)

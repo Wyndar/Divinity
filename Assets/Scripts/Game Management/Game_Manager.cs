@@ -37,6 +37,7 @@ public class Game_Manager : MonoBehaviour
     public CardSlot[] Row1, Row2, Row3, Row4;
 
     public CardLogic currentFocusCardLogic;
+    public CardSlot currentFocusCardSlot;
     public GameObject phaseChangeButton, popUpPanel;
 
     public TMP_Text bluePlayerText, redPlayerText, turnCountText, turnPhaseText, popUpPanelText, phaseChangeButtonText;
@@ -69,27 +70,27 @@ public class Game_Manager : MonoBehaviour
         RedPlayerManager.SetShield(0, RedPlayerManager.shieldCount);
         foreach (CardSlot slot in Row1)
         {
-            slot.InitializeSlot();
+            slot.InitializeSlot(this);
             slot.ChangeController(RedPlayerManager);
         }
         RedPlayerManager.cardSlots = new(Row1);
         foreach (CardSlot slot in Row2)
         {
-            slot.InitializeSlot();
+            slot.InitializeSlot(this);
             slot.ChangeController(RedPlayerManager);
             slot.isFrontline = true;
         }
         RedPlayerManager.cardSlots.AddRange(Row2);
         foreach (CardSlot slot in Row3)
         {
-            slot.InitializeSlot();
+            slot.InitializeSlot(this);
             slot.ChangeController(BluePlayerManager);
             slot.isFrontline = true;
         }
         BluePlayerManager.cardSlots = new(Row3);
         foreach (CardSlot slot in Row4)
         {
-            slot.InitializeSlot();
+            slot.InitializeSlot(this);
             slot.ChangeController(BluePlayerManager);
         }
         BluePlayerManager.cardSlots.AddRange(Row4);
@@ -319,8 +320,40 @@ public class Game_Manager : MonoBehaviour
         player.handLogicList.Clear();
         foreach (CardLogic logic in handCards)
             logic.transform.SetParent(null);
+        ReattachShuffledHand(player, handCards);
+        ArrangeHand(player);
+    }
 
-        
+    private static void ArrangeHand(PlayerManager player)
+    {
+        //do not fuck with this, DO NOT FUCK WITH THIS!
+        float xDist = 2.1f;
+        float yDist = -0.82f;
+        float cardSize = 0.511f;
+        int count = 0;
+        int topCount = Mathf.FloorToInt(player.handSize / 2 + 0.5f);
+        int bottomCount = player.handSize - topCount;
+
+        foreach (HandSlot handSlot in player.handSlots)
+        {
+            if (handSlot.cardInZone == null)
+                continue;
+            count++;
+            int trueCount = count - topCount;
+            float yPosition = player.handSize < 4 ? yDist / 2 : count <= player.handSize / 2 ? 0 : yDist;
+            float xPosition = player.handSize < 4
+                ? xDist / (player.handSize + 1) * count
+                : (trueCount <= 0 && topCount < 4) || (trueCount > 0 && bottomCount < 4)
+                    ? trueCount <= 0 ? xDist / (topCount + 1) * count : xDist / (bottomCount + 1) * trueCount
+                    : count == 1 || trueCount == 1 ? 0 : trueCount <= 0 ? cardSize * (count - 1) : cardSize * (trueCount - 1);
+            if (trueCount <= 0 && topCount == 4 || trueCount > 0 && bottomCount == 4)
+                xPosition += 0.11f * (trueCount <= 0 ? count : trueCount);
+            handSlot.transform.localPosition += new Vector3(xPosition, yPosition, 0);
+        }
+    }
+
+    private static void ReattachShuffledHand(PlayerManager player, List<CardLogic> handCards)
+    {
         //reattaches cards to handslots
         foreach (CardLogic logic in handCards)
         {
@@ -337,30 +370,6 @@ public class Game_Manager : MonoBehaviour
                 player.handSize = player.handLogicList.Count;
                 break;
             }
-        }
-        //do not fuck with this, DO NOT FUCK WITH THIS!
-        float xDist = 2.1f;
-        float yDist = -0.82f;
-        float cardSize = 0.511f;
-        int count = 0;
-        int topCount = Mathf.FloorToInt(player.handSize / 2 + 0.5f);
-        int bottomCount = player.handSize - topCount;
-       
-        foreach (HandSlot handSlot in player.handSlots)
-        {
-            if (handSlot.cardInZone == null)
-                continue;
-            count++;
-            int trueCount = count - topCount;
-            float yPosition = player.handSize < 4 ? yDist / 2 : count <= player.handSize / 2 ? 0 : yDist;
-            float xPosition = player.handSize < 4
-                ? xDist / (player.handSize + 1) * count
-                : (trueCount <= 0 && topCount < 4) || (trueCount > 0 && bottomCount < 4)
-                    ? trueCount <= 0 ? xDist / (topCount + 1) * count : xDist / (bottomCount + 1) * trueCount
-                    : count == 1 || trueCount == 1 ? 0 : trueCount <= 0 ? cardSize * (count - 1) : cardSize * (trueCount - 1);
-            if (trueCount <= 0 && topCount == 4 || trueCount > 0 && bottomCount == 4)
-                xPosition += 0.11f * (trueCount <= 0 ? count : trueCount);
-            handSlot.transform.localPosition += new Vector3(xPosition, yPosition, 0);
         }
     }
 

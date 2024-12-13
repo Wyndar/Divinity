@@ -7563,7 +7563,7 @@ GameObject:
   - component: {fileID: 285896068}
   - component: {fileID: 285896069}
   - component: {fileID: 285896070}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_1
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -16790,7 +16790,7 @@ GameObject:
   - component: {fileID: 572285681}
   - component: {fileID: 572285682}
   - component: {fileID: 572285683}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_1
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -18204,7 +18204,7 @@ GameObject:
   - component: {fileID: 639111378}
   - component: {fileID: 639111379}
   - component: {fileID: 639111380}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -18585,7 +18585,7 @@ GameObject:
   - component: {fileID: 652087957}
   - component: {fileID: 652087958}
   - component: {fileID: 652087959}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_2
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -19667,7 +19667,7 @@ GameObject:
   - component: {fileID: 673259763}
   - component: {fileID: 673259764}
   - component: {fileID: 673259765}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -27800,7 +27800,7 @@ GameObject:
   - component: {fileID: 970078037}
   - component: {fileID: 970078038}
   - component: {fileID: 970078039}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_2
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -28218,7 +28218,7 @@ GameObject:
   - component: {fileID: 978731286}
   - component: {fileID: 978731287}
   - component: {fileID: 978731288}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_3
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -29191,7 +29191,7 @@ GameObject:
   - component: {fileID: 1008006486}
   - component: {fileID: 1008006487}
   - component: {fileID: 1008006488}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_3
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -29341,7 +29341,7 @@ GameObject:
   - component: {fileID: 1020561738}
   - component: {fileID: 1020561739}
   - component: {fileID: 1020561740}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_2
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -40495,7 +40495,7 @@ GameObject:
   - component: {fileID: 1393770960}
   - component: {fileID: 1393770961}
   - component: {fileID: 1393770962}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_3
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -43651,7 +43651,7 @@ GameObject:
   - component: {fileID: 1500892392}
   - component: {fileID: 1500892393}
   - component: {fileID: 1500892394}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_1
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -47286,6 +47286,9 @@ MonoBehaviour:
   - {fileID: 30175188}
   - {fileID: 1484670817}
   effectActivationText: Activate Ability of
+  cardSlotLayer:
+    serializedVersion: 2
+    m_Bits: 128
   touchStartPosition: {x: 0, y: 0}
   touchEndPosition: {x: 0, y: 0}
 --- !u!114 &1600093226
@@ -47359,6 +47362,7 @@ MonoBehaviour:
   - {fileID: 652087958}
   - {fileID: 1393770961}
   currentFocusCardLogic: {fileID: 0}
+  currentFocusCardSlot: {fileID: 0}
   phaseChangeButton: {fileID: 342968765}
   popUpPanel: {fileID: 2027922524}
   bluePlayerText: {fileID: 448636787}
@@ -51444,7 +51448,7 @@ GameObject:
   - component: {fileID: 1738266295}
   - component: {fileID: 1738266296}
   - component: {fileID: 1738266297}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -52608,7 +52612,7 @@ GameObject:
   - component: {fileID: 1797924085}
   - component: {fileID: 1797924086}
   - component: {fileID: 1797924087}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_3
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -56871,7 +56875,7 @@ GameObject:
   - component: {fileID: 1923634879}
   - component: {fileID: 1923634880}
   - component: {fileID: 1923634881}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_1
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -60928,7 +60932,7 @@ GameObject:
   - component: {fileID: 2029145507}
   - component: {fileID: 2029145508}
   - component: {fileID: 2029145509}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell_2
   m_TagString: Card Slot
   m_Icon: {fileID: 0}
@@ -64593,7 +64597,7 @@ GameObject:
   - component: {fileID: 2137010216}
   - component: {fileID: 2137010217}
   - component: {fileID: 2137010218}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Card Cell
   m_TagString: Card Slot
   m_Icon: {fileID: 0}

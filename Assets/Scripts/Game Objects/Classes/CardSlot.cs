@@ -13,10 +13,12 @@ public class CardSlot : MonoBehaviour
     public SpriteRenderer sprite;
     public GameObject effectActivationButton, attackDeclarationButton, atkIcon, hpIcon, effectTarget,
         attackTarget, fieldIcon, statusIcon, statusIcon2, damageNum, attackProjectileIcon, effectProjectileIcon;
+    private Game_Manager gm;
 
-    public void InitializeSlot()
+    public void InitializeSlot(Game_Manager game_Manager)
     {
         sprite = GetComponent<SpriteRenderer>();
+        gm = game_Manager;
         effectActivationButton = effectActivationButtons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
         attackDeclarationButton = attackDeclarationButtons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
         atkIcon = atkIcons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
@@ -43,12 +45,16 @@ public class CardSlot : MonoBehaviour
     }
     public void SetStatusIcon(CardStatus status) =>
         controller.ui.AddStatIcon(fieldIcon, status);
-    public void OnMouseEnter()
+    public void SelectSlot()
     {
+        if (gm.currentFocusCardSlot != null)
+            gm.currentFocusCardSlot.DeselectSlot();
         sprite.color = Color.yellow;
+        gm.currentFocusCardSlot = this;
     }
-    public void OnMouseExit()
+    public void DeselectSlot()
     {
         sprite.color = controller.playerColor;
+        gm.currentFocusCardSlot = null;
     }
 }
