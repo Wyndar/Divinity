@@ -377,6 +377,8 @@ public class Game_Manager : MonoBehaviour
         StateChange(GameState.Open);
         if(currentFocusCardLogic != null) 
             currentFocusCardLogic.RemoveFocusCardLogic();
+        if (currentFocusCardSlot != null)
+            currentFocusCardSlot.DeselectSlot();
         if (currentPhase == Phase.MainPhase)
             ShowValidMoves(turnPlayer);
         if (currentPhase == Phase.BattlePhase)

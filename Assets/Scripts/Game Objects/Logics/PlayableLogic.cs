@@ -150,14 +150,12 @@ public class PlayableLogic : MonoBehaviour
                             return "Cannot deploy to Frontline directly";
                         if (gm.currentFocusCardSlot.cardInZone != null)
                             return "Occupied Zone";
+                        return null;
                     }
                     else foreach (CardSlot cardSlot in player.cardSlots)
-                        {
                             if (cardSlot.cardInZone == null && !cardSlot.isFrontline)
-                                continue;
-                            return "No fighter zones";
-                        }
-                    return null;
+                                return null;
+                    return "No fighter Zones";
                 }
 
             case Type.Spell:
