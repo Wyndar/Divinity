@@ -119,12 +119,13 @@ public class MainUIManager : MonoBehaviour
         {
             gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);
             //swipe check to play
-            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1)
+            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && 
+                Vector2.Distance(touchEndPosition, touchStartPosition) >= 3f)
             {
-                float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x);
-                if (gm.currentPhase == Phase.MainPhase && playableLogic != null)
+                float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x );
+                if (gm.currentPhase == Phase.MainPhase && playableLogic != null && playDist > 2f)
                 {
-                    if (playDist > 2f && gm.currentFocusCardLogic.type == Type.Spell)
+                    if (gm.currentFocusCardLogic.type == Type.Spell)
                         playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
                     if (gm.currentFocusCardSlot != null && gm.currentFocusCardLogic.type == Type.Fighter)
                         playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
