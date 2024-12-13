@@ -48,9 +48,9 @@ public class PlayableLogic : MonoBehaviour
         if (hasBeenPlayed == false && logic.currentLocation ==Location.Hand && hasDoneHoverEffect == false && gm.gameState == GameState.Open)
         {
             if (logic.cardController == gm.BluePlayerManager)
-                transform.localPosition += Vector3.up * 3;
+                transform.localPosition = Vector3.up * 3;
             else
-                transform.localPosition -= Vector3.up * 3;
+                transform.localPosition = Vector3.down * 3;
             hasDoneHoverEffect = true;
         }
     }
@@ -152,12 +152,12 @@ public class PlayableLogic : MonoBehaviour
                             return "Occupied Zone";
                     }
                     else foreach (CardSlot cardSlot in player.cardSlots)
-                    {
-                        if (cardSlot.cardInZone != null || cardSlot.isFrontline)
-                            continue;
-                        return null;
-                    }
-                    return "No fighter zones";
+                        {
+                            if (cardSlot.cardInZone == null && !cardSlot.isFrontline)
+                                continue;
+                            return "No fighter zones";
+                        }
+                    return null;
                 }
 
             case Type.Spell:

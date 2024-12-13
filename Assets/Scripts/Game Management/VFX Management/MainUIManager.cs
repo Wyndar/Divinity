@@ -119,8 +119,7 @@ public class MainUIManager : MonoBehaviour
         {
             gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);
             //swipe check to play
-            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && Vector2.Distance(touchEndPosition,
-                touchStartPosition) >= 3f)
+            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1)
             {
                 float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x);
                 if (gm.currentPhase == Phase.MainPhase && playableLogic != null)
@@ -133,9 +132,9 @@ public class MainUIManager : MonoBehaviour
                 gm.currentFocusCardLogic.RemoveFocusCardLogic();
             }
             //hold check to show card information
-            else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f && 
+            else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 3f &&
                 !gm.currentFocusCardLogic.isFaceDown)
-                    ShowEffectInfoPanel();
+                ShowEffectInfoPanel();
             else if (playableLogic != null)
                 playableLogic.EnableHover();
         }
