@@ -9,6 +9,7 @@ public class MonsterLogic : CardLogic
     public CombatantLogic combatLogic;
     public PlayableLogic playLogic;
     public CardSlot currentSlot;
+    public bool hasMoved;
 
     public void OnFieldAtkRefresh()
     {
@@ -51,7 +52,7 @@ public class MonsterLogic : CardLogic
         audioManager.NewAudioPrefab(audioManager.summon);
         GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.transform, false);
         go.transform.localPosition = Vector3.zero;
-
+        hasMoved = false;
         combatLogic.attacksLeft = combatLogic.maxAttacks;
         gm.StateChange(GameState.Summon);
     }

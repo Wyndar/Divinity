@@ -468,7 +468,11 @@ public class Game_Manager : MonoBehaviour
         foreach (CardLogic cardLogic in player.handLogicList)
             cardLogic.EffectRefresh();
         foreach (CardLogic cardLogic in player.fieldLogicList)
+        {
             cardLogic.EffectRefresh();
+            if (cardLogic.type == Type.Fighter)
+                cardLogic.GetComponent<MonsterLogic>().hasMoved = false;
+        }
         foreach (CardLogic cardLogic in player.graveLogicList)
             cardLogic.EffectRefresh();
         player.heroCardLogic.EffectRefresh();

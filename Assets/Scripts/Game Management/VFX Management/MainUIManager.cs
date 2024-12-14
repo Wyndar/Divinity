@@ -225,6 +225,8 @@ public class MainUIManager : MonoBehaviour
                                             showButton = true;
                         if (showButton)
                             monsterLogic.currentSlot.effectActivationButton.SetActive(true);
+                        if (!monsterLogic.hasMoved)
+                            monsterLogic.currentSlot.moveButton.SetActive(true);
                         if (gm.currentPhase == Phase.BattlePhase)
                             if (combatant.attacksLeft > 0 && combatant.currentAtk > 0)
                                 monsterLogic.currentSlot.attackDeclarationButton.SetActive(true);
@@ -298,6 +300,7 @@ public class MainUIManager : MonoBehaviour
     {
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.effectActivationButton.SetActive(false);
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.attackDeclarationButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.moveButton.SetActive(false);
         gm.currentFocusCardLogic.GetComponent<CombatantLogic>().DeclareAttack();
     }
 
@@ -319,6 +322,7 @@ public class MainUIManager : MonoBehaviour
         gm.DisableTurnUI();
         SwitchEffectPanel(0);
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.effectActivationButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.moveButton.SetActive(false);
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.attackDeclarationButton.SetActive(false);
     }
 
@@ -523,21 +527,25 @@ public class MainUIManager : MonoBehaviour
         foreach (CardSlot slot in gm.Row1)
         {
             slot.attackDeclarationButton.SetActive(false);
+            slot.moveButton.SetActive(false);
             slot.effectActivationButton.SetActive(false);
         }
         foreach (CardSlot slot in gm.Row2)
         {
             slot.attackDeclarationButton.SetActive(false);
+            slot.moveButton.SetActive(false);
             slot.effectActivationButton.SetActive(false);
         }
         foreach (CardSlot slot in gm.Row3)
         {
             slot.attackDeclarationButton.SetActive(false);
+            slot.moveButton.SetActive(false);
             slot.effectActivationButton.SetActive(false);
         }
         foreach (CardSlot slot in gm.Row4)
         {
             slot.attackDeclarationButton.SetActive(false);
+            slot.moveButton.SetActive(false);
             slot.effectActivationButton.SetActive(false);
         }
     }

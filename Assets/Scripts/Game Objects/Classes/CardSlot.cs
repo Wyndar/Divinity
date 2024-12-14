@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class CardSlot : MonoBehaviour
 {
-    [SerializeField] private GameObject effectActivationButtons, attackDeclarationButtons, atkIcons, hpIcons, effectTargets,
+    [SerializeField] private GameObject effectActivationButtons, attackDeclarationButtons, moveButtons, atkIcons, hpIcons, effectTargets,
         attackTargets, fieldIcons, statusIcons, statusIcons2, damageNums, attackProjectileIcons, effectProjectileIcons;
     public bool isFrontline;
     public int column;
@@ -11,7 +11,7 @@ public class CardSlot : MonoBehaviour
     public CardLogic cardInZone;
     public PlayerManager controller;
     public SpriteRenderer sprite;
-    public GameObject effectActivationButton, attackDeclarationButton, atkIcon, hpIcon, effectTarget,
+    public GameObject effectActivationButton, attackDeclarationButton, moveButton, atkIcon, hpIcon, effectTarget,
         attackTarget, fieldIcon, statusIcon, statusIcon2, damageNum, attackProjectileIcon, effectProjectileIcon;
     private Game_Manager gm;
 
@@ -21,6 +21,7 @@ public class CardSlot : MonoBehaviour
         gm = game_Manager;
         effectActivationButton = effectActivationButtons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
         attackDeclarationButton = attackDeclarationButtons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
+        moveButton = moveButtons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
         atkIcon = atkIcons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
         hpIcon = hpIcons.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
         effectTarget = effectTargets.transform.GetChild(row - 1).GetChild(column - 1).gameObject;
