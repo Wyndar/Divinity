@@ -1,7 +1,7 @@
 ﻿public enum GameState
 {
-    Open, Damaged, Death, Grave, Summon, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution,
-    Playing, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison,
+    Open, Damaged, Death, Grave, Summon, Moved, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution,
+    Playing, Moving, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison,
     Provoke, Sleep, Disarm, Stun, Silence, Buff, Debuff, Clear, TurnEnd, Undefined
 }
 

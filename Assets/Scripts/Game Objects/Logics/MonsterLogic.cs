@@ -57,6 +57,40 @@ public class MonsterLogic : CardLogic
         gm.StateChange(GameState.Summon);
     }
 
+    public void DeclareMove()
+    {
+        foreach (CardSlot cardSlot in cardController.cardSlots)
+            if (Mathf.Abs(currentSlot.row - cardSlot.row) <= 1 && Mathf.Abs(currentSlot.column - cardSlot.column) <= 1)
+            {
+                if (cardSlot == currentSlot)
+                    cardSlot.sprite.color = Color.cyan;
+                else if (cardSlot.cardInZone == null)
+                    cardSlot.sprite.color = Color.green;
+                else
+                    cardSlot.sprite.color = Color.red;
+            }
+        gm.StateChange(GameState.Moving);
+    }
+
+    public void Move(CardSlot cardSlot)
+    {
+        hasMoved = true;
+        currentSlot.cardInZone = null;
+        currentSlot.CleanUpIcons();
+        currentSlot = cardSlot;
+        transform.position = new(currentSlot.transform.position.x - 0.7f, currentSlot.transform.position.y, 0);
+        LocationChange(Location.Field, currentSlot.column);
+        currentSlot.atkIcon.SetActive(true);
+        currentSlot.hpIcon.SetActive(true);
+        OnFieldAtkRefresh();
+        OnFieldHpRefresh();
+        foreach(CardStatus status in combatLogic.cardStatuses)
+            currentSlot.SetStatusIcon(status);
+        foreach (CardSlot slot in cardController.cardSlots)
+            slot.sprite.color = cardController.playerColor;
+        gm.StateChange(GameState.Moved);
+        gm.ChainResolution();
+    }
     override public void StatAdjustment(int value, Status status)
     {
         currentSlot.SetStat(status, value);
@@ -95,7 +129,6 @@ public class MonsterLogic : CardLogic
             cardOwner.handSize = cardOwner.handLogicList.Count;
             break;
         }
-
         gm.ShuffleHand(cardOwner);
         gm.StateChange(GameState.Bounce);
         yield break;
@@ -129,13 +162,7 @@ public class MonsterLogic : CardLogic
     public void LeavingFieldSequence()
     {
         combatLogic.currentHp = 0;
-        currentSlot.atkIcon.SetActive(false);
-        currentSlot.hpIcon.SetActive(false);
-        List<GameObject> allChildren = new();
-        foreach (Transform child in currentSlot.fieldIcon.transform)
-            allChildren.Add(child.gameObject);
-        foreach (GameObject child in allChildren)
-            Destroy(child);
+        currentSlot.CleanUpIcons();
         combatLogic.cardStatuses.Clear();
         combatLogic.hasDoneCountdown = false;
         currentSlot.cardInZone = null;

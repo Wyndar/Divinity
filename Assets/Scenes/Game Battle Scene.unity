@@ -327,8 +327,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1397,8 +1397,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4782,8 +4782,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5999,8 +5999,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19517,11 +19517,11 @@ RectTransform:
   - {fileID: 1383146232}
   - {fileID: 549658990}
   - {fileID: 1651543314}
-  - {fileID: 243989690}
   - {fileID: 1775880239}
   - {fileID: 221228423}
   - {fileID: 546482098}
   - {fileID: 2139848261}
+  - {fileID: 243989690}
   - {fileID: 448636786}
   - {fileID: 2005315150}
   - {fileID: 2002641313}
@@ -21632,8 +21632,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23930,8 +23930,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25899,8 +25899,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32653,8 +32653,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33923,8 +33923,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34456,8 +34456,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -36749,8 +36749,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -38057,8 +38057,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -39880,8 +39880,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -48286,8 +48286,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -53141,8 +53141,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -62794,8 +62794,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1600093225}
-        m_TargetAssemblyTypeName: UXManager, Assembly-CSharp
-        m_MethodName: ShowEffectPanel
+        m_TargetAssemblyTypeName: MainUIManager, Assembly-CSharp
+        m_MethodName: DeclareMove
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -83,17 +83,22 @@ public class MainUIManager : MonoBehaviour
         while (rayBlocker.activeInHierarchy == false)
         {
             //card slot highlight
-            Ray ray = Camera.main.ScreenPointToRay(new Vector3(InputManager.CurrentFingerPosition.x, 
+            Ray ray = Camera.main.ScreenPointToRay(new Vector3(InputManager.CurrentFingerPosition.x,
                 InputManager.CurrentFingerPosition.y, Camera.main.nearClipPlane));
             if (Physics.Raycast(ray, out RaycastHit raycastHit, 100f, cardSlotLayer))
-                raycastHit.transform.gameObject.GetComponent<CardSlot>().SelectSlot();
+            {
+                if (gm.gameState == GameState.Moving)
+                    gm.currentFocusCardLogic.GetComponent<MonsterLogic>().Move(raycastHit.transform.gameObject.GetComponent<CardSlot>());
+                else
+                    raycastHit.transform.gameObject.GetComponent<CardSlot>().SelectSlot();
+            }
             else if (gm.currentFocusCardSlot != null)
                 gm.currentFocusCardSlot.DeselectSlot();
-                    
+
             //trail movement
             trail.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             if (gm.currentFocusCardLogic != null)
-                if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase && 
+                if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase &&
                     gm.turnPlayer == gm.currentFocusCardLogic.cardController)
                     gm.currentFocusCardLogic.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             yield return null;
@@ -302,6 +307,14 @@ public class MainUIManager : MonoBehaviour
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.attackDeclarationButton.SetActive(false);
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.moveButton.SetActive(false);
         gm.currentFocusCardLogic.GetComponent<CombatantLogic>().DeclareAttack();
+    }
+
+    public void DeclareMove()
+    {
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.effectActivationButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.attackDeclarationButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.moveButton.SetActive(false);
+        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().DeclareMove();
     }
 
     public void ShowShieldPrompt(PlayerManager player)

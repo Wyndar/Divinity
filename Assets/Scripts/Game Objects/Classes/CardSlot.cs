@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -69,4 +70,14 @@ public class CardSlot : MonoBehaviour
         sprite.color = controller.playerColor;
         gm.currentFocusCardSlot = null;
     }
+    public void CleanUpIcons()
+    {
+        atkIcon.SetActive(false);
+        hpIcon.SetActive(false);
+        List<GameObject> allChildren = new();
+        foreach (Transform child in fieldIcon.transform)
+            allChildren.Add(child.gameObject);
+        foreach (GameObject child in allChildren)
+            Destroy(child);
+    }    
 }
