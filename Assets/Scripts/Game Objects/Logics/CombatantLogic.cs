@@ -205,7 +205,7 @@ public class CombatantLogic : MonoBehaviour
                 break;
             }
         }
-
+        bool isFrontline = logic.GetComponent<MonsterLogic>().currentSlot.isFrontline;
         //then you can add based on taunt and stealth
         foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
         {
@@ -219,11 +219,11 @@ public class CombatantLogic : MonoBehaviour
                 continue;
             }
             //make sure it's not already there
-            if (!logics.Contains(combatantLogic))
+            if (!logics.Contains(combatantLogic) && (cardLogic.GetComponent<MonsterLogic>().currentSlot.isFrontline || isFrontline))
                 logics.Add(combatantLogic);
         }
 
-        if (tauntEnemy == false)
+        if (!tauntEnemy && (logic.type != Type.Fighter || isFrontline))
             logics.Add(hero);
 
         //if all ally fghters are stealthed, then they are basically all free targets
@@ -371,12 +371,15 @@ public class CombatantLogic : MonoBehaviour
 
     public void DeclareAttack()
     {
+        validTargets = new(GetValidAttackTargets());
+        if (validTargets.Count == 0)
+            return;
         Debug.Log(logic.cardName);
         attacksLeft -= 1;
         hasAttacked = true;
         hasAttackedThisTurn = true;
         gm.StateChange(GameState.AttackDeclaration);
-        validTargets = new(GetValidAttackTargets());
+       
         foreach(CombatantLogic combatantLogic in validTargets)
         {
             if (combatantLogic.logic.type == Type.Fighter)

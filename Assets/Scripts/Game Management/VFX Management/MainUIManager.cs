@@ -230,10 +230,10 @@ public class MainUIManager : MonoBehaviour
                                             showButton = true;
                         if (showButton)
                             monsterLogic.currentSlot.effectActivationButton.SetActive(true);
-                        if (!monsterLogic.hasMoved)
+                        if (!monsterLogic.hasMoved && gm.currentPhase == Phase.MainPhase)
                             monsterLogic.currentSlot.moveButton.SetActive(true);
                         if (gm.currentPhase == Phase.BattlePhase)
-                            if (combatant.attacksLeft > 0 && combatant.currentAtk > 0)
+                            if (combatant.attacksLeft > 0 && combatant.currentAtk > 0 && combatant.GetValidAttackTargets().Count != 0)
                                 monsterLogic.currentSlot.attackDeclarationButton.SetActive(true);
                         return;
                     }
