@@ -179,23 +179,25 @@ public class CombatantLogic : MonoBehaviour
         {
             foreach (Debuff d in cardStatuses.Cast<Debuff>())
                 if (d.debuff == Debuffs.Provoked)
+                {
                     logics.Add(d.applierLogic.GetComponent<CombatantLogic>());
-            return logics;
+                    return logics;
+                }
         }
 
         //else check for taunters and stealthed units then return valids
         bool tauntEnemy = false;
-        int stealthEnemyCount = 0;
+        bool blockerInColumn = false;
+
+        //check hero 
         CombatantLogic hero = logic.cardController.enemy.heroCardLogic.GetComponent<CombatantLogic>();
         if (hero.targetState == TargetState.Taunt)
         {
             tauntEnemy = true;
             logics.Add(hero);
         }
-        if (hero.targetState == TargetState.Stealth)
-            stealthEnemyCount++;
 
-        //first check if there is a taunter
+        //then check if there is a taunter on field
         foreach (CardLogic card in logic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = card.GetComponent<CombatantLogic>();
@@ -213,24 +215,20 @@ public class CombatantLogic : MonoBehaviour
             if (tauntEnemy)
                 if (combatantLogic.targetState != TargetState.Taunt)
                     continue;
+
             if (combatantLogic.targetState==TargetState.Stealth)
-            {
-                stealthEnemyCount++;
                 continue;
-            }
             //make sure it's not already there
             if (!logics.Contains(combatantLogic) && (cardLogic.GetComponent<MonsterLogic>().currentSlot.isFrontline || isFrontline))
                 logics.Add(combatantLogic);
+            if (cardLogic.GetComponent<MonsterLogic>().currentSlot.column == logic.GetComponent<MonsterLogic>().currentSlot.column)
+                blockerInColumn = true;
+            if (!tauntEnemy && !logics.Contains(hero) && (logic.type != Type.Fighter || isFrontline) && !blockerInColumn)
+                logics.Add(hero);
         }
-
-        if (!tauntEnemy && (logic.type != Type.Fighter || isFrontline))
+        if (logics.Count == 0 && (logic.type != Type.Fighter || isFrontline) && hero.targetState != TargetState.Stealth)
             logics.Add(hero);
-
-        //if all ally fghters are stealthed, then they are basically all free targets
-        if (stealthEnemyCount > 0 && logics.Count == 0)
-            foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
-                logics.Add(cardLogic.GetComponent<CombatantLogic>());
-
+        validTargets = new(logics);
         return logics;
     }
 
@@ -366,14 +364,13 @@ public class CombatantLogic : MonoBehaviour
             return false;
         if (currentAtk <= 0)
             return false;
+        if (GetValidAttackTargets().Count == 0)
+            return false;
         return true;
     }
 
     public void DeclareAttack()
     {
-        validTargets = new(GetValidAttackTargets());
-        if (validTargets.Count == 0)
-            return;
         Debug.Log(logic.cardName);
         attacksLeft -= 1;
         hasAttacked = true;

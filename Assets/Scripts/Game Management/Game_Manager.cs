@@ -594,9 +594,7 @@ public class Game_Manager : MonoBehaviour
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
-            if (combatantLogic.ImmobilityCheck())
-                continue;
-            if (combatantLogic.ValidAttackerCheck() && combatantLogic.GetValidAttackTargets().Count != 0)
+            if (combatantLogic.ValidAttackerCheck())
                 player.canAttackLogicList.Add(cardLogic);
         }
         //implement atk for god???
