@@ -357,8 +357,8 @@ public class CombatantLogic : MonoBehaviour
         hasAttacked = true;
         hasAttackedThisTurn = true;
         gm.StateChange(GameState.AttackDeclaration);
-       
-        foreach(CombatantLogic combatantLogic in validTargets)
+
+        foreach (CombatantLogic combatantLogic in validTargets)
         {
             if (combatantLogic.logic is MonsterLogic monster)
                 monster.currentSlot.attackTarget.SetActive(true);
@@ -366,11 +366,17 @@ public class CombatantLogic : MonoBehaviour
                 combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
         }
         logic.SetFocusCardLogic();
-        //handle attacks randomly for AI, needs work
-        if(logic.cardController.isAI)
+
+        if (!logic.cardController.isAI)
+            return;
+        CombatantLogic godLogic = validTargets.Find(x => x.logic is GodLogic);
+        if (godLogic != null)
+            godLogic.AttackTargetAcquisition();
+        else
         {
-            int ranNum = Random.Range(0, validTargets.Count);
-            validTargets[ranNum].AttackTargetAcquisition();
+            IOrderedEnumerable<CombatantLogic> sortedTargets = validTargets.OrderBy(x => x.currentAtk);
+            List<CombatantLogic> targets = new(sortedTargets);
+            targets[^1].AttackTargetAcquisition();
         }
     }
 

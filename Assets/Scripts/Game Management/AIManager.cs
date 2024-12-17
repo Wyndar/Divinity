@@ -60,11 +60,44 @@ public class AIManager : MonoBehaviour
             UseLegalEffects();
             yield break;
         }
-        else
-            isPerformingAction = false;
-        yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open||gm.isPlayingCard||gm.isActivatingEffect);
+        if (MovedMonster())
+            yield return null;
+        isPerformingAction = false;
+        yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open || gm.isPlayingCard || gm.isActivatingEffect);
         turnManager.TriggerPhaseChange();
         yield break;
+    }
+
+    private bool MovedMonster()
+    {
+        foreach (CardLogic cardLogic in AIPlayer.fieldLogicList)
+        {
+            if (cardLogic is not MonsterLogic monster)
+                continue;
+            if (monster.hasMoved)
+                continue;
+            foreach (CardSlot cardSlot in AIPlayer.cardSlots)
+            {
+                if (Mathf.Abs(monster.currentSlot.row - cardSlot.row) > 1 || Mathf.Abs(monster.currentSlot.column - cardSlot.column) > 1
+                    || cardSlot == monster.currentSlot || cardSlot.cardInZone != null || cardSlot.controller != AIPlayer)
+                    continue;
+                bool isBlocked = false;
+                if (monster.combatLogic.currentAtk == 0 && cardSlot.isFrontline)
+                    continue;
+                if (monster.combatLogic.currentAtk > 0 && cardSlot.isFrontline)
+                    foreach (CardLogic enemy in AIPlayer.enemy.fieldLogicList)
+                        if (enemy.GetComponent<MonsterLogic>().currentSlot.column == cardSlot.column)
+                        {
+                            isBlocked = true;
+                            break;
+                        }
+                if (isBlocked)
+                    continue;
+                monster.Move(cardSlot);
+                return true;
+            }
+        }
+        return false;
     }
 
     //indiscriminate attack spam
@@ -161,6 +194,7 @@ public class AIManager : MonoBehaviour
         return bestStats;
     }
 
+    //idk why but lets keep this for now
     private CardLogic BestHpSort(List<CardLogic> sortList)
     {
         int highestHP = -1;

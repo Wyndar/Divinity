@@ -74,6 +74,9 @@ public class MonsterLogic : CardLogic
 
     public void Move(CardSlot cardSlot)
     {
+        if (Mathf.Abs(currentSlot.row - cardSlot.row) > 1 || Mathf.Abs(currentSlot.column - cardSlot.column) > 1 ||
+            cardSlot == currentSlot || cardSlot.cardInZone != null || cardSlot.controller != cardController)
+            return;
         hasMoved = true;
         currentSlot.cardInZone = null;
         currentSlot.CleanUpIcons();
