@@ -23,9 +23,8 @@ public class CombatantLogic : MonoBehaviour
     public void TakeDamage(int damage, bool wasAttack)
     {
         bool blockDamage = false;
-        if (logic.type == Type.God)
-            if (targetState != TargetState.Spot)
-                blockDamage = GetComponent<GodLogic>().ShieldTrigger(damage, wasAttack);
+        if (logic is GodLogic godLogic && targetState != TargetState.Spot)
+            blockDamage = godLogic.ShieldTrigger(damage, wasAttack);
         if (!blockDamage)
             currentCoroutine = StartCoroutine(DamageResolution(damage, wasAttack));
     }
@@ -59,9 +58,8 @@ public class CombatantLogic : MonoBehaviour
 
         if (damage != 0)
         {
-            if (targetState == TargetState.Spot)
-                if(logic.type == Type.Fighter)
-                    damage *= 2;
+            if (targetState == TargetState.Spot && logic.type == Type.Fighter)
+                damage *= 2;
             currentHp -= damage;
             logic.audioManager.SelectCharacterDamageSFX(logic.id);
             gm.StateChange(GameState.Damaged);
@@ -142,8 +140,8 @@ public class CombatantLogic : MonoBehaviour
 
         gm.gameLogHistoryEntries.Add(statChangeLog);
         logic.StatAdjustment(healAmount, Status.Heal);
-        if (GetComponent<MonsterLogic>() != null)
-            GetComponent<MonsterLogic>().OnFieldHpRefresh();
+        if (logic is MonsterLogic monsterLogic)
+            monsterLogic.OnFieldHpRefresh();
     }
 
     public bool OverhealCheck()
@@ -295,7 +293,8 @@ public class CombatantLogic : MonoBehaviour
             RemoveCardStatus(cardStatus);
         }
         cardStatuses.Add(debuff);
-        logic.GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(debuff);
+        if (logic is MonsterLogic monster)
+            monster.currentSlot.SetStatusIcon(debuff);
     }
 
     //can safely implement for a buff/debuff cleanse effect
@@ -345,29 +344,11 @@ public class CombatantLogic : MonoBehaviour
         return null;
     }
 
-    public bool ImmobilityCheck()
-    {
-        if (cardStatuses.Count < 1)
-            return false;
-        if (DebuffCheck(Debuffs.Stunned)!=null)
-            return true;
-       if(DebuffCheck(Debuffs.Sleeping) != null)
-            return true;
-        return false;
-    }
+    public bool ImmobilityCheck() => cardStatuses.Count < 1 ? false : DebuffCheck(Debuffs.Stunned) != null 
+        ? true : DebuffCheck(Debuffs.Sleeping) != null;
 
-    public bool ValidAttackerCheck()
-    {
-        if (ImmobilityCheck())
-            return false;
-        if (attacksLeft <= 0)
-            return false;
-        if (currentAtk <= 0)
-            return false;
-        if (GetValidAttackTargets().Count == 0)
-            return false;
-        return true;
-    }
+    public bool ValidAttackerCheck() => !ImmobilityCheck() && attacksLeft > 0 && currentAtk > 0 &&
+        GetValidAttackTargets().Count != 0;
 
     public void DeclareAttack()
     {
@@ -379,8 +360,8 @@ public class CombatantLogic : MonoBehaviour
        
         foreach(CombatantLogic combatantLogic in validTargets)
         {
-            if (combatantLogic.logic.type == Type.Fighter)
-                combatantLogic.GetComponent<MonsterLogic>().currentSlot.attackTarget.SetActive(true);
+            if (combatantLogic.logic is MonsterLogic monster)
+                monster.currentSlot.attackTarget.SetActive(true);
             if (combatantLogic.logic.type == Type.God)
                 combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
         }

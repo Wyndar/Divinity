@@ -80,7 +80,7 @@ public class GodLogic : CardLogic
         if (combatantLogic.currentHp <= 0)
         {
             combatantLogic.currentHp = 0;
-            base.gameManager.GameOver(cardController.enemy);
+            gm.GameOver(cardController.enemy);
         }
     }
 
@@ -95,12 +95,14 @@ public class GodLogic : CardLogic
 
     public void OnFieldAtkRefresh()
     {
-        cardController.heroAtkText.color = combatantLogic.atk != combatantLogic.currentAtk ? combatantLogic.currentAtk < combatantLogic.atk ? Color.red : Color.blue : Color.black;
+        cardController.heroAtkText.color = combatantLogic.atk != combatantLogic.currentAtk ? combatantLogic.currentAtk 
+            < combatantLogic.atk ? Color.red : Color.blue : Color.black;
         cardController.heroAtkText.text = combatantLogic.currentAtk.ToString();
     }
     public void OnFieldHpRefresh()
     {
-        cardController.heroHpText.color = combatantLogic.currentHp != combatantLogic.maxHp ? combatantLogic.currentHp < combatantLogic.maxHp ? Color.red : Color.blue : Color.black;
+        cardController.heroHpText.color = combatantLogic.currentHp != combatantLogic.maxHp ? combatantLogic.currentHp
+            < combatantLogic.maxHp ? Color.red : Color.blue : Color.black;
         cardController.heroHpText.text = combatantLogic.currentHp.ToString();
     }
 }

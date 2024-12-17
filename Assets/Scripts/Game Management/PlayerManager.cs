@@ -106,31 +106,35 @@ public class PlayerManager : MonoBehaviour
     public void BloodAttunement(Attunement attunement, int count)
     {
         foreach (Blood blood in bloods)
-            if (blood.attunement == Attunement.Untuned && blood.bloodState == BloodState.Active)
+        {
+            if (blood.attunement != Attunement.Untuned || blood.bloodState != BloodState.Active)
+                continue;
+            Attunement tempAttunement = Attunement.Undefined;
+            if (attunement == Attunement.Undefined)
             {
-                if (attunement == Attunement.Undefined)
+                if (heroCardLogic.attunementRates.Count != 1)
                 {
-                    if (heroCardLogic.attunementRates.Count != 1)
+                    int attunementOdds = Random.Range(1, 101);
+                    int rateOdds = 0;
+                    for (int i = 0; i < heroCardLogic.attunementRates.Count; i++)
                     {
-                        int attunementOdds = UnityEngine.Random.Range(1, 101);
-                        int rateOdds = 0;
-                        for (int i = 0; i < heroCardLogic.attunementRates.Count; i++)
-                        {
-                            rateOdds += heroCardLogic.attunementRates[i];
-                            if (attunementOdds <= rateOdds)
-                                attunement = heroCardLogic.attunements[i];
-                            else
-                                continue;
-                        }
+                        rateOdds += heroCardLogic.attunementRates[i];
+                        if (attunementOdds > rateOdds)
+                            continue;
+                        tempAttunement = heroCardLogic.attunements[i];
+                        break;
                     }
-                    else
-                        attunement = heroCardLogic.attunements[0];
                 }
-                blood.Attune(attunement, bloodColours[(int)attunement]);
-                count--;
-                if (count == 0)
-                    break;
-            } 
+                else
+                    tempAttunement = heroCardLogic.attunements[0];
+            }
+            else
+                tempAttunement = attunement;
+            blood.Attune(tempAttunement, bloodColours[(int)tempAttunement]);
+            count--;
+            if (count == 0)
+                break;
+        }
     }
 
     public void SetShield(int shouldRemove, int count)
