@@ -1,6 +1,6 @@
 [
     {
-        "Id": "GP-ZE",
+        "Id": "GP-Z",
         "CardType": "God",
         "CardName": "Zeus",
         "CardText": "Chain - Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
@@ -226,7 +226,7 @@
         ]
     },
     {
-        "Id": "GP-HA",
+        "Id": "GP-H",
         "CardType": "god",
         "CardName": "Hades",
         "CardText": "Chain - Death: Blood Recovery-1 | Chain - Revive: Reinforce-1",
@@ -410,7 +410,7 @@
         "CardType": "spell",
         "CardName": "Underworld Merchant, Soul Exchange",
         "CardText": "Deployment: Recover two Fighters from either Underworld.",
-        "CardFlavorText": "Everything has a price but the price doesn't have to be paid.",
+        "CardFlavorText": "Everything has a price, but... the price doesn't have to be paid.",
         "Traits": [ "Undead", "Commerce" ],
         "Attunements": [ "Areta" ],
         "Cost": 1,
