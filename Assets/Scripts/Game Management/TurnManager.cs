@@ -211,16 +211,15 @@ public class TurnManager : MonoBehaviour
         gm.popUpPanel.SetActive(true);
         gm.turnPhaseText.text = "Combat";
         gm.popUpPanelText.text = "combat";
-        PhaseButtonCheck(player);
         yield return new WaitForSeconds(waitTime);
 
-        Destroy(audioSource.gameObject);
+        audioSource.Stop();
         gm.PhaseChange(Phase.BattlePhase);
         yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
 
         if (gm.currentFocusCardLogic != null)
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
-        gm.phaseChangeButton.SetActive(true);
+        PhaseButtonCheck(player);
         gm.phaseChangeButtonText.text = "END TURN";
         gm.StateReset();
         yield break;
@@ -248,12 +247,7 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    private void PhaseButtonCheck(PlayerManager player)
-    {
-        if (player.isAI == false && player.isLocal == true)
-            gm.phaseChangeButton.SetActive(true);
-        else
-            gm.phaseChangeButton.SetActive(false);
-    }
+    private void PhaseButtonCheck(PlayerManager player)=>
+        gm.phaseChangeButton.SetActive(!player.isAI && player.isLocal);
 }
 

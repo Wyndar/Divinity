@@ -395,8 +395,6 @@ public class CardLogic : MonoBehaviour
         foreach(SubEffect sub in subEffect.parentEffect.SubEffects)
             if (sub.EffectAmount == 98)
                 effectAmountIndexesToChange.Add(subEffect.parentEffect.SubEffects.FindIndex(a=>a==sub));
-        targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
-        targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
 
         float mod = subEffect.TargetCountModifier > 0 ? subEffect.TargetCountModifier : 1;
         if (subEffect.TargetStats == null)
@@ -408,7 +406,9 @@ public class CardLogic : MonoBehaviour
             }
         }
         else
-        { 
+        {
+            targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
+            targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
             string checkedStat = subEffect.TargetStats[0];
             int index = effectAmountIndexesToChange[0];
             subEffect.parentEffect.SubEffects[index].effectAmount = checkedStat switch

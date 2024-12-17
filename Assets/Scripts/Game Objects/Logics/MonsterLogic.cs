@@ -52,7 +52,7 @@ public class MonsterLogic : CardLogic
         audioManager.NewAudioPrefab(audioManager.summon);
         GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.transform, false);
         go.transform.localPosition = Vector3.zero;
-        hasMoved = false;
+        hasMoved = true;
         combatLogic.attacksLeft = combatLogic.maxAttacks;
         gm.StateChange(GameState.Summon);
     }
