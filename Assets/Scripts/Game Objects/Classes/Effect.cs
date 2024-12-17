@@ -33,4 +33,46 @@ public class Effect
     public List<Location> TriggerLocations { get; private set; }
     public List<GameState> TriggerStates { get; private set; }
     public List<Phase> TriggerPhases { get; private set; }
+
+    //empty constructor for newtonsoft to hide the internal one for our deckbuilder
+    public Effect()
+    {
+
+    }
+    internal Effect(Effect effect)
+    {
+        EffectName = effect.EffectName;
+        SubEffects = new();
+        foreach (SubEffect subEffect in effect.SubEffects)
+        {
+            SubEffect subEffectInstance = new(subEffect, this);
+            SubEffects.Add(subEffectInstance);
+        }
+        ActivationLocations = effect.ActivationLocations;
+        MaxActivations = effect.MaxActivations;
+        Duration = effect.Duration;
+        TriggerEffects = effect.TriggerEffects;
+        TriggerCards = effect.TriggerCards;
+        TriggerController = effect.TriggerController;
+        TriggerCardLocations = effect.TriggerCardLocations;
+        TriggerInfo = effect.TriggerInfo;
+        TriggerLocations = effect.TriggerLocations;
+        TriggerStates = effect.TriggerStates;
+        TriggerPhases = effect.TriggerPhases;
+        maxActivations = effect.MaxActivations;
+        duration = effect.Duration;
+        triggerCardOwner = effect.TriggerController;
+        if (effect.ActivationLocations != null)
+            activationLocations = new(effect.ActivationLocations);
+        if (effect.TriggerLocations != null)
+            triggerLocations = new(effect.TriggerLocations);
+        if (effect.TriggerStates != null)
+            triggerStates = new(effect.TriggerStates);
+        if (effect.TriggerPhases != null)
+            triggerPhases = new(effect.TriggerPhases);
+        if (effect.TriggerCardLocations != null)
+            triggerCardLocations = new(effect.TriggerCardLocations);
+        if (effect.TriggerEffects != null)
+            triggerEffects = new(effect.TriggerEffects);
+    }
 }

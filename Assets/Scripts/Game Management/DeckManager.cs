@@ -202,39 +202,8 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.effects = new();
                 foreach (Effect effect in card.Effects)
                 {
-                    effect.maxActivations = effect.MaxActivations;
-                    effect.duration = effect.Duration;
-                    effect.triggerCardOwner = effect.TriggerController;
-                    effect.triggerCardOwner = effect.TriggerController;
-
-                    if (effect.ActivationLocations != null)
-                        effect.activationLocations = new(effect.ActivationLocations);
-                    if (effect.TriggerLocations != null)
-                        effect.triggerLocations = new(effect.TriggerLocations);
-                    if (effect.TriggerStates != null)
-                        effect.triggerStates = new(effect.TriggerStates);
-                    if (effect.TriggerPhases != null)
-                        effect.triggerPhases = new(effect.TriggerPhases);
-                    if (effect.TriggerCardLocations != null)
-                        effect.triggerCardLocations = new(effect.TriggerCardLocations);
-                    if (effect.TriggerEffects != null)
-                        effect.triggerEffects = new(effect.TriggerEffects);
-
-                    foreach (SubEffect subEffect in effect.SubEffects)
-                    {
-                        subEffect.parentEffect = effect;
-                        subEffect.effectAmount = subEffect.EffectAmount;
-                        subEffect.effectTargetAmount = subEffect.EffectTargetAmount;
-                        subEffect.effectUsed = subEffect.EffectUsed;
-                        subEffect.effectType = subEffect.EffectType;
-                        subEffect.effectTargetController = subEffect.EffectTargetController;
-                        subEffect.targetingType = subEffect.TargetingType;
-                        if (subEffect.TargetLocations != null)
-                            subEffect.targetLocations = new(subEffect.TargetLocations);
-                        if (subEffect.EffectTargetTypes != null)
-                            subEffect.effectTargetTypes = new(subEffect.EffectTargetTypes);
-                    }
-                    cardCloneCardLogic.effects.Add(effect);
+                    Effect effectInstance = new(effect);
+                    cardCloneCardLogic.effects.Add(effectInstance);
                 }
      
                 if (cardCloneCardLogic.type != Type.God)

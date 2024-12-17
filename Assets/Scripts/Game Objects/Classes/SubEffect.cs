@@ -37,15 +37,38 @@ public class SubEffect
     public List<string> TargetStatConditions { get; private set; }
     public List<int> TargetStatAmounts { get; private set; }
 
-    public void SetDataFromInfo()
+    //empty constructor for newtonsoft to hide the internal one for our deckbuilder
+    public SubEffect()
     {
-        EffectType = effectType;
-        EffectUsed = effectUsed;
-        EffectAmount = effectAmount;
-        TargetingType = targetingType;
-        EffectTargetTypes = effectTargetTypes;
-        EffectTargetAmount = effectTargetAmount;
-        TargetLocations = targetLocations;
-        EffectTargetController = effectTargetController;
+
+    }
+    internal SubEffect(SubEffect subEffect, Effect parent)
+    {
+        EffectType = subEffect.EffectType;
+        EffectUsed = subEffect.EffectUsed;
+        EffectAmount = subEffect.EffectAmount;
+        EffectActivationIsMandatory = subEffect.EffectActivationIsMandatory;
+        TargetingType = subEffect.TargetingType;
+        EffectTargetTypes = subEffect.EffectTargetTypes;
+        EffectTargetController = subEffect.EffectTargetController;
+        TargetLocations = subEffect.TargetLocations;
+        EffectTargetAmount = subEffect.EffectTargetAmount;
+        AllowSelfTarget = subEffect.AllowSelfTarget;
+        TargetCountModifier = subEffect.TargetCountModifier;
+        TargetStats = subEffect.TargetStats;
+        TargetStatConditions = subEffect.TargetStatConditions;
+        TargetStatAmounts = subEffect.TargetStatAmounts;
+
+        parentEffect = parent;
+        effectAmount = subEffect.EffectAmount;
+        effectTargetAmount = subEffect.EffectTargetAmount;
+        effectUsed = subEffect.EffectUsed;
+        effectType = subEffect.EffectType;
+        effectTargetController = subEffect.EffectTargetController;
+        targetingType = subEffect.TargetingType;
+        if (subEffect.TargetLocations != null)
+            targetLocations = new(subEffect.TargetLocations);
+        if (subEffect.EffectTargetTypes != null)
+            effectTargetTypes = new(subEffect.EffectTargetTypes);
     }
 }
