@@ -436,20 +436,6 @@ public class Game_Manager : MonoBehaviour
         ChainManager.ChainResolution();
     }
 
-    public void DisableTurnUI()
-    {
-        phaseChangeButton.SetActive(false);
-        turnPhaseText.gameObject.SetActive(false);
-        turnCountText.gameObject.SetActive(false);
-    }
-
-    public void EnableTurnUI()
-    {
-        phaseChangeButton.SetActive(true);
-        turnPhaseText.gameObject.SetActive(true);
-        turnCountText.gameObject.SetActive(true);
-    }
-
     public void DisableRayBlocker() => MainUIManager.DisableRayBlocker();
 
     public void ShowEffectInfoPanel() => MainUIManager.ShowEffectInfoPanel();

@@ -250,7 +250,6 @@ public class MainUIManager : MonoBehaviour
         DisableRayBlocker();
         DisableEffectInfoPanels();
         DisableEffectPanel();
-        gm.EnableTurnUI();
     }
 
     public void DisableEffectInfoPanels() => infoPanel.SetActive(false);
@@ -320,7 +319,6 @@ public class MainUIManager : MonoBehaviour
     public void ShowShieldPrompt(PlayerManager player)
     {
         isUsingshield = true;
-        gm.DisableTurnUI();
         player.shieldPanel.SetActive(true);
         player.raycastBlocker.SetActive(true);
     }
@@ -332,7 +330,6 @@ public class MainUIManager : MonoBehaviour
         rayBlocker.SetActive(true);
         effectPanelNameText.text = gm.currentFocusCardLogic.cardName;
         effectText = new List<string>(gm.currentFocusCardLogic.cardText.Split("|"));
-        gm.DisableTurnUI();
         SwitchEffectPanel(0);
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.effectActivationButton.SetActive(false);
         gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.moveButton.SetActive(false);
@@ -393,7 +390,6 @@ public class MainUIManager : MonoBehaviour
     {
         player.shieldPanel.SetActive(false);
         player.raycastBlocker.SetActive(false);
-        gm.EnableTurnUI();
         isUsingshield = false;
         player.heroCardLogic.ActivateShield();
     }
@@ -402,7 +398,6 @@ public class MainUIManager : MonoBehaviour
     {
         player.shieldPanel.SetActive(false);
         player.raycastBlocker.SetActive(false);
-        gm.EnableTurnUI();
         isUsingshield = false;
         player.heroCardLogic.ShieldPass();
     }
@@ -503,7 +498,6 @@ public class MainUIManager : MonoBehaviour
         gm.isActivatingEffect = true;
         rayBlocker.SetActive(true);
         effectActivationPanelText.text = $"{effectActivationText} {gm.currentFocusCardLogic.cardName}?";
-        gm.DisableTurnUI();
     }
 
     public void OptionalEffectHandler(bool used)
@@ -512,7 +506,6 @@ public class MainUIManager : MonoBehaviour
         gm.currentFocusCardLogic.OptionalEffectResolution(used);
         effectActivationPanel.SetActive(false);
         rayBlocker.SetActive(false);
-        gm.EnableTurnUI();
     }
 
     public void ResolveOptionalTargeting()

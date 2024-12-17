@@ -211,8 +211,6 @@ public class TurnManager : MonoBehaviour
         gm.popUpPanel.SetActive(true);
         gm.turnPhaseText.text = "Combat";
         gm.popUpPanelText.text = "combat";
-        gm.phaseChangeButton.SetActive(true);
-        gm.phaseChangeButtonText.text = "END TURN";
         PhaseButtonCheck(player);
         yield return new WaitForSeconds(waitTime);
 
@@ -222,6 +220,8 @@ public class TurnManager : MonoBehaviour
 
         if (gm.currentFocusCardLogic != null)
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
+        gm.phaseChangeButton.SetActive(true);
+        gm.phaseChangeButtonText.text = "END TURN";
         gm.StateReset();
         yield break;
     }
