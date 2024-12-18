@@ -288,7 +288,7 @@
         "Id": "GP-10",
         "CardType": "Fighter",
         "CardName": "Mine Drop",
-        "CardText": "Chain - Summon(Enemy): Place 1 Bomb(Timer:3) on one deployed opposing Fighter | Chain - Detonate: Bounce one opposing Fighter.",
+        "CardText": "Chain - Enemy Summon: Place 1 Bomb(Timer:3) on one Enemy Fighter | Chain - Detonate: Bounce one Enemy Fighter.",
         "CardFlavorText": "Explosions and munitions fanatic",
         "Traits": [ "Military" ],
         "Attunements": [ "Katara" ],
@@ -340,7 +340,7 @@
         "Id": "GP-11",
         "CardType": "Fighter",
         "CardName": "Alchemy Poisoner",
-        "CardText": "Deployment: Apply Poison(Timer:6) to all deployed opposing Fighters",
+        "CardText": "Deployment: Apply Poison(Timer:6) to all Enemy Fighters",
         "CardFlavorText": "Has a unique blend of dendrotoxins for everyone.",
         "Traits": [ "Medicine" ],
         "Attunements": [ "Katara" ],
@@ -371,7 +371,7 @@
         "Id": "GP-12",
         "CardName": "Hermit's Curtain",
         "CardType": "spell",
-        "CardText": "Deployment: Grant a Barrier-2 to one deployed Fighter",
+        "CardText": "Deployment: Grant a Barrier-2 to one Ally Fighter",
         "CardFlavorText": "A symbol of a legendary NEET who died in a truck accident.",
         "Traits": [ "Fashion", "Tarot" ],
         "Attunements": [ "Amyna" ],
@@ -395,11 +395,10 @@
         ]
     },
     {
-        //buff this card, it's pathetic
         "Id": "GP-13",
         "CardType": "spell",
         "CardName": "Chariot's Rampage",
-        "CardText": "Deployment: Shatter a Cost-1 Enemy Fighter.",
+        "CardText": "Deployment: Shatter a Cost-1 Enemy Fighter",
         "CardFlavorText": "Do NOT look a gift horse in the mouth. Do not look ANY horse in the mouth... Actually, stay away from their heads... or them entirely.",
         "Traits": [ "Animal", "Tarot" ],
         "Attunements": [ "Katara" ],
@@ -429,7 +428,7 @@
         "Id": "GP-14",
         "CardType": "Fighter",
         "CardName": "Alchemy Shaman",
-        "CardText": "Deployment: Detonate all Poison on all deployed opposing Fighters",
+        "CardText": "Deployment: Detonate all Poison on all Enemy Fighters",
         "CardFlavorText": "Contrary to popular opinion, they do not have a toxic personality and get along with people well.",
         "Traits": [ "Medicine" ],
         "Attunements": [ "Katara" ],
@@ -459,7 +458,7 @@
         "Id": "GP-15",
         "CardType": "Fighter",
         "CardName": "Phalanx Pikeman",
-        "CardText": "Chain - Reinforce: Rally-1 All 'Phalanx' Combatants",
+        "CardText": "Chain - Ally Reinforce: Rally-1 All Ally 'Phalanx' Combatants",
         "CardFlavorText": "Leads the charge of his phalanx allies.",
         "Traits": [ "Military" ],
         "Attunements": [ "Eulogia" ],
@@ -495,7 +494,7 @@
         "Id": "GP-16",
         "CardType": "Fighter",
         "CardName": "Phalanx Standard Bearer",
-        "CardText": "Chain-Deployment(Your 'Phalanx' Card): Blood Recovery-1",
+        "CardText": "Chain - Ally Deployment('Phalanx'): Blood Recovery-1",
         "CardFlavorText": "A sheltered young noble provides motivation for a consecutive assault.",
         "Traits": [ "Military" ],
         "Attunements": [ "Enkrateia" ],
@@ -512,11 +511,10 @@
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "auto",
-                        "EffectTargetTypes": [ "Fighter", "Spell", "God" ],
+                        "EffectTargetTypes": [ "Fighter", "Spell" ],
                         "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
-                        "AllowSelfTarget": false,
                         "TargetStats": [ "name" ],
                         "TargetStatConditions": [ "hasPhalanx" ]
                     }
@@ -531,7 +529,7 @@
         "Id": "GP-17",
         "CardType": "spell",
         "CardName": "Phalanx Strike",
-        "CardText": "Deployment: Do Damage-3 to one Combatant. You must have a 'Phalanx' Fighter deployed to play this.",
+        "CardText": "Deployment: Do Damage-3 to one Enemy Combatant. You must have a 'Phalanx' Fighter deployed to play this.",
         "CardFlavorText": "People die to this, you know?",
         "Traits": [ "Weather" ],
         "Attunements": [ "Ira" ],
@@ -613,7 +611,7 @@
         "Id": "GP-19",
         "CardType": "Fighter",
         "CardName": "Alchemy Experiment Plague Source Bubon",
-        "CardText": "Vengeance: Apply Poison to one deployed opposing Fighter",
+        "CardText": "Vengeance: Apply Poison to one Enemy Fighter",
         "CardFlavorText": "The greatest alchemic disaster, the weakest alchemy experiment.",
         "Traits": [ "Animal", "Undead" ],
         "Attunements": [ "Katara" ],
@@ -643,7 +641,7 @@
         "Id": "GP-20",
         "CardType": "Fighter",
         "CardName": "Alchemy Experiment Plague Source Ebol",
-        "CardText": "Counter: Apply Poison to the attacking Fighter",
+        "CardText": "Counter: Apply Poison to one Enemy Fighter",
         "CardFlavorText": "She just wants a hug",
         "Traits": [ "Animal", "Undead" ],
         "Attunements": [ "Amyna", "Katara" ],
@@ -652,7 +650,7 @@
         "Hp": 5,
         "Effects": [
             {
-                "EffectName": "Infection",
+                "EffectName": "Ebola",
                 "SubEffects": [
                     {
                         "EffectType": "Counter",
@@ -673,7 +671,7 @@
         "Id": "GP-21",
         "CardType": "Fighter",
         "CardName": "Alchemy Experiment Plague Source Rabid",
-        "CardText": "Assault: Apply Poison to the attacked Fighter",
+        "CardText": "Assault: Apply Poison to one Enemy Fighter",
         "CardFlavorText": "Note: Invasion not included in package and sold separately.",
         "Traits": [ "Animal", "Undead" ],
         "Attunements": [ "Ira", "Katara" ],
@@ -682,7 +680,7 @@
         "Hp": 1,
         "Effects": [
             {
-                "EffectName": "Infection",
+                "EffectName": "Rabies",
                 "SubEffects": [
                     {
                         "EffectType": "Assault",

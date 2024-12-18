@@ -7,6 +7,7 @@ public class Effect
     public string EffectName;
     public List<SubEffect> SubEffects;
     public List<Location> activationLocations;
+    public bool allowSelfTrigger;
     public List<EffectsUsed> triggerEffects;
     public List<Type> triggerCardTypes;
 
@@ -25,6 +26,8 @@ public class Effect
     public int MaxActivations { get; private set; }
     public int Duration { get; private set; }
     //if needs trigger
+
+    public bool AllowSelfTrigger {  get; private set; }
     public List<EffectsUsed> TriggerEffects { get; private set; }
     public List<Type> TriggerCards { get; private set; }
     public Controller TriggerController { get; private set; }
@@ -48,6 +51,7 @@ public class Effect
             SubEffect subEffectInstance = new(subEffect, this);
             SubEffects.Add(subEffectInstance);
         }
+        AllowSelfTrigger = effect.AllowSelfTrigger;
         ActivationLocations = effect.ActivationLocations;
         MaxActivations = effect.MaxActivations;
         Duration = effect.Duration;
@@ -62,6 +66,7 @@ public class Effect
         maxActivations = effect.MaxActivations;
         duration = effect.Duration;
         triggerCardOwner = effect.TriggerController;
+        allowSelfTrigger = effect.AllowSelfTrigger;
         if (effect.ActivationLocations != null)
             activationLocations = new(effect.ActivationLocations);
         if (effect.TriggerLocations != null)

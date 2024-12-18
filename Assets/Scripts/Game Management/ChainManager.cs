@@ -69,7 +69,9 @@ public class ChainManager : MonoBehaviour
                 //ignore no triggertypes
                 if (effect.triggerEffects == null)
                     continue;
-
+                //check if it allows self triggers
+                if (!effect.allowSelfTrigger && triggeredCard == triggerCard)
+                    continue;
                 //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct, must be right card owner trigger
                 if (!effect.triggerEffects.Contains(triggerEffectType))
                     continue;
@@ -149,8 +151,11 @@ public class ChainManager : MonoBehaviour
                 //ignore no triggerStaate
                 if (triggeredEffect.triggerStates == null)
                     continue;
-
-                //must be right game state, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct
+                //check if it allows self triggers
+                if (!triggeredEffect.allowSelfTrigger && triggeredCard == cardLogic)
+                    continue;
+                //must be right game state, card type is either defined and correct or undefined, info is either defined and set to card
+                //name substring or undefined, location is defined and correct
                 if (!triggeredEffect.triggerStates.Contains(gameState))
                     continue;
                 if (triggeredEffect.triggerLocations == null)
@@ -166,19 +171,10 @@ public class ChainManager : MonoBehaviour
                     bool foundTrigger = false;
                     foreach (string info in triggeredEffect.TriggerInfo)
                     {
-                        
-                        if (info[..3] == "has")
-                            if (!cardLogic.cardName.Contains(info[3..]))
-                                continue;
-                        if (info[..4] == "nhas")
-                            if (cardLogic.cardName.Contains(info[4..]))
-                                continue;
-                        if (info[..2] == "is")
-                            if (cardLogic.cardName != info[2..])
-                                continue;
-                        if (info[..3] == "not")
-                            if (cardLogic.cardName == info[3..])
-                                continue;
+                        if (info[..3] == "has" && !cardLogic.cardName.Contains(info[3..]) || info[..4] == "nhas" && cardLogic.cardName.Contains(info[4..]))
+                            continue;
+                        if (info[..2] == "is" && cardLogic.cardName != info[2..] || info[..3] == "not" && cardLogic.cardName == info[3..])
+                            continue;
                         foundTrigger = true; 
                     }
                     if (foundTrigger == false)

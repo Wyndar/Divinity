@@ -162,6 +162,7 @@ public class PlayableLogic : MonoBehaviour
     public void CardPlayed(PlayerManager player)
     {
         gm.StateChange(GameState.Playing);
+        gm.StateChange(GameState.Deployment);
         if (logic.type == Type.Fighter)
             GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
@@ -190,7 +191,6 @@ public class PlayableLogic : MonoBehaviour
                 }
         }
         AttunementPenalty(player);
-        gm.StateChange(GameState.Deployment);
         if (logic.cardController.isAI)
             logic.cardController.AIManager.isPerformingAction = false;
         gm.isPlayingCard= false;
