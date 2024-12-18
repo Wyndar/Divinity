@@ -274,6 +274,7 @@ public class MainUIManager : MonoBehaviour
         infoPanel.SetActive(true);
         infoPanelEnergy.SetActive(false);
         infoPanelStats.SetActive(false);
+        infoPanelStatusBar.SetActive(false);
 
         infoPanelEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
         infoPanelFlavourText.text = gm.currentFocusCardLogic.flavorText;

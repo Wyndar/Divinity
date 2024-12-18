@@ -501,7 +501,7 @@
         "Attunements": [ "Enkrateia" ],
         "Cost": 1,
         "Atk": 0,
-        "Hp": 3,
+        "Hp": 2,
         "Effects": [
             {
                 "EffectName": "Phalanx Tactics",
@@ -516,6 +516,7 @@
                         "EffectTargetController": "Player",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1,
+                        "AllowSelfTarget": false,
                         "TargetStats": [ "name" ],
                         "TargetStatConditions": [ "hasPhalanx" ]
                     }
@@ -646,9 +647,9 @@
         "CardFlavorText": "She just wants a hug",
         "Traits": [ "Animal", "Undead" ],
         "Attunements": [ "Amyna", "Katara" ],
-        "Cost": 1,
+        "Cost": 2,
         "Atk": 1,
-        "Hp": 3,
+        "Hp": 5,
         "Effects": [
             {
                 "EffectName": "Infection",
@@ -693,6 +694,38 @@
                         "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-22",
+        "CardType": "Fighter",
+        "CardName": "Alchemy Disciple",
+        "CardText": "Deployed - 2: Revive 1 'Alchemy Experiment' Fighter from your Underworld",
+        "CardFlavorText": "Taking care of animals is hard work and better left for the newbie",
+        "Traits": [ "Medicine" ],
+        "Attunements": [ "Eulogia" ],
+        "Cost": 2,
+        "Atk": 2,
+        "Hp": 3,
+        "Effects": [
+            {
+                "EffectName": "Strange Beast Herder",
+                "MaxActivations": 2,
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Revive",
+                        "EffectAmount": 1,
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Grave" ],
+                        "EffectTargetAmount": 1,
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "hasAlchemy Experiment" ]
                     }
                 ]
             }

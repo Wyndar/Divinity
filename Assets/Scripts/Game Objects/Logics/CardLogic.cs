@@ -338,19 +338,18 @@ public class CardLogic : MonoBehaviour
 
     private void CheckSubsequentEffects(SubEffect subEffect)
     {
-        if (ResolveSubsequentSubeffects(subEffect))
-        {
-            gameManager.ClearEffectTargetImages();
-            targets?.Clear();
-            validTargets?.Clear();
-            if (type == Type.Spell)
-                gameObject.GetComponent<PlayableLogic>().MoveToGrave();
-            audioManager.NewAudioPrefab(audioManager.effectResolution);
-            //resolve chain after all possible effect chains are linked
-            if (cardController.isAI)
-                cardController.AIManager.isPerformingAction = false;
-        }
-            gameManager.ChainResolution();
+        if (!ResolveSubsequentSubeffects(subEffect))
+            return;
+        gameManager.ClearEffectTargetImages();
+        targets?.Clear();
+        validTargets?.Clear();
+        if (type == Type.Spell)
+            gameObject.GetComponent<PlayableLogic>().MoveToGrave();
+        audioManager.NewAudioPrefab(audioManager.effectResolution);
+        //resolve chain after all possible effect chains are linked
+        if (cardController.isAI)
+            cardController.AIManager.isPerformingAction = false;
+        gameManager.ChainResolution();
     }
 
     private bool ResolveSubsequentSubeffects(SubEffect subEffect)
@@ -398,13 +397,8 @@ public class CardLogic : MonoBehaviour
 
         float mod = subEffect.TargetCountModifier > 0 ? subEffect.TargetCountModifier : 1;
         if (subEffect.TargetStats == null)
-        {
             foreach (int index in effectAmountIndexesToChange)
-            {
-                subEffect.parentEffect.SubEffects[index].effectAmount = Mathf.CeilToInt(targets.Count * subEffect.TargetCountModifier);
-                continue;
-            }
-        }
+                subEffect.parentEffect.SubEffects[index].effectAmount = Mathf.FloorToInt(targets.Count * mod);
         else
         {
             targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
@@ -444,10 +438,10 @@ public class CardLogic : MonoBehaviour
                 SetFocusCardLogic();
                 foreach (CardLogic target in validTargets)
                 {
-                    if (target.type == Type.Fighter && target.currentLocation == Location.Field)
-                        target.GetComponent<MonsterLogic>().currentSlot.effectTarget.SetActive(true);
-                    if (target.type == Type.God && target.currentLocation == Location.Field)
-                        target.cardController.heroEffectTarget.SetActive(true);
+                    if (target is MonsterLogic monster && target.currentLocation == Location.Field)
+                        monster.currentSlot.effectTarget.SetActive(true);
+                    if (target is GodLogic god && target.currentLocation == Location.Field)
+                        god.cardController.heroEffectTarget.SetActive(true);
                     if (target.currentLocation == Location.Grave)
                         target.cardController.graveTarget.SetActive(true);
                     if (target.currentLocation == Location.Deck)

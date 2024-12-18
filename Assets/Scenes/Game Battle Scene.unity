@@ -46117,8 +46117,8 @@ MonoBehaviour:
   turnCount: 0
   CardDatabasePath: /Scripts/Load Data/Card Database/cardDatabase.json
   GodDatabasePath: /Scripts/Load Data/Card Database/divineDatabase.json
-  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData1.json
-  RedPlayerPath: /Scripts/Load Data/Player Data/PlayerData2.json
+  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData2.json
+  RedPlayerPath: /Scripts/Load Data/Player Data/PlayerData1.json
   ToolTipsDatabasePath: /Scripts/Load Data/Game Data/ToolTipsInfo.json
   loadStartTime: 0
   loadEndTime: 0
