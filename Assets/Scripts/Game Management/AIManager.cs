@@ -124,6 +124,19 @@ public class AIManager : MonoBehaviour
     private void PlayLegalCard()
     {
         CardLogic cardToPlay = BestAtkSort(AIPlayer.playableLogicList) ?? BestCostSort(AIPlayer.playableLogicList);
+        List<int> blockedColumns = new();
+        foreach (MonsterLogic logic in AIPlayer.enemy.fieldLogicList)
+            if (!blockedColumns.Contains(logic.currentSlot.column))
+                blockedColumns.Add(logic.currentSlot.column);
+        if (blockedColumns.Count < 4)
+            foreach (CardSlot slot in AIPlayer.cardSlots)
+            {
+                if (blockedColumns.Contains(slot.column) || slot.isFrontline || slot.cardInZone != null)
+                    continue;
+                if ((slot.column == 1 || slot.column == 4) && (!blockedColumns.Contains(2) || !blockedColumns.Contains(3)))
+                    continue;
+                gm.currentFocusCardSlot = slot;
+            }
         cardToPlay.GetComponent<PlayableLogic>().PlayCard(EffectsUsed.Deploy, AIPlayer);
     }
 
