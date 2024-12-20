@@ -31,7 +31,7 @@
         "Attunements": [ "Enkrateia" ],
         "Cost": 1,
         "Atk": 1,
-        "Hp": 2,
+        "Hp": 1,
         "Effects": [
             {
                 "EffectName": "Phalanx Charge",
@@ -263,7 +263,7 @@
         "Traits": [ "Plant" ],
         "Attunements": [ "Ira" ],
         "Cost": 2,
-        "Atk": 5,
+        "Atk": 4,
         "Hp": 1,
         "Effects": [
             {
@@ -428,7 +428,7 @@
         "Id": "GP-14",
         "CardType": "Fighter",
         "CardName": "Alchemy Shaman",
-        "CardText": "Deployment: Detonate all Poison on all Enemy Fighters",
+        "CardText": "Deployed-1: Detonate all Poison on all Enemy Fighters",
         "CardFlavorText": "Contrary to popular opinion, they do not have a toxic personality and get along with people well.",
         "Traits": [ "Medicine" ],
         "Attunements": [ "Katara" ],
@@ -438,9 +438,10 @@
         "Effects": [
             {
                 "EffectName": "Overdose",
+                "MaxActivations": 1,
                 "SubEffects": [
                     {
-                        "EffectType": "Deployment",
+                        "EffectType": "Deployed",
                         "EffectUsed": "PoisonDetonate",
                         "EffectAmount": 1,
                         "EffectActivationIsMandatory": true,
@@ -461,7 +462,7 @@
         "CardText": "Chain - Ally Reinforce: Rally-1 All Ally 'Phalanx' Combatants",
         "CardFlavorText": "Leads the charge of his phalanx allies.",
         "Traits": [ "Military" ],
-        "Attunements": [ "Eulogia" ],
+        "Attunements": [ "Ira" ],
         "Cost": 2,
         "Atk": 2,
         "Hp": 3,
@@ -509,19 +510,13 @@
                         "EffectType": "Chain",
                         "EffectUsed": "BloodRecovery",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": true,
-                        "TargetingType": "auto",
-                        "EffectTargetTypes": [ "Fighter", "Spell" ],
-                        "EffectTargetController": "Player",
-                        "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1,
-                        "TargetStats": [ "name" ],
-                        "TargetStatConditions": [ "hasPhalanx" ]
+                        "EffectActivationIsMandatory": true
                     }
                 ],
                 "TriggerLocations": [ "Field" ],
                 "TriggerStates": [ "Deployment" ],
-                "TriggerOwner": "Player"
+                "TriggerOwner": "Player",
+                "TriggerInfo": [ "hasPhalanx" ]
             }
         ]
     },
@@ -533,7 +528,7 @@
         "CardFlavorText": "People die to this, you know?",
         "Traits": [ "Weather" ],
         "Attunements": [ "Ira" ],
-        "Cost": 2,
+        "Cost": 1,
         "Effects": [
             {
                 "SubEffects": [
@@ -569,11 +564,11 @@
         "Id": "GP-18",
         "CardType": "Spell",
         "CardName": "Unfettered Greed",
-        "CardText": "Deployment: Shatter an Ally Fighter then Reinforce-? equal to that Fighter's Cost",
+        "CardText": "Deployment: Shatter an Ally Fighter then Recover-? Fighters equal to that Fighter's Cost",
         "CardFlavorText": "Has no relations to any other vessels of any kind.",
         "Traits": [ "DeadlySin" ],
-        "Attunements": [ "Enkrateia", "Katara" ],
-        "Cost": 1,
+        "Attunements": [ "Areta", "Katara" ],
+        "Cost": 2,
         "Effects": [
             {
                 "SubEffects": [
@@ -598,15 +593,19 @@
                     },
                     {
                         "EffectType": "Deployment",
-                        "EffectUsed": "Reinforce",
-                        "EffectAmount": 98,
-                        "EffectActivationIsMandatory": true
+                        "EffectUsed": "Recover",
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Grave" ],
+                        "DependentIndices": [ 1 ],
+                        "DependentEffectParameters": [ "EffectTargetAmount" ]
                     }
                 ]
             }
         ]
     },
-    //works fine above here
     {
         "Id": "GP-19",
         "CardType": "Fighter",
@@ -642,7 +641,7 @@
         "CardType": "Fighter",
         "CardName": "Alchemy Experiment Plague Source Ebol",
         "CardText": "Counter: Apply Poison to one Enemy Fighter",
-        "CardFlavorText": "She just wants a hug",
+        "CardFlavorText": "They just want a hug",
         "Traits": [ "Animal", "Undead" ],
         "Attunements": [ "Amyna", "Katara" ],
         "Cost": 2,
@@ -701,7 +700,7 @@
         "Id": "GP-22",
         "CardType": "Fighter",
         "CardName": "Alchemy Disciple",
-        "CardText": "Deployed - 2: Revive 1 'Alchemy Experiment' Fighter from your Underworld",
+        "CardText": "Deployed - 2: Revive 1 'Alchemy Experiment' Fighter from Ally Underworld",
         "CardFlavorText": "Taking care of animals is hard work and better left for the newbie",
         "Traits": [ "Medicine" ],
         "Attunements": [ "Eulogia" ],
@@ -726,6 +725,120 @@
                         "TargetStatConditions": [ "hasAlchemy Experiment" ]
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-23",
+        "CardType": "Fighter",
+        "CardName": "Alchemy Experiment Swarm Tsetse",
+        "CardText": "Deployment: You can Revive one 'Alchemy Experiment Swarm Tsetse' from ALly Underworld | Deployed - 1: Vigor-1 all Ally 'Alchemy Experiment Swarm Tsetse'",
+        "CardFlavorText": "If you ignore it, you'll die",
+        "Traits": [ "Animal", "Undead" ],
+        "Attunements": [ "Eulogia" ],
+        "Cost": 1,
+        "Atk": 1,
+        "Hp": 1,
+        "Effects": [
+            {
+                "EffectName": "Swarm Duplication",
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Revive",
+                        "EffectAmount": 1,
+                        "TargetingType": "Auto",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Grave" ],
+                        "EffectTargetAmount": 1,
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "isAlchemy Experiment Swarm Tsetse" ]
+                    }
+                ]
+            },
+            {
+                "EffectName": "Swarm Growth",
+                "MaxActivations": 1,
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Vigor",
+                        "EffectAmount": 1,
+                        "TargetingType": "Auto",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 99,
+                        "AllowSelfTarget": true,
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "isAlchemy Experiment Swarm Tsetse" ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-24",
+        "CardType": "spell",
+        "CardName": "Plague Vector Strike",
+        "CardText": "Deployment: Revive one Ally 'Alchemy Experiment' Fighter from the Underworld",
+        "CardFlavorText": "What's Maths gotta do with it? What's it gotta do with anything really?",
+        "Traits": [ "Medicine", "Mathematics" ],
+        "Attunements": [ "Eulogia" ],
+        "Cost": 1,
+        "Effects": [
+            {
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployment",
+                        "EffectUsed": "Revive",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Grave" ],
+                        "EffectTargetAmount": 1,
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "hasAlchemy Experiment" ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Id": "GP-25",
+        "CardType": "Fighter",
+        "CardName": "Gorgon's Wig",
+        "CardText": "Chain - Enemy Reinforcement - 1: You can Stun(Timer-1) one Enemy Fighter.",
+        "CardFlavorText": "'You thought that was my real hair?!'",
+        "Traits": [ "Animal" ],
+        "Attunements": [ "Katara" ],
+        "Cost": 1,
+        "Atk": 0,
+        "Hp": 2,
+        "Effects": [
+            {
+                "EffectName": "Notice me",
+                "MaxActivations": 1,
+                "SubEffects": [
+                    {
+                        "EffectType": "Chain",
+                        "EffectUsed": "Stun",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": false,
+                        "Duration": 1,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
+                    }
+                ],
+                "TriggerLocations": [ "Field" ],
+                "TriggerStates": [ "Reinforcement" ],
+                "TriggerController": "Opponent"
             }
         ]
     }

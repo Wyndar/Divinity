@@ -258,7 +258,6 @@ public class ChainManager : MonoBehaviour
                 }
                 if (addCard == false)
                     continue;
-                Debug.Log(triggeredCard.gameObject.name+" " +triggeredEffect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(triggeredEffect.SubEffects[0]);
                 //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
@@ -278,13 +277,13 @@ public class ChainManager : MonoBehaviour
         //for non ai players to decide to use optionals
         if (!subEffect.EffectActivationIsMandatory && !cardLogic.cardController.isAI)
         {
-            cardLogic.focusSubEffect = subEffect;
             cardLogic.SetFocusCardLogic();
+            cardLogic.focusSubEffect = subEffect;
             gm.EnableActivationPanel();
             return;
         }
         //ai optionals negation check
-        else if (subEffect.EffectActivationIsMandatory && cardLogic.cardController.isAI)
+        if (!subEffect.EffectActivationIsMandatory && cardLogic.cardController.isAI)
             if (!cardLogic.cardController.AIManager.ActivateOptionalEffect())
                 gm.ChainResolution();
         //else it's mandatory or has been accepted to go forward

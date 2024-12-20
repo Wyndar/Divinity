@@ -21856,8 +21856,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 13.44, y: 7.68}
-    newSize: {x: 13.44, y: 7.68}
+    oldSize: {x: 11.84, y: 6.77}
+    newSize: {x: 11.84, y: 6.77}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -21911,7 +21911,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 13.44, y: 7.68}
+  m_Size: {x: 11.84, y: 6.77}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -32303,8 +32303,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 13.44, y: 7.68}
-    newSize: {x: 13.44, y: 7.68}
+    oldSize: {x: 11.84, y: 6.77}
+    newSize: {x: 11.84, y: 6.77}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -32358,7 +32358,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 13.44, y: 7.68}
+  m_Size: {x: 11.84, y: 6.77}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -43336,7 +43336,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.08, y: 1.44}
+  m_Size: {x: 11.84, y: 6.77}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -46117,7 +46117,7 @@ MonoBehaviour:
   turnCount: 0
   CardDatabasePath: /Scripts/Load Data/Card Database/cardDatabase.json
   GodDatabasePath: /Scripts/Load Data/Card Database/divineDatabase.json
-  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData2.json
+  BluePlayerPath: /Scripts/Load Data/Player Data/PlayerData3.json
   RedPlayerPath: /Scripts/Load Data/Player Data/PlayerData1.json
   ToolTipsDatabasePath: /Scripts/Load Data/Game Data/ToolTipsInfo.json
   loadStartTime: 0
@@ -60560,7 +60560,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.08, y: 1.44}
+  m_Size: {x: 11.84, y: 6.77}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -234,8 +234,6 @@ public class CardLogic : MonoBehaviour
         focusSubEffect = subEffect;
         if (subEffect.parentEffect.activationLocations == null || subEffect.parentEffect.activationLocations.Contains(currentLocation))
             TargetCheck(subEffect);
-
-        SetFocusCardLogic();
     }
 
     private void EffectResolutionAfterAnimation(SubEffect subEffect)
@@ -326,7 +324,6 @@ public class CardLogic : MonoBehaviour
 
     public void FinishResolution(SubEffect subEffect)
     {
-        gameManager.isActivatingEffect = false;
         if (subEffect.parentEffect.currentActivations < subEffect.parentEffect.maxActivations)
             subEffect.parentEffect.currentActivations++;
 
@@ -344,11 +341,12 @@ public class CardLogic : MonoBehaviour
         targets?.Clear();
         validTargets?.Clear();
         if (type == Type.Spell)
-            gameObject.GetComponent<PlayableLogic>().MoveToGrave();
+            GetComponent<PlayableLogic>().MoveToGrave();
         audioManager.NewAudioPrefab(audioManager.effectResolution);
         //resolve chain after all possible effect chains are linked
         if (cardController.isAI)
             cardController.AIManager.isPerformingAction = false;
+        gameManager.isActivatingEffect = false;
         gameManager.ChainResolution();
     }
 
@@ -362,6 +360,7 @@ public class CardLogic : MonoBehaviour
         SubEffect nextSubEffect = subEffect.parentEffect.SubEffects[subCount + 1];
         if (subEffect.effectType != nextSubEffect.effectType)
             return true;
+        //any sub effect using same targets must be mandatory
         if (nextSubEffect.EffectActivationIsMandatory == false)
         {
             focusSubEffect = nextSubEffect;
@@ -372,7 +371,7 @@ public class CardLogic : MonoBehaviour
                 gameManager.EnableActivationPanel();
             return false;
         }
-        //dependent on targets of previous effect
+        //uses the same target(s) of previous sub effect
         if (nextSubEffect.EffectTargetAmount == 98)
             EffectResolution(nextSubEffect);
         else
@@ -380,6 +379,7 @@ public class CardLogic : MonoBehaviour
             targets?.Clear();
             validTargets?.Clear();
             TargetCheck(nextSubEffect);
+           
         }
         return false;
     }
@@ -387,37 +387,54 @@ public class CardLogic : MonoBehaviour
     //some effects modify effect amount based on count of something multiplied by a modifier, this handles it
     private void TargetEffectLogic(SubEffect subEffect)
     {
-
-        List<int> effectAmountIndexesToChange = new();
-
+        int subEffectIndex = subEffect.parentEffect.SubEffects.FindIndex(a => a == subEffect);
         //use big E cos small e is supposed to be editable and change
-        foreach(SubEffect sub in subEffect.parentEffect.SubEffects)
-            if (sub.EffectAmount == 98)
-                effectAmountIndexesToChange.Add(subEffect.parentEffect.SubEffects.FindIndex(a=>a==sub));
-
-        float mod = subEffect.TargetCountModifier > 0 ? subEffect.TargetCountModifier : 1;
-        if (subEffect.TargetStats == null)
-            foreach (int index in effectAmountIndexesToChange)
-                subEffect.parentEffect.SubEffects[index].effectAmount = Mathf.FloorToInt(targets.Count * mod);
-        else
+        foreach (SubEffect sub in subEffect.parentEffect.SubEffects)
         {
-            targets[0].TryGetComponent<CombatantLogic>(out var combatantStats);
-            targets[0].TryGetComponent<PlayableLogic>(out var playableStats);
-            string checkedStat = subEffect.TargetStats[0];
-            int index = effectAmountIndexesToChange[0];
-            subEffect.parentEffect.SubEffects[index].effectAmount = checkedStat switch
+            int subIndex = subEffect.parentEffect.SubEffects.FindIndex(a => a == sub);
+            if (sub.DependentEffectParameters == null || subIndex <= subEffectIndex)
+                continue;
+            float mod = sub.TargetCountModifier > 0 ? sub.TargetCountModifier : 1;
+            foreach (DependentEffectParameter dependent in sub.DependentEffectParameters)
             {
-                "current atk" => Mathf.CeilToInt(combatantStats.currentAtk * mod),
-                "cost" => Mathf.CeilToInt(playableStats.cost * mod),
-                _ => throw new MissingReferenceException("unimplemented target stat"),
-            };
+                int targetVariableIndex = sub.DependentEffectParameters.FindIndex(a => a == dependent);
+                if (targetVariableIndex != -1 && sub.DependentIndices[targetVariableIndex] == subEffectIndex)
+                    switch (dependent)
+                    {
+                        case DependentEffectParameter.EffectTargetAmount:
+                            sub.effectTargetAmount = subEffect.TargetStats == null
+                            ? Mathf.FloorToInt(targets.Count * mod)
+                            : GetModifiedDepenndentParameterValue(subEffect.TargetStats[targetVariableIndex], mod);
+                            break;
+                        case DependentEffectParameter.EffectAmount:
+                            sub.effectAmount = subEffect.TargetStats == null
+                            ? Mathf.FloorToInt(targets.Count * mod)
+                            : GetModifiedDepenndentParameterValue(subEffect.TargetStats[targetVariableIndex], mod);
+                            break;
+                        default:
+                            throw new MissingReferenceException("Unimplemented dependent parameter required for effect");
+                     }
+            }
         }
+    }
+
+    private int GetModifiedDepenndentParameterValue(string checkedStat, float mod)
+    {
+        targets[0].TryGetComponent<CombatantLogic>(out var combatant);
+        targets[0].TryGetComponent<PlayableLogic>(out var playable);
+        return checkedStat switch
+        {
+            "current atk" => Mathf.CeilToInt(combatant.currentAtk * mod),
+            "cost" => Mathf.CeilToInt(playable.cost * mod),
+            _ => throw new MissingReferenceException("unimplemented target stat"),
+        };
     }
 
     private void TargetCheck(SubEffect subEffect)
     {
         focusSubEffect = subEffect;
-        if (subEffect.EffectTargetAmount == 0)
+        //small e ffs, caps is data and the changed variable is what we need to check for activations to allow effect changes
+        if (subEffect.effectTargetAmount == 0)
         {
             EffectResolution(subEffect);
             return;

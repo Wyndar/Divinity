@@ -142,7 +142,6 @@ public class Game_Manager : MonoBehaviour
         }
 
         bool drewCards = false;
-
         foreach (HandSlot handSlot in player.handSlots)
         {
             //if deck is empty, has drawn required amount or hand is full, break
@@ -152,7 +151,7 @@ public class Game_Manager : MonoBehaviour
             if (handSlot.cardInZone != null)
                 continue;
             //get random card and activate it
-            int randomNumber = UnityEngine.Random.Range(0, player.deckLogicList.Count);
+            int randomNumber = Random.Range(0, player.deckLogicList.Count);
             CardLogic randomCardDraw = player.deckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
 
@@ -176,6 +175,7 @@ public class Game_Manager : MonoBehaviour
         }
         ShuffleHand(player);
         //ensures that unnecessary chains and shuffles don't occur on unresolved draws
+        hasFinishedDrawEffect = true;
         if (drewCards)
         {
             if (isNotFirstDraw)
@@ -184,9 +184,7 @@ public class Game_Manager : MonoBehaviour
                 currentFocusCardLogic.FinishResolution(currentFocusCardLogic.focusSubEffect);
             else
                 ChainResolution();
-           
         }
-        hasFinishedDrawEffect = true;
         yield break;
     }
 

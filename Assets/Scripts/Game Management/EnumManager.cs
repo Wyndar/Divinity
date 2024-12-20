@@ -48,7 +48,7 @@ public enum PlayType
 public enum Trait
 {
     Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Fashion, DeadlySin,
-    GreekPantheon, Undefined
+    GreekPantheon, Mathematics, Undefined
 }
 
 public enum TargetState
@@ -89,4 +89,9 @@ public enum Rarity
 public enum BloodState
 {
     Active, Inactive, Locked, Undefined
+}
+
+public enum DependentEffectParameter
+{
+    EffectType, EffectUsed, TargetLocations, EffectTargetController, TargetingTypes, EffectTargetTypes, EffectAmount, EffectTargetAmount
 }

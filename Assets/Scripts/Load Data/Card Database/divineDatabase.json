@@ -6,8 +6,8 @@
         "CardText": "Chain - Ally Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
         "Traits": [ "Weather", "HeadOfPantheon", "GreekPantheon" ],
-        "Attunements": [ "Ira", "Eulogia", "Enkrateia" ],
-        "AttunementRates": [ 50, 25, 25 ],
+        "Attunements": [ "Ira", "Enkrateia" ],
+        "AttunementRates": [ 50, 50 ],
         "Atk": 0,
         "Hp": 10,
         "Effects": [
@@ -139,10 +139,10 @@
         "Id": "GP-Z3",
         "CardType": "spell",
         "CardName": "Signal Lightning Strike",
-        "CardText": "Deployment: Vigor-2 all Ally Fighters",
+        "CardText": "Deployment: Rally-2 all Ally Fighters",
         "CardFlavorText": "Have no fear, Zeus is with you... a bolt of lightning streaking across the sky has a powerful effect on his ardent followers.",
         "Traits": [ "Weather" ],
-        "Attunements": [ "Eulogia" ],
+        "Attunements": [ "Ira" ],
         "Cost": 1,
         "Effects": [
             {
@@ -203,29 +203,19 @@
         "Id": "GP-Z5",
         "CardType": "spell",
         "CardName": "Verdant Strike of Invigoration",
-        "CardText": "Deployment: Regenerate-4 one Ally Combatant then you can Reinforce-1",
+        "CardText": "Deployment: Reinforce-3",
         "CardFlavorText": "Clear!",
         "Traits": [ "Weather" ],
-        "Attunements": [ "Eulogia" ],
+        "Attunements": [ "Enkrateia" ],
         "Cost": 1,
         "Effects": [
             {
                 "SubEffects": [
                     {
                         "EffectType": "Deployment",
-                        "EffectUsed": "Regeneration",
-                        "EffectAmount": 4,
-                        "EffectActivationIsMandatory": true,
-                        "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "Fighter", "God" ],
-                        "EffectTargetController": "Player",
-                        "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 1
-                    },
-                    {
-                        "EffectType": "Deployment",
                         "EffectUsed": "Reinforce",
-                        "EffectAmount": 1
+                        "EffectAmount": 3,
+                        "EffectActivationIsMandatory": true
                     }
                 ]
             }
@@ -235,11 +225,11 @@
         "Id": "GP-H",
         "CardType": "god",
         "CardName": "Hades",
-        "CardText": "Chain - Ally Death: Blood Recovery-1 | Chain - Revive: Reinforce-1",
+        "CardText": "Chain - Revive: Vigor-1 one Ally Fighter | Chain - Ally Death: Regeneration-2 one Ally Combatant",
         "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
         "Traits": [ "Undead", "Medicine", "GreekPantheon" ],
-        "Attunements": [ "Katara", "Eulogia", "Enkrateia" ],
-        "AttunementRates": [ 50, 25, 25 ],
+        "Attunements": [ "Katara", "Eulogia", "Areta" ],
+        "AttunementRates": [ 40, 40, 20 ],
         "Atk": 0,
         "Hp": 15,
         "Effects": [
@@ -247,25 +237,35 @@
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
-                        "EffectUsed": "BloodRecovery",
+                        "EffectUsed": "Vigor",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": true
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
                     }
                 ],
                 "TriggerLocations": [ "Field" ],
-                "TriggerStates": [ "Death" ],
+                "TriggerStates": [ "Revive" ],
                 "TriggerController": "Player"
             },
             {
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
-                        "EffectUsed": "Reinforce",
-                        "EffectAmount": 1
+                        "EffectUsed": "Regeneration",
+                        "EffectAmount": 2,
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": [ "Fighter", "God" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "AllowSelfTarget": true
                     }
                 ],
                 "TriggerLocations": [ "Field" ],
-                "TriggerStates": [ "Revive" ],
+                "TriggerStates": [ "Death" ],
                 "TriggerController": "Any"
             }
         ]

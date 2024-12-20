@@ -37,6 +37,9 @@ public class SubEffect
     public List<string> TargetStatConditions { get; private set; }
     public List<int> TargetStatAmounts { get; private set; }
 
+    public List<int> DependentIndices;
+    public List<DependentEffectParameter> DependentEffectParameters { get; private set;}
+
     //empty constructor for newtonsoft to hide the internal one for our deckbuilder
     public SubEffect()
     {
@@ -65,10 +68,15 @@ public class SubEffect
         effectUsed = subEffect.EffectUsed;
         effectType = subEffect.EffectType;
         effectTargetController = subEffect.EffectTargetController;
+        if (subEffect.DependentIndices != null)
+        {
+            DependentIndices = new(subEffect.DependentIndices);
+            DependentEffectParameters = new(subEffect.DependentEffectParameters);
+        }
         targetingType = subEffect.TargetingType;
         if (subEffect.TargetLocations != null)
             targetLocations = new(subEffect.TargetLocations);
-        if (subEffect.EffectTargetTypes != null)
-            effectTargetTypes = new(subEffect.EffectTargetTypes);
+        if(subEffect.EffectTargetTypes!= null)
+        effectTargetTypes = new(subEffect.EffectTargetTypes);
     }
 }
