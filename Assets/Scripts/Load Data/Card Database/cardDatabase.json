@@ -841,5 +841,46 @@
                 "TriggerController": "Opponent"
             }
         ]
+    },
+    {
+        "Id": "GP-26",
+        "CardType": "Fighter",
+        "CardName": "Phalanx Commander",
+        "CardText": "BloodCost(Enkrateia) - 1 Deployed: Recruit a 'Phalanx' Card.",
+        "CardFlavorText": "Makes a killing through connections with average skills",
+        "Traits": [ "Military" ],
+        "Attunements": [ "Enkrateia" ],
+        "Cost": 4,
+        "Atk": 3,
+        "Hp": 7,
+        "Effects": [
+            {
+                "EffectName": "Phalanx Call to Arms",
+                "MaxActivations": 99,
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "BloodCost",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetStats": [ "Enkrateia" ]
+                    },
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Recruit",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "Manual",
+                        "EffectTargetTypes": [ "Fighter", "Spell" ],
+                        "EffectTargetController": "Player",
+                        "TargetLocations": [ "Deck" ],
+                        "EffectTargetAmount": 1,
+                        "TargetStats": [ "name" ],
+                        "TargetStatConditions": [ "hasPhalanx" ],
+                        "TargetStatAmounts": [ 1 ]
+                    }
+                ]
+            }
+        ]
     }
 ]

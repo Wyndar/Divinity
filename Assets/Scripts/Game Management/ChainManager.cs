@@ -19,7 +19,9 @@ public class ChainManager : MonoBehaviour
                 //ignore no phase triggers
                 if (effect.triggerPhases == null)
                     continue;
-
+                //ignore spent count based effects
+                if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
+                    continue;
                 //must be right phase, location
                 if (!effect.triggerPhases.Contains(phase))
                     continue;
@@ -68,6 +70,9 @@ public class ChainManager : MonoBehaviour
             {
                 //ignore no triggertypes
                 if (effect.triggerEffects == null)
+                    continue;
+                //ignore spent count based effects
+                if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
                     continue;
                 //check if it allows self triggers
                 if (!effect.allowSelfTrigger && triggeredCard == triggerCard)
@@ -151,6 +156,9 @@ public class ChainManager : MonoBehaviour
                 //ignore no triggerStaate
                 if (triggeredEffect.triggerStates == null)
                     continue;
+                //ignore spent count based effects
+                if (triggeredEffect.currentActivations >= triggeredEffect.maxActivations && triggeredEffect.maxActivations != 0)
+                    continue;
                 //check if it allows self triggers
                 if (!triggeredEffect.allowSelfTrigger && triggeredCard == cardLogic)
                     continue;
@@ -227,7 +235,9 @@ public class ChainManager : MonoBehaviour
                 //ignore no trigger state
                 if (triggeredEffect.triggerStates == null)
                     continue;
-
+                //ignore spent count based effects
+                if (triggeredEffect.currentActivations >= triggeredEffect.maxActivations && triggeredEffect.maxActivations != 0)
+                    continue;
                 //must be right game state, card type is undefined, info is undefined, location is defined and correct
                 if (!triggeredEffect.triggerStates.Contains(gameState))
                     continue;

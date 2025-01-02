@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using System;
 
 public class Game_Manager : MonoBehaviour
 {
@@ -94,7 +95,7 @@ public class Game_Manager : MonoBehaviour
             slot.ChangeController(BluePlayerManager);
         }
         BluePlayerManager.cardSlots.AddRange(Row4);
-        for(int i = 0; i < BluePlayerManager.hand.transform.childCount; i++)
+        for (int i = 0; i < BluePlayerManager.hand.transform.childCount; i++)
             BluePlayerManager.handSlots.Add(BluePlayerManager.hand.transform.GetChild(i).GetComponent<HandSlot>());
         for (int i = 0; i < RedPlayerManager.hand.transform.childCount; i++)
             RedPlayerManager.handSlots.Add(RedPlayerManager.hand.transform.GetChild(i).GetComponent<HandSlot>());
@@ -151,7 +152,7 @@ public class Game_Manager : MonoBehaviour
             if (handSlot.cardInZone != null)
                 continue;
             //get random card and activate it
-            int randomNumber = Random.Range(0, player.deckLogicList.Count);
+            int randomNumber = UnityEngine.Random.Range(0, player.deckLogicList.Count);
             CardLogic randomCardDraw = player.deckLogicList[randomNumber];
             randomCardDraw.gameObject.SetActive(true);
 
@@ -162,9 +163,7 @@ public class Game_Manager : MonoBehaviour
             AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
-            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
-                randomCardDraw.FlipFaceUp();
-          
+            randomCardDraw.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
             handSlot.cardInZone = randomCardDraw;
             player.deckLogicList.Remove(randomCardDraw);
             player.handLogicList.Add(randomCardDraw);
@@ -173,11 +172,11 @@ public class Game_Manager : MonoBehaviour
             drewCards = true;
             yield return new WaitUntil(() => drawSound == null);
         }
-        ShuffleHand(player);
         //ensures that unnecessary chains and shuffles don't occur on unresolved draws
         hasFinishedDrawEffect = true;
         if (drewCards)
         {
+            ShuffleHand(player);
             if (isNotFirstDraw)
                 StateChange(GameState.Reinforcement);
             if (currentFocusCardLogic != null && isActivatingEffect)
@@ -188,38 +187,44 @@ public class Game_Manager : MonoBehaviour
         yield break;
     }
 
-    public IEnumerator SearchCard(CardLogic logic, PlayerManager player)
+    public IEnumerator SearchCard(List<CardLogic> logics, PlayerManager player, CardLogic activatingCard)
     {
         if (player.handSize >= 10)
             yield break;
-
-        foreach (HandSlot handSlot in player.handSlots)
+        bool drewCards = false;
+        foreach (CardLogic logic in logics)
         {
-            if (handSlot.cardInZone != null)
-                continue;
-            if (player.handSize >= 10)
+            foreach (HandSlot handSlot in player.handSlots)
+            {
+                if (handSlot.cardInZone != null)
+                    continue;
+                if (player.handSize >= 10)
+                    break;
+                logic.gameObject.SetActive(true);
+
+                //implementing a battle log
+                logic.LocationChange(Location.Hand, player.handSize);
+                logic.transform.SetParent(handSlot.transform, false);
+                logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                //when playing with another player on same device flip face up only if you draw on your turn...
+                //might implement more to support this
+                logic.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
+                handSlot.cardInZone = logic;
+                player.deckLogicList.Remove(logic);
+                player.handLogicList.Add(logic);
+                player.handSize = player.handLogicList.Count;
+                AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
+                drewCards = true;
+                yield return new WaitUntil(() => drawSound == null);
                 break;
-            logic.gameObject.SetActive(true);
-
-            //implementing a battle log
-            logic.LocationChange(Location.Hand, player.handSize);
-            logic.transform.SetParent(handSlot.transform, false);
-            logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            //when playing with another player on same device flip face up only if you draw on your turn...
-            //might implement more to support this
-            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
-                logic.FlipFaceUp();
-            handSlot.cardInZone = logic;
-            player.deckLogicList.Remove(logic);
-            player.handLogicList.Add(logic);
-            player.handSize = player.handLogicList.Count;
-            break;
+            }
         }
-        AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
-        yield return new WaitUntil(() => drawSound == null);
-
-        ShuffleHand(player);
-        StateChange(GameState.Reinforcement);
+        if (drewCards)
+        {
+            ShuffleHand(player);
+            StateChange(GameState.Reinforcement);
+            activatingCard.FinishResolution(activatingCard.focusSubEffect);
+        }
         yield break;
     }
 
@@ -244,8 +249,7 @@ public class Game_Manager : MonoBehaviour
             logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
-            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
-                logic.FlipFaceUp();
+            logic.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
             handSlot.cardInZone = logic;
             logic.cardOwner.graveLogicList.Remove(logic);
             player.handLogicList.Add(logic);
@@ -281,8 +285,7 @@ public class Game_Manager : MonoBehaviour
             randomCardDraw.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
-            if (player.isLocal && !player.isAI && (player == turnPlayer || player.enemy.isAI || !player.enemy.isLocal))
-                randomCardDraw.FlipFaceUp();
+            randomCardDraw.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
             handSlot.cardInZone = randomCardDraw;
             player.heroDeckLogicList.Remove(randomCardDraw);
             player.handLogicList.Add(randomCardDraw);
@@ -371,9 +374,10 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
-    public void StateReset() {
+    public void StateReset()
+    {
         StateChange(GameState.Open);
-        if(currentFocusCardLogic != null) 
+        if (currentFocusCardLogic != null)
             currentFocusCardLogic.RemoveFocusCardLogic();
         if (currentFocusCardSlot != null)
             currentFocusCardSlot.DeselectSlot();
@@ -381,8 +385,8 @@ public class Game_Manager : MonoBehaviour
             ShowValidMoves(turnPlayer);
         if (currentPhase == Phase.BattlePhase)
             ShowValidAttackers(turnPlayer);
-        if(turnPlayer.isAI)
-           turnPlayer.AIManager.MakeDecision();
+        if (turnPlayer.isAI)
+            turnPlayer.AIManager.MakeDecision();
     }
 
     public void StateChange(GameState state)
@@ -413,10 +417,10 @@ public class Game_Manager : MonoBehaviour
 
     public void GetPhaseTriggers(Phase phase) => ChainManager.GetPhaseTriggers(phase);
 
-    public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard)=>
+    public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard) =>
         ChainManager.GetEffectTriggers(subEffect, triggerCard);
 
-    public void GetStateTriggers(CardLogic triggerCard, GameState state)=>
+    public void GetStateTriggers(CardLogic triggerCard, GameState state) =>
         ChainManager.GetStateTriggers(triggerCard, state);
 
     public void ChainResolution()
@@ -515,9 +519,9 @@ public class Game_Manager : MonoBehaviour
         if (player.isAI || !player.isLocal || player.enemy.isAI || !player.enemy.isLocal)
             return;
         foreach (CardLogic cardLogic in player.enemy.handLogicList)
-                cardLogic.FlipFaceDown();
+            cardLogic.Flip(true);
         foreach (CardLogic cardLogic in player.handLogicList)
-            cardLogic.FlipFaceUp();
+            cardLogic.Flip(false);
     }
 
     public void ShowValidMoves(PlayerManager player)
@@ -528,13 +532,10 @@ public class Game_Manager : MonoBehaviour
         player.canUseSubEffectList.Clear();
         foreach (CardLogic cardLogic in player.handLogicList)
         {
-            if (cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) != null)
-            {
-                cardLogic.GreyScaleEffect();
-                continue;
-            }
-            player.playableLogicList.Add(cardLogic);
-            cardLogic.NormalColour();
+            bool legal = cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) == null;
+            cardLogic.GreyScaleEffect(!legal);
+            if (legal)
+                player.playableLogicList.Add(cardLogic);
         }
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
@@ -544,12 +545,12 @@ public class Game_Manager : MonoBehaviour
             {
                 foreach (SubEffect subEffect in effect.SubEffects)
                 {
-                    if (subEffect.effectType != EffectTypes.Deployed)
+                    if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
                         continue;
-                  
-                    if (effect.currentActivations >= effect.maxActivations)
+                    if (subEffect.effectUsed != EffectsUsed.BloodCost && cardLogic.GetValidTargets(subEffect).Count == 0)
                         continue;
-                    if (cardLogic.GetValidTargets(subEffect).Count == 0)
+                    if (subEffect.effectUsed == EffectsUsed.BloodCost &&
+                        player.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) <= subEffect.effectAmount)
                         continue;
                     player.canUseEffectLogicList.Add(cardLogic);
                     player.canUseEffectList.Add(effect);
@@ -637,4 +638,9 @@ public class Game_Manager : MonoBehaviour
         MainUIManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
 
     public void DisableCardScrollScreen() => MainUIManager.DisableCardScrollScreen();
+    public void ForceBloodgain(string attunement)
+    {
+        BluePlayerManager.BloodGain(Enum.Parse<Attunement>(attunement), 1);
+        StateReset();
+    }
 }

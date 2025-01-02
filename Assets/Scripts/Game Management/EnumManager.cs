@@ -21,7 +21,7 @@ public enum EffectsUsed
     Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep,
     Stun, Provoke, Disarm, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate,
     Barrier, BuffDispel, DebuffDispel, Silence, BloodBoost, Advancement, Knockback, Pull, Shift, Immortality, Immunity,
-    Spin, Discard, Mill, ForceRetreat, Return, Retreat, DeathCurse, Mark, Freeze,
+    Spin, Discard, Mill, ForceRetreat, Return, Retreat, DeathCurse, Mark, Freeze, BloodCost,
     Undefined
 }
 

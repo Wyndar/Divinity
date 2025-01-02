@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class MainUIManager : MonoBehaviour
 {
@@ -63,7 +64,7 @@ public class MainUIManager : MonoBehaviour
     {
         audioManager.NewAudioPrefab(audioManager.click);
         if (gm.currentFocusCardLogic != null)    
-            gm.currentFocusCardLogic.DisableCardOutline();
+            gm.currentFocusCardLogic.ToggleCardOutline(false);
 
         touchStartPosition = ScreenToWorld(screenPosition);
         touchStartTime = time;
@@ -221,15 +222,7 @@ public class MainUIManager : MonoBehaviour
                     if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController &&
                         focusCard.type != Type.God)
                     {
-                        bool showButton = false;
-                        if (focusCard.effects != null)
-                            foreach (Effect effect in focusCard.effects)
-                                foreach (SubEffect subEffect in effect.SubEffects)
-                                    if (subEffect.effectType == EffectTypes.Deployed)
-                                        if (effect.currentActivations < effect.maxActivations)
-                                            showButton = true;
-                        if (showButton)
-                            monsterLogic.currentSlot.effectActivationButton.SetActive(true);
+                        monsterLogic.currentSlot.effectActivationButton.SetActive(focusCard.IsValidEffect());
                         if (!monsterLogic.hasMoved && gm.currentPhase == Phase.MainPhase)
                             monsterLogic.currentSlot.moveButton.SetActive(true);
                         if (gm.currentPhase == Phase.BattlePhase)
@@ -359,7 +352,9 @@ public class MainUIManager : MonoBehaviour
         effects[effectCount].SetActive(true);
         effectPanelTexts[effectCount].text = effectText[effectCount];
         switchButtons[effectCount].SetActive(false);
-        if (activatingEffect.currentActivations >= activatingEffect.maxActivations || validTargets.Count == 0)
+        if (activatingEffect.currentActivations >= activatingEffect.maxActivations || 
+            (activatingSubEffect.effectUsed != EffectsUsed.BloodCost && validTargets.Count == 0) ||
+              activatingCard.cardController.BloodAttunementCheck(Enum.Parse<Attunement>( activatingSubEffect.TargetStats[0])) < activatingSubEffect.effectAmount)
         {
             activateButtons[effectCount].SetActive(false);
             return;
@@ -369,8 +364,11 @@ public class MainUIManager : MonoBehaviour
             && activatingEffect.triggerLocations == null)
         {
             activateButtons[effectCount].SetActive(true);
-            activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effects[effectCount].maxActivations
-                - activatingCard.effects[effectCount].currentActivations).ToString();
+            if (activatingCard.effects[effectCount].maxActivations >= 98)
+                activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = "";
+            else
+                activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effects[effectCount].maxActivations
+                    - activatingCard.effects[effectCount].currentActivations).ToString();
         }
     }
 

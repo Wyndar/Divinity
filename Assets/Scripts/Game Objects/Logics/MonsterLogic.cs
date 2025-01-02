@@ -123,11 +123,7 @@ public class MonsterLogic : CardLogic
             LocationChange(Location.Hand, cardOwner.handSize);
             transform.SetParent(handSlot.transform, false);
             //when playing with another player on same device flip face up only if you bounce on your turn...might implement more to support this
-            if (cardOwner.isLocal && !cardOwner.isAI && (cardOwner == gm.turnPlayer || cardOwner.enemy.isAI || !cardOwner.enemy.isLocal))
-                FlipFaceUp();
-            else
-                FlipFaceDown();
-
+            Flip(!cardOwner.isLocal || cardOwner.isAI || cardOwner != gm.turnPlayer && !cardOwner.enemy.isAI && cardOwner.enemy.isLocal);
             handSlot.cardInZone = this;
             cardOwner.handLogicList.Add(this);
             cardOwner.handSize = cardOwner.handLogicList.Count;

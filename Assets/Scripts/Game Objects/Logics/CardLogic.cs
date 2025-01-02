@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -39,6 +40,9 @@ public class CardLogic : MonoBehaviour
 
     public void EffectActivation(SubEffect subEffect)
     {
+        if (subEffect.effectUsed == EffectsUsed.BloodCost &&
+    cardController.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) < subEffect.effectAmount)
+            return;
         gameManager.isActivatingEffect = true;
         gameManager.DisableRayBlocker();
         //these technically don't activate, they are passives
@@ -105,22 +109,8 @@ public class CardLogic : MonoBehaviour
     {
         List<CardLogic> allTargetsList = new(FindObjectsOfType<CardLogic>());
         List<CardLogic> returnList = new();
-        if (subEffect.targetLocations == null)
+        if (subEffect.targetLocations.Count == 0)
             return returnList;
-
-        List<CardLogic> camoTargets = new();
-        foreach (CardLogic logic in allTargetsList)
-        {
-            logic.TryGetComponent<CombatantLogic>(out var combatantLogic);
-            if (logic.currentLocation == Location.Field)
-                if (combatantLogic.targetState == TargetState.Camouflage)
-                {
-                    camoTargets.Add(logic);
-                    allTargetsList.Remove(logic);
-                }
-        }
-        if (allTargetsList.Count == 0)
-            allTargetsList.AddRange(camoTargets);
 
         EffectsUsed effectUsed = subEffect.effectUsed;
         Controller controller = subEffect.effectTargetController;
@@ -138,7 +128,7 @@ public class CardLogic : MonoBehaviour
             if (target.cardController != cardController && controller == Controller.Player)
                 continue;
 
-            if(subEffect.effectTargetTypes!= null && !subEffect.effectTargetTypes.Contains(target.type))
+            if (subEffect.effectTargetTypes != null && !subEffect.effectTargetTypes.Contains(target.type))
                 continue;
 
             // don't target max hp with healing effects
@@ -148,6 +138,7 @@ public class CardLogic : MonoBehaviour
             if (effectUsed == EffectsUsed.Damage && (combatantStats == null || combatantStats.currentHp <= 0))
                 continue;
             //don't add targets with higher cost when paying for revive or deploy cost
+            //needs attunement check fix
             if ((effectUsed == EffectsUsed.Revive || effectUsed == EffectsUsed.Deploy) && cardController.costCount < playableStats.cost)
                 continue;
 
@@ -165,68 +156,86 @@ public class CardLogic : MonoBehaviour
             if (effectUsed == EffectsUsed.PoisonDetonate && (combatantStats == null || combatantStats.DebuffCheck(Debuffs.Poisoned) == null))
                 continue;
             if (subEffect.TargetStats == null)
-                returnList.Add(target);    
+                returnList.Add(target);
             else
-            { 
-                for (int i = 0; i < subEffect.TargetStats.Count; i++)
-                {
-                    string checkedStat = subEffect.TargetStats[i];
-                    string condition = subEffect.TargetStatConditions[i];
-                    int stat = 0;
-                    //as more types of effects are added, more checks will be needed
-                    if (checkedStat == "none")
-                    {
-                        returnList.Add(target);
-                        continue;
-                    }
-                    if (checkedStat == "current atk")
-                    {
-                        if (combatantStats == null)
-                            continue;
-                        stat = combatantStats.currentAtk;
-                    }
-
-                    if (checkedStat == "cost")
-                    {
-                        if (playableStats == null)
-                            continue;
-                        stat = playableStats.cost;
-                    }
-                    if (checkedStat[..3] == "has")
-                        if (!target.cardName.Contains(checkedStat[3..]))
-                            continue;
-                    if (checkedStat[..4] == "nhas")
-                        if (target.cardName.Contains(checkedStat[4..]))
-                            continue;
-                    if (checkedStat[..2] == "is")
-                        if (target.cardName != checkedStat[2..])
-                            continue;
-                    if (checkedStat[..3] == "not")
-                        if (target.cardName == checkedStat[3..])
-                            continue;
-
-                    if (subEffect.TargetStatAmounts != null)
-                    {
-                        int amount = subEffect.TargetStatAmounts[i];
-                        // don't target stats not equal requirements
-                        if (condition == "==" && stat != amount)
-                            continue;
-                        if (condition == ">=" && stat < amount)
-                            continue;
-                        if (condition == "<=" && stat > amount)
-                            continue;
-                        if (condition == ">" && stat <= amount)
-                            continue;
-                        if (condition == "<" && stat >= amount)
-                            continue;
-                    }
-                    returnList.Add(target);
-                }
-            }
+                TargetStatCheck(subEffect, returnList, target, combatantStats, playableStats);
         }
+        List<CardLogic> camoTargets = GetCamoTargets(allTargetsList, true);
+        if (allTargetsList.Count == 0)
+            allTargetsList.AddRange(camoTargets);
         if (returnList.Count < 1)
             Debug.Log($"No valid targets for {cardName}'s {effectUsed} ability at {gameManager.turnPlayer.PlayerName}'s turn at phase {gameManager.currentPhase}");
         return returnList;
+    }
+
+    private static List<CardLogic> GetCamoTargets(List<CardLogic> allTargetsList, bool removeFromList)
+    {
+        List<CardLogic> camoTargets = new();
+        foreach (CardLogic logic in allTargetsList)
+        {
+            logic.TryGetComponent<CombatantLogic>(out var combatantLogic);
+            if (logic.currentLocation == Location.Field)
+                if (combatantLogic.targetState == TargetState.Camouflage)
+                {
+                    camoTargets.Add(logic);
+                    if (removeFromList)
+                        allTargetsList.Remove(logic);
+                }
+        }
+        return camoTargets;
+    }
+
+    private static void TargetStatCheck(SubEffect subEffect, List<CardLogic> returnList, CardLogic target, CombatantLogic combatantStats, PlayableLogic playableStats)
+    {
+        for (int i = 0; i < subEffect.TargetStats.Count; i++)
+        {
+            string checkedStat = subEffect.TargetStats[i];
+            string condition = subEffect.TargetStatConditions[i];
+            int stat = 0;
+            //as more types of effects are added, more checks will be needed
+            switch (checkedStat)
+            {
+                case "none":
+                    returnList.Add(target);
+                    continue;
+                case "current atk":
+                    if (combatantStats == null)
+                        continue;
+                    stat = combatantStats.currentAtk;
+                    break;
+                case "cost":
+                    if (playableStats == null)
+                        continue;
+                    stat = playableStats.cost;
+                    break;
+            }
+            if (checkedStat == "name")
+            {
+                if (condition[..3] == "has" && !target.cardName.Contains(checkedStat[3..]))
+                    continue;
+                if (condition[..4] == "nhas" && target.cardName.Contains(checkedStat[4..]))
+                    continue;
+                if (condition[..2] == "is" && target.cardName != checkedStat[2..])
+                    continue;
+                if (condition[..3] == "not" && target.cardName == checkedStat[3..])
+                    continue;
+            }
+            if (subEffect.TargetStatAmounts != null)
+            {
+                int amount = subEffect.TargetStatAmounts[i];
+                // don't target stats not equal requirements
+                switch (condition)
+                {
+                    case "==" when stat != amount:
+                    case ">=" when stat < amount:
+                    case "<=" when stat > amount:
+                    case ">" when stat <= amount:
+                    case "<" when stat >= amount:
+                        continue;
+                }
+            }
+            returnList.Add(target);
+        }
     }
 
     private void EffectActivationAfterAnimation(SubEffect subEffect)
@@ -241,7 +250,7 @@ public class CardLogic : MonoBehaviour
         EffectsUsed effectUsed = subEffect.effectUsed;
         int effectAmount = subEffect.effectAmount;
         SetFocusCardLogic();
-        EffectLogger(subEffect,targets);
+        EffectLogger(subEffect, targets);
         List<CardLogic> tempTargets = new(targets);
 
         switch (effectUsed)
@@ -250,7 +259,13 @@ public class CardLogic : MonoBehaviour
             case EffectsUsed.Target:
                 TargetEffectLogic(subEffect);
                 break;
-
+            case EffectsUsed.BloodCost:
+                List<Attunement> sendList = new()
+                {
+                    Enum.Parse<Attunement>(subEffect.TargetStats[0])
+                };
+                cardController.BloodLoss(sendList, effectAmount);
+                break;
             //effects that access game manager methods, can be optimized further
             case EffectsUsed.Reinforce:
                 StartCoroutine(gameManager.DrawCard(effectAmount, cardController));
@@ -259,8 +274,7 @@ public class CardLogic : MonoBehaviour
                 cardController.BloodGain(Attunement.Untuned, effectAmount);
                 break;
             case EffectsUsed.Recruit:
-                foreach (CardLogic target in tempTargets)
-                    StartCoroutine(gameManager.SearchCard(target, target.cardController));
+                StartCoroutine(gameManager.SearchCard(tempTargets, cardController.enemy, this));
                 break;
             case EffectsUsed.Recover:
                 foreach (CardLogic target in tempTargets)
@@ -324,12 +338,7 @@ public class CardLogic : MonoBehaviour
 
     public void FinishResolution(SubEffect subEffect)
     {
-        if (subEffect.parentEffect.currentActivations < subEffect.parentEffect.maxActivations)
-            subEffect.parentEffect.currentActivations++;
-
-        //chainlist for effect triggers
         gameManager.GetEffectTriggers(subEffect, this);
-
         CheckSubsequentEffects(subEffect);
     }
 
@@ -337,6 +346,8 @@ public class CardLogic : MonoBehaviour
     {
         if (!ResolveSubsequentSubeffects(subEffect))
             return;
+        if (subEffect.parentEffect.currentActivations < subEffect.parentEffect.maxActivations)
+            subEffect.parentEffect.currentActivations++;
         gameManager.ClearEffectTargetImages();
         targets?.Clear();
         validTargets?.Clear();
@@ -379,7 +390,7 @@ public class CardLogic : MonoBehaviour
             targets?.Clear();
             validTargets?.Clear();
             TargetCheck(nextSubEffect);
-           
+
         }
         return false;
     }
@@ -413,7 +424,7 @@ public class CardLogic : MonoBehaviour
                             break;
                         default:
                             throw new MissingReferenceException("Unimplemented dependent parameter required for effect");
-                     }
+                    }
             }
         }
     }
@@ -472,27 +483,21 @@ public class CardLogic : MonoBehaviour
                 gameManager.EnableCardScrollScreen(validTargets, !focusSubEffect.EffectActivationIsMandatory);
                 return;
             }
-            if (focusSubEffect.targetingType == TargetingTypes.Auto)
+            switch (focusSubEffect.targetingType)
             {
-                AutoTargetAcquisition(subEffect);
-                return;
-            }
-            if (focusSubEffect.targetingType == TargetingTypes.Random)
-            {
-                RandomTargetAcquisition(subEffect);
-                return;
-            }
-            if (focusSubEffect.targetingType == TargetingTypes.Trigger)
-            {
-                targets = new();
-                return;
+                case TargetingTypes.Auto:
+                    AutoTargetAcquisition(subEffect);
+                    return;
+                case TargetingTypes.Random:
+                    RandomTargetAcquisition(subEffect);
+                    return;
+                case TargetingTypes.Trigger:
+                    targets = new();
+                    return;
             }
         }
         if (gameManager.gameState != GameState.Targeting && targets.Count == 0)
-        {
             EffectResolution(subEffect);
-            return;
-        }
     }
 
     //called by ux manager clicked GameObject method with current focus card logic count and subcount
@@ -510,7 +515,7 @@ public class CardLogic : MonoBehaviour
             return;
         targeter.targets.Add(this);
         //if you hit the needed amount of targets or all valid targets are taken, resolve
-        if (targeter.targets.Count == targeter.focusSubEffect.effectTargetAmount || 
+        if (targeter.targets.Count == targeter.focusSubEffect.effectTargetAmount ||
             targeter.targets.Count == targeter.validTargets.Count)
         {
             gameManager.DisableCardScrollScreen();
@@ -548,7 +553,7 @@ public class CardLogic : MonoBehaviour
         int targetsLeft = subEffect.effectTargetAmount;
         while (targetsLeft > 0 && validTargets.Count > targets.Count)
         {
-            int randomNumber = Random.Range(0, validTargets.Count);
+            int randomNumber = UnityEngine.Random.Range(0, validTargets.Count);
             if (targets.Contains(validTargets[randomNumber]))
                 continue;
             targets.Add(validTargets[randomNumber]);
@@ -566,7 +571,7 @@ public class CardLogic : MonoBehaviour
             return;
         }
         //if you need the targets from previous effect to resolve
-        if (focusSubEffect.TargetingType != TargetingTypes.Undefined && 
+        if (focusSubEffect.TargetingType != TargetingTypes.Undefined &&
             focusSubEffect.effectTargetAmount == 98)
             EffectResolution(focusSubEffect);
         else
@@ -591,54 +596,34 @@ public class CardLogic : MonoBehaviour
             gameManager.currentFocusCardLogic.RemoveFocusCardLogic();
         gameManager.currentFocusCardLogic = this;
         if (type != Type.God)
-            EnableCardOutline();
+            ToggleCardOutline(true);
     }
 
     public void RemoveFocusCardLogic()
     {
         gameManager.currentFocusCardLogic = null;
         if (type != Type.God)
-            DisableCardOutline();
+            ToggleCardOutline(false);
     }
 
-    public void FlipFaceUp()
+    public void Flip(bool facedown)
     {
-        isFaceDown = false;
-        cardBack.gameObject.SetActive(false);
-        cardImage.gameObject.SetActive(true);
-        cardImageBorder.gameObject.SetActive(true);
-        textCanvas.gameObject.SetActive(true);
+        isFaceDown = facedown;
+        cardBack.gameObject.SetActive(facedown);
+        cardImage.gameObject.SetActive(!facedown);
+        cardImageBorder.gameObject.SetActive(!facedown);
+        textCanvas.gameObject.SetActive(!facedown);
         audioManager.NewAudioPrefab(audioManager.flipCard);
     }
 
-    public void FlipFaceDown()
-    {
-        isFaceDown = true;
-        cardBack.gameObject.SetActive(true);
-        cardImage.gameObject.SetActive(false);
-        cardImageBorder.gameObject.SetActive(false);
-        textCanvas.gameObject.SetActive(false);
-        audioManager.NewAudioPrefab(audioManager.flipCard);
-    }
-
-    public void EnableCardOutline()
+    public void ToggleCardOutline(bool on)
     {
         if (type == Type.God)
             return;
         if (currentLocation != Location.Grave)
-            cardOutline.gameObject.SetActive(true);
+            cardOutline.gameObject.SetActive(on);
         else
-            cardOwner.underworldManager.outline.SetActive(true);
-    }
-
-    public void DisableCardOutline()
-    {
-        if (type == Type.God)
-            return;
-        if (currentLocation != Location.Grave)
-            cardOutline.gameObject.SetActive(false);
-        else
-            cardOwner.underworldManager.outline.SetActive(false);
+            cardOwner.underworldManager.outline.SetActive(on);
     }
     public void LocationChange(Location location, int num)
     {
@@ -653,18 +638,11 @@ public class CardLogic : MonoBehaviour
         locationOrderNumber = num;
     }
 
-    public void GreyScaleEffect()
+    public void GreyScaleEffect(bool activate)
     {
-        isNormalColour = false;
-        cardImage.GetComponent<SpriteRenderer>().color = Color.grey;
-        cardImageBorder.GetComponent<SpriteRenderer>().color = Color.grey;  
-    }
-
-    public void NormalColour()
-    {
-        isNormalColour = true;
-        cardImage.GetComponent<SpriteRenderer>().color = Color.white;
-        cardImageBorder.GetComponent <SpriteRenderer>().color = Color.white;
+        isNormalColour = !activate;
+        cardImage.GetComponent<SpriteRenderer>().color = activate ? Color.grey : Color.white;
+        cardImageBorder.GetComponent<SpriteRenderer>().color = activate ? Color.grey : Color.white;
     }
 
     public void ControllerSwap(PlayerManager player)
@@ -734,12 +712,12 @@ public class CardLogic : MonoBehaviour
                 Stealth stealth = new(logic, this, effect.duration);
                 combatantLogic.SetTargetStatus(stealth, TargetState.Stealth);
                 break;
-                //everything above here works fine
+            //everything above here works fine
             case EffectsUsed.Camouflage:
                 Camouflage camouflage = new(logic, this, effect.duration);
                 combatantLogic.SetTargetStatus(camouflage, TargetState.Stealth);
                 break;
-                //everything from here works fine
+            //everything from here works fine
             case EffectsUsed.Armor:
                 Armor armor = new(logic, this, effectAmount, effect.duration);
                 combatantLogic.AddNonStackingBuff(armor);
@@ -748,7 +726,7 @@ public class CardLogic : MonoBehaviour
                 Barrier barrier = new(logic, this, effectAmount, effect.duration);
                 combatantLogic.AddNonStackingBuff(barrier);
                 break;
-                //till here
+            //till here
             case EffectsUsed.Sleep:
                 Sleep sleep = new(logic, this, effect.duration);
                 combatantLogic.AddNonStackingDebuff(sleep);
@@ -765,7 +743,7 @@ public class CardLogic : MonoBehaviour
                 Disarm disarm = new(logic, this, effect.duration);
                 combatantLogic.AddNonStackingDebuff(disarm);
                 break;
-                //everything from here works fine
+            //everything from here works fine
             case EffectsUsed.Burn:
                 //burns have a default timer of two turns, if duration is set to 0/not defined(int), default applies
                 Burn burn = new(logic, this, effect.duration);
@@ -784,12 +762,12 @@ public class CardLogic : MonoBehaviour
                 combatantLogic.cardStatuses.Add(bomb);
                 GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(bomb);
                 break;
-                //till here
+            //till here
             case EffectsUsed.Spot:
                 Spot spot = new(logic, this, effect.duration);
                 combatantLogic.AddNonStackingDebuff(spot);
                 break;
-                //this works
+            //this works
             case EffectsUsed.Bounce:
                 StartCoroutine(monsterLogic.BounceCard());
                 break;
@@ -830,7 +808,7 @@ public class CardLogic : MonoBehaviour
                             combatantLogic.RemoveCardStatus(status);
                     }
                     i--;
-                } 
+                }
                 break;
             case EffectsUsed.DebuffDispel:
                 for (int i = effectAmount; i > 0;)
@@ -848,8 +826,50 @@ public class CardLogic : MonoBehaviour
                 Silence silence = new(logic, this, effect.duration);
                 combatantLogic.AddNonStackingDebuff(silence);
                 break;
+            case EffectsUsed.BloodBoost:
+                break;
+            case EffectsUsed.Advancement:
+                break;
+            case EffectsUsed.Knockback:
+                break;
+            case EffectsUsed.Pull:
+                break;
+            case EffectsUsed.Shift:
+                break;
+            case EffectsUsed.Immortality:
+                break;
+            case EffectsUsed.Immunity:
+                break;
+            case EffectsUsed.Spin:
+                break;
+            case EffectsUsed.Discard:
+                break;
+            case EffectsUsed.Mill:
+                break;
+            case EffectsUsed.ForceRetreat:
+                break;
+            case EffectsUsed.Return:
+                break;
+            case EffectsUsed.Retreat:
+                break;
+            case EffectsUsed.DeathCurse:
+                break;
+            case EffectsUsed.Mark:
+                break;
+            case EffectsUsed.Freeze:
+                break;
             default:
                 throw new MissingReferenceException("effect not found");
         }
+    }
+    public bool IsValidEffect()
+    {
+        if (effects != null)
+            foreach (Effect effect in effects)
+                if (effect.currentActivations < effect.maxActivations && effect.SubEffects[0].effectType == EffectTypes.Deployed)
+                    if (effect.SubEffects[0].effectUsed != EffectsUsed.BloodCost ||
+                        cardController.BloodAttunementCheck(Enum.Parse<Attunement>(effect.SubEffects[0].TargetStats[0])) >= effect.SubEffects[0].effectAmount)
+                        return true;
+        return false;
     }
 }

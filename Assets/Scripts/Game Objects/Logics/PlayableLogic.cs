@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
+using System.Linq;
 
 public class PlayableLogic : MonoBehaviour
 {
@@ -58,10 +60,8 @@ public class PlayableLogic : MonoBehaviour
             gm.isPlayingCard = true;
             if (logic.cardController != player)
                 logic.ControllerSwap(player);
-            if (logic.isFaceDown)
-                logic.FlipFaceUp();
-            if (!logic.isNormalColour)
-                logic.NormalColour();
+            logic.Flip(false);
+            logic.GreyScaleEffect(false);
             logic.SetFocusCardLogic();
             gm.StateChange(GameState.Activation);
             if (!ignoreCost)
@@ -139,19 +139,17 @@ public class PlayableLogic : MonoBehaviour
 
             case Type.Spell:
                 {
-                    foreach (Effect effect in logic.effects)
+                    foreach (SubEffect subEffect in logic.effects.SelectMany(effect => effect.SubEffects))
                     {
-                        foreach (SubEffect subEffect in effect.SubEffects)
-                        {
-                            if (subEffect.effectType != EffectTypes.Deployment || subEffect.EffectActivationIsMandatory == false)
-                                continue;
-                            //need to keep an eye on this
-                            if (subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
-                                continue;
-                            List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect);
-                            if (allTargetsList.Count == 0)
-                                return "No valid targets";
-                        }
+                        if (subEffect.effectUsed == EffectsUsed.BloodCost &&
+                        logic.cardController.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) < subEffect.effectAmount)
+                            return "Cannot Pay BloodCost";
+                        if (subEffect.effectType != EffectTypes.Deployment || !subEffect.EffectActivationIsMandatory ||
+                            subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
+                            continue;
+                        List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect);
+                        if (allTargetsList.Count == 0)
+                            return "No valid targets";
                     }
                     break;
                 }
