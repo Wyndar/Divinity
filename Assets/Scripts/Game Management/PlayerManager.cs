@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -30,7 +30,6 @@ public class PlayerManager : MonoBehaviour
     public List<CardLogic> canAttackLogicList = new();
     public List<CardLogic> canUseEffectLogicList = new();
 
-    public List<Effect> canUseEffectList = new();
     public List<SubEffect> canUseSubEffectList = new();
 
     public GodLogic heroCardLogic;
@@ -39,7 +38,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject deck, grave, hero, shield, shieldPanel, activateShieldButton, ignoreShieldButton, raycastBlocker, graveTarget,
         deckTarget, heroEffectTarget, heroAttackTarget, deckSearchButton, graveSearchButton, hourglassIcon, heroHpStatus,
-        heroAtkStatus, heroNumbers, heroStatus, heroStatus2, hand;
+        heroAtkStatus, heroNumbers, heroStatus, heroStatus2, hand, effectActivationButton;
 
     public List<HandSlot> handSlots;
     public List<CardSlot> cardSlots;

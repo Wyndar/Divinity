@@ -390,7 +390,6 @@ public class CardLogic : MonoBehaviour
             targets?.Clear();
             validTargets?.Clear();
             TargetCheck(nextSubEffect);
-
         }
         return false;
     }

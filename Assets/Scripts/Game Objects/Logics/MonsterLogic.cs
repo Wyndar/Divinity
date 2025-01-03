@@ -165,7 +165,7 @@ public class MonsterLogic : CardLogic
         currentSlot.CleanUpIcons();
         combatLogic.cardStatuses.Clear();
         combatLogic.hasDoneCountdown = false;
-        currentSlot.cardInZone = null;
+        currentSlot.DeselectSlot();
         cardController.fieldLogicList.Remove(this);
     }
 }

@@ -17,12 +17,16 @@ public enum EffectTypes
 
 public enum EffectsUsed
 {
-    Reinforce, Recruit, Recover, Damage, Regeneration, Rally, FreeRevive, Revive, FreeDeploy, Deploy, Vigor,
-    Terrify, Intimidate, Weaken, Shatter, BloodRecovery, Target, Taunt, Stealth, Camouflage, Armor, Sleep,
-    Stun, Provoke, Disarm, Burn, Poison, Bomb, Spot, Bounce, Detonate, BombDetonate, BurnDetonate, PoisonDetonate,
-    Barrier, BuffDispel, DebuffDispel, Silence, BloodBoost, Advancement, Knockback, Pull, Shift, Immortality, Immunity,
-    Spin, Discard, Mill, ForceRetreat, Return, Retreat, DeathCurse, Mark, Freeze, BloodCost,
-    Undefined
+    Damage, Rally, Stealth, Target, Advancement,
+    Intimidate, Taunt, Armor, Camouflage, Barrier, Provoke, Disarm,
+    Reinforce, Recruit, FreeDeploy, Deploy, BloodRecovery, BloodBoost,
+    Weaken, Stun, Burn, Poison, Bomb, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, Shatter, DeathCurse,
+    FreeRevive, Revive, Vigor,  Regeneration, Immortality, Immunity, BuffDispel, DebuffDispel,
+    Recover, Knockback, Pull, Shift, Bounce, Spin, Mill,
+
+
+    Terrify, Sleep, Spot, Silence, ForceRetreat, Return, Retreat, Mark, Freeze,
+    Discard, BloodCost, Undefined
 }
 
 public enum TargetingTypes

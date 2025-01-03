@@ -3,7 +3,7 @@
         "Id": "GP-Z",
         "CardType": "God",
         "CardName": "Zeus",
-        "CardText": "Chain - Ally Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
+        "CardText": "Blood Cost(Enkrateia) - 2 Deployed: Reinforce-1| Blood Cost(Ira) - 1 Deployed: Recruit a 'Phalanx' Card| Chain - Ally Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
         "Traits": [ "Weather", "HeadOfPantheon", "GreekPantheon" ],
         "Attunements": [ "Ira", "Enkrateia" ],
@@ -12,6 +12,50 @@
         "Hp": 10,
         "Effects": [
             {
+                "EffectName": "Blessings of Gaia",
+                "MaxActivations": 1,
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "BloodCost",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true,
+                        "TargetStats": [ "Enkrateia" ]
+                    },
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Reinforce",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true
+                    }
+                ]
+            },
+            {
+                "EffectName": "Wrath of the Sky God",
+                "MaxActivations": 1,
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "BloodCost",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetStats": [ "Ira" ]
+                    },
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Damage",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "Fighter", "God" ],
+                        "EffectTargetController": "Opponent",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
+                    }
+                ]
+            },
+            {
+                "EffectName": "Dry Lightning",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -31,6 +75,7 @@
                 "TriggerController": "Player"
             },
             {
+                "EffectName": "Thornax Storm",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -225,7 +270,7 @@
         "Id": "GP-H",
         "CardType": "god",
         "CardName": "Hades",
-        "CardText": "Chain - Revive: Vigor-1 one Ally Fighter | Chain - Ally Death: Regeneration-2 one Ally Combatant",
+        "CardText": "Blood Cost(Katara) - 1 Deployed: Weaken-2 one Fighter| Blood Cost(Areta) - 3 Deployed: Bounce one Cost-5 or lower Fighter| Chain - Revive: Vigor-1 one Ally Fighter | Chain - Ally Death: Regeneration-2 one Ally Combatant",
         "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
         "Traits": [ "Undead", "Medicine", "GreekPantheon" ],
         "Attunements": [ "Katara", "Eulogia", "Areta" ],
@@ -234,6 +279,58 @@
         "Hp": 15,
         "Effects": [
             {
+                "EffectName": "Touch of Thanatos",
+                "MaxActivations": 1,
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "BloodCost",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetStats": [ "Katara" ]
+                    },
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Weaken",
+                        "EffectAmount": 2,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "any",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1
+                    }
+                ]
+            },
+            {
+                "EffectName": "Rejection of the Fates",
+                "MaxActivations": 1,
+                "SubEffects": [
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "BloodCost",
+                        "EffectAmount": 3,
+                        "EffectActivationIsMandatory": true,
+                        "TargetStats": [ "Areta" ]
+                    },
+                    {
+                        "EffectType": "Deployed",
+                        "EffectUsed": "Bounce",
+                        "EffectAmount": 1,
+                        "EffectActivationIsMandatory": true,
+                        "TargetingType": "manual",
+                        "EffectTargetTypes": [ "Fighter" ],
+                        "EffectTargetController": "any",
+                        "TargetLocations": [ "Field" ],
+                        "EffectTargetAmount": 1,
+                        "TargetStats": [ "cost" ],
+                        "TargetStatConditions": [ "<=" ],
+                        "TargetStatAmounts": [ 5 ]
+                    }
+                ]
+            },
+            {
+                "EffectName": "Persephone's Return'",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -251,6 +348,7 @@
                 "TriggerController": "Player"
             },
             {
+                "EffectName": "Persephone's Absence",
                 "SubEffects": [
                     {
                         "EffectType": "Chain",

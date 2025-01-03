@@ -528,7 +528,6 @@ public class Game_Manager : MonoBehaviour
     {
         player.playableLogicList.Clear();
         player.canUseEffectLogicList.Clear();
-        player.canUseEffectList.Clear();
         player.canUseSubEffectList.Clear();
         foreach (CardLogic cardLogic in player.handLogicList)
         {
@@ -541,35 +540,64 @@ public class Game_Manager : MonoBehaviour
         {
             if (cardLogic.GetComponent<CombatantLogic>().ImmobilityCheck())
                 continue;
+            bool shouldAdd = false;
             foreach (Effect effect in cardLogic.effects)
             {
+                if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
+                    continue;
                 foreach (SubEffect subEffect in effect.SubEffects)
                 {
-                    if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
+                    if (subEffect.effectType != EffectTypes.Deployed)
                         continue;
                     if (subEffect.effectUsed != EffectsUsed.BloodCost && cardLogic.GetValidTargets(subEffect).Count == 0)
-                        continue;
+                    {
+                        if (!subEffect.EffectActivationIsMandatory) continue;
+                        shouldAdd = false;
+                        break;
+                    }
                     if (subEffect.effectUsed == EffectsUsed.BloodCost &&
                         player.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) <= subEffect.effectAmount)
-                        continue;
-                    player.canUseEffectLogicList.Add(cardLogic);
-                    player.canUseEffectList.Add(effect);
-                    player.canUseSubEffectList.Add(subEffect);
+                    {
+                        if (!subEffect.EffectActivationIsMandatory) continue;
+                        shouldAdd = false;
+                        break;
+                    }
+                    shouldAdd = true;
                 }
+                if (!shouldAdd)
+                    continue;
+                player.canUseEffectLogicList.Add(cardLogic);
+                player.canUseSubEffectList.Add(effect.SubEffects[0]);
             }
         }
         foreach (Effect effect in player.heroCardLogic.effects)
         {
+            if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
+                continue;
+            bool shouldAdd = false;
             foreach (SubEffect subEffect in effect.SubEffects)
             {
                 if (subEffect.effectType != EffectTypes.Deployed)
                     continue;
-                if (player.heroCardLogic.GetValidTargets(subEffect).Count == 0)
-                    continue;
-                player.canUseEffectLogicList.Add(player.heroCardLogic);
-                player.canUseEffectList.Add(effect);
-                player.canUseSubEffectList.Add(subEffect);
+                if (subEffect.effectUsed != EffectsUsed.BloodCost && player.heroCardLogic.GetValidTargets(subEffect).Count == 0)
+                {
+                    if (!subEffect.EffectActivationIsMandatory) continue;
+                    shouldAdd = false;
+                    break;
+                }
+                if (subEffect.effectUsed == EffectsUsed.BloodCost &&
+                    player.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) <= subEffect.effectAmount)
+                {
+                    if (!subEffect.EffectActivationIsMandatory) continue;
+                    shouldAdd = false;
+                    break;
+                }
+                shouldAdd = true;
             }
+            if (!shouldAdd)
+                continue;
+            player.canUseEffectLogicList.Add(player.heroCardLogic);
+            player.canUseSubEffectList.Add(effect.SubEffects[0]);
         }
     }
 
@@ -606,8 +634,14 @@ public class Game_Manager : MonoBehaviour
 
     public void GameOver(PlayerManager winner)
     {
+        if (RedPlayerManager.isAI)
+            RedPlayerManager.AIManager.StopAllCoroutines();
+        if (BluePlayerManager.isAI)
+            BluePlayerManager.AIManager.StopAllCoroutines();
+        StopAllCoroutines();
         MainUIManager.GameOver(winner);
         isNotFirstDraw = false;
+        
     }
 
     public void ClearAttackTargetImages()

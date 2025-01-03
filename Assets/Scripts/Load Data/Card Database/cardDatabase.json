@@ -846,7 +846,7 @@
         "Id": "GP-26",
         "CardType": "Fighter",
         "CardName": "Phalanx Commander",
-        "CardText": "BloodCost(Enkrateia) - 1 Deployed: Recruit a 'Phalanx' Card.",
+        "CardText": "Blood Cost(Enkrateia) - 1 Deployed: Recruit a 'Phalanx' Card.",
         "CardFlavorText": "Makes a killing through connections with average skills",
         "Traits": [ "Military" ],
         "Attunements": [ "Enkrateia" ],

@@ -161,6 +161,12 @@ public class MainUIManager : MonoBehaviour
             return;
         if (gameObject.CompareTag("Active UI panel"))
             return;
+        //the sprites are interfering with UI at times and it's annoying so we do this
+        if (gameObject.CompareTag("Button"))
+        {
+            gameObject.GetComponent<Button>().onClick.Invoke();
+            return;
+        }
         if (gameObject.CompareTag("Background") && gm.gameState == GameState.Open)
         {
             audioManager.NewAudioPrefab(audioManager.unselect);
@@ -219,6 +225,8 @@ public class MainUIManager : MonoBehaviour
                     focusCard = gm.currentFocusCardLogic;
                     if (focusCard.type != Type.God)
                         focusCard.cardOutline.gameObject.SetActive(true);
+                    else
+                        focusCard.cardController.effectActivationButton.SetActive(true);
                     if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController &&
                         focusCard.type != Type.God)
                     {
@@ -325,9 +333,14 @@ public class MainUIManager : MonoBehaviour
         effectPanelNameText.text = gm.currentFocusCardLogic.cardName;
         effectText = new List<string>(gm.currentFocusCardLogic.cardText.Split("|"));
         SwitchEffectPanel(0);
-        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.effectActivationButton.SetActive(false);
-        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.moveButton.SetActive(false);
-        gm.currentFocusCardLogic.GetComponent<MonsterLogic>().currentSlot.attackDeclarationButton.SetActive(false);
+        if (gm.currentFocusCardLogic is MonsterLogic monster)
+        {
+            monster.currentSlot.effectActivationButton.SetActive(false);
+            monster.currentSlot.moveButton.SetActive(false);
+            monster.currentSlot.attackDeclarationButton.SetActive(false);
+        }
+        else
+            gm.currentFocusCardLogic.cardController.effectActivationButton.SetActive(false);
     }
 
     public void SwitchEffectPanel(int effectCount)
@@ -553,6 +566,8 @@ public class MainUIManager : MonoBehaviour
             slot.moveButton.SetActive(false);
             slot.effectActivationButton.SetActive(false);
         }
+        gm.BluePlayerManager.effectActivationButton.SetActive(false);
+        gm.RedPlayerManager.effectActivationButton.SetActive(false);
     }
 }
 
