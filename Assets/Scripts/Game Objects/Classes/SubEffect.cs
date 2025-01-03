@@ -15,11 +15,13 @@ public class SubEffect
 
     public int effectAmount;
     public int effectTargetAmount;
+    public int duration;
 
     public EffectTypes EffectType { get; private set; }
     public EffectsUsed EffectUsed { get; private set; }
     public int EffectAmount { get; private set; }
     public bool EffectActivationIsMandatory { get; private set; }
+    public int Duration { get; private set; }
 
     //if needs targets
     public TargetingTypes TargetingType { get; private set; }
@@ -51,6 +53,7 @@ public class SubEffect
         EffectUsed = subEffect.EffectUsed;
         EffectAmount = subEffect.EffectAmount;
         EffectActivationIsMandatory = subEffect.EffectActivationIsMandatory;
+        Duration = subEffect.Duration;
         TargetingType = subEffect.TargetingType;
         EffectTargetTypes = subEffect.EffectTargetTypes;
         EffectTargetController = subEffect.EffectTargetController;
@@ -61,7 +64,7 @@ public class SubEffect
         TargetStats = subEffect.TargetStats;
         TargetStatConditions = subEffect.TargetStatConditions;
         TargetStatAmounts = subEffect.TargetStatAmounts;
-
+        duration = subEffect.Duration;
         parentEffect = parent;
         effectAmount = subEffect.EffectAmount;
         effectTargetAmount = subEffect.EffectTargetAmount;

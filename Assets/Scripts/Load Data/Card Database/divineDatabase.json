@@ -274,7 +274,7 @@
         "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
         "Traits": [ "Undead", "Medicine", "GreekPantheon" ],
         "Attunements": [ "Katara", "Eulogia", "Areta" ],
-        "AttunementRates": [ 40, 40, 20 ],
+        "AttunementRates": [ 35, 30, 35 ],
         "Atk": 0,
         "Hp": 15,
         "Effects": [

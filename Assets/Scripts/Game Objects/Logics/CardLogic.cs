@@ -211,13 +211,13 @@ public class CardLogic : MonoBehaviour
             }
             if (checkedStat == "name")
             {
-                if (condition[..3] == "has" && !target.cardName.Contains(checkedStat[3..]))
+                if (condition[..3] == "has" && !target.cardName.Contains(condition[3..]))
                     continue;
-                if (condition[..4] == "nhas" && target.cardName.Contains(checkedStat[4..]))
+                if (condition[..4] == "nhas" && target.cardName.Contains(condition[4..]))
                     continue;
-                if (condition[..2] == "is" && target.cardName != checkedStat[2..])
+                if (condition[..2] == "is" && target.cardName != condition[2..])
                     continue;
-                if (condition[..3] == "not" && target.cardName == checkedStat[3..])
+                if (condition[..3] == "not" && target.cardName == condition[3..])
                     continue;
             }
             if (subEffect.TargetStatAmounts != null)
@@ -274,7 +274,7 @@ public class CardLogic : MonoBehaviour
                 cardController.BloodGain(Attunement.Untuned, effectAmount);
                 break;
             case EffectsUsed.Recruit:
-                StartCoroutine(gameManager.SearchCard(tempTargets, cardController.enemy, this));
+                StartCoroutine(gameManager.SearchCard(tempTargets, cardController, this));
                 break;
             case EffectsUsed.Recover:
                 foreach (CardLogic target in tempTargets)
@@ -339,14 +339,14 @@ public class CardLogic : MonoBehaviour
     public void FinishResolution(SubEffect subEffect)
     {
         gameManager.GetEffectTriggers(subEffect, this);
-        CheckSubsequentEffects(subEffect);
+        CheckSubsequentEffects(subEffect, true);
     }
 
-    private void CheckSubsequentEffects(SubEffect subEffect)
+    private void CheckSubsequentEffects(SubEffect subEffect, bool resolvedPreviousSubEffect)
     {
         if (!ResolveSubsequentSubeffects(subEffect))
             return;
-        if (subEffect.parentEffect.currentActivations < subEffect.parentEffect.maxActivations)
+        if (resolvedPreviousSubEffect && subEffect.parentEffect.currentActivations < subEffect.parentEffect.maxActivations)
             subEffect.parentEffect.currentActivations++;
         gameManager.ClearEffectTargetImages();
         targets?.Clear();
@@ -566,7 +566,7 @@ public class CardLogic : MonoBehaviour
     {
         if (!used)
         {
-            CheckSubsequentEffects(focusSubEffect);
+            CheckSubsequentEffects(focusSubEffect, used);
             return;
         }
         //if you need the targets from previous effect to resolve
@@ -671,6 +671,7 @@ public class CardLogic : MonoBehaviour
         MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
         CardLogic logic = gameManager.currentFocusCardLogic;
         int effectAmount = subEffect.EffectAmount;
+        int duration = subEffect.duration;
         EffectsUsed effectsUsed = subEffect.effectUsed;
         Effect effect = subEffect.parentEffect;
         List<CardStatus> statuses = new();
@@ -704,66 +705,66 @@ public class CardLogic : MonoBehaviour
                 monsterLogic.MonsterDeath();
                 break;
             case EffectsUsed.Taunt:
-                Taunt taunt = new(logic, this, effect.duration);
+                Taunt taunt = new(logic, this, duration);
                 combatantLogic.SetTargetStatus(taunt, TargetState.Taunt);
                 break;
             case EffectsUsed.Stealth:
-                Stealth stealth = new(logic, this, effect.duration);
+                Stealth stealth = new(logic, this, duration);
                 combatantLogic.SetTargetStatus(stealth, TargetState.Stealth);
                 break;
             //everything above here works fine
             case EffectsUsed.Camouflage:
-                Camouflage camouflage = new(logic, this, effect.duration);
+                Camouflage camouflage = new(logic, this, duration);
                 combatantLogic.SetTargetStatus(camouflage, TargetState.Stealth);
                 break;
             //everything from here works fine
             case EffectsUsed.Armor:
-                Armor armor = new(logic, this, effectAmount, effect.duration);
+                Armor armor = new(logic, this, effectAmount, duration);
                 combatantLogic.AddNonStackingBuff(armor);
                 break;
             case EffectsUsed.Barrier:
-                Barrier barrier = new(logic, this, effectAmount, effect.duration);
+                Barrier barrier = new(logic, this, effectAmount, duration);
                 combatantLogic.AddNonStackingBuff(barrier);
                 break;
             //till here
             case EffectsUsed.Sleep:
-                Sleep sleep = new(logic, this, effect.duration);
+                Sleep sleep = new(logic, this, duration);
                 combatantLogic.AddNonStackingDebuff(sleep);
                 break;
             case EffectsUsed.Stun:
-                Stun stun = new(logic, this, effect.duration);
+                Stun stun = new(logic, this, duration);
                 combatantLogic.AddNonStackingDebuff(stun);
                 break;
             case EffectsUsed.Provoke:
-                Provoke provoke = new(logic, this, effect.duration);
+                Provoke provoke = new(logic, this, duration);
                 combatantLogic.SetTargetStatus(provoke, TargetState.Stealth);
                 break;
             case EffectsUsed.Disarm:
-                Disarm disarm = new(logic, this, effect.duration);
+                Disarm disarm = new(logic, this, duration);
                 combatantLogic.AddNonStackingDebuff(disarm);
                 break;
             //everything from here works fine
             case EffectsUsed.Burn:
                 //burns have a default timer of two turns, if duration is set to 0/not defined(int), default applies
-                Burn burn = new(logic, this, effect.duration);
+                Burn burn = new(logic, this, duration);
                 combatantLogic.cardStatuses.Add(burn);
                 GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(burn);
                 break;
             case EffectsUsed.Poison:
                 //poisons have a default timer of four turns, if duration is set to 0/not defined(int), default applies
-                Poison poison = new(logic, this, effect.duration);
+                Poison poison = new(logic, this, duration);
                 combatantLogic.cardStatuses.Add(poison);
                 GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(poison);
                 break;
             case EffectsUsed.Bomb:
                 //bombs have a default timer of three turns, if duration is set to 0/not defined(int), default applies
-                Bomb bomb = new(logic, this, effect.duration);
+                Bomb bomb = new(logic, this, duration);
                 combatantLogic.cardStatuses.Add(bomb);
                 GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(bomb);
                 break;
             //till here
             case EffectsUsed.Spot:
-                Spot spot = new(logic, this, effect.duration);
+                Spot spot = new(logic, this, duration);
                 combatantLogic.AddNonStackingDebuff(spot);
                 break;
             //this works
@@ -822,7 +823,7 @@ public class CardLogic : MonoBehaviour
                 }
                 break;
             case EffectsUsed.Silence:
-                Silence silence = new(logic, this, effect.duration);
+                Silence silence = new(logic, this, duration);
                 combatantLogic.AddNonStackingDebuff(silence);
                 break;
             case EffectsUsed.BloodBoost:

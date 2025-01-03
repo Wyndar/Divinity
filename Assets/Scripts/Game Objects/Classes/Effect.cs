@@ -20,11 +20,9 @@ public class Effect
     public int currentActivations;
 
     public int maxActivations;
-    public int duration;
 
     public List<Location> ActivationLocations { get; private set; }
     public int MaxActivations { get; private set; }
-    public int Duration { get; private set; }
     //if needs trigger
 
     public bool AllowSelfTrigger {  get; private set; }
@@ -54,7 +52,6 @@ public class Effect
         AllowSelfTrigger = effect.AllowSelfTrigger;
         ActivationLocations = effect.ActivationLocations;
         MaxActivations = effect.MaxActivations;
-        Duration = effect.Duration;
         TriggerEffects = effect.TriggerEffects;
         TriggerCards = effect.TriggerCards;
         TriggerController = effect.TriggerController;
@@ -64,7 +61,6 @@ public class Effect
         TriggerStates = effect.TriggerStates;
         TriggerPhases = effect.TriggerPhases;
         maxActivations = effect.MaxActivations;
-        duration = effect.Duration;
         triggerCardOwner = effect.TriggerController;
         allowSelfTrigger = effect.AllowSelfTrigger;
         if (effect.ActivationLocations != null)

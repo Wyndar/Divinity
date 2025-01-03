@@ -40,6 +40,8 @@ public class AIManager : MonoBehaviour
     {
         if (isPerformingAction == true)
             return;
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(Decision());
     }
 

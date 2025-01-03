@@ -367,7 +367,9 @@ public class MainUIManager : MonoBehaviour
         switchButtons[effectCount].SetActive(false);
         if (activatingEffect.currentActivations >= activatingEffect.maxActivations || 
             (activatingSubEffect.effectUsed != EffectsUsed.BloodCost && validTargets.Count == 0) ||
-              activatingCard.cardController.BloodAttunementCheck(Enum.Parse<Attunement>( activatingSubEffect.TargetStats[0])) < activatingSubEffect.effectAmount)
+             (activatingSubEffect.effectUsed == EffectsUsed.BloodCost && 
+             activatingCard.cardController.BloodAttunementCheck(Enum.Parse<Attunement>( activatingSubEffect.TargetStats[0]))
+             < activatingSubEffect.effectAmount))
         {
             activateButtons[effectCount].SetActive(false);
             return;
