@@ -677,4 +677,9 @@ public class Game_Manager : MonoBehaviour
         BluePlayerManager.BloodGain(Enum.Parse<Attunement>(attunement), 1);
         StateReset();
     }
+    public void ForceEnemnyBloodgain(string attunement)
+    {
+        RedPlayerManager.BloodGain(Enum.Parse<Attunement>(attunement), 1);
+        StateReset();
+    }
 }

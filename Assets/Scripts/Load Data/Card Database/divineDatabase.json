@@ -3,7 +3,7 @@
         "Id": "GP-Z",
         "CardType": "God",
         "CardName": "Zeus",
-        "CardText": "Blood Cost(Enkrateia) - 2 Deployed: Reinforce-1| Blood Cost(Ira) - 1 Deployed: Recruit a 'Phalanx' Card| Chain - Ally Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then do Damage-1 to one Enemy Fighter",
+        "CardText": "Blood Cost(Enkrateia) - 2 Deployed: Reinforce-1| Blood Cost(Ira) - 1 Deployed: Recruit a 'Phalanx' Card| Chain - 1 Ally Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then you can do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
         "Traits": [ "Weather", "HeadOfPantheon", "GreekPantheon" ],
         "Attunements": [ "Ira", "Enkrateia" ],
@@ -56,12 +56,13 @@
             },
             {
                 "EffectName": "Dry Lightning",
+                "MaxActivations": 1,
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Rally",
                         "EffectAmount": 1,
-                        "EffectActivationIsMandatory": true,
+                        "EffectActivationIsMandatory": false,
                         "TargetingType": "auto",
                         "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Player",
@@ -270,13 +271,13 @@
         "Id": "GP-H",
         "CardType": "god",
         "CardName": "Hades",
-        "CardText": "Blood Cost(Katara) - 1 Deployed: Weaken-2 one Fighter| Blood Cost(Areta) - 3 Deployed: Bounce one Cost-5 or lower Fighter| Chain - Revive: Vigor-1 one Ally Fighter | Chain - Ally Death: Regeneration-2 one Ally Combatant",
+        "CardText": "Blood Cost(Katara) - 1 Deployed: Weaken-2 one Fighter| Blood Cost(Areta) - 3 Deployed: Bounce one Cost-5 or lower Fighter| Chain - Revive: Vigor-1 one Ally Fighter | Chain - Ally Death: Regeneration-1 one Ally Combatant",
         "CardFlavorText": "Not as bad as he's made to be, hopeless romantic because death will never come for his love.",
         "Traits": [ "Undead", "Medicine", "GreekPantheon" ],
         "Attunements": [ "Katara", "Eulogia", "Areta" ],
-        "AttunementRates": [ 35, 30, 35 ],
+        "AttunementRates": [ 40, 20, 40 ],
         "Atk": 0,
-        "Hp": 15,
+        "Hp": 10,
         "Effects": [
             {
                 "EffectName": "Touch of Thanatos",
@@ -353,7 +354,7 @@
                     {
                         "EffectType": "Chain",
                         "EffectUsed": "Regeneration",
-                        "EffectAmount": 2,
+                        "EffectAmount": 1,
                         "TargetingType": "Manual",
                         "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Player",

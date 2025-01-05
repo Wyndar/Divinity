@@ -29,9 +29,5 @@ public class Poison : Debuff
         CombatantLogic combatant = affectedLogic.GetComponent<CombatantLogic>();
         combatant.StatAdjustment(Timer, Status.HpLoss);
         gm.StateChange(GameState.Detonate);
-
-        //unnecesary bloat just so broken chain execution in detonate effects work
-        if (gm.currentFocusCardLogic != null && gm.isActivatingEffect && !gm.isWaitingForResponse && gm.gameState == GameState.Detonate)
-            gm.currentFocusCardLogic.FinishResolution(gm.currentFocusCardLogic.focusSubEffect);
     }
 }

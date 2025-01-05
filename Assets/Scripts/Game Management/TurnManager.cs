@@ -57,7 +57,7 @@ public class TurnManager : MonoBehaviour
         gm.isNotFirstDraw = true;
         if (gm.currentFocusCardLogic != null)
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
-        gm.StateReset();
+        gm.ChainResolution();
         currentCoroutine = StartCoroutine(CostPhase(player));
         yield break;
     }
@@ -85,7 +85,7 @@ public class TurnManager : MonoBehaviour
         gm.AllAttacksRefresh(player);
         gm.AllCountdownReset();
         gm.ShieldRefresh(player);
-        gm.StateReset();
+        gm.ChainResolution();
         currentCoroutine = StartCoroutine(CostPhase(player));
         yield break;
     }
@@ -118,7 +118,7 @@ public class TurnManager : MonoBehaviour
 
         if (gm.currentFocusCardLogic != null)
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
-        gm.StateReset();
+        gm.ChainResolution();
         gm.popUpPanel.SetActive(true);
         if (player == gm.BluePlayerManager)
         {
@@ -148,7 +148,7 @@ public class TurnManager : MonoBehaviour
         gm.turnCountText.text = gm.turnCount.ToString();
         if (gm.currentFocusCardLogic != null)
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
-        gm.StateReset();
+        gm.ChainResolution();
         currentCoroutine = StartCoroutine(DrawPhase(player));
     }
 
@@ -174,7 +174,7 @@ public class TurnManager : MonoBehaviour
         player.costPhaseGain++;
         if (gm.currentFocusCardLogic != null)
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
-        gm.StateReset();
+        gm.ChainResolution();
         currentCoroutine = StartCoroutine(MainPhase(player));
         yield break;
     }
@@ -197,7 +197,7 @@ public class TurnManager : MonoBehaviour
 
         if (gm.currentFocusCardLogic != null)
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
-        gm.StateReset();
+        gm.ChainResolution();
         yield break;
     }
 
@@ -221,7 +221,7 @@ public class TurnManager : MonoBehaviour
             gm.currentFocusCardLogic.RemoveFocusCardLogic();
         PhaseButtonCheck(player);
         gm.phaseChangeButtonText.text = "END TURN";
-        gm.StateReset();
+        gm.ChainResolution();
         yield break;
     }
 

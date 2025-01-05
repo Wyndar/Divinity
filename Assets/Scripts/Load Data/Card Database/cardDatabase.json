@@ -495,7 +495,7 @@
         "Id": "GP-16",
         "CardType": "Fighter",
         "CardName": "Phalanx Standard Bearer",
-        "CardText": "Chain - Ally Deployment('Phalanx'): Blood Recovery-1",
+        "CardText": "Chain - 2 Ally Deployment('Phalanx'): Blood Recovery-1",
         "CardFlavorText": "A sheltered young noble provides motivation for a consecutive assault.",
         "Traits": [ "Military" ],
         "Attunements": [ "Enkrateia" ],
@@ -505,6 +505,7 @@
         "Effects": [
             {
                 "EffectName": "Phalanx Tactics",
+                "MaxActivations": 2,
                 "SubEffects": [
                     {
                         "EffectType": "Chain",
@@ -525,7 +526,7 @@
         "CardType": "spell",
         "CardName": "Phalanx Strike",
         "CardText": "Deployment: Do Damage-3 to one Enemy Combatant. You must have a 'Phalanx' Fighter deployed to play this.",
-        "CardFlavorText": "People die to this, you know?",
+        "CardFlavorText": "The Phalanx Endures! Charge!!",
         "Traits": [ "Weather" ],
         "Attunements": [ "Ira" ],
         "Cost": 1,
@@ -551,7 +552,7 @@
                         "EffectAmount": 3,
                         "EffectActivationIsMandatory": true,
                         "TargetingType": "manual",
-                        "EffectTargetPlayTypes": [ "Fighter", "God" ],
+                        "EffectTargetTypes": [ "Fighter", "God" ],
                         "EffectTargetController": "Opponent",
                         "TargetLocations": [ "Field" ],
                         "EffectTargetAmount": 1
@@ -732,7 +733,7 @@
         "Id": "GP-23",
         "CardType": "Fighter",
         "CardName": "Alchemy Experiment Swarm Tsetse",
-        "CardText": "Deployment: You can Revive one 'Alchemy Experiment Swarm Tsetse' from ALly Underworld | Deployed - 1: Vigor-1 all Ally 'Alchemy Experiment Swarm Tsetse'",
+        "CardText": "Deployment: You can Revive one 'Alchemy Experiment Swarm Tsetse' from ALly Underworld",
         "CardFlavorText": "If you ignore it, you'll die",
         "Traits": [ "Animal", "Undead" ],
         "Attunements": [ "Eulogia" ],
@@ -752,25 +753,6 @@
                         "EffectTargetController": "Player",
                         "TargetLocations": [ "Grave" ],
                         "EffectTargetAmount": 1,
-                        "TargetStats": [ "name" ],
-                        "TargetStatConditions": [ "isAlchemy Experiment Swarm Tsetse" ]
-                    }
-                ]
-            },
-            {
-                "EffectName": "Swarm Growth",
-                "MaxActivations": 1,
-                "SubEffects": [
-                    {
-                        "EffectType": "Deployed",
-                        "EffectUsed": "Vigor",
-                        "EffectAmount": 1,
-                        "TargetingType": "Auto",
-                        "EffectTargetTypes": [ "Fighter" ],
-                        "EffectTargetController": "Player",
-                        "TargetLocations": [ "Field" ],
-                        "EffectTargetAmount": 99,
-                        "AllowSelfTarget": true,
                         "TargetStats": [ "name" ],
                         "TargetStatConditions": [ "isAlchemy Experiment Swarm Tsetse" ]
                     }

@@ -38,10 +38,9 @@ public class AIManager : MonoBehaviour
 
     public void MakeDecision()
     {
-        if (isPerformingAction == true)
+        if (isPerformingAction)
             return;
-        if (currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
+        StopAllCoroutines();
         currentCoroutine = StartCoroutine(Decision());
     }
 
@@ -50,6 +49,9 @@ public class AIManager : MonoBehaviour
     {
         if (previousCoroutine != null)
             StopCoroutine(previousCoroutine);
+        //idgi but we need to check again here or it breaks chains 
+        if(gm.isActivatingEffect)
+            yield break;
         previousCoroutine = currentCoroutine;
         currentCoroutine = null;
         if (AIPlayer.costCount > 0 && AIPlayer.playableLogicList.Count > 0)

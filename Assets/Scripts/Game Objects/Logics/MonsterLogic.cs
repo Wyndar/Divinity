@@ -82,6 +82,7 @@ public class MonsterLogic : CardLogic
         currentSlot.cardInZone = null;
         currentSlot.CleanUpIcons();
         currentSlot = cardSlot;
+        cardSlot.cardInZone = this;
         transform.position = new(currentSlot.transform.position.x - 0.7f, currentSlot.transform.position.y, 0);
         LocationChange(Location.Field, currentSlot.column);
         currentSlot.atkIcon.SetActive(true);

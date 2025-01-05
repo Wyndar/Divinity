@@ -165,28 +165,26 @@ public class PlayableLogic : MonoBehaviour
             GetComponent<MonsterLogic>().MonsterSummon(player);
         logic.EffectRefresh();
         logic.SetFocusCardLogic();
+        int effectsAddedCount = 0;
         foreach (Effect effect in logic.effects)
         {
-            foreach (SubEffect subEffect in effect.SubEffects)
-            //deployment effects should resolve after chain stack
-            if (subEffect.effectType == EffectTypes.Deployment)
+            //passives should resolve as soon as possible, before chain stack if necessary and in order of effect displayed on card
+            if (effect.SubEffects[0].effectType == EffectTypes.WhileDeployed)
             {
-                gm.activationChainList.Add(logic);
-                gm.activationChainSubEffectList.Add(subEffect);
-                break;
+                gm.activationChainList.Insert(effectsAddedCount, logic);
+                gm.activationChainSubEffectList.Insert(effectsAddedCount, effect.SubEffects[0]);
+                effectsAddedCount++;
+                continue;
                 //only need to catch one, rest resolves via subsequent effect chain if any
             }
-            foreach (SubEffect subEffect in effect.SubEffects)
-                //passives should resolve as soon as possible, before chain stack if necessary...
-                //unfortunately this causes them to resolve in reverse the order written on the card
-                // in case of issues later, can reverse the loop
-                if (subEffect.effectType == EffectTypes.WhileDeployed)
-                {
-                    gm.activationChainList.Add(logic);
-                    gm.activationChainSubEffectList.Add(subEffect);
-                    break;
-                    //only need to catch one, rest resolves via subsequent effect chain if any
-                }
+            //deployment effects should resolve before chain stack and in order of effect displayed on card
+            if (effect.SubEffects[0].effectType == EffectTypes.Deployment)
+            {
+                gm.activationChainList.Insert(effectsAddedCount, logic);
+                gm.activationChainSubEffectList.Insert(effectsAddedCount, effect.SubEffects[0]);
+                effectsAddedCount++;
+                //only need to catch one, rest resolves via subsequent effect chain if any
+            }
         }
         AttunementPenalty(player);
         if (logic.cardController.isAI)
@@ -213,8 +211,7 @@ public class PlayableLogic : MonoBehaviour
         {
             if (player.heroCardLogic.attunements.Contains(attunement))
                 continue;
-            player.heroCardLogic.combatantLogic.currentHp -= cost;
-            player.heroCardLogic.combatantLogic.maxHp -= cost;
+            player.heroCardLogic.StatAdjustment(cost, Status.HpLoss);
         }    
     }
 }
