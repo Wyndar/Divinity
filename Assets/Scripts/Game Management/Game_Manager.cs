@@ -451,6 +451,8 @@ public class Game_Manager : MonoBehaviour
     public void StatusCountdown(CardStatus cardStatus) => StatusManager.Countdown(cardStatus);
     public void StatusCountdownReset(CardStatus cardStatus) => StatusManager.CountdownReset(cardStatus);
 
+    public void ErrorCodePanel(string errorText) => MainUIManager.ErrorCodePanel(errorText);
+
     public void AllEffectsRefresh(PlayerManager player)
     {
         foreach (CardLogic cardLogic in player.handLogicList)

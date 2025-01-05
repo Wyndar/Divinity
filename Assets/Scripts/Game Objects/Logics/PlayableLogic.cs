@@ -98,7 +98,7 @@ public class PlayableLogic : MonoBehaviour
             //the coroutine will call cardPlayed, don't worry
         }
         else
-            Debug.Log($"Cannot Play {logic.cardName} legally because of {playError}.");
+            gm.ErrorCodePanel($"Cannot Play {logic.cardName} legally because of {playError}.");
     }
 
     public string LegalPlayCheck(bool ignoreCost, PlayerManager player)

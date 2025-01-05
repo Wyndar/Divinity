@@ -352,7 +352,6 @@ public class CombatantLogic : MonoBehaviour
 
     public void DeclareAttack()
     {
-        Debug.Log(logic.cardName);
         attacksLeft -= 1;
         hasAttacked = true;
         hasAttackedThisTurn = true;

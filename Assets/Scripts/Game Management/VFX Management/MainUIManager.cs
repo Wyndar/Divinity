@@ -23,7 +23,7 @@ public class MainUIManager : MonoBehaviour
 
     [SerializeField] private GameObject trail, effectPanel, infoPanelStatusBar, infoPanel, infoPanelStats, infoPanelEnergy,
         rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenRayBlocker,
-        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameLogButton;
+        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameLogButton, menuButton, errorPanel;
 
     [SerializeField] private TMP_Text infoPanelNameText, infoPanelAtkText, infoPanelHpText, infoPanelCostText,
         infoPanelEffectText, infoPanelFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
@@ -542,6 +542,11 @@ public class MainUIManager : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(position);
     }
 
+    public void ErrorCodePanel(string errorText)
+    {
+        errorPanel.SetActive(true);
+        errorPanel.GetComponentInChildren<TMP_Text>().text = errorText;
+    }
     private void DisableAllPopups()
     {
         foreach (CardSlot slot in gm.Row1)

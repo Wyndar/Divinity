@@ -46,7 +46,6 @@ public class ChainManager : MonoBehaviour
                 }
                 if (addCard == false)
                     continue;
-                Debug.Log(triggeredCard.gameObject.name + " "+effect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(effect.SubEffects[0]);
                 break;
@@ -131,7 +130,6 @@ public class ChainManager : MonoBehaviour
                 }
                 if (addCard == false)
                     continue;
-                Debug.Log(triggeredCard.gameObject.name + " " + effect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(effect.SubEffects[0]);
                 break;
@@ -207,12 +205,9 @@ public class ChainManager : MonoBehaviour
                     foreach (int index in indexes)
                         if (gm.activationChainSubEffectList[index].parentEffect == triggeredEffect)
                             addCard = false;
-                        else
-                            Debug.Log(gm.activationChainSubEffectList[index].parentEffect.EffectName + " " + triggeredEffect.EffectName);
                 }
                 if (addCard == false)
                     continue;
-                Debug.Log(triggeredCard.gameObject.name + " " + triggeredEffect.SubEffects[0].effectUsed);
                 gm.activationChainList.Add(triggeredCard);
                 gm.activationChainSubEffectList.Add(triggeredEffect.SubEffects[0]);
                 break;
