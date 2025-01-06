@@ -23,7 +23,7 @@ public class MainUIManager : MonoBehaviour
 
     [SerializeField] private GameObject trail, effectPanel, infoPanelStatusBar, infoPanel, infoPanelStats, infoPanelEnergy,
         rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenRayBlocker,
-        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameLogButton, menuButton, errorPanel;
+        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameLogButton, errorPanel;
 
     [SerializeField] private TMP_Text infoPanelNameText, infoPanelAtkText, infoPanelHpText, infoPanelCostText,
         infoPanelEffectText, infoPanelFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
@@ -45,6 +45,8 @@ public class MainUIManager : MonoBehaviour
     private bool hasRaycast;
     private bool allowCardLogicSwap = true;
     private bool isUsingshield;
+
+    public bool ShowError = true, ShowTrail = true;
 
 #pragma warning disable IDE0051 // Remove unused private members
     private void OnEnable()
@@ -68,7 +70,7 @@ public class MainUIManager : MonoBehaviour
 
         touchStartPosition = ScreenToWorld(screenPosition);
         touchStartTime = time;
-        trail.SetActive(true);
+        trail.SetActive(ShowTrail);
         trail.transform.position = ScreenToWorld(screenPosition);
         trailCoroutine = StartCoroutine(Trail(screenPosition));
     }
@@ -97,6 +99,8 @@ public class MainUIManager : MonoBehaviour
                 gm.currentFocusCardSlot.DeselectSlot();
 
             //trail movement
+            if(!ShowTrail)
+                yield return null;
             trail.transform.position = ScreenToWorld(InputManager.CurrentFingerPosition);
             if (gm.currentFocusCardLogic != null)
                 if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase &&
@@ -107,8 +111,7 @@ public class MainUIManager : MonoBehaviour
     }
 
     private void TouchEnd(Vector2 screenPosition, float time)
-    {
-        
+    { 
         trail.SetActive(false);
         if (trailCoroutine != null)
             StopCoroutine(trailCoroutine);
@@ -348,7 +351,7 @@ public class MainUIManager : MonoBehaviour
         CardLogic activatingCard = gm.currentFocusCardLogic;
         Effect activatingEffect = activatingCard.effects[effectCount];
         SubEffect activatingSubEffect = activatingEffect.SubEffects[0];
-        List<CardLogic> validTargets = new(activatingCard.GetValidTargets(activatingSubEffect));
+        List<CardLogic> validTargets = new(activatingCard.GetValidTargets(activatingSubEffect, false));
         for (int i = 0; i < effectPanelTexts.Length; i++)
         {
             //only show buttons if its not the current effect
@@ -541,13 +544,22 @@ public class MainUIManager : MonoBehaviour
         position.z = 25f;
         return Camera.main.ScreenToWorldPoint(position);
     }
+    public void ToggleError(bool showError) => ShowError = showError;
+
+    public void ToggleTrail(bool showTrail) => ShowTrail = showTrail;
 
     public void ErrorCodePanel(string errorText)
     {
+        if (!ShowError)
+            return;
         GameObject ep = Instantiate(errorPanel, errorPanel.transform.parent.transform);
         ep.SetActive(true);
         ep.GetComponentInChildren<TMP_Text>().text = errorText;
     }
+
+    //these allow dynamic button based gameobject activation, they HAVE references
+    public void EnablePanel(GameObject panel)=>panel.SetActive(true);
+    public void DisablePanel(GameObject panel)=>panel.SetActive(false);
     private void DisableAllPopups()
     {
         foreach (CardSlot slot in gm.Row1)

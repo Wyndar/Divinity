@@ -56,7 +56,7 @@ public class Game_Manager : MonoBehaviour
         loadStartTime = Time.realtimeSinceStartup;
         AudioManager.FindBGOBJ();
         AudioManager.FindBattleOBJ();
-        AudioManager.SelectRandomBGMusic();
+        AudioManager.SelectRandomBGM();
         AudioManager.LoadSFX();
         LoadPlayers(BluePlayerManager, BluePlayerPath);
         LoadPlayers(RedPlayerManager, RedPlayerPath);
@@ -551,7 +551,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     if (subEffect.effectType != EffectTypes.Deployed)
                         continue;
-                    if (subEffect.effectUsed != EffectsUsed.BloodCost && cardLogic.GetValidTargets(subEffect).Count == 0)
+                    if (subEffect.effectUsed != EffectsUsed.BloodCost && cardLogic.GetValidTargets(subEffect, false).Count == 0)
                     {
                         if (!subEffect.EffectActivationIsMandatory) continue;
                         shouldAdd = false;
@@ -581,7 +581,7 @@ public class Game_Manager : MonoBehaviour
             {
                 if (subEffect.effectType != EffectTypes.Deployed)
                     continue;
-                if (subEffect.effectUsed != EffectsUsed.BloodCost && player.heroCardLogic.GetValidTargets(subEffect).Count == 0)
+                if (subEffect.effectUsed != EffectsUsed.BloodCost && player.heroCardLogic.GetValidTargets(subEffect, false).Count == 0)
                 {
                     if (!subEffect.EffectActivationIsMandatory) continue;
                     shouldAdd = false;

@@ -105,7 +105,7 @@ public class CardLogic : MonoBehaviour
         yield break;
     }
 
-    public List<CardLogic> GetValidTargets(SubEffect subEffect)
+    public List<CardLogic> GetValidTargets(SubEffect subEffect, bool shouldShowError)
     {
         List<CardLogic> allTargetsList = new(FindObjectsOfType<CardLogic>());
         List<CardLogic> returnList = new();
@@ -163,7 +163,7 @@ public class CardLogic : MonoBehaviour
         List<CardLogic> camoTargets = GetCamoTargets(allTargetsList, true);
         if (allTargetsList.Count == 0)
             allTargetsList.AddRange(camoTargets);
-        if (returnList.Count < 1)
+        if (returnList.Count < 1 && shouldShowError)
             gameManager.ErrorCodePanel($"There are no valid targets for {cardName}'s {effectUsed} ability.");
         return returnList;
     }
@@ -453,7 +453,7 @@ public class CardLogic : MonoBehaviour
         if (targets == null || targets.Count < subEffect.effectTargetAmount)
         {
             gameManager.StateChange(GameState.Targeting);
-            validTargets = new(GetValidTargets(subEffect));
+            validTargets = new(GetValidTargets(subEffect, true));
             if (subEffect.targetingType == TargetingTypes.Manual)
             {
                 //if no valid targets, end effect

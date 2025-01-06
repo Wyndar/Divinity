@@ -147,7 +147,7 @@ public class PlayableLogic : MonoBehaviour
                         if (subEffect.effectType != EffectTypes.Deployment || !subEffect.EffectActivationIsMandatory ||
                             subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
                             continue;
-                        List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect);
+                        List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect, false);
                         if (allTargetsList.Count == 0)
                             return "there are no valid targets";
                     }

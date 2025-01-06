@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,8 @@ public class AudioManager : MonoBehaviour
     attackResolution, attackResolutionArmored, effectActivation, effectResolution, summon, buff;
 
     private AudioClip battleMusic, hyperBattleMusic;
+
+    private float BGMVolume = 1f;
     public void FindBattleOBJ()
     {
         BattleMusicPlayer = GameObject.Find("Battle Phase Music");
@@ -39,26 +42,25 @@ public class AudioManager : MonoBehaviour
     {
         BattleMusicSource.clip = isHyper ? hyperBattleMusic : battleMusic;
         BattleMusicSource.Play();
-        BGAudioSource.volume = 0.2f;
+        BGMVolume = BGAudioSource.volume;
+        BGAudioSource.volume /= 5;
     }
 
     public void LoadSFX()
     {
         DamageAudioClips.Clear();
         DeathAudioClips.Clear();
-        foreach (AudioClip audioClip in Resources.LoadAll("SFX/Generic Damage SFX", typeof(AudioClip)))
-            DamageAudioClips.Add(audioClip);
-        foreach (AudioClip audioClip in Resources.LoadAll("SFX/Generic Death SFX", typeof(AudioClip)))
-            DeathAudioClips.Add(audioClip);
+        DamageAudioClips.AddRange(Resources.LoadAll("SFX/Generic Damage SFX", typeof(AudioClip)));
+        DeathAudioClips.AddRange(Resources.LoadAll("SFX/Generic Death SFX", typeof(AudioClip)));
     }
 
     public void EndBattlePhaseMusic()
     {
         BattleMusicSource.Pause();
-        BGAudioSource.volume = 0.5f;
+        BGAudioSource.volume = BGMVolume;
     }
 
-    public void SelectRandomBGMusic()
+    public void SelectRandomBGM()
     {
         if (BGAudioClips.Count == 0)
             return;
