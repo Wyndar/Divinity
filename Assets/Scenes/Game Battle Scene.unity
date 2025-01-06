@@ -2583,7 +2583,7 @@ MonoBehaviour:
   shrinkSpeed: 5
   minSize: 0.1
   maxSize: 1
-  destroyGO: 0
+  destroyGO: 1
   autoActivate: 0
 --- !u!114 &85940875
 MonoBehaviour:

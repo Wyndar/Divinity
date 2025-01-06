@@ -544,8 +544,9 @@ public class MainUIManager : MonoBehaviour
 
     public void ErrorCodePanel(string errorText)
     {
-        errorPanel.SetActive(true);
-        errorPanel.GetComponentInChildren<TMP_Text>().text = errorText;
+        GameObject ep = Instantiate(errorPanel, errorPanel.transform.parent.transform);
+        ep.SetActive(true);
+        ep.GetComponentInChildren<TMP_Text>().text = errorText;
     }
     private void DisableAllPopups()
     {

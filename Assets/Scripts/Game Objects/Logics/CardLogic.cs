@@ -164,7 +164,7 @@ public class CardLogic : MonoBehaviour
         if (allTargetsList.Count == 0)
             allTargetsList.AddRange(camoTargets);
         if (returnList.Count < 1)
-            gameManager.ErrorCodePanel($"No valid targets for {cardName}'s {effectUsed} ability at {gameManager.turnPlayer.PlayerName}'s turn at phase {gameManager.currentPhase}");
+            gameManager.ErrorCodePanel($"There are no valid targets for {cardName}'s {effectUsed} ability.");
         return returnList;
     }
 

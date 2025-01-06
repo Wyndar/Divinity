@@ -98,13 +98,13 @@ public class PlayableLogic : MonoBehaviour
             //the coroutine will call cardPlayed, don't worry
         }
         else
-            gm.ErrorCodePanel($"Cannot Play {logic.cardName} legally because of {playError}.");
+            gm.ErrorCodePanel($"You cannot play '{logic.cardName}' because {playError}.");
     }
 
     public string LegalPlayCheck(bool ignoreCost, PlayerManager player)
     {
         if (cost > player.costCount && !ignoreCost)
-            return "Insufficient blood";
+            return "you do not have enough blood";
         if (!ignoreCost && player.BloodAttunementCheck(Attunement.Untuned) != player.costCount)
         {
             int tempCost = cost;
@@ -115,7 +115,7 @@ public class PlayableLogic : MonoBehaviour
                         tempCost--;
             }
             if (player.BloodAttunementCheck(Attunement.Untuned) < tempCost)
-                return "Blood Requirements not met!";
+                return "you have not met the attunement requirements";
         }
         switch (logic.type)
         {
@@ -124,17 +124,17 @@ public class PlayableLogic : MonoBehaviour
                     if (gm.currentFocusCardSlot != null)
                     {
                         if (gm.currentFocusCardSlot.controller != logic.cardController)
-                            return "Zone is not under your control";
+                            return "you do not control that zone";
                         if (gm.currentFocusCardSlot.isFrontline)
-                            return "Cannot deploy to Frontline directly";
+                            return "you cannot deploy to the Frontline directly";
                         if (gm.currentFocusCardSlot.cardInZone != null)
-                            return "Occupied Zone";
+                            return "there is another card in the zone";
                         return null;
                     }
                     else foreach (CardSlot cardSlot in player.cardSlots)
                             if (cardSlot.cardInZone == null && !cardSlot.isFrontline)
                                 return null;
-                    return "No fighter Zones";
+                    return "there is no available zone";
                 }
 
             case Type.Spell:
@@ -143,13 +143,13 @@ public class PlayableLogic : MonoBehaviour
                     {
                         if (subEffect.effectUsed == EffectsUsed.BloodCost &&
                         logic.cardController.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) < subEffect.effectAmount)
-                            return "Cannot Pay BloodCost";
+                            return "you cannot pay the blood cost";
                         if (subEffect.effectType != EffectTypes.Deployment || !subEffect.EffectActivationIsMandatory ||
                             subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
                             continue;
                         List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect);
                         if (allTargetsList.Count == 0)
-                            return "No valid targets";
+                            return "there are no valid targets";
                     }
                     break;
                 }
