@@ -16,7 +16,7 @@ public class Bomb : Debuff
         sprite = uIManager.bombSprite;
     }
 
-    public override void DetonateActions(Game_Manager gm)
+    public override void DetonateActions(GameBattleManager gm)
     {
         CombatantLogic combatant = affectedLogic.GetComponent<CombatantLogic>();
         combatant.TakeDamage(3, false);

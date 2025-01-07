@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MonsterLogic : CardLogic
 {
-    public Game_Manager gm;
+    public GameBattleManager gm;
     public CombatantLogic combatLogic;
     public PlayableLogic playLogic;
     public CardSlot currentSlot;

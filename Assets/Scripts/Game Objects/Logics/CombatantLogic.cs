@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CombatantLogic : MonoBehaviour
 {
-	public Game_Manager gm;
+	public GameBattleManager gm;
     public CardLogic logic;
 
     public List<CombatantLogic> validTargets = new();

@@ -15,14 +15,14 @@ public class Burn : Debuff
         canDetonate = true;
         sprite = uIManager.burnSprite;
     }
-    public override void TimerActions(Game_Manager gm, GameObject timerPrefab)
+    public override void TimerActions(GameBattleManager gm, GameObject timerPrefab)
     {
         base.TimerActions(gm, timerPrefab);
         CombatantLogic combatant = affectedLogic.GetComponent<CombatantLogic>();
         combatant.TakeDamage(2, false);
     }
 
-    public override void DetonateActions(Game_Manager gm)
+    public override void DetonateActions(GameBattleManager gm)
     {
         if (Timer <= 0)
             return;

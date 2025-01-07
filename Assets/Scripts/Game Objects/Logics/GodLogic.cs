@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GodLogic : CardLogic
 {
-    public Game_Manager gm;
+    public GameBattleManager gm;
     public CombatantLogic combatantLogic;
 
     public bool hasUsedShield;

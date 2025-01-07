@@ -12,6 +12,7 @@ TagManager:
   - deck
   - Card Image
   - Card Slot
+  - GameOver
   layers:
   - Default
   - TransparentFX

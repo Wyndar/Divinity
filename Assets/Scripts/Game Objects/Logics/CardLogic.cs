@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CardLogic : MonoBehaviour
 {
-    public Game_Manager gameManager;
+    public GameBattleManager gameManager;
 
     public AudioManager audioManager;
 

@@ -14,9 +14,9 @@ public class CardSlot : MonoBehaviour
     public SpriteRenderer sprite;
     public GameObject effectActivationButton, attackDeclarationButton, moveButton, atkIcon, hpIcon, effectTarget,
         attackTarget, fieldIcon, statusIcon, statusIcon2, damageNum, attackProjectileIcon, effectProjectileIcon;
-    private Game_Manager gm;
+    private GameBattleManager gm;
 
-    public void InitializeSlot(Game_Manager game_Manager)
+    public void InitializeSlot(GameBattleManager game_Manager)
     {
         sprite = GetComponent<SpriteRenderer>();
         gm = game_Manager;
@@ -53,7 +53,7 @@ public class CardSlot : MonoBehaviour
             gm.currentFocusCardSlot.DeselectSlot();
         if (gm.currentFocusCardLogic != null)
         {
-            if (gm.currentFocusCardLogic.type != Type.Fighter)
+            if (gm.currentFocusCardLogic.type != Type.Fighter || gm.currentFocusCardLogic.cardController != gm.BluePlayerManager)
                 return;
             sprite.color = Color.green;
             if (isFrontline || cardInZone != null)

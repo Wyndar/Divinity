@@ -8,7 +8,7 @@ public class ScrollLogEntry : MonoBehaviour
 
     public ScrollingLogPanelHandler scrollingLogPanelHandler;
     public GameLogHistoryEntry historyEntry;
-	public Game_Manager Game_Manager;
+	public GameBattleManager Game_Manager;
 
     public Image cardHighlightImage;
     public Image cardImage;

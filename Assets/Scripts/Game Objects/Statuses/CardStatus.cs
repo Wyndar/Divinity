@@ -22,7 +22,7 @@ public class CardStatus
     {
 
     }
-    virtual public void TimerActions(Game_Manager gm, GameObject timerPrefab)
+    virtual public void TimerActions(GameBattleManager gm, GameObject timerPrefab)
     {
         if (!shouldCountdown)
         {
@@ -42,7 +42,7 @@ public class CardStatus
             }
         }
     }
-    virtual public void DetonateActions(Game_Manager gm)
+    virtual public void DetonateActions(GameBattleManager gm)
     {
         if (!canDetonate)
             return;

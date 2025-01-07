@@ -6,7 +6,7 @@ using TMPro;
 public class ScrollStatusImage : MonoBehaviour, IPointerClickHandler
 {
     public CardStatus currentStatus;
-    public Game_Manager Game_Manager;
+    public GameBattleManager Game_Manager;
 	public ToolTipManager toolTipManager;
     public FloatingText floatingText;
     public Image highlightImage;

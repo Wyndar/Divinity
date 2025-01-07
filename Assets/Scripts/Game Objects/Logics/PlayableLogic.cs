@@ -6,7 +6,7 @@ using System.Linq;
 
 public class PlayableLogic : MonoBehaviour
 {
-    public Game_Manager gm;
+    public GameBattleManager gm;
     public CardLogic logic;
 
     public int cost;

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
 {
     public CardLogic cardLogic;
-	public Game_Manager Game_Manager;
+	public GameBattleManager Game_Manager;
     public Image highlightImage;
     public Image image;
     private bool isTargeted;
