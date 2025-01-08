@@ -23,7 +23,7 @@ public class PrimaryUIManager : MonoBehaviour
 
     [SerializeField] private GameObject effectPanel, infoPanelStatusBar, infoPanel, infoPanelStats, infoPanelEnergy,
         rayBlocker, cardScrollScreen, gameLogScrollScreen, effectActivationPanel, cardScrollScreenButton, gameLogScreenRayBlocker,
-        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameLogButton;
+        cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameOverRayBlocker, gameLogButton;
 
     [SerializeField] private TMP_Text infoPanelNameText, infoPanelAtkText, infoPanelHpText, infoPanelCostText,
         infoPanelEffectText, infoPanelFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
@@ -522,6 +522,7 @@ public class PrimaryUIManager : MonoBehaviour
     public void GameOver(PlayerManager winner)
     {
         gameOverPanel.SetActive(true);
+        gameOverRayBlocker.SetActive(true);
         gameOverWinnerText.text = winner.PlayerName + " wins";
     }
 

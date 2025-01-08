@@ -46319,6 +46319,7 @@ MonoBehaviour:
   cardScrollRayBlocker: {fileID: 680208561}
   statScrollRayBlocker: {fileID: 309286309}
   gameOverPanel: {fileID: 2006838610}
+  gameOverRayBlocker: {fileID: 83027418}
   gameLogButton: {fileID: 1184668510}
   infoPanelNameText: {fileID: 1191619612}
   infoPanelAtkText: {fileID: 1910235188}
