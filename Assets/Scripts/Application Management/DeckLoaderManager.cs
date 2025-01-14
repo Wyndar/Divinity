@@ -1,29 +1,62 @@
+﻿//NB: null checks are not redundant
+using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
-using UnityEngine.UIElements;
 
-public class DeckManager : MonoBehaviour
+public class DeckLoaderManager : MonoBehaviour
 {
-    [SerializeField] public ScrollView godScrollView, cardScrollView;
-    private SaveManager SaveManager;
+    [SerializeField] private GameBattleManager G_M;
+    [SerializeField] private SaveManager SaveManager;
+    [SerializeField] private AudioManager audioManager;
+    [SerializeField] private SecondaryUIManager U_I;
     [SerializeField] private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
     private List<Card> database = new();
     private List<Card> godDatabase = new();
 
-    private void Start()
-    {
-        SaveManager = GetComponent<SaveManager>();
-        LoadDeck();
-    }
-
     //loads both deck and shield cards... for now
-    public void LoadDeck()
+    public List<CardLogic> LoadDeck(List<string> strings, List<Card> cards, GameObject deckObject, PlayerManager playerManager, bool isHeroDeck)
     {
-        if (database.Count == 0)
-            database.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/cardDatabase"));
-        if (godDatabase.Count == 0)
-            godDatabase.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/divineDatabase"));
+        if (!isHeroDeck)
+        {
+            if (database.Count == 0)
+                database.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/cardDatabase"));
+            foreach (string cardID in strings)
+            {
+                //try faster direct lookup first
+                try
+                {
+                    Card c = database[int.Parse(cardID.Split("-")[1]) - 1];
+                    if (c.Id == cardID)
+                    {
+                        cards.Add(c);
+                        continue;
+                    }
+                }
+                catch
+                {
+                    foreach (Card card in database)
+                        if (card.Id == cardID)
+                        {
+                            cards.Add(card);
+                            break;
+                        }
+                    continue;
+                }
+            }
+        }
+        else
+        {
+            if (godDatabase.Count == 0)
+                godDatabase.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/divineDatabase"));
+            foreach (string cardID in strings)
+                foreach (Card card in godDatabase)
+                    if (cardID == card.Id)
+                    {
+                        cards.Add(card);
+                        break;
+                    }
+        }
+        return CreateDeck(cards, deckObject, playerManager, isHeroDeck);
     }
 
     //parses instance of card (data) into instance of cardLogic (gameplay)
@@ -74,6 +107,9 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.traits = new(card.Traits);
                 cardCloneCardLogic.attunements = new(card.Attunements);
 
+                cardCloneCardLogic.gameManager = G_M;
+                cardCloneCardLogic.audioManager = audioManager;
+
                 //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a default
                 cardCloneCardLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.id}", typeof(Sprite)) as Sprite;
                 if (cardCloneCardLogic.image == null)
@@ -90,7 +126,7 @@ public class DeckManager : MonoBehaviour
                     cardCloneCardLogic.textCanvas = cardClone.transform.Find("Canvas");
                     cardCloneCardLogic.EnergyIcon = cardClone.transform.Find("Energy");
                     cardCloneCardLogic.costText = cardCloneCardLogic.textCanvas.Find("Cost Text").GetComponent<TMP_Text>();
-
+                   
                     //disables unnecessary components till needed
                     cardCloneCardLogic.cardOutline.gameObject.SetActive(false);
                     cardCloneCardLogic.cardImageBorder.gameObject.SetActive(false);
@@ -99,6 +135,7 @@ public class DeckManager : MonoBehaviour
                     cardCloneCardLogic.cardImage.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.image;
                     PlayableLogic cardClonePlayableLogic = cardClone.AddComponent<PlayableLogic>();
                     cardCloneCardLogic.playTypes.Add(PlayType.Playable);
+                    cardClonePlayableLogic.gm = G_M;
                     cardClonePlayableLogic.logic = cardCloneCardLogic;
                     cardClonePlayableLogic.cost = card.Cost;
                     cardCloneCardLogic.costText.text = cardClonePlayableLogic.cost.ToString();
@@ -118,6 +155,7 @@ public class DeckManager : MonoBehaviour
                 {
                     CombatantLogic cardCloneCombatantLogic = cardClone.AddComponent<CombatantLogic>();
                     cardCloneCardLogic.playTypes.Add(PlayType.Combatant);
+                    cardCloneCombatantLogic.gm = G_M;
                     cardCloneCombatantLogic.logic = cardCloneCardLogic;
                     cardCloneCombatantLogic.atk = card.Atk;
                     cardCloneCombatantLogic.hp = card.Hp;
@@ -129,9 +167,12 @@ public class DeckManager : MonoBehaviour
                 switch (cardCloneCardLogic.type)
                 {
                     case Type.Spell:
-
+                        cardClone.GetComponent<SpellLogic>().gm = G_M;
+                        cardClone.GetComponent<SpellLogic>().U_I = U_I;
                         break;
                     case Type.Fighter:
+                        cardClone.GetComponent<MonsterLogic>().gm = G_M;
+                        cardClone.GetComponent<MonsterLogic>().U_I = U_I;
                         cardClone.GetComponent<MonsterLogic>().combatLogic = cardClone.GetComponent<CombatantLogic>();
                         cardClone.GetComponent<MonsterLogic>().playLogic = cardClone.GetComponent<PlayableLogic>();
                         cardCloneCardLogic.ATKText = cardCloneCardLogic.textCanvas.Find("ATK Text").GetComponent<TMP_Text>();
@@ -147,6 +188,8 @@ public class DeckManager : MonoBehaviour
                         cardCloneCardLogic.isFaceDown = false;
                         cardClone.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.image;
                         cardCloneGodLogic = cardClone.GetComponent<GodLogic>();
+                        cardCloneGodLogic.gm = G_M;
+                        cardClone.GetComponent<GodLogic>().U_I = U_I;
                         cardCloneGodLogic.combatantLogic = cardClone.GetComponent<CombatantLogic>();
                         if (cardCloneGodLogic.maxShieldUsesPerTurn == 0)
                             cardCloneGodLogic.maxShieldUsesPerTurn = 1;
@@ -161,7 +204,7 @@ public class DeckManager : MonoBehaviour
                     Effect effectInstance = new(effect);
                     cardCloneCardLogic.effects.Add(effectInstance);
                 }
-
+     
                 if (cardCloneCardLogic.type != Type.God)
                     returnList.Add(cardCloneCardLogic);
             }
@@ -169,3 +212,4 @@ public class DeckManager : MonoBehaviour
         return returnList;
     }
 }
+

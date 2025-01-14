@@ -18,7 +18,7 @@ public class GameBattleManager : GameManager
     [SerializeField]
     private PrimaryUIManager MainUIManager;
     [SerializeField]
-    private DeckManager DeckManager;
+    private DeckLoaderManager DeckManager;
     [SerializeField]
     private StatusManager StatusManager;
     [SerializeField]
