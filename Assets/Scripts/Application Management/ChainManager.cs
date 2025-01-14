@@ -8,7 +8,7 @@ public class ChainManager : MonoBehaviour
     //gets chain effects that trigger on phase change
     public void GetPhaseTriggers(Phase phase)
     {
-        List<CardLogic> triggered = new(FindObjectsOfType<CardLogic>());
+        List<CardLogic> triggered = new(FindObjectsByType<CardLogic>(FindObjectsSortMode.None));
         foreach(CardLogic triggeredCard in triggered)
         {
             //ignore vanilla
@@ -57,7 +57,7 @@ public class ChainManager : MonoBehaviour
     //gets chain effects that trigger by card effect and additional requirements beyond game state
     public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard)
     {
-        List<CardLogic> triggered = new(FindObjectsOfType<CardLogic>());
+        List<CardLogic> triggered = new(FindObjectsByType<CardLogic>(FindObjectsSortMode.None));
         EffectsUsed triggerEffectType = subEffect.effectUsed;
 
         foreach(CardLogic triggeredCard in triggered)
@@ -142,7 +142,7 @@ public class ChainManager : MonoBehaviour
     //gets chain effects that trigger by game state caused by card logic
     public void GetStateTriggers(CardLogic cardLogic, GameState gameState)
     {
-        List<CardLogic> triggers = new(FindObjectsOfType<CardLogic>());
+        List<CardLogic> triggers = new(FindObjectsByType<CardLogic>(FindObjectsSortMode.None));
 
         foreach(CardLogic triggeredCard in triggers)
         {
@@ -219,7 +219,7 @@ public class ChainManager : MonoBehaviour
     //gets chain effects that trigger by game state caused by regular effects
     public void GetEmptyStateTriggers(GameState gameState)
     {
-        List<CardLogic> triggers = new(FindObjectsOfType<CardLogic>());
+        List<CardLogic> triggers = new(FindObjectsByType<CardLogic>(FindObjectsSortMode.None));
         foreach (CardLogic triggeredCard in triggers)
         {
             //ignore vanilla

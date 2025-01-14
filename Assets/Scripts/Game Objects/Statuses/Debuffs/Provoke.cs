@@ -4,8 +4,8 @@ public class Provoke : Debuff
 {
     public Provoke(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
-        toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        uIManager = GameObject.FindObjectOfType<SecondaryUIManager>();
+        toolTipManager = GameObject.FindFirstObjectByType<ToolTipManager>();
+        uIManager = GameObject.FindFirstObjectByType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Provoke");
         debuff = Debuffs.Provoked;
         applierLogic = debufferLogic;

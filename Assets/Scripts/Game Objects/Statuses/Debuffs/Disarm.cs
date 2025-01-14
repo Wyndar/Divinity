@@ -4,8 +4,8 @@ public class Disarm : Debuff
 {
     public Disarm(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
-        toolTipManager = GameObject.FindObjectOfType<ToolTipManager>();
-        uIManager = GameObject.FindObjectOfType<SecondaryUIManager>();
+        toolTipManager = GameObject.FindFirstObjectByType<ToolTipManager>();
+        uIManager = GameObject.FindFirstObjectByType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Disarm");
         debuff = Debuffs.Stunned;
         applierLogic = debufferLogic;
