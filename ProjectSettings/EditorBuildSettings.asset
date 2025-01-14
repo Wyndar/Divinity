@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game Battle Scene.unity
     guid: 6d49704b08cc2f04ba2018dbec74a790
+  - enabled: 1
+    path: Assets/Scenes/Deck.unity
+    guid: 87a8e1852c5b16b48bbe2a0a453b297f
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: a340bfc7f032b2543a61c31e5687f114, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 5ef17ed591daf5c428c0f05e7b79b624, type: 2}

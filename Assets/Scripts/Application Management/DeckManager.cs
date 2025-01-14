@@ -2,7 +2,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine.UIElements;
 
 public class DeckManager : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class DeckManager : MonoBehaviour
         if (!isHeroDeck)
         {
             if (database.Count == 0)
-                database.AddRange(SaveManager.LoadCardDatabase(G_M.CardDatabasePath));
+                database.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/cardDatabase"));
             foreach (string cardID in strings)
             {
                 //try faster direct lookup first
@@ -48,7 +47,7 @@ public class DeckManager : MonoBehaviour
         else
         {
             if (godDatabase.Count == 0)
-                godDatabase.AddRange(SaveManager.LoadCardDatabase(G_M.GodDatabasePath));
+                godDatabase.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/divineDatabase"));
             foreach (string cardID in strings)
                 foreach (Card card in godDatabase)
                     if (cardID == card.Id)

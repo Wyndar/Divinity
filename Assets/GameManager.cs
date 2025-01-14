@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider BGMSlider, SFXSlider;
     private bool ShowError = true, ShowTrail = true;
     private InputManager InputManager;
-    private AudioManager AudioManager;
+    public AudioManager AudioManager;
     private Coroutine trailCoroutine;
     private void OnEnable()
     {

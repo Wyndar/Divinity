@@ -15,8 +15,8 @@ public class SaveManager:MonoBehaviour
     //loads playerdata from json
     public Player LoadPlayerFromJson(string path)
     {
-        string json = File.ReadAllText(Application.dataPath + path);
-        Player data = JsonConvert.DeserializeObject<Player>(json, new JsonSerializerSettings()
+        TextAsset json = Resources.Load<TextAsset>(path);
+        Player data = JsonConvert.DeserializeObject<Player>(json.text, new JsonSerializerSettings()
         {
             ContractResolver = new PrivateResolver(),
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
@@ -27,8 +27,8 @@ public class SaveManager:MonoBehaviour
     //loads card ID from json deck
     public List<string> LoadIDFromJson(string path)
     {
-        string json = File.ReadAllText(Application.dataPath + path);
-        List<string> data = JsonConvert.DeserializeObject<List<string>>(json, new JsonSerializerSettings()
+        TextAsset json = Resources.Load<TextAsset>(path);
+        List<string> data = JsonConvert.DeserializeObject<List<string>>(json.text, new JsonSerializerSettings()
         {
             ContractResolver = new PrivateResolver(),
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
@@ -39,8 +39,8 @@ public class SaveManager:MonoBehaviour
     //loads json card database 
     public List<Card> LoadCardDatabase(string path)
     {
-        string json = File.ReadAllText(Application.dataPath + path);
-        List<Card> data = JsonConvert.DeserializeObject<List<Card>>(json, new JsonSerializerSettings()
+        TextAsset json = Resources.Load<TextAsset>(path);
+        List<Card> data = JsonConvert.DeserializeObject<List<Card>>(json.text, new JsonSerializerSettings()
         {
             ContractResolver = new PrivateResolver(),
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
@@ -49,10 +49,10 @@ public class SaveManager:MonoBehaviour
     }
 
     //loads a list of handy tips and info from the db
-    public List<ToolTipInfo> LoadToolTipInfoDatabase(string path)
+    public List<ToolTipInfo> LoadToolTipInfoDatabase()
     {
-        string json = File.ReadAllText(Application.dataPath + path);
-        List<ToolTipInfo> data = JsonConvert.DeserializeObject<List<ToolTipInfo>>(json, new JsonSerializerSettings()
+        TextAsset json = Resources.Load<TextAsset>("Load Data/Game Data/ToolTipsInfo");
+        List<ToolTipInfo> data = JsonConvert.DeserializeObject<List<ToolTipInfo>>(json.text, new JsonSerializerSettings()
         {
             ContractResolver = new PrivateResolver(),
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor

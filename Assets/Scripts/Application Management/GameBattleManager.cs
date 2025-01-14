@@ -22,9 +22,7 @@ public class GameBattleManager : GameManager
     [SerializeField]
     private StatusManager StatusManager;
     [SerializeField]
-    private AudioManager AudioManager;
-
-    public ToolTipManager ToolTipManager;
+    private ToolTipManager ToolTipManager;
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
@@ -44,7 +42,7 @@ public class GameBattleManager : GameManager
     public TMP_Text bluePlayerText, redPlayerText, turnCountText, turnPhaseText, popUpPanelText, phaseChangeButtonText;
 
     public int turnCount;
-    public string CardDatabasePath, GodDatabasePath, BluePlayerPath, RedPlayerPath, ToolTipsDatabasePath;
+    public string BluePlayerPath, RedPlayerPath;
 
     public float loadStartTime;
     public float loadEndTime;
@@ -125,7 +123,7 @@ public class GameBattleManager : GameManager
             playerManager.heroDeckList, playerManager.shield, playerManager, true));
     }
 
-    public void LoadToolTips() => ToolTipManager.tooltipInfos.AddRange(SaveManager.LoadToolTipInfoDatabase(ToolTipsDatabasePath));
+    public void LoadToolTips() => ToolTipManager.tooltipInfos.AddRange(SaveManager.LoadToolTipInfoDatabase());
 
     public IEnumerator DrawCard(int drawAmount, PlayerManager player)
     {

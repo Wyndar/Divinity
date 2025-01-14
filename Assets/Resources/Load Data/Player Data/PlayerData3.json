@@ -1,0 +1,8 @@
+﻿{
+    "PlayerName": "Beta Tester 3",
+    "PlayerID": "BT3",
+    "DeckPath": "Load Data/Deck Data/deckAlt",
+    "HeroDeckPath": "Load Data/Deck Data/herodeckAlt",
+    "IsAI": false,
+    "IsLocal": true
+}
