@@ -46377,7 +46377,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1600093220}
   - component: {fileID: 1600093227}
-  - component: {fileID: 1600093230}
   - component: {fileID: 1600093229}
   - component: {fileID: 1600093226}
   - component: {fileID: 1600093225}
@@ -46390,6 +46389,7 @@ GameObject:
   - component: {fileID: 1600093239}
   - component: {fileID: 1600093240}
   - component: {fileID: 1600093241}
+  - component: {fileID: 1600093242}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -46533,7 +46533,7 @@ MonoBehaviour:
   ChainManager: {fileID: 1600093229}
   UIManager: {fileID: 1600093239}
   MainUIManager: {fileID: 1600093225}
-  DeckManager: {fileID: 1600093230}
+  DeckManager: {fileID: 1600093242}
   StatusManager: {fileID: 1600093232}
   ToolTipManager: {fileID: 1600093235}
   BluePlayerManager: {fileID: 104160277}
@@ -46601,27 +46601,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gm: {fileID: 1600093227}
---- !u!114 &1600093230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1600093219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab0ec25358e77fb4598d3f16b74c8d8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  G_M: {fileID: 1600093227}
-  SaveManager: {fileID: 1600093223}
-  audioManager: {fileID: 1600093236}
-  U_I: {fileID: 1600093239}
-  emptyHeroCardPrefab: {fileID: 7757688674157102176, guid: fe199f28349cc934eba8d1a2af745f7a, type: 3}
-  emptySpellCardPrefab: {fileID: 8631525344601337069, guid: ef5199ab7583b1e49a8776fce18a81ac, type: 3}
-  emptyMonsterCardPrefab: {fileID: 7892383611414394747, guid: 649d10d9fb5c4954a980719e3f258314, type: 3}
-  database: []
-  godDatabase: []
 --- !u!114 &1600093232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46806,6 +46785,25 @@ MonoBehaviour:
   cardImages: []
   spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
   scrollCards: []
+--- !u!114 &1600093242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600093219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cc9f944086fefe4da442d53074e8e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  G_M: {fileID: 1600093227}
+  SaveManager: {fileID: 1600093223}
+  audioManager: {fileID: 1600093236}
+  U_I: {fileID: 1600093239}
+  emptyHeroCardPrefab: {fileID: 7757688674157102176, guid: fe199f28349cc934eba8d1a2af745f7a, type: 3}
+  emptySpellCardPrefab: {fileID: 8631525344601337069, guid: ef5199ab7583b1e49a8776fce18a81ac, type: 3}
+  emptyMonsterCardPrefab: {fileID: 7892383611414394747, guid: 649d10d9fb5c4954a980719e3f258314, type: 3}
 --- !u!1 &1600721748
 GameObject:
   m_ObjectHideFlags: 0

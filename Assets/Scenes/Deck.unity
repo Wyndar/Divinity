@@ -916,7 +916,7 @@ GameObject:
   - component: {fileID: 1243536704}
   - component: {fileID: 1243536703}
   - component: {fileID: 1243536702}
-  - component: {fileID: 1243536701}
+  - component: {fileID: 1243536705}
   m_Layer: 5
   m_Name: Decks Scroll
   m_TagString: Active UI panel
@@ -945,24 +945,6 @@ RectTransform:
   m_AnchoredPosition: {x: -465, y: 396}
   m_SizeDelta: {x: 1300, y: 900}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1243536701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1243536699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 207614a2420b23e4aaaf8b0e2ce2a565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Game_Manager: {fileID: 0}
-  content: {fileID: 98321939}
-  cardImages: []
-  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
-  scrollCards: []
-  TargetButton: {fileID: 0}
 --- !u!114 &1243536702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1031,6 +1013,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243536699}
   m_CullTransparentMesh: 1
+--- !u!114 &1243536705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243536699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc4b333c81d613b44b83d0da476cfbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 98321939}
+  cardImages: []
+  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
+  scrollCards: []
+  TargetButton: {fileID: 0}
 --- !u!1 &1243767656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,6 +1354,7 @@ GameObject:
   - component: {fileID: 1478535362}
   - component: {fileID: 1478535363}
   - component: {fileID: 1478535364}
+  - component: {fileID: 1478535365}
   m_Layer: 0
   m_Name: Deck Manager
   m_TagString: Untagged
@@ -1437,6 +1437,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448a69f9c229f8a468384bf42f8f10b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1478535365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478535359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0ec25358e77fb4598d3f16b74c8d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  godScrollView: {fileID: 7001423332825953904}
+  cardScrollView: {fileID: 1243536705}
+  emptyHeroCardPrefab: {fileID: 7757688674157102176, guid: fe199f28349cc934eba8d1a2af745f7a, type: 3}
+  emptySpellCardPrefab: {fileID: 0}
+  emptyMonsterCardPrefab: {fileID: 0}
 --- !u!1 &1533557339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2998,6 +3015,25 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 0
+--- !u!224 &1218309017450773040
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4510996377351861693}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8283185576487193475}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2, y: 3}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1306395615162406322
 GameObject:
   m_ObjectHideFlags: 0
@@ -3332,6 +3368,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2766842853576706352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8283185576487193475}
+  - component: {fileID: 4221226799899897007}
+  - component: {fileID: 5550402727019029443}
+  - component: {fileID: 4624811786073219873}
+  m_Layer: 5
+  m_Name: Card Image
+  m_TagString: Card Image
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!114 &2770017711960727744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3417,6 +3472,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!222 &3041241777745911106
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4510996377351861693}
+  m_CullTransparentMesh: 1
 --- !u!1 &3100554876651328254
 GameObject:
   m_ObjectHideFlags: 0
@@ -3970,6 +4033,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7001423332825953903}
   m_CullTransparentMesh: 1
+--- !u!114 &4143195093035243317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4510996377351861693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e6463ef3e18923b4abf377cb9ab3ff46, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &4221226799899897007
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2766842853576706352}
+  m_CullTransparentMesh: 1
 --- !u!222 &4245672027987652498
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3978,6 +4079,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3100554876651328254}
   m_CullTransparentMesh: 1
+--- !u!1 &4510996377351861693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1218309017450773040}
+  - component: {fileID: 3041241777745911106}
+  - component: {fileID: 4143195093035243317}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!222 &4597099327941220129
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3994,6 +4113,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7168487398493302614}
   m_CullTransparentMesh: 1
+--- !u!114 &4624811786073219873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2766842853576706352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108f613083c0246800ea46277f14f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardLogic: {fileID: 0}
+  Game_Manager: {fileID: 0}
+  highlightImage: {fileID: 5550402727019029443}
+  image: {fileID: 4143195093035243317}
 --- !u!222 &4649219698725215349
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4209,6 +4344,36 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5550402727019029443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2766842853576706352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8490566, g: 0.8023022, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 1
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5737427644408912172
 GameObject:
   m_ObjectHideFlags: 0
@@ -4347,7 +4512,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8283185576487193475}
   m_Father: {fileID: 4957697410566522335}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4648,7 +4814,7 @@ GameObject:
   - component: {fileID: 4022949727808302537}
   - component: {fileID: 1721473436435541661}
   - component: {fileID: 2847946666194429471}
-  - component: {fileID: 7477696143662886081}
+  - component: {fileID: 7001423332825953904}
   m_Layer: 5
   m_Name: Hero Scroll
   m_TagString: Active UI panel
@@ -4656,6 +4822,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7001423332825953904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7001423332825953903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc4b333c81d613b44b83d0da476cfbea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 6407178268221271518}
+  cardImages: []
+  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
+  scrollCards: []
+  TargetButton: {fileID: 0}
 --- !u!1 &7168487398493302614
 GameObject:
   m_ObjectHideFlags: 0
@@ -4734,24 +4917,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7477696143662886081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7001423332825953903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 207614a2420b23e4aaaf8b0e2ce2a565, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Game_Manager: {fileID: 0}
-  content: {fileID: 6407178268221271518}
-  cardImages: []
-  spriteHolder: {fileID: 2766842851641939454, guid: 6fe88ea8c297f5c4280ed70b572f1d0f, type: 3}
-  scrollCards: []
-  TargetButton: {fileID: 0}
 --- !u!1 &7519182691373365606
 GameObject:
   m_ObjectHideFlags: 0
@@ -5005,6 +5170,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!224 &8283185576487193475
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2766842853576706352}
+  m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 50, y: 50, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1218309017450773040}
+  m_Father: {fileID: 6407178268221271518}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2.2, y: 3.3}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8290809614635151341
 GameObject:
   m_ObjectHideFlags: 0
