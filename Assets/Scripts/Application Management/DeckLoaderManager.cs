@@ -195,6 +195,9 @@ public class DeckLoaderManager : MonoBehaviour
                         cardCloneGodLogic.maxShieldUsesPerTurn = 1;
                     cardCloneGodLogic.shieldUsesLeft = cardCloneGodLogic.maxShieldUsesPerTurn;
                     cardCloneGodLogic.attunementRates = new(card.AttunementRates);
+                    G_M.OnPhaseChange += cardCloneCardLogic.GetPhaseTriggers;
+                    G_M.OnEffectTrigger += cardCloneCardLogic.GetEffectTriggers;
+                    G_M.OnStateChange += cardCloneCardLogic.GetStateTriggers;
                     break;
             }
 

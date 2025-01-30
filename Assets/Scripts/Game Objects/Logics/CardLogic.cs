@@ -37,7 +37,6 @@ public class CardLogic : MonoBehaviour
     public SubEffect focusSubEffect;
 
     public float movementSpeed = 3f;
-
     public void EffectActivation(SubEffect subEffect)
     {
         if (subEffect.effectUsed == EffectsUsed.BloodCost &&
@@ -338,7 +337,7 @@ public class CardLogic : MonoBehaviour
 
     public void FinishResolution(SubEffect subEffect)
     {
-        gameManager.GetEffectTriggers(subEffect, this);
+        gameManager.InvokeEffectTrigger(subEffect, this);
         CheckSubsequentEffects(subEffect, true);
     }
 
@@ -871,5 +870,198 @@ public class CardLogic : MonoBehaviour
                         cardController.BloodAttunementCheck(Enum.Parse<Attunement>(effect.SubEffects[0].TargetStats[0])) >= effect.SubEffects[0].effectAmount)
                         return true;
         return false;
+    }
+    public void GetPhaseTriggers(Phase phase)
+    {
+        //ignore vanilla
+        if (effects.Count == 0)
+            return;
+        foreach (Effect effect in effects)
+        {
+            //ignore no phase triggers
+            if (effect.triggerPhases == null)
+                continue;
+            //ignore spent count based effects
+            if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
+                continue;
+            //must be right phase, location
+            if (!effect.triggerPhases.Contains(phase))
+                continue;
+            if (effect.triggerLocations != null && !effect.triggerLocations.Contains(currentLocation))
+                continue;
+            //ensures effects activate at right turn
+            if (effect.triggerCardOwner != Controller.Undefined)
+            {
+                if ((effect.triggerCardOwner == Controller.Opponent && gameManager.turnPlayer == cardController) ||
+                     (effect.triggerCardOwner == Controller.Player && gameManager.turnPlayer != cardController))
+                    continue;
+            }
+            //ensures one activation of an effect per card per chain
+            bool addCard = true;
+            int effNum = effects.FindIndex(a => a == effect);
+            if (gameManager.activationChainList.Contains(this))
+            {
+                int[] indexes = gameManager.activationChainList.FindAllIndexof(this);
+                foreach (int index in indexes)
+                    if (gameManager.activationChainSubEffectList[index].parentEffect == effect)
+                        addCard = false;
+            }
+            if (addCard == false)
+                continue;
+            gameManager.activationChainList.Add(this);
+            gameManager.activationChainSubEffectList.Add(effect.SubEffects[0]);
+            break;
+            //because we only need to catch one sub effect per effect with trigger, the rest resolves at chain resolution
+        }
+    }
+
+    public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard)
+    {
+        //ignore vanilla
+        if (effects.Count == 0)
+            return;
+        EffectsUsed triggerEffectType = subEffect.effectUsed;
+
+        foreach (Effect effect in effects)
+        {
+            //ignore no triggertypes
+            if (effect.triggerEffects == null)
+                continue;
+            //ignore spent count based effects
+            if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
+                continue;
+            //check if it allows self triggers
+            if (!effect.allowSelfTrigger && this == triggerCard)
+                continue;
+            //must be right effect trigger type, card type is either defined and correct or undefined, info is either defined and set to card name substring or undefined, location is defined and correct, must be right card owner trigger
+            if (!effect.triggerEffects.Contains(triggerEffectType))
+                continue;
+            if (effect.triggerCardLocations != null && !effect.triggerCardLocations.Contains(currentLocation))
+                continue;
+
+            if (effect.triggerCardTypes != null && !effect.triggerCardTypes.Contains(triggerCard.type))
+                continue;
+            if (effect.TriggerInfo != null)
+            {
+                bool foundTrigger = false;
+                foreach (string info in effect.TriggerInfo)
+                {
+                    if (info[..3] == "has")
+                        if (!triggerCard.cardName.Contains(info[3..]))
+                            continue;
+                    if (info[..4] == "nhas")
+                        if (triggerCard.cardName.Contains(info[4..]))
+                            continue;
+                    if (info[..2] == "is")
+                        if (triggerCard.cardName != info[2..])
+                            continue;
+                    if (info[..3] == "not")
+                        if (triggerCard.cardName == info[3..])
+                            continue;
+                    foundTrigger = true;
+                }
+                if (foundTrigger == false)
+                    continue;
+            }
+            if (effect.triggerLocations == null)
+                continue;
+            if (!effect.triggerLocations.Contains(currentLocation))
+                continue;
+            if (effect.triggerCardOwner != Controller.Undefined)
+            {
+                if ((effect.triggerCardOwner == Controller.Opponent && triggerCard.cardController == cardController) ||
+                     (effect.triggerCardOwner == Controller.Player && triggerCard.cardController != cardController))
+                    continue;
+            }
+
+            int effNum = effects.FindIndex(a => a == effect);
+
+            //ensures one activation of an effect per card per chain
+            bool addCard = true;
+            if (gameManager.activationChainList.Contains(this))
+            {
+                int[] indexes = gameManager.activationChainList.FindAllIndexof<CardLogic>(this);
+                foreach (int index in indexes)
+                    if (gameManager.activationChainSubEffectList[index].parentEffect == effect)
+                        addCard = false;
+            }
+            if (addCard == false)
+                continue;
+            gameManager.activationChainList.Add(this);
+            gameManager.activationChainSubEffectList.Add(effect.SubEffects[0]);
+            break;
+            //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
+        }
+    }
+
+    public void GetStateTriggers(GameState gameState, CardLogic cardLogic)
+    {
+        //ignore vanilla
+        if (effects.Count == 0)
+            return;
+        foreach (Effect triggeredEffect in effects)
+        {
+            //ignore no triggerStaate
+            if (triggeredEffect.triggerStates == null)
+                continue;
+            //ignore spent count based effects
+            if (triggeredEffect.currentActivations >= triggeredEffect.maxActivations && triggeredEffect.maxActivations != 0)
+                continue;
+            //check if it allows self triggers
+            if (!triggeredEffect.allowSelfTrigger && this == cardLogic)
+                continue;
+            //must be right game state, card type is either defined and correct or undefined, info is either defined and set to card
+            //name substring or undefined, location is defined and correct
+            if (!triggeredEffect.triggerStates.Contains(gameState))
+                continue;
+            if (triggeredEffect.triggerLocations == null)
+                continue;
+            if (!triggeredEffect.triggerLocations.Contains(currentLocation))
+                continue;
+            if (triggeredEffect.triggerCardTypes != null && !triggeredEffect.triggerCardTypes.Contains(cardLogic.type))
+                continue;
+            if (triggeredEffect.triggerCardLocations != null && !triggeredEffect.triggerCardLocations.Contains(cardLogic.currentLocation))
+                continue;
+            if (triggeredEffect.TriggerInfo != null)
+            {
+                bool foundTrigger = false;
+                foreach (string info in triggeredEffect.TriggerInfo)
+                {
+                    if (info[..3] == "has" && !cardLogic.cardName.Contains(info[3..]) || info[..4] == "nhas" && cardLogic.cardName.Contains(info[4..]))
+                        continue;
+                    if (info[..2] == "is" && cardLogic.cardName != info[2..] || info[..3] == "not" && cardLogic.cardName == info[3..])
+                        continue;
+                    foundTrigger = true;
+                }
+                if (foundTrigger == false)
+                    continue;
+            }
+
+            int effNum = effects.FindIndex(a => a == triggeredEffect);
+
+            //ensures that the trigger activates due to correct owner
+            if (triggeredEffect.triggerCardOwner != Controller.Undefined && cardLogic != null)
+            {
+                if ((triggeredEffect.triggerCardOwner == Controller.Opponent && cardLogic.cardController == cardController) ||
+                     (triggeredEffect.triggerCardOwner == Controller.Player && cardLogic.cardController != cardController))
+                    continue;
+            }
+
+            //ensures one activation of an effect per card per chain
+            bool addCard = true;
+            if (gameManager.activationChainList.Contains(this))
+            {
+                int[] indexes = gameManager.activationChainList.FindAllIndexof<CardLogic>(this);
+                foreach (int index in indexes)
+                    if (gameManager.activationChainSubEffectList[index].parentEffect == triggeredEffect)
+                        addCard = false;
+            }
+            if (addCard == false)
+                continue;
+            gameManager.activationChainList.Add(this);
+            gameManager.activationChainSubEffectList.Add(triggeredEffect.SubEffects[0]);
+            break;
+            //once again, only need to catch one sub effect trigger per effect,rest resolves at chain resolution
+        }
     }
 }

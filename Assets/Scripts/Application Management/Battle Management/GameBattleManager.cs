@@ -12,8 +12,6 @@ public class GameBattleManager : GameManager
     [SerializeField]
     private TurnManager TurnManager;
     [SerializeField]
-    private ChainManager ChainManager;
-    [SerializeField]
     private SecondaryUIManager UIManager;
     [SerializeField]
     private PrimaryUIManager MainUIManager;
@@ -46,6 +44,10 @@ public class GameBattleManager : GameManager
 
     public float loadStartTime;
     public float loadEndTime;
+
+    public event Action<Phase> OnPhaseChange;
+    public event Action<SubEffect, CardLogic> OnEffectTrigger;
+    public event Action<GameState, CardLogic> OnStateChange;
 
     private void Start()
     {
@@ -163,6 +165,9 @@ public class GameBattleManager : GameManager
             drawAmount--;
             player.handSize = player.handLogicList.Count;
             drewCards = true;
+            OnPhaseChange+=randomCardDraw.GetPhaseTriggers;
+            OnEffectTrigger += randomCardDraw.GetEffectTriggers;
+            OnStateChange += randomCardDraw.GetStateTriggers;
             yield return new WaitUntil(() => drawSound == null);
         }
         //ensures that unnecessary chains and shuffles don't occur on unresolved draws
@@ -208,6 +213,9 @@ public class GameBattleManager : GameManager
                 player.handSize = player.handLogicList.Count;
                 AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
                 drewCards = true;
+                OnPhaseChange += logic.GetPhaseTriggers;
+                OnEffectTrigger += logic.GetEffectTriggers;
+                OnStateChange += logic.GetStateTriggers;
                 yield return new WaitUntil(() => drawSound == null);
                 break;
             }
@@ -284,7 +292,9 @@ public class GameBattleManager : GameManager
             player.handLogicList.Add(randomCardDraw);
             drawAmount--;
             player.handSize = player.handLogicList.Count;
-
+            OnPhaseChange += randomCardDraw.GetPhaseTriggers;
+            OnEffectTrigger += randomCardDraw.GetEffectTriggers;
+            OnStateChange += randomCardDraw.GetStateTriggers;
         }
         AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
         yield return new WaitUntil(() => drawSound == null);
@@ -395,26 +405,17 @@ public class GameBattleManager : GameManager
             case GameState.ChainResolution:
                 return;
         }
-        ChainManager.GetEmptyStateTriggers(state);
-        if (currentFocusCardLogic == null)
-            return;
-        GetStateTriggers(currentFocusCardLogic, state);
+        OnStateChange?.Invoke(gameState, currentFocusCardLogic);
     }
 
     public void PhaseChange(Phase phase)
     {
         currentPhase = phase;
-        GetPhaseTriggers(phase);
+        OnPhaseChange?.Invoke(phase);
         ChainResolution();
     }
 
-    public void GetPhaseTriggers(Phase phase) => ChainManager.GetPhaseTriggers(phase);
-
-    public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard) =>
-        ChainManager.GetEffectTriggers(subEffect, triggerCard);
-
-    public void GetStateTriggers(CardLogic triggerCard, GameState state) =>
-        ChainManager.GetStateTriggers(triggerCard, state);
+    public void InvokeEffectTrigger(SubEffect subEffect, CardLogic cardLogic) => OnEffectTrigger?.Invoke(subEffect, cardLogic);
 
     public void ChainResolution()
     {
@@ -428,7 +429,31 @@ public class GameBattleManager : GameManager
             return;
         }
         //else, resolve chain
-        ChainManager.ChainResolution();
+        ChainResolver();
+    }
+
+    private void ChainResolver()
+    {
+        StateChange(GameState.ChainResolution);
+        //get reference to each so that they can be safely removed then activated before coroutines ruin call sequence
+        CardLogic cardLogic = activationChainList[0];
+        SubEffect subEffect = activationChainSubEffectList[0];
+        activationChainList.RemoveAt(0);
+        activationChainSubEffectList.RemoveAt(0);
+        //for non ai players to decide to use optionals
+        if (!subEffect.EffectActivationIsMandatory && !cardLogic.cardController.isAI)
+        {
+            cardLogic.SetFocusCardLogic();
+            cardLogic.focusSubEffect = subEffect;
+            EnableActivationPanel();
+            return;
+        }
+        //ai optionals negation check
+        if (!subEffect.EffectActivationIsMandatory && cardLogic.cardController.isAI)
+            if (!cardLogic.cardController.AIManager.ActivateOptionalEffect())
+                ChainResolution();
+        //else it's mandatory or has been accepted to go forward
+        cardLogic.EffectActivation(subEffect);
     }
 
     public void DisableRayBlocker() => MainUIManager.DisableRayBlocker();
