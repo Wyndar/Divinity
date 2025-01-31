@@ -120,12 +120,12 @@ public class PlayerManager : MonoBehaviour
                         rateOdds += heroCardLogic.attunementRates[i];
                         if (attunementOdds > rateOdds)
                             continue;
-                        tempAttunement = heroCardLogic.attunements[i];
+                        tempAttunement = heroCardLogic.dataLogic.attunements[i];
                         break;
                     }
                 }
                 else
-                    tempAttunement = heroCardLogic.attunements[0];
+                    tempAttunement = heroCardLogic.dataLogic.attunements[0];
             }
             else
                 tempAttunement = attunement;

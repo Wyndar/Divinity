@@ -19,7 +19,7 @@ public class GodLogic : CardLogic
     public List<int> attunementRates = new();
     public bool ShieldTrigger(int damage, bool wasAttack)
     {
-        if (cardOwner.shieldCount == 0)
+        if (dataLogic.cardOwner.shieldCount == 0)
             return false;
         if (shieldUsesLeft == 0)
             return false;
@@ -27,16 +27,16 @@ public class GodLogic : CardLogic
         this.wasAttack = wasAttack;
         if (!wasAttack)
             gm.isWaitingForResponse = true;
-        if (cardOwner.isAI)
+        if (dataLogic.cardOwner.isAI)
             HandleAIShield();
         else
-            gm.ShowShieldPrompt(cardOwner);
+            gm.ShowShieldPrompt(dataLogic.cardOwner);
         return true;
     }
 
     private void HandleAIShield()
     {
-        if (cardOwner.AIManager.UseShield(incomingDamage, wasAttack))
+        if (dataLogic.cardOwner.AIManager.UseShield(incomingDamage, wasAttack))
             ActivateShield();
         else
             ShieldPass();
@@ -44,16 +44,16 @@ public class GodLogic : CardLogic
 
     public void ActivateShield()
     {
-        cardOwner.shieldCount -= 1;
-        cardOwner.SetShield(1, 1);
+        dataLogic.cardOwner.shieldCount -= 1;
+        dataLogic.cardOwner.SetShield(1, 1);
         gm.StateChange(GameState.Shielded);
         gm.ClearAttackTargetImages();
-        cardController.AIManager.isPerformingAction = false;
-        cardController.enemy.AIManager.isPerformingAction = false;
+        dataLogic.cardController.AIManager.isPerformingAction = false;
+        dataLogic.cardController.enemy.AIManager.isPerformingAction = false;
         hasUsedShield = true;
         hasUsedShieldThisTurn = true;
         shieldUsesLeft -= 1;
-        StartCoroutine(gm.GetShieldCard(1, cardOwner));
+        StartCoroutine(gm.GetShieldCard(1, dataLogic.cardOwner));
         if (!wasAttack)
             gm.isWaitingForResponse = false;
     }
@@ -77,13 +77,13 @@ public class GodLogic : CardLogic
         if (combatantLogic.currentHp <= 0)
         {
             combatantLogic.currentHp = 0;
-            gm.GameOver(cardController.enemy);
+            gm.GameOver(dataLogic.cardController.enemy);
         }
     }
 
     override public void StatAdjustment(int value, Status status)
     {
-        cardController.SetHeroStatus(status, value);
+        dataLogic.cardController.SetHeroStatus(status, value);
         OnFieldAtkRefresh();
         OnFieldHpRefresh();
         LoseCheck();
@@ -92,14 +92,14 @@ public class GodLogic : CardLogic
 
     public void OnFieldAtkRefresh()
     {
-        cardController.heroAtkText.color = combatantLogic.atk != combatantLogic.currentAtk ? combatantLogic.currentAtk 
+        dataLogic.cardController.heroAtkText.color = combatantLogic.atk != combatantLogic.currentAtk ? combatantLogic.currentAtk 
             < combatantLogic.atk ? Color.red : Color.blue : Color.black;
-        cardController.heroAtkText.text = combatantLogic.currentAtk.ToString();
+        dataLogic.cardController.heroAtkText.text = combatantLogic.currentAtk.ToString();
     }
     public void OnFieldHpRefresh()
     {
-        cardController.heroHpText.color = combatantLogic.currentHp != combatantLogic.maxHp ? combatantLogic.currentHp
+        dataLogic.cardController.heroHpText.color = combatantLogic.currentHp != combatantLogic.maxHp ? combatantLogic.currentHp
             < combatantLogic.maxHp ? Color.red : Color.blue : Color.black;
-        cardController.heroHpText.text = combatantLogic.currentHp.ToString();
+        dataLogic.cardController.heroHpText.text = combatantLogic.currentHp.ToString();
     }
 }

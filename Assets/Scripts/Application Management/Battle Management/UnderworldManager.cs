@@ -34,13 +34,13 @@ public class UnderworldManager : MonoBehaviour, IPointerClickHandler
         border.SetActive(true);
         canvas.SetActive(true);
 
-        image.GetComponent<SpriteRenderer>().sprite = topCard.image;
-        back.GetComponent<SpriteRenderer>().sprite = topCard.cardBack.GetComponent<SpriteRenderer>().sprite;
-        outline.GetComponent<SpriteRenderer>().sprite = topCard.cardOutline.GetComponent<SpriteRenderer>().sprite;
-        border.GetComponent<SpriteRenderer>().sprite = topCard.cardImageBorder.GetComponent<SpriteRenderer>().sprite;
-        costText.text = topCard.costText.text;
-        ATKText.text = topCard.type == Type.Fighter ? topCard.GetComponent<CombatantLogic>().atk.ToString() : "";
-        HPText.text = topCard.type == Type.Fighter ? topCard.GetComponent<CombatantLogic>().hp.ToString() : "";
+        image.GetComponent<SpriteRenderer>().sprite = topCard.visualsLogic.image;
+        back.GetComponent<SpriteRenderer>().sprite = topCard.visualsLogic.cardBack.GetComponent<SpriteRenderer>().sprite;
+        outline.GetComponent<SpriteRenderer>().sprite = topCard.visualsLogic.cardOutline.GetComponent<SpriteRenderer>().sprite;
+        border.GetComponent<SpriteRenderer>().sprite = topCard.visualsLogic.cardImageBorder.GetComponent<SpriteRenderer>().sprite;
+        costText.text = topCard.visualsLogic.costText.text;
+        ATKText.text = topCard.dataLogic.type == Type.Fighter ? topCard.GetComponent<CombatantLogic>().atk.ToString() : "";
+        HPText.text = topCard.dataLogic.type == Type.Fighter ? topCard.GetComponent<CombatantLogic>().hp.ToString() : "";
     }
 
     public void OnPointerClick(PointerEventData eventData)

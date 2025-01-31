@@ -47,10 +47,10 @@ public class MonsterLogic : CardLogic
         currentSlot.hpIcon.SetActive(true);
         OnFieldAtkRefresh();
         OnFieldHpRefresh();
-        textCanvas.gameObject.SetActive(false);
-        EnergyIcon.gameObject.SetActive(false);
+        visualsLogic.textCanvas.gameObject.SetActive(false);
+        visualsLogic.EnergyIcon.gameObject.SetActive(false);
         audioManager.NewAudioPrefab(audioManager.summon);
-        GameObject go = Instantiate(cardController.ui.summoningCirclePrefab, currentSlot.transform, false);
+        GameObject go = Instantiate(dataLogic.cardController.ui.summoningCirclePrefab, currentSlot.transform, false);
         go.transform.localPosition = Vector3.zero;
         hasMoved = true;
         combatLogic.attacksLeft = combatLogic.maxAttacks;
@@ -60,7 +60,7 @@ public class MonsterLogic : CardLogic
 
     public void DeclareMove()
     {
-        foreach (CardSlot cardSlot in cardController.cardSlots)
+        foreach (CardSlot cardSlot in dataLogic.cardController.cardSlots)
             if (Mathf.Abs(currentSlot.row - cardSlot.row) <= 1 && Mathf.Abs(currentSlot.column - cardSlot.column) <= 1)
             {
                 if (cardSlot == currentSlot)
@@ -76,7 +76,7 @@ public class MonsterLogic : CardLogic
     public void Move(CardSlot cardSlot)
     {
         if (Mathf.Abs(currentSlot.row - cardSlot.row) > 1 || Mathf.Abs(currentSlot.column - cardSlot.column) > 1 ||
-            cardSlot == currentSlot || cardSlot.cardInZone != null || cardSlot.controller != cardController)
+            cardSlot == currentSlot || cardSlot.cardInZone != null || cardSlot.controller != dataLogic.cardController)
             return;
         hasMoved = true;
         currentSlot.cardInZone = null;
@@ -91,8 +91,8 @@ public class MonsterLogic : CardLogic
         OnFieldHpRefresh();
         foreach(CardStatus status in combatLogic.cardStatuses)
             currentSlot.SetStatusIcon(status);
-        foreach (CardSlot slot in cardController.cardSlots)
-            slot.sprite.color = cardController.playerColor;
+        foreach (CardSlot slot in dataLogic.cardController.cardSlots)
+            slot.sprite.color = dataLogic.cardController.playerColor;
         gm.StateChange(GameState.Moved);
         gm.ChainResolution();
     }
@@ -106,31 +106,33 @@ public class MonsterLogic : CardLogic
 
     public IEnumerator BounceCard()
     {
-        if (cardOwner.handSize >= 10)
+        if (dataLogic.cardOwner.handSize >= 10)
         {
             playLogic.MoveToGrave();
             yield break;
         }
-        foreach(HandSlot handSlot in cardOwner.handSlots)
+        foreach(HandSlot handSlot in dataLogic.cardOwner.handSlots)
         {
             if (handSlot.cardInZone == null)
                 continue;
-            if (cardOwner.handSize >= 10)
+            if (dataLogic.cardOwner.handSize >= 10)
                 break;
 
             LeavingFieldSequence();
             transform.position = Vector3.zero;
             //implementing a battle log
-            LocationChange(Location.Hand, cardOwner.handSize);
+            LocationChange(Location.Hand, dataLogic.cardOwner.handSize);
             transform.SetParent(handSlot.transform, false);
-            //when playing with another player on same device flip face up only if you bounce on your turn...might implement more to support this
-            Flip(!cardOwner.isLocal || cardOwner.isAI || cardOwner != gm.turnPlayer && !cardOwner.enemy.isAI && cardOwner.enemy.isLocal);
+            //when playing with another player on same device flip face up only if you bounce on your turn...
+            //might implement more to support this
+            visualsLogic.Flip(!dataLogic.cardOwner.isLocal || dataLogic.cardOwner.isAI 
+                || dataLogic.cardOwner != gm.turnPlayer && !dataLogic.cardOwner.enemy.isAI && dataLogic.cardOwner.enemy.isLocal);
             handSlot.cardInZone = this;
-            cardOwner.handLogicList.Add(this);
-            cardOwner.handSize = cardOwner.handLogicList.Count;
+            dataLogic.cardOwner.handLogicList.Add(this);
+            dataLogic.cardOwner.handSize = dataLogic.cardOwner.handLogicList.Count;
             break;
         }
-        gm.ShuffleHand(cardOwner);
+        gm.ShuffleHand(dataLogic.cardOwner);
         gm.StateChange(GameState.Bounce);
         yield break;
     }
@@ -144,10 +146,10 @@ public class MonsterLogic : CardLogic
 
     public void MonsterDeath()
     {
-        audioManager.SelectCharacterDeathSFX(id);
+        audioManager.SelectCharacterDeathSFX(dataLogic.id);
         currentSlot.SetStat(Status.Death, 0);
         LeavingFieldSequence();
-        foreach (Effect effect in effects)
+        foreach (Effect effect in effectLogic.effects)
             foreach (SubEffect subEffect in effect.SubEffects)
                 if (subEffect.effectType == EffectTypes.Vengeance)
                 {
@@ -168,6 +170,6 @@ public class MonsterLogic : CardLogic
         combatLogic.hasDoneCountdown = false;
         currentSlot.cardInZone = null;
         currentSlot.DeselectSlot();
-        cardController.fieldLogicList.Remove(this);
+        dataLogic.cardController.fieldLogicList.Remove(this);
     }
 }

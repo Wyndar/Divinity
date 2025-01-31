@@ -58,10 +58,10 @@ public class CombatantLogic : MonoBehaviour
 
         if (damage != 0)
         {
-            if (targetState == TargetState.Spot && logic.type == Type.Fighter)
+            if (targetState == TargetState.Spot && logic.dataLogic.type == Type.Fighter)
                 damage *= 2;
             currentHp -= damage;
-            logic.audioManager.SelectCharacterDamageSFX(logic.id);
+            logic.audioManager.SelectCharacterDamageSFX(logic.dataLogic.id);
             gm.StateChange(GameState.Damaged);
                 logic.StatAdjustment(damage, Status.Damage);
             yield return new WaitForSeconds(1f);
@@ -70,7 +70,7 @@ public class CombatantLogic : MonoBehaviour
         {
             logIndex = gm.gameLogHistoryEntries.Count,
             loggedCard = gm.currentFocusCardLogic,
-            loggedLocation = logic.currentLocation
+            loggedLocation = logic.dataLogic.currentLocation
         };
         gm.gameLogHistoryEntries.Add(statChangeLog);
         if (!wasAttack)
@@ -83,7 +83,7 @@ public class CombatantLogic : MonoBehaviour
     {
         if (currentCoroutine != null)
             StopCoroutine(currentCoroutine);
-        foreach (Effect effect in logic.effects)
+        foreach (Effect effect in logic.effectLogic.effects)
             foreach (SubEffect subEffect in effect.SubEffects)
                 if (subEffect.effectType == EffectTypes.Counter)
                 {
@@ -92,8 +92,8 @@ public class CombatantLogic : MonoBehaviour
                     break;
                     //only need to catch one sub effect per effect, rest resolves at chain resolution
                 }
-        logic.cardController.AIManager.isPerformingAction = false;
-        logic.cardController.enemy.AIManager.isPerformingAction = false;
+        logic.dataLogic.cardController.AIManager.isPerformingAction = false;
+        logic.dataLogic.cardController.enemy.AIManager.isPerformingAction = false;
         gm.ChainResolution();
     }
 
@@ -115,7 +115,7 @@ public class CombatantLogic : MonoBehaviour
                 currentHp -= value;
                 break;
             default:
-                throw new MissingReferenceException($"Error at stat type {status} for {logic.cardName}");
+                throw new MissingReferenceException($"Error at stat type {status} for {logic.dataLogic.cardName}");
         }
         if (currentAtk < 0)
             currentAtk = 0;
@@ -135,7 +135,7 @@ public class CombatantLogic : MonoBehaviour
         {
             logIndex = gm.gameLogHistoryEntries.Count,
             loggedCard = gm.currentFocusCardLogic,
-            loggedLocation = logic.currentLocation
+            loggedLocation = logic.dataLogic.currentLocation
         };
 
         gm.gameLogHistoryEntries.Add(statChangeLog);
@@ -154,7 +154,7 @@ public class CombatantLogic : MonoBehaviour
     public void AttackResolution()
     {
         CombatantLogic attacker = gm.currentFocusCardLogic.gameObject.GetComponent<CombatantLogic>();
-        foreach (Effect effect in gm.currentFocusCardLogic.effects)
+        foreach (Effect effect in gm.currentFocusCardLogic.effectLogic.effects)
             foreach (SubEffect subEffect in effect.SubEffects)
                 if (subEffect.effectType == EffectTypes.Assault)
                 {
@@ -188,7 +188,7 @@ public class CombatantLogic : MonoBehaviour
         bool blockerInColumn = false;
 
         //check hero 
-        CombatantLogic hero = logic.cardController.enemy.heroCardLogic.GetComponent<CombatantLogic>();
+        CombatantLogic hero = logic.dataLogic.cardController.enemy.heroCardLogic.GetComponent<CombatantLogic>();
         if (hero.targetState == TargetState.Taunt)
         {
             tauntEnemy = true;
@@ -196,7 +196,7 @@ public class CombatantLogic : MonoBehaviour
         }
 
         //then check if there is a taunter on field
-        foreach (CardLogic card in logic.cardController.enemy.fieldLogicList)
+        foreach (CardLogic card in logic.dataLogic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = card.GetComponent<CombatantLogic>();
             if (combatantLogic.targetState == TargetState.Taunt)
@@ -207,7 +207,7 @@ public class CombatantLogic : MonoBehaviour
         }
         bool isFrontline = logic.GetComponent<MonsterLogic>().currentSlot.isFrontline;
         //then you can add based on taunt and stealth
-        foreach (CardLogic cardLogic in logic.cardController.enemy.fieldLogicList)
+        foreach (CardLogic cardLogic in logic.dataLogic.cardController.enemy.fieldLogicList)
         {
             CombatantLogic combatantLogic = cardLogic.GetComponent<CombatantLogic>();
             if (tauntEnemy)
@@ -221,10 +221,10 @@ public class CombatantLogic : MonoBehaviour
                 logics.Add(combatantLogic);
             if (cardLogic.GetComponent<MonsterLogic>().currentSlot.column == logic.GetComponent<MonsterLogic>().currentSlot.column)
                 blockerInColumn = true;
-            if (!tauntEnemy && !logics.Contains(hero) && (logic.type != Type.Fighter || isFrontline) && !blockerInColumn)
+            if (!tauntEnemy && !logics.Contains(hero) && (logic.dataLogic.type != Type.Fighter || isFrontline) && !blockerInColumn)
                 logics.Add(hero);
         }
-        if (logics.Count == 0 && (logic.type != Type.Fighter || isFrontline) && hero.targetState != TargetState.Stealth)
+        if (logics.Count == 0 && (logic.dataLogic.type != Type.Fighter || isFrontline) && hero.targetState != TargetState.Stealth)
             logics.Add(hero);
         validTargets = new(logics);
         return logics;
@@ -361,12 +361,12 @@ public class CombatantLogic : MonoBehaviour
         {
             if (combatantLogic.logic is MonsterLogic monster)
                 monster.currentSlot.attackTarget.SetActive(true);
-            if (combatantLogic.logic.type == Type.God)
-                combatantLogic.logic.cardController.heroAttackTarget.SetActive(true);
+            if (combatantLogic.logic.dataLogic.type == Type.God)
+                combatantLogic.logic.dataLogic.cardController.heroAttackTarget.SetActive(true);
         }
         logic.SetFocusCardLogic();
 
-        if (!logic.cardController.isAI)
+        if (!logic.dataLogic.cardController.isAI)
             return;
         CombatantLogic godLogic = validTargets.Find(x => x.logic is GodLogic);
         if (godLogic != null)

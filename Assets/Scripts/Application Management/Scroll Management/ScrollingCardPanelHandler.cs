@@ -40,7 +40,7 @@ public class ScrollingCardPanelHandler : MonoBehaviour
             ScrollCardImage scrollCardImage = cardImage.GetComponent<ScrollCardImage>();
             scrollCardImage.cardLogic = cardLogic;
             scrollCardImage.Game_Manager = Game_Manager;
-            scrollCardImage.image.sprite = cardLogic.image;
+            scrollCardImage.image.sprite = cardLogic.visualsLogic.image;
             scrollCardImage.highlightImage.color = Color.clear;
         }
     }

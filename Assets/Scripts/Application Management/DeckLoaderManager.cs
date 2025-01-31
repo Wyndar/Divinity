@@ -96,65 +96,65 @@ public class DeckLoaderManager : MonoBehaviour
             cardClone.SetActive(true);
 
             //populates instance with data
-            cardCloneCardLogic.id = card.Id;
-            cardCloneCardLogic.cardName = card.CardName;
-            cardClone.name = $"{playerManager.PlayerName}'s {cardCloneCardLogic.cardName} {returnList.Count}";
-            cardCloneCardLogic.type = card.CardType;
-            cardCloneCardLogic.cardOwner = playerManager;
-            cardCloneCardLogic.cardController = playerManager;
-            cardCloneCardLogic.cardText = card.CardText;
-            cardCloneCardLogic.flavorText = card.CardFlavorText;
-            cardCloneCardLogic.traits = new(card.Traits);
-            cardCloneCardLogic.attunements = new(card.Attunements);
+            cardCloneCardLogic.dataLogic.id = card.Id;
+            cardCloneCardLogic.dataLogic.cardName = card.CardName;
+            cardClone.name = $"{playerManager.PlayerName}'s {cardCloneCardLogic.dataLogic.cardName} {returnList.Count}";
+            cardCloneCardLogic.dataLogic.type = card.CardType;
+            cardCloneCardLogic.dataLogic.cardOwner = playerManager;
+            cardCloneCardLogic.dataLogic.cardController = playerManager;
+            cardCloneCardLogic.dataLogic.cardText = card.CardText;
+            cardCloneCardLogic.dataLogic.flavorText = card.CardFlavorText;
+            cardCloneCardLogic.dataLogic.traits = new(card.Traits);
+            cardCloneCardLogic.dataLogic.attunements = new(card.Attunements);
 
             cardCloneCardLogic.gameManager = G_M;
             cardCloneCardLogic.audioManager = audioManager;
 
             //attempts to change face card art, defaults missing art if error is encountered for whatever reason and sets a default
-            cardCloneCardLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.id}", typeof(Sprite)) as Sprite;
-            if (cardCloneCardLogic.image == null)
-                cardCloneCardLogic.image = Resources.Load("Sprites And Visuals/Card Images/Default", typeof(Sprite)) as Sprite;
+            cardCloneCardLogic.visualsLogic.image = Resources.Load($"Sprites And Visuals/Card Images/{cardCloneCardLogic.dataLogic.id}", typeof(Sprite)) as Sprite;
+            if (cardCloneCardLogic.visualsLogic.image == null)
+                cardCloneCardLogic.visualsLogic.image = Resources.Load("Sprites And Visuals/Card Images/Default", typeof(Sprite)) as Sprite;
 
 
             //populates generic data based on card type
-            if (cardCloneCardLogic.type != Type.God)
+            if (cardCloneCardLogic.dataLogic.type != Type.God)
             {
-                cardCloneCardLogic.cardBack = cardClone.transform.Find("Card Back");
-                cardCloneCardLogic.cardImage = cardClone.transform.Find("Card Image");
-                cardCloneCardLogic.cardImageBorder = cardClone.transform.Find("Card Image Border");
-                cardCloneCardLogic.cardOutline = cardClone.transform.Find("Card Outline");
-                cardCloneCardLogic.textCanvas = cardClone.transform.Find("Canvas");
-                cardCloneCardLogic.EnergyIcon = cardClone.transform.Find("Energy");
-                cardCloneCardLogic.costText = cardCloneCardLogic.textCanvas.Find("Cost Text").GetComponent<TMP_Text>();
+                cardCloneCardLogic.visualsLogic.cardBack = cardClone.transform.Find("Card Back");
+                cardCloneCardLogic.visualsLogic.cardImage = cardClone.transform.Find("Card Image");
+                cardCloneCardLogic.visualsLogic.cardImageBorder = cardClone.transform.Find("Card Image Border");
+                cardCloneCardLogic.visualsLogic.cardOutline = cardClone.transform.Find("Card Outline");
+                cardCloneCardLogic.visualsLogic.textCanvas = cardClone.transform.Find("Canvas");
+                cardCloneCardLogic.visualsLogic.EnergyIcon = cardClone.transform.Find("Energy");
+                cardCloneCardLogic.visualsLogic.costText = cardCloneCardLogic.visualsLogic.textCanvas.Find("Cost Text").GetComponent<TMP_Text>();
 
                 //disables unnecessary components till needed
-                cardCloneCardLogic.cardOutline.gameObject.SetActive(false);
-                cardCloneCardLogic.cardImageBorder.gameObject.SetActive(false);
-                cardCloneCardLogic.textCanvas.gameObject.SetActive(false);
+                cardCloneCardLogic.visualsLogic.cardOutline.gameObject.SetActive(false);
+                cardCloneCardLogic.visualsLogic.cardImageBorder.gameObject.SetActive(false);
+                cardCloneCardLogic.visualsLogic.textCanvas.gameObject.SetActive(false);
 
-                cardCloneCardLogic.cardImage.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.image;
+                cardCloneCardLogic.visualsLogic.cardImage.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.visualsLogic.image;
                 PlayableLogic cardClonePlayableLogic = cardClone.AddComponent<PlayableLogic>();
-                cardCloneCardLogic.playTypes.Add(PlayType.Playable);
+                cardCloneCardLogic.dataLogic.playTypes.Add(PlayType.Playable);
                 cardClonePlayableLogic.gm = G_M;
                 cardClonePlayableLogic.logic = cardCloneCardLogic;
                 cardClonePlayableLogic.cost = card.Cost;
-                cardCloneCardLogic.costText.text = cardClonePlayableLogic.cost.ToString();
+                cardCloneCardLogic.visualsLogic.costText.text = cardClonePlayableLogic.cost.ToString();
                 if (isHeroDeck)
-                    cardCloneCardLogic.currentLocation = Location.HeroDeck;
+                    cardCloneCardLogic.dataLogic.currentLocation = Location.HeroDeck;
                 else
-                    cardCloneCardLogic.currentLocation = Location.Deck;
+                    cardCloneCardLogic.dataLogic.currentLocation = Location.Deck;
 
-                cardCloneCardLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x - 0.5f,
+                cardCloneCardLogic.dataLogic.transform.SetPositionAndRotation(new Vector3(deckObject.transform.position.x - 0.5f,
                     deckObject.transform.position.y, deckObject.transform.position.z),
                     deckObject.transform.rotation);
-                cardCloneCardLogic.isFaceDown = true;
-                cardCloneCardLogic.cardImage.gameObject.SetActive(false);
-                cardCloneCardLogic.cardBack.gameObject.SetActive(true);
+                cardCloneCardLogic.visualsLogic.isFaceDown = true;
+                cardCloneCardLogic.visualsLogic.cardImage.gameObject.SetActive(false);
+                cardCloneCardLogic.visualsLogic.cardBack.gameObject.SetActive(true);
             }
-            if (cardCloneCardLogic.type != Type.Spell)
+            if (cardCloneCardLogic.dataLogic.type != Type.Spell)
             {
                 CombatantLogic cardCloneCombatantLogic = cardClone.AddComponent<CombatantLogic>();
-                cardCloneCardLogic.playTypes.Add(PlayType.Combatant);
+                cardCloneCardLogic.dataLogic.playTypes.Add(PlayType.Combatant);
                 cardCloneCombatantLogic.gm = G_M;
                 cardCloneCombatantLogic.logic = cardCloneCardLogic;
                 cardCloneCombatantLogic.atk = card.Atk;
@@ -164,7 +164,7 @@ public class DeckLoaderManager : MonoBehaviour
                 cardCloneCombatantLogic.currentHp = card.Hp;
             }
             //incase more card types are added eventually, switch allows easy implementation of additional logic
-            switch (cardCloneCardLogic.type)
+            switch (cardCloneCardLogic.dataLogic.type)
             {
                 case Type.Spell:
                     cardClone.GetComponent<SpellLogic>().gm = G_M;
@@ -175,18 +175,18 @@ public class DeckLoaderManager : MonoBehaviour
                     cardClone.GetComponent<MonsterLogic>().U_I = U_I;
                     cardClone.GetComponent<MonsterLogic>().combatLogic = cardClone.GetComponent<CombatantLogic>();
                     cardClone.GetComponent<MonsterLogic>().playLogic = cardClone.GetComponent<PlayableLogic>();
-                    cardCloneCardLogic.ATKText = cardCloneCardLogic.textCanvas.Find("ATK Text").GetComponent<TMP_Text>();
-                    cardCloneCardLogic.HPText = cardCloneCardLogic.textCanvas.Find("HP Text").GetComponent<TMP_Text>();
-                    cardCloneCardLogic.ATKText.text = cardClone.GetComponent<CombatantLogic>().atk.ToString();
-                    cardCloneCardLogic.HPText.text = cardClone.GetComponent<CombatantLogic>().hp.ToString();
+                    cardCloneCardLogic.visualsLogic.ATKText = cardCloneCardLogic.visualsLogic.textCanvas.Find("ATK Text").GetComponent<TMP_Text>();
+                    cardCloneCardLogic.visualsLogic.HPText = cardCloneCardLogic.visualsLogic.textCanvas.Find("HP Text").GetComponent<TMP_Text>();
+                    cardCloneCardLogic.visualsLogic.ATKText.text = cardClone.GetComponent<CombatantLogic>().atk.ToString();
+                    cardCloneCardLogic.visualsLogic.HPText.text = cardClone.GetComponent<CombatantLogic>().hp.ToString();
                     cardClone.GetComponent<CombatantLogic>().maxAttacks = card.MaxAttacks == 0 ? 1 : card.MaxAttacks;
                     break;
                 case Type.God:
-                    cardCloneCardLogic.currentLocation = Location.Field;
-                    cardCloneCardLogic.locationOrderNumber = 99;
+                    cardCloneCardLogic.dataLogic.currentLocation = Location.Field;
+                    cardCloneCardLogic.dataLogic.locationOrderNumber = 99;
                     playerManager.heroCardLogic = cardClone.GetComponent<GodLogic>();
-                    cardCloneCardLogic.isFaceDown = false;
-                    cardClone.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.image;
+                    cardCloneCardLogic.visualsLogic.isFaceDown = false;
+                    cardClone.GetComponent<SpriteRenderer>().sprite = cardCloneCardLogic.visualsLogic.image;
                     cardCloneGodLogic = cardClone.GetComponent<GodLogic>();
                     cardCloneGodLogic.gm = G_M;
                     cardClone.GetComponent<GodLogic>().U_I = U_I;
@@ -201,14 +201,14 @@ public class DeckLoaderManager : MonoBehaviour
                     break;
             }
 
-            cardCloneCardLogic.effects = new();
+            cardCloneCardLogic.effectLogic.effects = new();
             foreach (Effect effect in card.Effects)
             {
                 Effect effectInstance = new(effect);
-                cardCloneCardLogic.effects.Add(effectInstance);
+                cardCloneCardLogic.effectLogic.effects.Add(effectInstance);
             }
 
-            if (cardCloneCardLogic.type != Type.God)
+            if (cardCloneCardLogic.dataLogic.type != Type.God)
                 returnList.Add(cardCloneCardLogic);
         }
         return returnList;

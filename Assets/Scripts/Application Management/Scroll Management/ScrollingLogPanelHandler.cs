@@ -70,15 +70,18 @@ public class ScrollingLogPanelHandler : MonoBehaviour
             scrollLogEntry.historyEntry = logHistoryEntry;
             scrollLogEntry.Game_Manager = Game_Manager;
             scrollLogEntry.scrollingLogPanelHandler = this;
-            scrollLogEntry.cardImage.sprite = logHistoryEntry.loggedCard.isFaceDown ?
-               logHistoryEntry.loggedCard.cardBack.GetComponent<SpriteRenderer>().sprite : logHistoryEntry.loggedCard.image;
+            scrollLogEntry.cardImage.sprite = logHistoryEntry.loggedCard.visualsLogic.isFaceDown
+                ? logHistoryEntry.loggedCard.visualsLogic.cardBack.GetComponent<SpriteRenderer>().sprite
+                : logHistoryEntry.loggedCard.visualsLogic.image;
             scrollLogEntry.TargetsButton.gameObject.SetActive(false);
-            string cardName = logHistoryEntry.loggedCard.isFaceDown ? "Unknown Card" : logHistoryEntry.loggedCard.cardName;
+            string cardName = logHistoryEntry.loggedCard.visualsLogic.isFaceDown ? "Unknown Card" 
+                : logHistoryEntry.loggedCard.dataLogic.cardName;
             if (logHistoryEntry is AttackHistoryEntry attack)
             {
                 scrollLogEntry.logTypeText.text = "Attack Declaration";
-                scrollLogEntry.loggedText.text = $"{cardName} Attacked {attack.attacker.cardName}.";
-                scrollLogEntry.SetTargetImage(true, attackImage, attack.attacker.image, LocationSprite(attack.attacker.currentLocation));
+                scrollLogEntry.loggedText.text = $"{cardName} Attacked {attack.attacker.dataLogic.cardName}.";
+                scrollLogEntry.SetTargetImage(true, attackImage,
+                    attack.attacker.visualsLogic.image, LocationSprite(attack.attacker.dataLogic.currentLocation));
             }
             if (logHistoryEntry is CardStatusHistoryEntry status)
             {
@@ -94,9 +97,10 @@ public class ScrollingLogPanelHandler : MonoBehaviour
                 string s = effect.loggedEffectUsed.ToString();
                 if (effect.effectTargets.Count == 1)
                 {
-                    scrollLogEntry.SetTargetImage(true, effectImage, effect.effectTargets[0].image,
-                        LocationSprite(effect.effectTargets[0].currentLocation));
-                    string x = effect.effectTargets[0].isFaceDown ? "Unknown Card" : effect.effectTargets[0].cardName;
+                    scrollLogEntry.SetTargetImage(true, effectImage, effect.effectTargets[0].visualsLogic.image,
+                        LocationSprite(effect.effectTargets[0].dataLogic.currentLocation));
+                    string x = effect.effectTargets[0].visualsLogic.isFaceDown 
+                        ? "Unknown Card" : effect.effectTargets[0].dataLogic.cardName;
                     w = $"on {x}";
                 }
                 else

@@ -53,12 +53,13 @@ public class CardSlot : MonoBehaviour
             gm.currentFocusCardSlot.DeselectSlot();
         if (gm.currentFocusCardLogic != null)
         {
-            if (gm.currentFocusCardLogic.type != Type.Fighter || gm.currentFocusCardLogic.cardController != gm.BluePlayerManager)
+            if (gm.currentFocusCardLogic.dataLogic.type != Type.Fighter 
+                || gm.currentFocusCardLogic.dataLogic.cardController != gm.BluePlayerManager)
                 return;
             sprite.color = Color.green;
             if (isFrontline || cardInZone != null)
                 sprite.color = Color.grey;
-            if (gm.currentFocusCardLogic.cardController != controller)
+            if (gm.currentFocusCardLogic.dataLogic.cardController != controller)
                 sprite.color = Color.red;
         }
         else

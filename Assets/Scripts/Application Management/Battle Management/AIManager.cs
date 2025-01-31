@@ -147,7 +147,7 @@ public class AIManager : MonoBehaviour
     //for now, just using random targets. will write logic later
     public void GetEffectTarget()
     {
-        gm.currentFocusCardLogic.RandomTargetAcquisition(gm.currentFocusCardLogic.focusSubEffect);
+        gm.currentFocusCardLogic.targetingLogic.RandomTargetAcquisition(gm.currentFocusCardLogic.effectLogic.focusSubEffect);
     }
 
     private void UseLegalEffects()

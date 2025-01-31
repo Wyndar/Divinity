@@ -39,7 +39,7 @@ public class ScrollingDeckPanelHandler : MonoBehaviour
             cardImages.Add(cardImage);
             ScrollCardImage scrollCardImage = cardImage.GetComponent<ScrollCardImage>();
             scrollCardImage.cardLogic = cardLogic;
-            scrollCardImage.image.sprite = cardLogic.image;
+            scrollCardImage.image.sprite = cardLogic.visualsLogic.image;
             scrollCardImage.highlightImage.color = Color.clear;
         }
     }

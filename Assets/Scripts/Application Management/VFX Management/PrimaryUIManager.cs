@@ -61,7 +61,7 @@ public class PrimaryUIManager : MonoBehaviour
     private void TouchStart(Vector2 screenPosition, float time)
     {
         if (gm.currentFocusCardLogic != null)    
-            gm.currentFocusCardLogic.ToggleCardOutline(false);
+            gm.currentFocusCardLogic.visualsLogic.ToggleCardOutline(false);
         touchStartPosition = gm.ScreenToWorld(screenPosition);
         touchStartTime = time;
         moveCoroutine = StartCoroutine(Move(screenPosition));
@@ -90,15 +90,15 @@ public class PrimaryUIManager : MonoBehaviour
             else if (gm.currentFocusCardSlot != null)
                 gm.currentFocusCardSlot.DeselectSlot();
             if (gm.currentFocusCardLogic != null)
-                if (gm.currentFocusCardLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase &&
-                    gm.turnPlayer == gm.currentFocusCardLogic.cardController)
+                if (gm.currentFocusCardLogic.dataLogic.currentLocation == Location.Hand && gm.currentPhase == Phase.MainPhase &&
+                    gm.turnPlayer == gm.currentFocusCardLogic.dataLogic.cardController)
                     gm.currentFocusCardLogic.transform.position = gm.ScreenToWorld(InputManager.CurrentFingerPosition);
             yield return null;
         }
     }
 
     private void TouchEnd(Vector2 screenPosition, float time)
-    { 
+    {
         if (moveCoroutine != null)
             StopCoroutine(moveCoroutine);
         touchEndPosition = gm.ScreenToWorld(screenPosition);
@@ -110,26 +110,26 @@ public class PrimaryUIManager : MonoBehaviour
         }
         if (gm.currentFocusCardLogic != null)
         {
-            if(gm.currentFocusCardLogic.currentLocation == Location.Hand)
-                gm.currentFocusCardLogic.transform.localPosition = Vector3.zero;
+            if (gm.currentFocusCardLogic.dataLogic.currentLocation == Location.Hand)
+                gm.currentFocusCardLogic.visualsLogic.transform.localPosition = Vector3.zero;
             //swipe check to play
-            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 && 
+            if (touchEndTime - touchStartTime > 0.1 && touchEndTime - touchStartTime < 1 &&
                 Vector2.Distance(touchEndPosition, touchStartPosition) >= 0.05f &&
-                gm.currentFocusCardLogic.currentLocation == Location.Hand)
+                gm.currentFocusCardLogic.dataLogic.currentLocation == Location.Hand)
             {
-                float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x );
-                gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic);
-                if (gm.currentPhase == Phase.MainPhase && playableLogic != null )
+                float playDist = Mathf.Abs(touchEndPosition.x - touchStartPosition.x);
+                gm.currentFocusCardLogic.visualsLogic.TryGetComponent(out PlayableLogic playableLogic);
+                if (gm.currentPhase == Phase.MainPhase && playableLogic != null)
                 {
-                    if (gm.currentFocusCardLogic.type == Type.Spell && playDist > 2f)
-                        playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
-                    if (gm.currentFocusCardSlot != null && gm.currentFocusCardLogic.type == Type.Fighter)
-                        playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.cardController);
+                    if (gm.currentFocusCardLogic.dataLogic.type == Type.Spell && playDist > 2f)
+                        playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.dataLogic.cardController);
+                    if (gm.currentFocusCardSlot != null && gm.currentFocusCardLogic.dataLogic.type == Type.Fighter)
+                        playableLogic.PlayCard(EffectsUsed.Deploy, gm.currentFocusCardLogic.dataLogic.cardController);
                 }
             }
             //hold check to show card information
             else if (touchEndTime - touchStartTime > 0.5 && Vector2.Distance(touchEndPosition, touchStartPosition) < 1f &&
-                !gm.currentFocusCardLogic.isFaceDown)
+                !gm.currentFocusCardLogic.visualsLogic.isFaceDown)
                 ShowEffectInfoPanel();
         }
         hasRaycast = false;
@@ -208,20 +208,20 @@ public class PrimaryUIManager : MonoBehaviour
                 CardLogic clickedCard = gameObject.GetComponent<CardLogic>();
                 if (gm.gameState == GameState.Open)
                 {
-                    if (clickedCard.currentLocation == Location.Deck || clickedCard.currentLocation == Location.HeroDeck)
+                    if (clickedCard.dataLogic.currentLocation == Location.Deck || clickedCard.dataLogic.currentLocation == Location.HeroDeck)
                         return;
                     if (gm.isActivatingEffect || gm.isPlayingCard || !allowCardLogicSwap || gm.activationChainList.Count > 0)
                         return;
                     clickedCard.SetFocusCardLogic();
                     focusCard = gm.currentFocusCardLogic;
-                    if (focusCard.type != Type.God)
-                        focusCard.cardOutline.gameObject.SetActive(true);
+                    if (focusCard.dataLogic.type != Type.God)
+                        focusCard.visualsLogic.cardOutline.gameObject.SetActive(true);
                     else
-                        focusCard.cardController.effectActivationButton.SetActive(true);
-                    if (focusCard.currentLocation == Location.Field && gm.turnPlayer == focusCard.cardController &&
-                        focusCard.type != Type.God)
+                        focusCard.dataLogic.cardController.effectActivationButton.SetActive(true);
+                    if (focusCard.dataLogic.currentLocation == Location.Field && gm.turnPlayer == focusCard.dataLogic.cardController &&
+                        focusCard.dataLogic.type != Type.God)
                     {
-                        monsterLogic.currentSlot.effectActivationButton.SetActive(focusCard.IsValidEffect());
+                        monsterLogic.currentSlot.effectActivationButton.SetActive(focusCard.effectLogic.IsValidEffect());
                         if (!monsterLogic.hasMoved && gm.currentPhase == Phase.MainPhase)
                             monsterLogic.currentSlot.moveButton.SetActive(true);
                         if (gm.currentPhase == Phase.BattlePhase)
@@ -231,11 +231,11 @@ public class PrimaryUIManager : MonoBehaviour
                     }
                 }
                 //targeting for effect
-                else if (gm.gameState == GameState.Targeting && focusCard != null && clickedCard.currentLocation == Location.Field)
-                    clickedCard.ManualTargetAcquisition(focusCard.focusSubEffect);
+                else if (gm.gameState == GameState.Targeting && focusCard != null && clickedCard.dataLogic.currentLocation == Location.Field)
+                    clickedCard.targetingLogic.ManualTargetAcquisition(focusCard.effectLogic.focusSubEffect);
 
                 //targeting for attack
-                else if (gm.gameState == GameState.AttackDeclaration && focusCard != null && clickedCard.currentLocation == Location.Field)
+                else if (gm.gameState == GameState.AttackDeclaration && focusCard != null && clickedCard.dataLogic.currentLocation == Location.Field)
                     combatant.AttackTargetAcquisition();
             }
         }
@@ -257,10 +257,10 @@ public class PrimaryUIManager : MonoBehaviour
     public void ShowEffectInfoPanel()
     {
         string cost = "";
-        gm.currentFocusCardLogic.TryGetComponent(out CombatantLogic combatantLogic);
+        gm.currentFocusCardLogic.visualsLogic.TryGetComponent(out CombatantLogic combatantLogic);
 
         rayBlocker.SetActive(true);
-        if (gm.currentFocusCardLogic.TryGetComponent(out PlayableLogic playableLogic))
+        if (gm.currentFocusCardLogic.visualsLogic.TryGetComponent(out PlayableLogic playableLogic))
             cost = playableLogic.cost.ToString();
 
         infoPanel.SetActive(true);
@@ -268,17 +268,17 @@ public class PrimaryUIManager : MonoBehaviour
         infoPanelStats.SetActive(false);
         infoPanelStatusBar.SetActive(false);
 
-        infoPanelEffectText.text = gm.currentFocusCardLogic.cardText.Replace("|", System.Environment.NewLine);
-        infoPanelFlavourText.text = gm.currentFocusCardLogic.flavorText;
-        infoPanelNameText.text = gm.currentFocusCardLogic.cardName;
-        infoPanelImage.sprite = gm.currentFocusCardLogic.image;
+        infoPanelEffectText.text = gm.currentFocusCardLogic.dataLogic.cardText.Replace("|", System.Environment.NewLine);
+        infoPanelFlavourText.text = gm.currentFocusCardLogic.dataLogic.flavorText;
+        infoPanelNameText.text = gm.currentFocusCardLogic.dataLogic.cardName;
+        infoPanelImage.sprite = gm.currentFocusCardLogic.visualsLogic.image;
 
-        if (gm.currentFocusCardLogic.playTypes.Contains(PlayType.Playable))
+        if (gm.currentFocusCardLogic.dataLogic.playTypes.Contains(PlayType.Playable))
         {
             infoPanelEnergy.SetActive(true);
             infoPanelCostText.text = cost;
         }
-        if (gm.currentFocusCardLogic.playTypes.Contains(PlayType.Combatant))
+        if (gm.currentFocusCardLogic.dataLogic.playTypes.Contains(PlayType.Combatant))
         {
             infoPanelStats.SetActive(true);
             infoPanelAtkText.text = combatantLogic.atk.ToString();
@@ -321,8 +321,8 @@ public class PrimaryUIManager : MonoBehaviour
         allowCardLogicSwap = false;
         effectPanel.SetActive(true);
         rayBlocker.SetActive(true);
-        effectPanelNameText.text = gm.currentFocusCardLogic.cardName;
-        effectText = new List<string>(gm.currentFocusCardLogic.cardText.Split("|"));
+        effectPanelNameText.text = gm.currentFocusCardLogic.dataLogic.cardName;
+        effectText = new List<string>(gm.currentFocusCardLogic.dataLogic.cardText.Split("|"));
         SwitchEffectPanel(0);
         if (gm.currentFocusCardLogic is MonsterLogic monster)
         {
@@ -331,15 +331,15 @@ public class PrimaryUIManager : MonoBehaviour
             monster.currentSlot.attackDeclarationButton.SetActive(false);
         }
         else
-            gm.currentFocusCardLogic.cardController.effectActivationButton.SetActive(false);
+            gm.currentFocusCardLogic.dataLogic.cardController.effectActivationButton.SetActive(false);
     }
 
     public void SwitchEffectPanel(int effectCount)
     {
         CardLogic activatingCard = gm.currentFocusCardLogic;
-        Effect activatingEffect = activatingCard.effects[effectCount];
+        Effect activatingEffect = activatingCard.effectLogic.effects[effectCount];
         SubEffect activatingSubEffect = activatingEffect.SubEffects[0];
-        List<CardLogic> validTargets = new(activatingCard.GetValidTargets(activatingSubEffect, false));
+        List<CardLogic> validTargets = new(activatingCard.targetingLogic.GetValidTargets(activatingSubEffect, false));
         for (int i = 0; i < effectPanelTexts.Length; i++)
         {
             //only show buttons if its not the current effect
@@ -359,29 +359,29 @@ public class PrimaryUIManager : MonoBehaviour
         if (activatingEffect.currentActivations >= activatingEffect.maxActivations || 
             (activatingSubEffect.effectUsed != EffectsUsed.BloodCost && validTargets.Count == 0) ||
              (activatingSubEffect.effectUsed == EffectsUsed.BloodCost && 
-             activatingCard.cardController.BloodAttunementCheck(Enum.Parse<Attunement>( activatingSubEffect.TargetStats[0]))
+             activatingCard.dataLogic.cardController.BloodAttunementCheck(Enum.Parse<Attunement>( activatingSubEffect.TargetStats[0]))
              < activatingSubEffect.effectAmount))
         {
             activateButtons[effectCount].SetActive(false);
             return;
         }
         //only show activation button if it's not a chain effect and in correct activation location
-        if ((activatingEffect.activationLocations == null || activatingEffect.activationLocations.Contains(activatingCard.currentLocation)) 
+        if ((activatingEffect.activationLocations == null || activatingEffect.activationLocations.Contains(activatingCard.dataLogic.currentLocation)) 
             && activatingEffect.triggerLocations == null)
         {
             activateButtons[effectCount].SetActive(true);
-            if (activatingCard.effects[effectCount].maxActivations >= 98)
+            if (activatingCard.effectLogic.effects[effectCount].maxActivations >= 98)
                 activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = "";
             else
-                activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effects[effectCount].maxActivations
-                    - activatingCard.effects[effectCount].currentActivations).ToString();
+                activateButtons[effectCount].GetComponentInChildren<TMP_Text>().text = (activatingCard.effectLogic.effects[effectCount].maxActivations
+                    - activatingCard.effectLogic.effects[effectCount].currentActivations).ToString();
         }
     }
 
     public void EffectActivation(int num)
     {
         gm.isActivatingEffect = true;
-        gm.currentFocusCardLogic.EffectActivation(gm.currentFocusCardLogic.effects[num].SubEffects[0]);
+        gm.currentFocusCardLogic.EffectActivation(gm.currentFocusCardLogic.effectLogic.effects[num].SubEffects[0]);
         DisableEffectPanel();
     }
 
@@ -502,20 +502,20 @@ public class PrimaryUIManager : MonoBehaviour
         effectActivationPanel.SetActive(true);
         gm.isActivatingEffect = true;
         rayBlocker.SetActive(true);
-        effectActivationPanelText.text = $"{effectActivationText} {gm.currentFocusCardLogic.cardName}?";
+        effectActivationPanelText.text = $"{effectActivationText} {gm.currentFocusCardLogic.dataLogic.cardName}?";
     }
 
     public void OptionalEffectHandler(bool used)
     {
         gm.isActivatingEffect = used;
-        gm.currentFocusCardLogic.OptionalEffectResolution(used);
+        gm.currentFocusCardLogic.effectLogic.OptionalEffectResolution(used);
         effectActivationPanel.SetActive(false);
         rayBlocker.SetActive(false);
     }
 
     public void ResolveOptionalTargeting()
     {
-    gm.currentFocusCardLogic.EffectResolution(gm.currentFocusCardLogic.focusSubEffect);
+    gm.currentFocusCardLogic.EffectResolution(gm.currentFocusCardLogic.effectLogic.focusSubEffect);
         DisableCardScrollScreen();
     }
 
