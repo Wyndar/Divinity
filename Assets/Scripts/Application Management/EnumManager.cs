@@ -1,23 +1,23 @@
 ﻿public enum GameState
 {
-    Open, Damaged, Death, Grave, Summon, Moved, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution,
+    Undefined, Open, Damaged, Death, Grave, Summon, Moved, Activation, EffectActivation, Targeting, Reinforcement, Cost, ChainResolution,
     Playing, Moving, Deployment, Revive, EffectResolution, AttackDeclaration, Shielded, Bomb, Burn, Detonate, Bounce, Poison,
-    Provoke, Sleep, Disarm, Stun, Silence, Buff, Debuff, Clear, TurnEnd, Undefined
+    Provoke, Sleep, Disarm, Stun, Silence, Buff, Debuff, Clear, TurnEnd
 }
 
 public enum Phase
 {
-    DrawPhase, CostPhase, MainPhase, BattlePhase, EndPhase, Undefined
+    Undefined, DrawPhase, CostPhase, MainPhase, BattlePhase, EndPhase
 }
 
 public enum EffectTypes
 {
-    Deployment, Chain, WhileDeployed, Deployed, Vengeance, Counter, Assault, Undefined
+    Undefined, Deployment, Chain, WhileDeployed, Deployed, Vengeance, Counter, Assault
 }
 
 public enum EffectsUsed
 {
-    Damage, Rally, Stealth, Target, Advancement,
+    Undefined, Damage, Rally, Stealth, Target, Advancement,
     Intimidate, Taunt, Armor, Camouflage, Barrier, Provoke, Disarm,
     Reinforce, Recruit, FreeDeploy, Deploy, BloodRecovery, BloodBoost,
     Weaken, Stun, Burn, Poison, Bomb, Detonate, BombDetonate, BurnDetonate, PoisonDetonate, Shatter, DeathCurse,
@@ -26,76 +26,76 @@ public enum EffectsUsed
 
 
     Terrify, Sleep, Spot, Silence, ForceRetreat, Return, Retreat, Mark, Freeze,
-    Discard, BloodCost, Undefined
+    Discard, BloodCost
 }
 
 public enum TargetingTypes
 {
-    Auto, Manual, Random, Trigger, Undefined
+    Undefined, Auto, Manual, Random, Trigger
 }
 
 public enum Type
 {
-    Spell, God, Fighter, Relic, Terrain, Undefined
+    Undefined, Spell, God, Fighter, Relic, Terrain
 }
 
 public enum Attunement
 {
-    Ira, Amyna, Enkrateia, Katara, Eulogia, Areta, Untuned, Undefined
+    Undefined, Ira, Amyna, Enkrateia, Katara, Eulogia, Areta, Untuned
 }
 
 public enum PlayType
 {
-    Combatant, Playable, Undefined
+    Undefined, Combatant, Playable
 }
 
 public enum Trait
 {
-    Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Fashion, DeadlySin,
-    GreekPantheon, Mathematics, Undefined
+    Undefined, Food, Military, Animal, Undead, Medicine, Music, Weather, HeadOfPantheon, Commerce, Plant, Tarot, Fashion, DeadlySin,
+    GreekPantheon, Mathematics
 }
 
 public enum TargetState
 {
-    Default, Stealth, Taunt, Camouflage, Spot, Undefined
+    Undefined, Default, Stealth, Taunt, Camouflage, Spot
 }
 
 public enum Debuffs
 {
-    Provoked, Stunned, Sleeping, Disarmed, Burned, Poisoned, Bombed, Spotted, Silenced, Undefined
+    Undefined, Provoked, Stunned, Sleeping, Disarmed, Burned, Poisoned, Bombed, Spotted, Silenced
 }
 
 public enum Buffs
 {
-    Armor, Shield, Barrier, Stealth, Taunt, Camouflage, Undefined
+    Undefined, Armor, Shield, Barrier, Stealth, Taunt, Camouflage
 }
 
 public enum Location
 {
-    Deck, HeroDeck, Hand, Field, Grave, Limbo, Outside, Any, Undefined
+    Undefined, Deck, HeroDeck, Hand, Field, Grave, Limbo, Outside, Any
 }
 
 public enum Status
 {
-    Heal, Damage, Death, HpLoss, HpGain, AtkLoss, AtkGain, Undefined
+    Undefined, Heal, Damage, Death, HpLoss, HpGain, AtkLoss, AtkGain
 }
 
 public enum Controller
 {
-    Player, Opponent, Any, Undefined
+    Undefined, Player, Opponent, Any
 }
 
 public enum Rarity
 {
-    L, UR, SR, R, UC, C, Undefined
+    Undefined, L, UR, SR, R, UC, C
 }
 
 public enum BloodState
 {
-    Active, Inactive, Locked, Undefined
+    Undefined, Active, Inactive, Locked
 }
 
 public enum DependentEffectParameter
 {
-    EffectType, EffectUsed, TargetLocations, EffectTargetController, TargetingTypes, EffectTargetTypes, EffectAmount, EffectTargetAmount
+    Undefined, EffectType, EffectUsed, TargetLocations, EffectTargetController, TargetingTypes, EffectTargetTypes, EffectAmount, EffectTargetAmount
 }

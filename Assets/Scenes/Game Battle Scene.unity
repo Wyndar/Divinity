@@ -46377,7 +46377,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1600093220}
   - component: {fileID: 1600093227}
-  - component: {fileID: 1600093229}
   - component: {fileID: 1600093226}
   - component: {fileID: 1600093225}
   - component: {fileID: 1600093223}
@@ -46530,7 +46529,6 @@ MonoBehaviour:
   AudioManager: {fileID: 1600093236}
   SaveManager: {fileID: 1600093223}
   TurnManager: {fileID: 1600093233}
-  ChainManager: {fileID: 1600093229}
   UIManager: {fileID: 1600093239}
   MainUIManager: {fileID: 1600093225}
   DeckManager: {fileID: 1600093242}
@@ -46584,23 +46582,10 @@ MonoBehaviour:
   popUpPanelText: {fileID: 789274744}
   phaseChangeButtonText: {fileID: 1513986455}
   turnCount: 0
-  BluePlayerPath: Load Data/Player Data/PlayerData3
+  BluePlayerPath: Load Data/Player Data/PlayerData1
   RedPlayerPath: Load Data/Player Data/PlayerData2
   loadStartTime: 0
   loadEndTime: 0
---- !u!114 &1600093229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1600093219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11ca1830aeadf848a2a2f65b46d6141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gm: {fileID: 1600093227}
 --- !u!114 &1600093232
 MonoBehaviour:
   m_ObjectHideFlags: 0
