@@ -647,7 +647,6 @@ GameObject:
   m_Component:
   - component: {fileID: 20526456}
   - component: {fileID: 20526458}
-  - component: {fileID: 20526457}
   m_Layer: 2
   m_Name: Bar_4
   m_TagString: Untagged
@@ -671,20 +670,6 @@ Transform:
   - {fileID: 360933432}
   m_Father: {fileID: 128971571}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &20526457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20526455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &20526458
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4147,8 +4132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &170992273
 GameObject:
   m_ObjectHideFlags: 0
@@ -7062,8 +7047,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &265121750
 GameObject:
   m_ObjectHideFlags: 0
@@ -7452,8 +7437,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &283754319
 GameObject:
   m_ObjectHideFlags: 0
@@ -8235,8 +8220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &303951159
 GameObject:
   m_ObjectHideFlags: 0
@@ -9515,8 +9500,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &345238198
 GameObject:
   m_ObjectHideFlags: 0
@@ -13193,8 +13178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &454870598
 GameObject:
   m_ObjectHideFlags: 0
@@ -13565,8 +13550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &461617455
 GameObject:
   m_ObjectHideFlags: 0
@@ -14512,7 +14497,6 @@ GameObject:
   m_Component:
   - component: {fileID: 501703329}
   - component: {fileID: 501703331}
-  - component: {fileID: 501703330}
   m_Layer: 2
   m_Name: Bar_2
   m_TagString: Untagged
@@ -14536,20 +14520,6 @@ Transform:
   - {fileID: 1724563950}
   m_Father: {fileID: 324317603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &501703330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501703328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &501703331
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14841,7 +14811,6 @@ GameObject:
   m_Component:
   - component: {fileID: 513836282}
   - component: {fileID: 513836284}
-  - component: {fileID: 513836283}
   m_Layer: 2
   m_Name: Bar_3
   m_TagString: Untagged
@@ -14865,20 +14834,6 @@ Transform:
   - {fileID: 41248258}
   m_Father: {fileID: 128971571}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &513836283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 513836281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &513836284
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16244,8 +16199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &564182363
 GameObject:
   m_ObjectHideFlags: 0
@@ -20292,8 +20247,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &708174697
 GameObject:
   m_ObjectHideFlags: 0
@@ -26522,7 +26477,6 @@ GameObject:
   m_Component:
   - component: {fileID: 937001470}
   - component: {fileID: 937001472}
-  - component: {fileID: 937001471}
   m_Layer: 2
   m_Name: Bar_4
   m_TagString: Untagged
@@ -26546,20 +26500,6 @@ Transform:
   - {fileID: 1138693206}
   m_Father: {fileID: 324317603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &937001471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 937001469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &937001472
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29094,8 +29034,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1033356843
 GameObject:
   m_ObjectHideFlags: 0
@@ -29907,8 +29847,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1062806815
 GameObject:
   m_ObjectHideFlags: 0
@@ -31676,8 +31616,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1138693205
 GameObject:
   m_ObjectHideFlags: 0
@@ -37419,7 +37359,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1301556384}
   - component: {fileID: 1301556386}
-  - component: {fileID: 1301556385}
   m_Layer: 2
   m_Name: Bar
   m_TagString: Untagged
@@ -37443,20 +37382,6 @@ Transform:
   - {fileID: 1799397686}
   m_Father: {fileID: 324317603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1301556385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301556383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &1301556386
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -37920,8 +37845,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1330589023
 GameObject:
   m_ObjectHideFlags: 0
@@ -38824,8 +38749,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1350754199
 GameObject:
   m_ObjectHideFlags: 0
@@ -42604,7 +42529,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1488361518}
   - component: {fileID: 1488361520}
-  - component: {fileID: 1488361519}
   m_Layer: 2
   m_Name: Bar_2
   m_TagString: Untagged
@@ -42628,20 +42552,6 @@ Transform:
   - {fileID: 283936203}
   m_Father: {fileID: 128971571}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1488361519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1488361517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &1488361520
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -43815,7 +43725,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1530250776}
   - component: {fileID: 1530250778}
-  - component: {fileID: 1530250777}
   m_Layer: 2
   m_Name: Bar_1
   m_TagString: Untagged
@@ -43839,20 +43748,6 @@ Transform:
   - {fileID: 1717155931}
   m_Father: {fileID: 324317603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1530250777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1530250775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &1530250778
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -44563,7 +44458,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1561070502}
   - component: {fileID: 1561070504}
-  - component: {fileID: 1561070503}
   m_Layer: 2
   m_Name: Bar_3
   m_TagString: Untagged
@@ -44587,20 +44481,6 @@ Transform:
   - {fileID: 1168624731}
   m_Father: {fileID: 324317603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1561070503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1561070501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &1561070504
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -51632,8 +51512,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1775880238
 GameObject:
   m_ObjectHideFlags: 0
@@ -52347,7 +52227,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1808235995}
   - component: {fileID: 1808235997}
-  - component: {fileID: 1808235996}
   m_Layer: 2
   m_Name: Bar_1
   m_TagString: Untagged
@@ -52371,20 +52250,6 @@ Transform:
   - {fileID: 1910155349}
   m_Father: {fileID: 128971571}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1808235996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808235994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &1808235997
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -52760,8 +52625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1822292114
 GameObject:
   m_ObjectHideFlags: 0
@@ -53366,8 +53231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1834973184
 GameObject:
   m_ObjectHideFlags: 0
@@ -55746,8 +55611,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1888536858
 GameObject:
   m_ObjectHideFlags: 0
@@ -55849,8 +55714,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1890215025
 GameObject:
   m_ObjectHideFlags: 0
@@ -56533,7 +56398,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1936384911}
   - component: {fileID: 1936384913}
-  - component: {fileID: 1936384912}
   m_Layer: 2
   m_Name: Bar
   m_TagString: Untagged
@@ -56557,20 +56421,6 @@ Transform:
   - {fileID: 527525822}
   m_Father: {fileID: 128971571}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1936384912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936384910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
 --- !u!212 &1936384913
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -56995,8 +56845,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd2569fded97d440bbac6a16dfe5f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attunement: 6
-  bloodState: 1
+  attunement: 0
+  bloodState: 0
 --- !u!1 &1949704034
 GameObject:
   m_ObjectHideFlags: 0
