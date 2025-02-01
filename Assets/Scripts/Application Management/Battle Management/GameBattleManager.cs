@@ -158,7 +158,8 @@ public class GameBattleManager : GameManager
             AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
-            randomCardDraw.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
+            randomCardDraw.visualsLogic.Flip(!player.isLocal || player.isAI 
+                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
             handSlot.cardInZone = randomCardDraw;
             player.deckLogicList.Remove(randomCardDraw);
             player.handLogicList.Add(randomCardDraw);
@@ -178,15 +179,16 @@ public class GameBattleManager : GameManager
             if (isNotFirstDraw)
                 StateChange(GameState.Reinforcement);
             if (currentFocusCardLogic != null && isActivatingEffect)
-                currentFocusCardLogic.FinishResolution(currentFocusCardLogic.focusSubEffect);
+                currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectLogic.focusSubEffect);
             else
                 ChainResolution();
         }
         yield break;
     }
 
-    public IEnumerator SearchCard(List<CardLogic> logics, PlayerManager player, CardLogic activatingCard)
+    public IEnumerator SearchCard(List<CardLogic> logics, CardLogic activatingCard)
     {
+        PlayerManager player = activatingCard.dataLogic.cardOwner;
         if (player.handSize >= 10)
             yield break;
         bool drewCards = false;
@@ -206,7 +208,8 @@ public class GameBattleManager : GameManager
                 logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 //when playing with another player on same device flip face up only if you draw on your turn...
                 //might implement more to support this
-                logic.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
+                logic.visualsLogic.Flip(!player.isLocal || player.isAI 
+                    || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
                 handSlot.cardInZone = logic;
                 player.deckLogicList.Remove(logic);
                 player.handLogicList.Add(logic);
@@ -224,16 +227,17 @@ public class GameBattleManager : GameManager
         {
             ShuffleHand(player);
             StateChange(GameState.Reinforcement);
-            activatingCard.FinishResolution(activatingCard.focusSubEffect);
+            activatingCard.FinishResolution(activatingCard.effectLogic.focusSubEffect);
         }
         yield break;
     }
 
-    public IEnumerator RecoverCard(CardLogic logic, PlayerManager player)
+    public IEnumerator RecoverCard(CardLogic logic, CardLogic activatingCard)
     {
+        PlayerManager player = logic.dataLogic.cardOwner;
         if (player.handSize >= 10)
             yield break;
-
+        bool drewCards = false;
         foreach (HandSlot handSlot in player.handSlots)
         {
             if (handSlot.cardInZone != null)
@@ -244,24 +248,29 @@ public class GameBattleManager : GameManager
 
             //implementing a battle log
             logic.LocationChange(Location.Hand, player.handSize);
-
-            logic.ControllerSwap(player);
+            logic.dataLogic.ControllerSwap(player);
             logic.transform.SetParent(handSlot.transform, false);
             logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
-            logic.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
+            logic.visualsLogic.Flip(!player.isLocal || player.isAI 
+                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
             handSlot.cardInZone = logic;
-            logic.cardOwner.graveLogicList.Remove(logic);
+            logic.dataLogic.cardOwner.graveLogicList.Remove(logic);
             player.handLogicList.Add(logic);
             player.handSize = player.handLogicList.Count;
+            drewCards = true;
             break;
         }
         AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
         yield return new WaitUntil(() => drawSound == null);
 
-        ShuffleHand(player);
-        StateChange(GameState.Reinforcement);
+        if (drewCards)
+        {
+            ShuffleHand(player);
+            StateChange(GameState.Reinforcement);
+            activatingCard.FinishResolution(activatingCard.effectLogic.focusSubEffect);
+        }
         yield break;
     }
 
@@ -286,7 +295,8 @@ public class GameBattleManager : GameManager
             randomCardDraw.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             //when playing with another player on same device flip face up only if you draw on your turn...
             //might implement more to support this
-            randomCardDraw.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
+            randomCardDraw.visualsLogic.Flip(!player.isLocal || player.isAI 
+                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
             handSlot.cardInZone = randomCardDraw;
             player.heroDeckLogicList.Remove(randomCardDraw);
             player.handLogicList.Add(randomCardDraw);
@@ -365,7 +375,7 @@ public class GameBattleManager : GameManager
             {
                 if (handSlot.cardInZone != null)
                     continue;
-                logic.locationOrderNumber = player.handSize;
+                logic.dataLogic.locationOrderNumber = player.handSize;
                 logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                 logic.transform.localScale = new(4, 3, 1);
                 logic.transform.SetParent(handSlot.transform, false);
@@ -441,19 +451,19 @@ public class GameBattleManager : GameManager
         activationChainList.RemoveAt(0);
         activationChainSubEffectList.RemoveAt(0);
         //for non ai players to decide to use optionals
-        if (!subEffect.EffectActivationIsMandatory && !cardLogic.cardController.isAI)
+        if (!subEffect.EffectActivationIsMandatory && !cardLogic.dataLogic.cardController.isAI)
         {
             cardLogic.SetFocusCardLogic();
-            cardLogic.focusSubEffect = subEffect;
+            cardLogic.effectLogic.focusSubEffect = subEffect;
             EnableActivationPanel();
             return;
         }
         //ai optionals negation check
-        if (!subEffect.EffectActivationIsMandatory && cardLogic.cardController.isAI)
-            if (!cardLogic.cardController.AIManager.ActivateOptionalEffect())
+        if (!subEffect.EffectActivationIsMandatory && cardLogic.dataLogic.cardController.isAI)
+            if (!cardLogic.dataLogic.cardController.AIManager.ActivateOptionalEffect())
                 ChainResolution();
         //else it's mandatory or has been accepted to go forward
-        cardLogic.EffectActivation(subEffect);
+        cardLogic.effectLogic.EffectActivation(subEffect);
     }
 
     public void DisableRayBlocker() => MainUIManager.DisableRayBlocker();
@@ -472,16 +482,16 @@ public class GameBattleManager : GameManager
     public void AllEffectsRefresh(PlayerManager player)
     {
         foreach (CardLogic cardLogic in player.handLogicList)
-            cardLogic.EffectRefresh();
+            cardLogic.effectLogic.EffectRefresh();
         foreach (CardLogic cardLogic in player.fieldLogicList)
         {
-            cardLogic.EffectRefresh();
-            if (cardLogic.type == Type.Fighter)
+            cardLogic.effectLogic.EffectRefresh();
+            if (cardLogic.dataLogic.type == Type.Fighter)
                 cardLogic.GetComponent<MonsterLogic>().hasMoved = false;
         }
         foreach (CardLogic cardLogic in player.graveLogicList)
-            cardLogic.EffectRefresh();
-        player.heroCardLogic.EffectRefresh();
+            cardLogic.effectLogic.EffectRefresh();
+        player.heroCardLogic.effectLogic.EffectRefresh();
     }
 
     public void AllAttacksRefresh(PlayerManager player)
@@ -537,9 +547,9 @@ public class GameBattleManager : GameManager
         if (player.isAI || !player.isLocal || player.enemy.isAI || !player.enemy.isLocal)
             return;
         foreach (CardLogic cardLogic in player.enemy.handLogicList)
-            cardLogic.Flip(true);
+            cardLogic.visualsLogic.Flip(true);
         foreach (CardLogic cardLogic in player.handLogicList)
-            cardLogic.Flip(false);
+            cardLogic.visualsLogic.Flip(false);
     }
 
     public void ShowValidMoves(PlayerManager player)
@@ -550,7 +560,7 @@ public class GameBattleManager : GameManager
         foreach (CardLogic cardLogic in player.handLogicList)
         {
             bool legal = cardLogic.GetComponent<PlayableLogic>().LegalPlayCheck(false, player) == null;
-            cardLogic.GreyScaleEffect(!legal);
+            cardLogic.visualsLogic.GreyScaleEffect(!legal);
             if (legal)
                 player.playableLogicList.Add(cardLogic);
         }
@@ -559,7 +569,7 @@ public class GameBattleManager : GameManager
             if (cardLogic.GetComponent<CombatantLogic>().ImmobilityCheck())
                 continue;
             bool shouldAdd = false;
-            foreach (Effect effect in cardLogic.effects)
+            foreach (Effect effect in cardLogic.effectLogic.effects)
             {
                 if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
                     continue;
@@ -567,7 +577,8 @@ public class GameBattleManager : GameManager
                 {
                     if (subEffect.effectType != EffectTypes.Deployed)
                         continue;
-                    if (subEffect.effectUsed != EffectsUsed.BloodCost && cardLogic.GetValidTargets(subEffect, false).Count == 0)
+                    if (subEffect.effectUsed != EffectsUsed.BloodCost 
+                        && cardLogic.targetingLogic.GetValidTargets(subEffect, false).Count == 0)
                     {
                         if (!subEffect.EffectActivationIsMandatory) continue;
                         shouldAdd = false;
@@ -588,7 +599,7 @@ public class GameBattleManager : GameManager
                 player.canUseSubEffectList.Add(effect.SubEffects[0]);
             }
         }
-        foreach (Effect effect in player.heroCardLogic.effects)
+        foreach (Effect effect in player.heroCardLogic.effectLogic.effects)
         {
             if (effect.currentActivations >= effect.maxActivations && effect.maxActivations != 0)
                 continue;
@@ -597,7 +608,8 @@ public class GameBattleManager : GameManager
             {
                 if (subEffect.effectType != EffectTypes.Deployed)
                     continue;
-                if (subEffect.effectUsed != EffectsUsed.BloodCost && player.heroCardLogic.GetValidTargets(subEffect, false).Count == 0)
+                if (subEffect.effectUsed != EffectsUsed.BloodCost 
+                    && player.heroCardLogic.targetingLogic.GetValidTargets(subEffect, false).Count == 0)
                 {
                     if (!subEffect.EffectActivationIsMandatory) continue;
                     shouldAdd = false;

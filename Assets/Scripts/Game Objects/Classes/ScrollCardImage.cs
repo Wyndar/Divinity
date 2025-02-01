@@ -18,7 +18,7 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
             cardLogic.SetFocusCardLogic();
 
             //private knowledge gtfo
-            if (cardLogic.isFaceDown)
+            if (cardLogic.visualsLogic.isFaceDown)
                 return;
 
             Game_Manager.ShowEffectInfoPanel();
@@ -31,13 +31,13 @@ public class ScrollCardImage : MonoBehaviour, IPointerClickHandler
         {
             highlightImage.color = Color.clear;
             isTargeted = false;
-            cardLogic.ManualTargetRemoval();
+            cardLogic.targetingLogic.ManualTargetRemoval();
         }
         else
         {
             isTargeted = true;
             highlightImage.color = Color.yellow;
-            cardLogic.ManualTargetAcquisition(Game_Manager.currentFocusCardLogic.focusSubEffect);
+            cardLogic.targetingLogic.ManualTargetAcquisition(Game_Manager.currentFocusCardLogic.effectLogic.focusSubEffect);
         }
     }
 }

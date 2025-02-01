@@ -58,15 +58,15 @@ public class PlayableLogic : MonoBehaviour
         if (playError == null)
         {
             gm.isPlayingCard = true;
-            if (logic.cardController != player)
-                logic.ControllerSwap(player);
-            logic.Flip(false);
-            logic.GreyScaleEffect(false);
+            if (logic.dataLogic.cardController != player)
+                logic.dataLogic.ControllerSwap(player);
+            logic.visualsLogic.Flip(false);
+            logic.visualsLogic.GreyScaleEffect(false);
             logic.SetFocusCardLogic();
             gm.StateChange(GameState.Activation);
             if (!ignoreCost)
             {
-                List<Attunement> attunements = new(logic.attunements);
+                List<Attunement> attunements = new(logic.dataLogic.attunements);
                 if (!isForcedTuning)
                     attunements.Add(Attunement.Untuned);
                 player.BloodLoss(attunements, cost);
@@ -74,7 +74,7 @@ public class PlayableLogic : MonoBehaviour
             transform.SetParent(null);
 
                 //not a real location to be logged
-            logic.currentLocation = Location.Limbo;
+            logic.dataLogic.currentLocation = Location.Limbo;
 
             if (deploy)
             {
@@ -89,8 +89,8 @@ public class PlayableLogic : MonoBehaviour
             }
             else
             {
-                logic.cardOwner.graveLogicList.Remove(logic);
-                logic.cardOwner.underworldManager.ResetTopCard();
+                logic.dataLogic.cardOwner.graveLogicList.Remove(logic);
+                logic.dataLogic.cardOwner.underworldManager.ResetTopCard();
                 gm.StateChange(GameState.Revive);
             }
             hasBeenPlayed = true;
@@ -98,7 +98,7 @@ public class PlayableLogic : MonoBehaviour
             //the coroutine will call cardPlayed, don't worry
         }
         else
-            gm.ErrorCodePanel($"You cannot play '{logic.cardName}' because {playError}.");
+            gm.ErrorCodePanel($"You cannot play '{logic.dataLogic.cardName}' because {playError}.");
     }
 
     public string LegalPlayCheck(bool ignoreCost, PlayerManager player)
@@ -110,20 +110,20 @@ public class PlayableLogic : MonoBehaviour
             int tempCost = cost;
             foreach (Blood b in player.bloods)
             {
-                foreach (Attunement attunement in logic.attunements)
+                foreach (Attunement attunement in logic.dataLogic.attunements)
                     if (b.attunement == attunement)
                         tempCost--;
             }
             if (player.BloodAttunementCheck(Attunement.Untuned) < tempCost)
                 return "you have not met the attunement requirements";
         }
-        switch (logic.type)
+        switch (logic.dataLogic.type)
         {
             case Type.Fighter:
                 {
                     if (gm.currentFocusCardSlot != null)
                     {
-                        if (gm.currentFocusCardSlot.controller != logic.cardController)
+                        if (gm.currentFocusCardSlot.controller != logic.dataLogic.cardController)
                             return "you do not control that zone";
                         if (gm.currentFocusCardSlot.isFrontline)
                             return "you cannot deploy to the Frontline directly";
@@ -139,15 +139,15 @@ public class PlayableLogic : MonoBehaviour
 
             case Type.Spell:
                 {
-                    foreach (SubEffect subEffect in logic.effects.SelectMany(effect => effect.SubEffects))
+                    foreach (SubEffect subEffect in logic.effectLogic.effects.SelectMany(effect => effect.SubEffects))
                     {
                         if (subEffect.effectUsed == EffectsUsed.BloodCost &&
-                        logic.cardController.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) < subEffect.effectAmount)
+                        logic.dataLogic.cardController.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) < subEffect.effectAmount)
                             return "you cannot pay the blood cost";
                         if (subEffect.effectType != EffectTypes.Deployment || !subEffect.EffectActivationIsMandatory ||
                             subEffect.effectTargetAmount == 0 || subEffect.effectTargetAmount >= 98)
                             continue;
-                        List<CardLogic> allTargetsList = logic.GetValidTargets(subEffect, false);
+                        List<CardLogic> allTargetsList = logic.targetingLogic.GetValidTargets(subEffect, false);
                         if (allTargetsList.Count == 0)
                             return "there are no valid targets";
                     }
@@ -161,12 +161,12 @@ public class PlayableLogic : MonoBehaviour
     {
         gm.StateChange(GameState.Playing);
         gm.StateChange(GameState.Deployment);
-        if (logic.type == Type.Fighter)
+        if (logic.dataLogic.type == Type.Fighter)
             GetComponent<MonsterLogic>().MonsterSummon(player);
-        logic.EffectRefresh();
+        logic.effectLogic.EffectRefresh();
         logic.SetFocusCardLogic();
         int effectsAddedCount = 0;
-        foreach (Effect effect in logic.effects)
+        foreach (Effect effect in logic.effectLogic.effects)
         {
             //passives should resolve as soon as possible, before chain stack if necessary and in order of effect displayed on card
             if (effect.SubEffects[0].effectType == EffectTypes.WhileDeployed)
@@ -187,8 +187,8 @@ public class PlayableLogic : MonoBehaviour
             }
         }
         AttunementPenalty(player);
-        if (logic.cardController.isAI)
-            logic.cardController.AIManager.isPerformingAction = false;
+        if (logic.dataLogic.cardController.isAI)
+            logic.dataLogic.cardController.AIManager.isPerformingAction = false;
         gm.isPlayingCard= false;
         gm.ChainResolution();
         return;
@@ -196,20 +196,20 @@ public class PlayableLogic : MonoBehaviour
 
     public void MoveToGrave()
     {
-        logic.ControllerSwap(logic.cardOwner);
-        transform.position = logic.cardOwner.shield.transform.position;
-        logic.cardOwner.graveLogicList.Add(logic);
-        logic.cardOwner.underworldManager.ResetTopCard();
-        int i = logic.cardOwner.graveLogicList.FindIndex(a => a == logic);
-        logic.LocationChange(Location.Grave, i);
+        logic.dataLogic.ControllerSwap(logic.dataLogic.cardOwner);
+        transform.position = logic.dataLogic.cardOwner.shield.transform.position;
+        logic.dataLogic.cardOwner.graveLogicList.Add(logic);
+        logic.dataLogic.cardOwner.underworldManager.ResetTopCard();
+        int i = logic.dataLogic.cardOwner.graveLogicList.FindIndex(a => a == logic);
+        logic.dataLogic.LocationChange(Location.Grave, i);
         gm.StateChange(GameState.Grave);
         return;
     }
     private void AttunementPenalty(PlayerManager player)
     {
-        foreach(Attunement attunement in logic.attunements)
+        foreach(Attunement attunement in logic.dataLogic.attunements)
         {
-            if (player.heroCardLogic.attunements.Contains(attunement))
+            if (player.heroCardLogic.dataLogic.attunements.Contains(attunement))
                 continue;
             player.heroCardLogic.StatAdjustment(cost, Status.HpLoss);
         }    

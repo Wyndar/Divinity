@@ -21,14 +21,14 @@ public class Bomb : Debuff
         CombatantLogic combatant = affectedLogic.GetComponent<CombatantLogic>();
         combatant.TakeDamage(3, false);
         gm.StateChange(GameState.Detonate);
-        if (affectedLogic.currentLocation == Location.Grave)
+        if (affectedLogic.dataLogic.currentLocation == Location.Grave)
             return;
         Stun stun = new(applierLogic, affectedLogic, 3);
         combatant.cardStatuses.Add(stun);
         CardStatusHistoryEntry cardStatusHistoryEntry = new(stun)
         {
             loggedCard = affectedLogic,
-            loggedLocation = affectedLogic.currentLocation,
+            loggedLocation = affectedLogic.dataLogic.currentLocation,
             logIndex = gm.gameLogHistoryEntries.Count
         };
         gm.gameLogHistoryEntries.Add(cardStatusHistoryEntry);

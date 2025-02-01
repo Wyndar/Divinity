@@ -120,16 +120,16 @@ public class PlayerManager : MonoBehaviour
                         rateOdds += heroCardLogic.attunementRates[i];
                         if (attunementOdds > rateOdds)
                             continue;
-                        tempAttunement = heroCardLogic.attunements[i];
+                        tempAttunement = heroCardLogic.dataLogic.attunements[i];
                         break;
                     }
                 }
                 else
-                    tempAttunement = heroCardLogic.attunements[0];
+                    tempAttunement = heroCardLogic.dataLogic.attunements[0];
             }
             else
                 tempAttunement = attunement;
-            blood.Attune(tempAttunement, bloodColours[(int)tempAttunement--]);
+            blood.Attune(tempAttunement, bloodColours[(int)(tempAttunement - 1)]);
             count--;
             if (count == 0)
                 break;
