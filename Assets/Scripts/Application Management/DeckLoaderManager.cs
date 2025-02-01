@@ -91,6 +91,19 @@ public class DeckLoaderManager : MonoBehaviour
                     cardCloneCardLogic = cardClone.AddComponent<CardLogic>();
                     break;
             }
+            //adds additional components of the card logics to the card instance
+            cardCloneCardLogic.dataLogic = cardClone.AddComponent<CardDataLogic>();
+            cardCloneCardLogic.visualsLogic = cardClone.AddComponent<CardVisualsLogic>();
+            cardCloneCardLogic.targetingLogic = cardClone.AddComponent<CardTargetingLogic>();
+            cardCloneCardLogic.effectLogic = cardClone.AddComponent<CardEffectLogic>();
+            cardCloneCardLogic.triggerLogic = cardClone.AddComponent<CardTriggerLogic>();
+
+            //intitializes the cardlogic var of the components
+            cardCloneCardLogic.visualsLogic.Initialize();
+            cardCloneCardLogic.effectLogic.Initialize();
+            cardCloneCardLogic.targetingLogic.Initialize();
+            cardCloneCardLogic.triggerLogic.Initialize();
+            cardCloneCardLogic.dataLogic.Initialize();
 
             //activates and adds logic to empty then references the logic
             cardClone.SetActive(true);
@@ -195,6 +208,7 @@ public class DeckLoaderManager : MonoBehaviour
                         cardCloneGodLogic.maxShieldUsesPerTurn = 1;
                     cardCloneGodLogic.shieldUsesLeft = cardCloneGodLogic.maxShieldUsesPerTurn;
                     cardCloneGodLogic.attunementRates = new(card.AttunementRates);
+                    cardClone.GetComponent<CombatantLogic>().targetState = TargetState.Default;
                     G_M.OnPhaseChange += cardCloneCardLogic.GetPhaseTriggers;
                     G_M.OnEffectTrigger += cardCloneCardLogic.GetEffectTriggers;
                     G_M.OnStateChange += cardCloneCardLogic.GetStateTriggers;

@@ -242,8 +242,7 @@ public class CombatantLogic : MonoBehaviour
     {
         if (targetState != TargetState.Default)
         {
-            if (targetStatus.fieldIconHolder != null)
-                targetStatus.fieldIconHolder.DestroyThis();
+            targetStatus?.fieldIconHolder.DestroyThis();
             cardStatuses.Remove(targetStatus);
             targetStatus = null;
             targetState = TargetState.Default;

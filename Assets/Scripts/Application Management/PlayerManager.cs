@@ -129,7 +129,7 @@ public class PlayerManager : MonoBehaviour
             }
             else
                 tempAttunement = attunement;
-            blood.Attune(tempAttunement, bloodColours[(int)tempAttunement--]);
+            blood.Attune(tempAttunement, bloodColours[(int)(tempAttunement - 1)]);
             count--;
             if (count == 0)
                 break;

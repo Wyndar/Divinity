@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class CardEffectLogic: MonoBehaviour
 {
-    public GameBattleManager gameManager;
-    public AudioManager audioManager;
     public List<Effect> effects = new();
     public SubEffect focusSubEffect;
     private CardLogic cardLogic;
@@ -18,7 +16,7 @@ public class CardEffectLogic: MonoBehaviour
         //apart from where specified, duration set to 0(not defined) indicates an infinite duration, be careful with blanks
         CombatantLogic combatantLogic = GetComponent<CombatantLogic>();
         MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
-        CardLogic logic = gameManager.currentFocusCardLogic;
+        CardLogic logic = cardLogic.gameManager.currentFocusCardLogic;
         int effectAmount = subEffect.EffectAmount;
         int duration = subEffect.duration;
         EffectsUsed effectsUsed = subEffect.effectUsed;
@@ -123,28 +121,28 @@ public class CardEffectLogic: MonoBehaviour
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     statuses.Add(status);
                 foreach (CardStatus status in statuses)
-                    status.DetonateActions(gameManager);
+                    status.DetonateActions(cardLogic.gameManager);
                 break;
             case EffectsUsed.BombDetonate:
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     if (status is Bomb)
                         statuses.Add(status);
                 foreach (CardStatus status in statuses)
-                    status.DetonateActions(gameManager);
+                    status.DetonateActions(cardLogic.gameManager);
                 break;
             case EffectsUsed.BurnDetonate:
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     if (status is Burn)
                         statuses.Add(status);
                 foreach (CardStatus status in statuses)
-                    status.DetonateActions(gameManager);
+                    status.DetonateActions(cardLogic.gameManager);
                 break;
             case EffectsUsed.PoisonDetonate:
                 foreach (CardStatus status in combatantLogic.cardStatuses)
                     if (status is Poison)
                         statuses.Add(status);
                 foreach (CardStatus status in statuses)
-                    status.DetonateActions(gameManager);
+                    status.DetonateActions(cardLogic.gameManager);
                 break;
             case EffectsUsed.BuffDispel:
                 for (int i = effectAmount; i > 0;)
@@ -215,12 +213,12 @@ public class CardEffectLogic: MonoBehaviour
         if (subEffect.effectUsed == EffectsUsed.BloodCost &&
             cardLogic.dataLogic.cardController.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) < subEffect.effectAmount)
             return;
-        gameManager.isActivatingEffect = true;
-        gameManager.DisableRayBlocker();
+        cardLogic.gameManager.isActivatingEffect = true;
+        cardLogic.gameManager.DisableRayBlocker();
         if (subEffect.effectType != EffectTypes.WhileDeployed)
         {
-            gameManager.StateChange(GameState.EffectActivation);
-            audioManager.NewAudioPrefab(audioManager.effectActivation);
+            cardLogic.gameManager.StateChange(GameState.EffectActivation);
+            cardLogic.audioManager.NewAudioPrefab(cardLogic.audioManager.effectActivation);
             if (cardLogic.dataLogic.type != Type.God)
             {
                 StartCoroutine(TweenAnimationCoroutine(subEffect, true));
@@ -269,10 +267,10 @@ public class CardEffectLogic: MonoBehaviour
 
     public void EffectResolution(SubEffect subEffect)
     {
-        gameManager.DisableRayBlocker();
+        cardLogic.gameManager.DisableRayBlocker();
         if (subEffect.effectType != EffectTypes.WhileDeployed)
         {
-            gameManager.StateChange(GameState.EffectResolution);
+            cardLogic.gameManager.StateChange(GameState.EffectResolution);
             if (cardLogic.dataLogic.type != Type.God)
             {
                 StartCoroutine(TweenAnimationCoroutine(subEffect, false));
@@ -305,18 +303,18 @@ public class CardEffectLogic: MonoBehaviour
                 break;
             //effects that access game manager methods, can be optimized further
             case EffectsUsed.Reinforce:
-                StartCoroutine(gameManager.DrawCard(effectAmount, cardLogic.dataLogic.cardController));
-                break;
+                StartCoroutine(cardLogic.gameManager.DrawCard(effectAmount, cardLogic.dataLogic.cardController));
+                return;
             case EffectsUsed.BloodRecovery:
                 cardLogic.dataLogic.cardController.BloodGain(Attunement.Untuned, effectAmount);
                 break;
             case EffectsUsed.Recruit:
-                StartCoroutine(gameManager.SearchCard(tempTargets, cardLogic.dataLogic.cardController, cardLogic));
-                break;
+                StartCoroutine(cardLogic.gameManager.SearchCard(tempTargets, cardLogic));
+                return;
             case EffectsUsed.Recover:
                 foreach (CardLogic target in tempTargets)
-                    StartCoroutine(gameManager.RecoverCard(target, cardLogic.dataLogic.cardController));
-                break;
+                    StartCoroutine(cardLogic.gameManager.RecoverCard(target, cardLogic));
+                return;
 
             //these are undefined effects
             case EffectsUsed.Damage:
@@ -369,7 +367,7 @@ public class CardEffectLogic: MonoBehaviour
             default:
                 throw new MissingReferenceException("Attempting to use an unimplemented effect");
         }
-        if (!gameManager.isWaitingForResponse)
+        if (!cardLogic.gameManager.isWaitingForResponse)
             FinishResolution(subEffect);
     }
     private void TargetEffectLogic(SubEffect subEffect)
@@ -418,7 +416,7 @@ public class CardEffectLogic: MonoBehaviour
 
     public void FinishResolution(SubEffect subEffect)
     {
-        gameManager.InvokeEffectTrigger(subEffect, cardLogic);
+        cardLogic.gameManager.InvokeEffectTrigger(subEffect, cardLogic);
         CheckSubsequentEffects(subEffect, true);
     }
 
@@ -428,25 +426,24 @@ public class CardEffectLogic: MonoBehaviour
             return;
         if (resolvedPreviousSubEffect && subEffect.parentEffect.currentActivations < subEffect.parentEffect.maxActivations)
             subEffect.parentEffect.currentActivations++;
-        gameManager.ClearEffectTargetImages();
+        cardLogic.gameManager.ClearEffectTargetImages();
         cardLogic.targetingLogic.targets?.Clear();
         cardLogic.targetingLogic.validTargets?.Clear();
         if (cardLogic.dataLogic.type == Type.Spell)
             GetComponent<PlayableLogic>().MoveToGrave();
-        audioManager.NewAudioPrefab(audioManager.effectResolution);
+        cardLogic.audioManager.NewAudioPrefab(cardLogic.audioManager.effectResolution);
         if (cardLogic.dataLogic.cardController.isAI)
             cardLogic.dataLogic.cardController.AIManager.isPerformingAction = false;
-        gameManager.isActivatingEffect = false;
-        gameManager.ChainResolution();
+        cardLogic.gameManager.isActivatingEffect = false;
+        cardLogic.gameManager.ChainResolution();
     }
 
     private bool ResolveSubsequentSubeffects(SubEffect subEffect)
     {
         int subCount = subEffect.parentEffect.SubEffects.FindIndex(a => a == subEffect);
-        if (subCount + 1 >= subEffect.parentEffect.SubEffects.Count)
+        if (subCount+1 >= subEffect.parentEffect.SubEffects.Count)
             return true;
-
-        SubEffect nextSubEffect = subEffect.parentEffect.SubEffects[subCount + 1];
+        SubEffect nextSubEffect = subEffect.parentEffect.SubEffects[subCount+1];
         if (subEffect.effectType != nextSubEffect.effectType)
             return true;
         if (nextSubEffect.EffectActivationIsMandatory == false)
@@ -456,7 +453,7 @@ public class CardEffectLogic: MonoBehaviour
             if (cardLogic.dataLogic.cardController.isAI)
                 OptionalEffectResolution(cardLogic.dataLogic.cardController.AIManager.ActivateOptionalEffect());
             else
-                gameManager.EnableActivationPanel();
+                cardLogic.gameManager.EnableActivationPanel();
             return false;
         }
         if (nextSubEffect.EffectTargetAmount == 98)
@@ -477,8 +474,7 @@ public class CardEffectLogic: MonoBehaviour
             return;
         }
         //if you need the targets from previous effect to resolve
-        if (focusSubEffect.TargetingType != TargetingTypes.Undefined &&
-            focusSubEffect.effectTargetAmount == 98)
+        if (focusSubEffect.effectTargetAmount == 98)
             EffectResolution(focusSubEffect);
         else
         {
@@ -510,10 +506,10 @@ public class CardEffectLogic: MonoBehaviour
         Effect effect = subEffect.parentEffect;
         EffectLogHistoryEntry effectLogHistoryEntry = new(effect, subEffect.effectUsed, cards)
         {
-            logIndex = gameManager.gameLogHistoryEntries.Count,
+            logIndex = cardLogic.gameManager.gameLogHistoryEntries.Count,
             loggedCard = cardLogic,
             loggedLocation = cardLogic.dataLogic.currentLocation
         };
-        gameManager.gameLogHistoryEntries.Add(effectLogHistoryEntry);
+        cardLogic.gameManager.gameLogHistoryEntries.Add(effectLogHistoryEntry);
     }
 }

@@ -186,8 +186,9 @@ public class GameBattleManager : GameManager
         yield break;
     }
 
-    public IEnumerator SearchCard(List<CardLogic> logics, PlayerManager player, CardLogic activatingCard)
+    public IEnumerator SearchCard(List<CardLogic> logics, CardLogic activatingCard)
     {
+        PlayerManager player = activatingCard.dataLogic.cardOwner;
         if (player.handSize >= 10)
             yield break;
         bool drewCards = false;
@@ -231,11 +232,12 @@ public class GameBattleManager : GameManager
         yield break;
     }
 
-    public IEnumerator RecoverCard(CardLogic logic, PlayerManager player)
+    public IEnumerator RecoverCard(CardLogic logic, CardLogic activatingCard)
     {
+        PlayerManager player = logic.dataLogic.cardOwner;
         if (player.handSize >= 10)
             yield break;
-
+        bool drewCards = false;
         foreach (HandSlot handSlot in player.handSlots)
         {
             if (handSlot.cardInZone != null)
@@ -246,7 +248,6 @@ public class GameBattleManager : GameManager
 
             //implementing a battle log
             logic.LocationChange(Location.Hand, player.handSize);
-
             logic.dataLogic.ControllerSwap(player);
             logic.transform.SetParent(handSlot.transform, false);
             logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -258,13 +259,18 @@ public class GameBattleManager : GameManager
             logic.dataLogic.cardOwner.graveLogicList.Remove(logic);
             player.handLogicList.Add(logic);
             player.handSize = player.handLogicList.Count;
+            drewCards = true;
             break;
         }
         AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
         yield return new WaitUntil(() => drawSound == null);
 
-        ShuffleHand(player);
-        StateChange(GameState.Reinforcement);
+        if (drewCards)
+        {
+            ShuffleHand(player);
+            StateChange(GameState.Reinforcement);
+            activatingCard.FinishResolution(activatingCard.effectLogic.focusSubEffect);
+        }
         yield break;
     }
 

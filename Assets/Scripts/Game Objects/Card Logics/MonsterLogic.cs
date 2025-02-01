@@ -54,6 +54,7 @@ public class MonsterLogic : CardLogic
         go.transform.localPosition = Vector3.zero;
         hasMoved = true;
         combatLogic.attacksLeft = combatLogic.maxAttacks;
+        combatLogic.targetState = TargetState.Default;
         gm.currentFocusCardSlot = null;
         gm.StateChange(GameState.Summon);
     }

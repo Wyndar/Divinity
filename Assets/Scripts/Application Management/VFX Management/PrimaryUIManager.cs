@@ -244,8 +244,11 @@ public class PrimaryUIManager : MonoBehaviour
         DisableEffectPanel();
     }
 
-    public void DisableEffectInfoPanels() => infoPanel.SetActive(false);
-
+    public void DisableEffectInfoPanels()
+    {
+        infoPanel.SetActive(false);
+        statScrollRayBlocker.SetActive(false);
+    }
     public void DisableDeckSearchButtons()
     {
         gm.RedPlayerManager.deckSearchButton.SetActive(false);
@@ -527,8 +530,6 @@ public class PrimaryUIManager : MonoBehaviour
     }
 
     public void DisableRayBlocker() => rayBlocker.SetActive(false);
-
-    
 
     private void DisableAllPopups()
     {

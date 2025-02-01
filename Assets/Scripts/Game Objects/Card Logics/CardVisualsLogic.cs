@@ -21,7 +21,7 @@ public class CardVisualsLogic : MonoBehaviour
 
     public void ToggleCardOutline(bool on)
     {
-        if (cardLogic.dataLogic.currentLocation != Location.Grave)
+        if (cardLogic.dataLogic.currentLocation != Location.Grave && cardLogic.dataLogic.type != Type.God)
             cardOutline.gameObject.SetActive(on);
         else
             cardLogic.dataLogic.cardOwner.underworldManager.outline.SetActive(on);
