@@ -98,9 +98,8 @@ public class DeckLoaderManager : MonoBehaviour
             cardCloneCardLogic.effectLogic = cardClone.AddComponent<CardEffectLogic>();
             cardCloneCardLogic.triggerLogic = cardClone.AddComponent<CardTriggerLogic>();
 
-            //intitializes the cardlogic var of the components
+            //intitializes the cardlogic var of the components except effect
             cardCloneCardLogic.visualsLogic.Initialize();
-            cardCloneCardLogic.effectLogic.Initialize();
             cardCloneCardLogic.targetingLogic.Initialize();
             cardCloneCardLogic.triggerLogic.Initialize();
             cardCloneCardLogic.dataLogic.Initialize();
@@ -214,7 +213,8 @@ public class DeckLoaderManager : MonoBehaviour
                     G_M.OnStateChange += cardCloneCardLogic.GetStateTriggers;
                     break;
             }
-
+            //effect logic is initialized last to ensure all other components are ready
+            cardCloneCardLogic.effectLogic.Initialize();
             cardCloneCardLogic.effectLogic.effects = new();
             foreach (Effect effect in card.Effects)
             {

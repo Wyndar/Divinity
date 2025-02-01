@@ -10,205 +10,197 @@ public class CardEffectLogic: MonoBehaviour
     public SubEffect focusSubEffect;
     private CardLogic cardLogic;
     public float movementSpeed = 3f;
-    public void Initialize() => cardLogic = GetComponent<CardLogic>();
-    public void EffectHandler(SubEffect subEffect)
+    private Dictionary<EffectsUsed, Action<SubEffect>> effectHandlers;
+    private Dictionary<EffectsUsed, Action<SubEffect>> effectResolutions;
+
+    public void Initialize()
     {
-        //apart from where specified, duration set to 0(not defined) indicates an infinite duration, be careful with blanks
+        cardLogic = GetComponent<CardLogic>();
+        InitializeEffectHandlers();
+        InitializeEffectResolutions();
+    }
+    private void InitializeEffectHandlers()
+    {
         CombatantLogic combatantLogic = GetComponent<CombatantLogic>();
         MonsterLogic monsterLogic = GetComponent<MonsterLogic>();
-        CardLogic logic = cardLogic.gameManager.currentFocusCardLogic;
-        int effectAmount = subEffect.EffectAmount;
-        int duration = subEffect.duration;
-        EffectsUsed effectsUsed = subEffect.effectUsed;
-        List<CardStatus> statuses = new();
 
-        switch (effectsUsed)
+        effectHandlers = new Dictionary<EffectsUsed, Action<SubEffect>>
         {
-            case EffectsUsed.Rally:
-                combatantLogic.StatAdjustment(effectAmount, Status.AtkGain);
-                break;
-            case EffectsUsed.Damage:
-                combatantLogic.TakeDamage(effectAmount, false);
-                break;
-            case EffectsUsed.Regeneration:
-                combatantLogic.Heal(effectAmount);
-                break;
-            case EffectsUsed.Vigor:
-                combatantLogic.StatAdjustment(effectAmount, Status.AtkGain);
-                combatantLogic.StatAdjustment(effectAmount, Status.HpGain);
-                break;
-            case EffectsUsed.Terrify:
-                combatantLogic.StatAdjustment(effectAmount, Status.HpLoss);
-                combatantLogic.StatAdjustment(effectAmount, Status.AtkLoss);
-                break;
-            case EffectsUsed.Intimidate:
-                combatantLogic.StatAdjustment(effectAmount, Status.AtkLoss);
-                break;
-            case EffectsUsed.Weaken:
-                combatantLogic.StatAdjustment(effectAmount, Status.HpLoss);
-                break;
-            case EffectsUsed.Shatter:
-                monsterLogic.MonsterDeath();
-                break;
-            case EffectsUsed.Taunt:
-                Taunt taunt = new(logic, cardLogic, duration);
-                combatantLogic.SetTargetStatus(taunt, TargetState.Taunt);
-                break;
-            case EffectsUsed.Stealth:
-                Stealth stealth = new(logic, cardLogic, duration);
-                combatantLogic.SetTargetStatus(stealth, TargetState.Stealth);
-                break;
-            //everything above here works fine
-            case EffectsUsed.Camouflage:
-                Camouflage camouflage = new(logic, cardLogic, duration);
-                combatantLogic.SetTargetStatus(camouflage, TargetState.Stealth);
-                break;
-            //everything from here works fine
-            case EffectsUsed.Armor:
-                Armor armor = new(logic, cardLogic, effectAmount, duration);
-                combatantLogic.AddNonStackingBuff(armor);
-                break;
-            case EffectsUsed.Barrier:
-                Barrier barrier = new(logic, cardLogic, effectAmount, duration);
-                combatantLogic.AddNonStackingBuff(barrier);
-                break;
-            //till here
-            case EffectsUsed.Sleep:
-                Sleep sleep = new(logic, cardLogic, duration);
-                combatantLogic.AddNonStackingDebuff(sleep);
-                break;
-            case EffectsUsed.Stun:
-                Stun stun = new(logic, cardLogic, duration);
-                combatantLogic.AddNonStackingDebuff(stun);
-                break;
-            case EffectsUsed.Provoke:
-                Provoke provoke = new(logic, cardLogic, duration);
-                combatantLogic.SetTargetStatus(provoke, TargetState.Stealth);
-                break;
-            case EffectsUsed.Disarm:
-                Disarm disarm = new(logic, cardLogic, duration);
-                combatantLogic.AddNonStackingDebuff(disarm);
-                break;
-            //everything from here works fine
-            case EffectsUsed.Burn:
-                //burns have a default timer of two turns, if duration is set to 0/not defined(int), default applies
-                Burn burn = new(logic, cardLogic, duration);
-                combatantLogic.cardStatuses.Add(burn);
-                GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(burn);
-                break;
-            case EffectsUsed.Poison:
-                //poisons have a default timer of four turns, if duration is set to 0/not defined(int), default applies
-                Poison poison = new(logic, cardLogic, duration);
-                combatantLogic.cardStatuses.Add(poison);
-                GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(poison);
-                break;
-            case EffectsUsed.Bomb:
-                //bombs have a default timer of three turns, if duration is set to 0/not defined(int), default applies
-                Bomb bomb = new(logic, cardLogic, duration);
-                combatantLogic.cardStatuses.Add(bomb);
-                GetComponent<MonsterLogic>().currentSlot.SetStatusIcon(bomb);
-                break;
-            //till here
-            case EffectsUsed.Spot:
-                Spot spot = new(logic, cardLogic, duration);
-                combatantLogic.AddNonStackingDebuff(spot);
-                break;
-            //this works
-            case EffectsUsed.Bounce:
-                StartCoroutine(monsterLogic.BounceCard());
-                break;
-            case EffectsUsed.Detonate:
-                foreach (CardStatus status in combatantLogic.cardStatuses)
-                    statuses.Add(status);
-                foreach (CardStatus status in statuses)
-                    status.DetonateActions(cardLogic.gameManager);
-                break;
-            case EffectsUsed.BombDetonate:
-                foreach (CardStatus status in combatantLogic.cardStatuses)
-                    if (status is Bomb)
-                        statuses.Add(status);
-                foreach (CardStatus status in statuses)
-                    status.DetonateActions(cardLogic.gameManager);
-                break;
-            case EffectsUsed.BurnDetonate:
-                foreach (CardStatus status in combatantLogic.cardStatuses)
-                    if (status is Burn)
-                        statuses.Add(status);
-                foreach (CardStatus status in statuses)
-                    status.DetonateActions(cardLogic.gameManager);
-                break;
-            case EffectsUsed.PoisonDetonate:
-                foreach (CardStatus status in combatantLogic.cardStatuses)
-                    if (status is Poison)
-                        statuses.Add(status);
-                foreach (CardStatus status in statuses)
-                    status.DetonateActions(cardLogic.gameManager);
-                break;
-            case EffectsUsed.BuffDispel:
-                for (int i = effectAmount; i > 0;)
-                {
-                    if (combatantLogic.cardStatuses.Count > 0)
-                    {
-                        CardStatus status = combatantLogic.BuffCheck(Buffs.Undefined);
-                        if (status != null)
-                            combatantLogic.RemoveCardStatus(status);
-                    }
-                    i--;
-                }
-                break;
-            case EffectsUsed.DebuffDispel:
-                for (int i = effectAmount; i > 0;)
-                {
-                    if (combatantLogic.cardStatuses.Count > 0)
-                    {
-                        CardStatus status = combatantLogic.DebuffCheck(Debuffs.Undefined);
-                        if (status != null)
-                            combatantLogic.RemoveCardStatus(status);
-                    }
-                    i--;
-                }
-                break;
-            case EffectsUsed.Silence:
-                Silence silence = new(logic, cardLogic, duration);
-                combatantLogic.AddNonStackingDebuff(silence);
-                break;
-            case EffectsUsed.BloodBoost:
-                break;
-            case EffectsUsed.Advancement:
-                break;
-            case EffectsUsed.Knockback:
-                break;
-            case EffectsUsed.Pull:
-                break;
-            case EffectsUsed.Shift:
-                break;
-            case EffectsUsed.Immortality:
-                break;
-            case EffectsUsed.Immunity:
-                break;
-            case EffectsUsed.Spin:
-                break;
-            case EffectsUsed.Discard:
-                break;
-            case EffectsUsed.Mill:
-                break;
-            case EffectsUsed.ForceRetreat:
-                break;
-            case EffectsUsed.Return:
-                break;
-            case EffectsUsed.Retreat:
-                break;
-            case EffectsUsed.DeathCurse:
-                break;
-            case EffectsUsed.Mark:
-                break;
-            case EffectsUsed.Freeze:
-                break;
-            default:
-                throw new MissingReferenceException("effect not found");
-        }
+            { EffectsUsed.Rally, subEffect => combatantLogic.StatAdjustment(subEffect.EffectAmount, Status.AtkGain) },
+            { EffectsUsed.Damage, subEffect => combatantLogic.TakeDamage(subEffect.EffectAmount, false) },
+            { EffectsUsed.Regeneration, subEffect => combatantLogic.Heal(subEffect.EffectAmount) },
+            { EffectsUsed.Vigor, subEffect => {
+                combatantLogic.StatAdjustment(subEffect.EffectAmount, Status.AtkGain);
+                combatantLogic.StatAdjustment(subEffect.EffectAmount, Status.HpGain);
+            }},
+            { EffectsUsed.Terrify, subEffect => {
+                combatantLogic.StatAdjustment(subEffect.EffectAmount, Status.HpLoss);
+                combatantLogic.StatAdjustment(subEffect.EffectAmount, Status.AtkLoss);
+            }},
+            { EffectsUsed.Intimidate, subEffect => combatantLogic.StatAdjustment(subEffect.EffectAmount, Status.AtkLoss) },
+            { EffectsUsed.Weaken, subEffect => combatantLogic.StatAdjustment(subEffect.EffectAmount, Status.HpLoss) },
+            { EffectsUsed.Shatter, subEffect => monsterLogic.MonsterDeath() },
+            { EffectsUsed.Taunt, subEffect => ApplyStatusEffect<Taunt>(cardLogic, subEffect.duration, combatantLogic, TargetState.Taunt) },
+            { EffectsUsed.Stealth, subEffect => ApplyStatusEffect<Stealth>(cardLogic, subEffect.duration, combatantLogic, TargetState.Stealth) },
+            { EffectsUsed.Camouflage, subEffect => ApplyStatusEffect<Camouflage>(cardLogic, subEffect.duration, combatantLogic, TargetState.Stealth) },
+            { EffectsUsed.Armor, subEffect => ApplyBuff<Armor>(cardLogic, subEffect.EffectAmount, subEffect.duration, combatantLogic) },
+            { EffectsUsed.Barrier, subEffect => ApplyBuff<Barrier>(cardLogic, subEffect.EffectAmount, subEffect.duration, combatantLogic) },
+            { EffectsUsed.Sleep, subEffect => ApplyDebuff<Sleep>(cardLogic, subEffect.duration, combatantLogic) },
+            { EffectsUsed.Stun, subEffect => ApplyDebuff<Stun>(cardLogic, subEffect.duration, combatantLogic) },
+            { EffectsUsed.Provoke, subEffect => ApplyStatusEffect<Provoke>(cardLogic, subEffect.duration, combatantLogic, TargetState.Stealth) },
+            { EffectsUsed.Disarm, subEffect => ApplyDebuff<Disarm>(cardLogic, subEffect.duration, combatantLogic) },
+            { EffectsUsed.Burn, subEffect => ApplyStatus<Burn>(cardLogic, subEffect.duration, combatantLogic, monsterLogic) },
+            { EffectsUsed.Poison, subEffect => ApplyStatus<Poison>(cardLogic, subEffect.duration, combatantLogic, monsterLogic) },
+            { EffectsUsed.Bomb, subEffect => ApplyStatus<Bomb>(cardLogic, subEffect.duration, combatantLogic, monsterLogic) },
+            { EffectsUsed.Spot, subEffect => ApplyDebuff<Spot>(cardLogic, subEffect.duration, combatantLogic) },
+            { EffectsUsed.Bounce, subEffect => StartCoroutine(monsterLogic.BounceCard()) },
+            { EffectsUsed.Detonate, subEffect => DetonateStatuses(combatantLogic, cardLogic.gameManager) },
+            { EffectsUsed.BombDetonate, subEffect => DetonateSpecificStatus<Bomb>(combatantLogic, cardLogic.gameManager) },
+            { EffectsUsed.BurnDetonate, subEffect => DetonateSpecificStatus<Burn>(combatantLogic, cardLogic.gameManager) },
+            { EffectsUsed.PoisonDetonate, subEffect => DetonateSpecificStatus<Poison>(combatantLogic, cardLogic.gameManager) },
+            { EffectsUsed.BuffDispel, subEffect => DispelStatuses(combatantLogic, subEffect.EffectAmount, true) },
+            { EffectsUsed.DebuffDispel, subEffect => DispelStatuses(combatantLogic, subEffect.EffectAmount, false) },
+            { EffectsUsed.Silence, subEffect => ApplyDebuff<Silence>(cardLogic, subEffect.duration, combatantLogic) }
+        };
     }
-    public void EffectActivation(SubEffect subEffect)
+    private void InitializeEffectResolutions()
+    {
+        effectResolutions = new Dictionary<EffectsUsed, Action<SubEffect>>
+        {
+            { EffectsUsed.Target, subEffect => TargetEffectLogic(subEffect) },
+            { EffectsUsed.BloodCost, subEffect => HandleBloodCost(subEffect) },
+            { EffectsUsed.Reinforce, subEffect => StartCoroutine(cardLogic.gameManager.DrawCard(subEffect.EffectAmount, cardLogic.dataLogic.cardController)) },
+            { EffectsUsed.BloodRecovery, subEffect => cardLogic.dataLogic.cardController.BloodGain(Attunement.Untuned, subEffect.EffectAmount) },
+            { EffectsUsed.Recruit, subEffect => StartCoroutine(cardLogic.gameManager.SearchCard(cardLogic.targetingLogic.targets, cardLogic)) },
+            { EffectsUsed.Recover, subEffect => RecoverCards() },
+
+            // Unified handlers for similar effects
+            { EffectsUsed.Damage, HandleEffectOnTargets },
+            { EffectsUsed.Regeneration, HandleEffectOnTargets },
+            { EffectsUsed.Shatter, HandleEffectOnTargets },
+            { EffectsUsed.Detonate, HandleEffectOnTargets },
+            { EffectsUsed.BurnDetonate, HandleEffectOnTargets },
+            { EffectsUsed.BombDetonate, HandleEffectOnTargets },
+            { EffectsUsed.PoisonDetonate, HandleEffectOnTargets },
+            { EffectsUsed.Bounce, HandleEffectOnTargets },
+
+            { EffectsUsed.Rally, HandleEffectOnTargets },
+            { EffectsUsed.Vigor, HandleEffectOnTargets },
+            { EffectsUsed.Taunt, HandleEffectOnTargets },
+            { EffectsUsed.Stealth, HandleEffectOnTargets },
+            { EffectsUsed.Armor, HandleEffectOnTargets },
+            { EffectsUsed.Camouflage, HandleEffectOnTargets },
+            { EffectsUsed.Barrier, HandleEffectOnTargets },
+
+            { EffectsUsed.Terrify, HandleEffectOnTargets },
+            { EffectsUsed.Intimidate, HandleEffectOnTargets },
+            { EffectsUsed.Weaken, HandleEffectOnTargets },
+            { EffectsUsed.Sleep, HandleEffectOnTargets },
+            { EffectsUsed.Stun, HandleEffectOnTargets },
+            { EffectsUsed.Provoke, HandleEffectOnTargets },
+            { EffectsUsed.Disarm, HandleEffectOnTargets },
+            { EffectsUsed.Burn, HandleEffectOnTargets },
+            { EffectsUsed.Poison, HandleEffectOnTargets },
+            { EffectsUsed.Bomb, HandleEffectOnTargets },
+            { EffectsUsed.Spot, HandleEffectOnTargets },
+
+            { EffectsUsed.FreeRevive, HandlePlayableEffects },
+            { EffectsUsed.Revive, HandlePlayableEffects },
+            { EffectsUsed.FreeDeploy, HandlePlayableEffects },
+            { EffectsUsed.Deploy, HandlePlayableEffects }
+        };
+    }
+
+    public void EffectHandler(SubEffect subEffect)
+    {
+        if (effectHandlers.TryGetValue(subEffect.effectUsed, out var handler))
+            handler(subEffect);
+        else
+            throw new MissingReferenceException($"Effect '{subEffect.effectUsed}' not found");
+    }
+
+    public void EffectResolutionAfterAnimation(SubEffect subEffect)
+    {
+        if (effectResolutions.TryGetValue(subEffect.effectUsed, out var resolver))
+            resolver(subEffect);
+        else
+            throw new MissingReferenceException($"Attempting to use an unimplemented effect: {subEffect.effectUsed}");
+        if (!cardLogic.gameManager.isWaitingForResponse)
+            FinishResolution(subEffect);
+    }
+    private void HandleBloodCost(SubEffect subEffect)
+    {
+        var attunement = Enum.Parse<Attunement>(subEffect.TargetStats[0]);
+        cardLogic.dataLogic.cardController.BloodLoss(new List<Attunement> { attunement }, subEffect.EffectAmount);
+    }
+
+    private void RecoverCards()
+    {
+        foreach (CardLogic target in cardLogic.targetingLogic.targets)
+            StartCoroutine(cardLogic.gameManager.RecoverCard(target, cardLogic));
+    }
+
+    private void HandleEffectOnTargets(SubEffect subEffect)
+    {
+        foreach (CardLogic target in cardLogic.targetingLogic.targets)
+            target.EffectHandler(subEffect);
+    }
+
+    private void HandlePlayableEffects(SubEffect subEffect)
+    {
+        foreach (CardLogic target in cardLogic.targetingLogic.targets)
+            target.GetComponent<PlayableLogic>().PlayCard(subEffect.effectUsed, cardLogic.dataLogic.cardController);
+    }
+
+    private void ApplyStatusEffect<T>(CardLogic cardLogic, int duration, CombatantLogic combatantLogic, TargetState targetState) where T : CardStatus
+    {
+        var status = (T)Activator.CreateInstance(typeof(T), cardLogic.gameManager.currentFocusCardLogic, cardLogic, duration);
+        combatantLogic.SetTargetStatus(status, targetState);
+    }
+
+    private void ApplyBuff<CardStatus>(CardLogic cardLogic, int amount, int duration, CombatantLogic combatantLogic)
+    {
+        var buff = (Buff)Activator.CreateInstance(typeof(Buff), cardLogic.gameManager.currentFocusCardLogic, cardLogic, amount, duration);
+        combatantLogic.AddNonStackingBuff(buff);
+    }
+
+    private void ApplyDebuff<CardStatus>(CardLogic cardLogic, int duration, CombatantLogic combatantLogic)
+    {
+        var debuff = (Debuff)Activator.CreateInstance(typeof(Debuff), cardLogic.gameManager.currentFocusCardLogic, cardLogic, duration);
+        combatantLogic.AddNonStackingDebuff(debuff);
+    }
+
+    private void ApplyStatus<T>(CardLogic cardLogic, int duration, CombatantLogic combatantLogic, MonsterLogic monsterLogic) where T : CardStatus
+    {
+        var status = (T)Activator.CreateInstance(typeof(T), cardLogic.gameManager.currentFocusCardLogic, cardLogic, duration);
+        combatantLogic.cardStatuses.Add(status);
+        monsterLogic.currentSlot.SetStatusIcon(status);
+    }
+
+    private void DetonateStatuses(CombatantLogic combatantLogic, GameBattleManager gameManager)
+    {
+        foreach (var status in combatantLogic.cardStatuses.ToList())
+            status.DetonateActions(gameManager);
+    }
+
+    private void DetonateSpecificStatus<T>(CombatantLogic combatantLogic, GameBattleManager gameManager) where T : CardStatus
+    {
+        foreach (var status in combatantLogic.cardStatuses.OfType<T>())
+            status.DetonateActions(gameManager);
+    }
+
+    private void DispelStatuses(CombatantLogic combatantLogic, int amount, bool isBuff)
+    {
+        for (int i = 0; i < amount; i++)
+            if (combatantLogic.cardStatuses.Count > 0)
+            {
+                CardStatus status = isBuff ? combatantLogic.BuffCheck(Buffs.Undefined) : combatantLogic.DebuffCheck(Debuffs.Undefined);
+                if (status != null)
+                    combatantLogic.RemoveCardStatus(status);
+            }
+    }
+
+public void EffectActivation(SubEffect subEffect)
     {
         if (subEffect.effectUsed == EffectsUsed.BloodCost &&
             cardLogic.dataLogic.cardController.BloodAttunementCheck(Enum.Parse<Attunement>(subEffect.TargetStats[0])) < subEffect.effectAmount)
@@ -280,96 +272,6 @@ public class CardEffectLogic: MonoBehaviour
         EffectResolutionAfterAnimation(subEffect);
     }
 
-    private void EffectResolutionAfterAnimation(SubEffect subEffect)
-    {
-        EffectsUsed effectUsed = subEffect.effectUsed;
-        int effectAmount = subEffect.effectAmount;
-        cardLogic.SetFocusCardLogic();
-        EffectLogger(subEffect, cardLogic.targetingLogic.targets);
-        List<CardLogic> tempTargets = new(cardLogic.targetingLogic.targets);
-
-        switch (effectUsed)
-        {
-            //for effects that need special targeting
-            case EffectsUsed.Target:
-                TargetEffectLogic(subEffect);
-                break;
-            case EffectsUsed.BloodCost:
-                List<Attunement> sendList = new()
-                {
-                    Enum.Parse<Attunement>(subEffect.TargetStats[0])
-                };
-                cardLogic.dataLogic.cardController.BloodLoss(sendList, effectAmount);
-                break;
-            //effects that access game manager methods, can be optimized further
-            case EffectsUsed.Reinforce:
-                StartCoroutine(cardLogic.gameManager.DrawCard(effectAmount, cardLogic.dataLogic.cardController));
-                return;
-            case EffectsUsed.BloodRecovery:
-                cardLogic.dataLogic.cardController.BloodGain(Attunement.Untuned, effectAmount);
-                break;
-            case EffectsUsed.Recruit:
-                StartCoroutine(cardLogic.gameManager.SearchCard(tempTargets, cardLogic));
-                return;
-            case EffectsUsed.Recover:
-                foreach (CardLogic target in tempTargets)
-                    StartCoroutine(cardLogic.gameManager.RecoverCard(target, cardLogic));
-                return;
-
-            //these are undefined effects
-            case EffectsUsed.Damage:
-            case EffectsUsed.Regeneration:
-            case EffectsUsed.Shatter:
-            case EffectsUsed.Detonate:
-            case EffectsUsed.BurnDetonate:
-            case EffectsUsed.BombDetonate:
-            case EffectsUsed.PoisonDetonate:
-            case EffectsUsed.Bounce:
-                foreach (CardLogic target in tempTargets)
-                    target.EffectHandler(subEffect);
-                break;
-
-            //these are buffs
-            case EffectsUsed.Rally:
-            case EffectsUsed.Vigor:
-            case EffectsUsed.Taunt:
-            case EffectsUsed.Stealth:
-            case EffectsUsed.Armor:
-            case EffectsUsed.Camouflage:
-            case EffectsUsed.Barrier:
-                foreach (CardLogic target in tempTargets)
-                    target.EffectHandler(subEffect);
-                break;
-
-            //these are debuffs
-            case EffectsUsed.Terrify:
-            case EffectsUsed.Intimidate:
-            case EffectsUsed.Weaken:
-            case EffectsUsed.Sleep:
-            case EffectsUsed.Stun:
-            case EffectsUsed.Provoke:
-            case EffectsUsed.Disarm:
-            case EffectsUsed.Burn:
-            case EffectsUsed.Poison:
-            case EffectsUsed.Bomb:
-            case EffectsUsed.Spot:
-                foreach (CardLogic target in tempTargets)
-                    target.EffectHandler(subEffect);
-                break;
-            //these are unedefined effects
-            case EffectsUsed.FreeRevive:
-            case EffectsUsed.Revive:
-            case EffectsUsed.FreeDeploy:
-            case EffectsUsed.Deploy:
-                foreach (CardLogic target in tempTargets)
-                    target.GetComponent<PlayableLogic>().PlayCard(effectUsed, cardLogic.dataLogic.cardController);
-                break;
-            default:
-                throw new MissingReferenceException("Attempting to use an unimplemented effect");
-        }
-        if (!cardLogic.gameManager.isWaitingForResponse)
-            FinishResolution(subEffect);
-    }
     private void TargetEffectLogic(SubEffect subEffect)
     {
         int subEffectIndex = subEffect.parentEffect.SubEffects.FindIndex(a => a == subEffect);
