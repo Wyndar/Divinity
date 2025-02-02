@@ -186,42 +186,39 @@ public class GameBattleManager : GameManager
         yield break;
     }
 
-    public IEnumerator SearchCard(List<CardLogic> logics, CardLogic activatingCard)
+    public IEnumerator SearchCard(CardLogic searchedCard, CardLogic activatingCard)
     {
         PlayerManager player = activatingCard.dataLogic.cardOwner;
         if (player.handSize >= 10)
             yield break;
         bool drewCards = false;
-        foreach (CardLogic logic in logics)
+        foreach (HandSlot handSlot in player.handSlots)
         {
-            foreach (HandSlot handSlot in player.handSlots)
-            {
-                if (handSlot.cardInZone != null)
-                    continue;
-                if (player.handSize >= 10)
-                    break;
-                logic.gameObject.SetActive(true);
-
-                //implementing a battle log
-                logic.LocationChange(Location.Hand, player.handSize);
-                logic.transform.SetParent(handSlot.transform, false);
-                logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                //when playing with another player on same device flip face up only if you draw on your turn...
-                //might implement more to support this
-                logic.visualsLogic.Flip(!player.isLocal || player.isAI 
-                    || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
-                handSlot.cardInZone = logic;
-                player.deckLogicList.Remove(logic);
-                player.handLogicList.Add(logic);
-                player.handSize = player.handLogicList.Count;
-                AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
-                drewCards = true;
-                OnPhaseChange += logic.GetPhaseTriggers;
-                OnEffectTrigger += logic.GetEffectTriggers;
-                OnStateChange += logic.GetStateTriggers;
-                yield return new WaitUntil(() => drawSound == null);
+            if (handSlot.cardInZone != null)
+                continue;
+            if (player.handSize >= 10)
                 break;
-            }
+            searchedCard.gameObject.SetActive(true);
+
+            //implementing a battle log
+            searchedCard.LocationChange(Location.Hand, player.handSize);
+            searchedCard.transform.SetParent(handSlot.transform, false);
+            searchedCard.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            //when playing with another player on same device flip face up only if you draw on your turn...
+            //might implement more to support this
+            searchedCard.visualsLogic.Flip(!player.isLocal || player.isAI
+                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
+            handSlot.cardInZone = searchedCard;
+            player.deckLogicList.Remove(searchedCard);
+            player.handLogicList.Add(searchedCard);
+            player.handSize = player.handLogicList.Count;
+            AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
+            drewCards = true;
+            OnPhaseChange += searchedCard.GetPhaseTriggers;
+            OnEffectTrigger += searchedCard.GetEffectTriggers;
+            OnStateChange += searchedCard.GetStateTriggers;
+            yield return new WaitUntil(() => drawSound == null);
+            break;
         }
         if (drewCards)
         {
@@ -703,6 +700,10 @@ public class GameBattleManager : GameManager
         MainUIManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
 
     public void DisableCardScrollScreen() => MainUIManager.DisableCardScrollScreen();
+    public void StartDrawCard(int drawAmount, PlayerManager player) =>
+        StartCoroutine(DrawCard(drawAmount, player));
+    public void StartSearchCard(CardLogic target, CardLogic caster) =>
+       StartCoroutine(SearchCard(target, caster));
     public void ForceBloodgain(string attunement)
     {
         BluePlayerManager.BloodGain(Enum.Parse<Attunement>(attunement), 1);

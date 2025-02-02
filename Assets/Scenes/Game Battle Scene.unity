@@ -495,7 +495,6 @@ GameObject:
   - component: {fileID: 18612328}
   - component: {fileID: 18612327}
   - component: {fileID: 18612326}
-  - component: {fileID: 18612325}
   - component: {fileID: 18612330}
   m_Layer: 0
   m_Name: Underworld Red
@@ -504,21 +503,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &18612325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 18612324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 1
-  anchorType: 4
-  anchorOffset: {x: 6.65, y: 8.85, z: 0}
 --- !u!65 &18612326
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16442,7 +16426,6 @@ GameObject:
   - component: {fileID: 592893487}
   - component: {fileID: 592893486}
   - component: {fileID: 592893485}
-  - component: {fileID: 592893484}
   m_Layer: 0
   m_Name: Reinforcement Blue
   m_TagString: deck
@@ -16450,21 +16433,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &592893484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592893483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 0
-  anchorType: 0
-  anchorOffset: {x: 6.6, y: -8.8, z: 0}
 --- !u!65 &592893485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24202,7 +24170,6 @@ GameObject:
   - component: {fileID: 846100100}
   - component: {fileID: 846100099}
   - component: {fileID: 846100098}
-  - component: {fileID: 846100097}
   m_Layer: 5
   m_Name: 'Shield Blue '
   m_TagString: deck
@@ -24210,21 +24177,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &846100097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 846100096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 0
-  anchorType: 4
-  anchorOffset: {x: 25, y: -5, z: 0}
 --- !u!65 &846100098
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30125,7 +30077,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1077900830}
   - component: {fileID: 1077900829}
-  - component: {fileID: 1077900827}
   - component: {fileID: 1077900831}
   m_Layer: 0
   m_Name: Background
@@ -30134,21 +30085,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1077900827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1077900826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 1
-  anchorType: 4
-  anchorOffset: {x: 0, y: 0, z: 0}
 --- !u!212 &1077900829
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -33261,7 +33197,6 @@ GameObject:
   - component: {fileID: 1184668514}
   - component: {fileID: 1184668513}
   - component: {fileID: 1184668512}
-  - component: {fileID: 1184668515}
   m_Layer: 5
   m_Name: Log Button
   m_TagString: Untagged
@@ -33382,21 +33317,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184668510}
   m_CullTransparentMesh: 1
---- !u!114 &1184668515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1184668510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 1
-  anchorType: 8
-  anchorOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1186531339
 GameObject:
   m_ObjectHideFlags: 0
@@ -37221,7 +37141,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1285124117}
-  - component: {fileID: 1285124118}
   m_Layer: 0
   m_Name: Activation Zone
   m_TagString: Untagged
@@ -37244,21 +37163,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1285124118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285124116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 1
-  anchorType: 4
-  anchorOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1285198500
 GameObject:
   m_ObjectHideFlags: 0
@@ -38131,7 +38035,6 @@ GameObject:
   - component: {fileID: 1333814785}
   - component: {fileID: 1333814784}
   - component: {fileID: 1333814783}
-  - component: {fileID: 1333814782}
   m_Layer: 5
   m_Name: Shield Red
   m_TagString: deck
@@ -38139,21 +38042,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1333814782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1333814781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 0
-  anchorType: 0
-  anchorOffset: {x: 25, y: 5, z: 0}
 --- !u!65 &1333814783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -39449,7 +39337,6 @@ GameObject:
   - component: {fileID: 1383146236}
   - component: {fileID: 1383146235}
   - component: {fileID: 1383146234}
-  - component: {fileID: 1383146233}
   m_Layer: 5
   m_Name: Menu Button
   m_TagString: Untagged
@@ -39476,21 +39363,6 @@ RectTransform:
   m_AnchoredPosition: {x: 7.2000017, y: -14.37}
   m_SizeDelta: {x: 1.5, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1383146233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1383146231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 1
-  anchorType: 8
-  anchorOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &1383146234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41381,7 +41253,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1446885059}
   - component: {fileID: 1446885058}
-  - component: {fileID: 1446885060}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -41475,21 +41346,6 @@ Transform:
   - {fileID: 63971922}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 270}
---- !u!114 &1446885060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1446885055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 1
-  anchorType: 4
-  anchorOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1449151824
 GameObject:
   m_ObjectHideFlags: 0
@@ -44595,7 +44451,6 @@ GameObject:
   - component: {fileID: 1567230717}
   - component: {fileID: 1567230716}
   - component: {fileID: 1567230715}
-  - component: {fileID: 1567230714}
   - component: {fileID: 1567230719}
   m_Layer: 0
   m_Name: Underworld Blue
@@ -44604,21 +44459,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1567230714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567230713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 0
-  anchorType: 4
-  anchorOffset: {x: -6.5, y: -8.8, z: 0}
 --- !u!65 &1567230715
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -54608,7 +54448,6 @@ GameObject:
   - component: {fileID: 1865804225}
   - component: {fileID: 1865804224}
   - component: {fileID: 1865804223}
-  - component: {fileID: 1865804222}
   m_Layer: 0
   m_Name: Reinforcement Red
   m_TagString: deck
@@ -54616,21 +54455,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1865804222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865804221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b396c3433984f40bc0493cbb4d2142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeInUpdate: 1
-  anchorType: 4
-  anchorOffset: {x: -6.65, y: 8.85, z: 0}
 --- !u!65 &1865804223
 BoxCollider:
   m_ObjectHideFlags: 0

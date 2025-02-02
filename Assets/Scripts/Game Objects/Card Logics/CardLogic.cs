@@ -18,8 +18,8 @@ public class CardLogic : MonoBehaviour
     public void FinishResolution(SubEffect subEffect) => effectLogic.FinishResolution(subEffect);
     public void GetPhaseTriggers(Phase phase) => triggerLogic.GetPhaseTriggers(phase);
     public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard) => triggerLogic.GetEffectTriggers(subEffect, triggerCard);
-    public void GetStateTriggers(GameState gameState, CardLogic cardLogic) => triggerLogic.GetStateTriggers(gameState, cardLogic);
     public void EffectHandler(SubEffect subEffect) => effectLogic.EffectHandler(subEffect);
+    public void GetStateTriggers(GameState gameState, CardLogic cardLogic) => triggerLogic.GetStateTriggers(gameState, cardLogic);
     public virtual void StatAdjustment(int value, Status status) => throw new MissingReferenceException($"Failed virtual override for status of {dataLogic.cardName}");
     public void LocationChange(Location location, int num) => dataLogic.LocationChange(location, num);
     public void SetFocusCardLogic()
