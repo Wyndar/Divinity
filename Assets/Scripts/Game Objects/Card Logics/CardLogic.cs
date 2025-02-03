@@ -15,7 +15,6 @@ public class CardLogic : MonoBehaviour
 
     public void EffectActivation(SubEffect subEffect) => effectLogic.EffectActivation(subEffect);
     public void EffectResolution(SubEffect subEffect) => effectLogic.EffectResolution(subEffect);
-    public void FinishResolution(SubEffect subEffect) => effectLogic.FinishResolution(subEffect);
     public void GetPhaseTriggers(Phase phase) => triggerLogic.GetPhaseTriggers(phase);
     public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard) => triggerLogic.GetEffectTriggers(subEffect, triggerCard);
     public void EffectHandler(SubEffect subEffect) => effectLogic.EffectHandler(subEffect);

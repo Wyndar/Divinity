@@ -112,16 +112,19 @@ public class CardEffectLogic : MonoBehaviour
 
     public void EffectResolutionAfterAnimation(SubEffect subEffect)
     {
-
         if (effectResolutions.TryGetValue(subEffect.effectUsed, out Lazy<IEffectStrategy> strategy))
         {
             if (cardLogic.targetingLogic.targets.Count == 0)
-                strategy.Value.Execute(subEffect, cardLogic, cardLogic);
+            {
+                if (subEffect.effectTargetAmount > 0)
+                    FinishResolution(subEffect);
+                else
+                    strategy.Value.Execute(subEffect, cardLogic, cardLogic);
+            }
             else foreach (var target in cardLogic.targetingLogic.targets)
                     strategy.Value.Execute(subEffect, cardLogic, target);
         }
         else throw new MissingReferenceException($"Effect '{subEffect.effectUsed}' not found.");
-        EffectLogger(subEffect, cardLogic.targetingLogic.targets);
         if (!cardLogic.gameManager.isWaitingForResponse)
             FinishResolution(subEffect);
     }
@@ -200,6 +203,7 @@ public class CardEffectLogic : MonoBehaviour
 
     public void FinishResolution(SubEffect subEffect)
     {
+        EffectLogger(subEffect, cardLogic.targetingLogic.targets);
         cardLogic.gameManager.InvokeEffectTrigger(subEffect, cardLogic);
         CheckSubsequentEffects(subEffect, true);
     }

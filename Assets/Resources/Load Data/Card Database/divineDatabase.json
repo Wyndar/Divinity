@@ -3,7 +3,7 @@
         "Id": "GP-Z",
         "CardType": "God",
         "CardName": "Zeus",
-        "CardText": "Blood Cost(Enkrateia) - 2 Deployed: Reinforce-1| Blood Cost(Ira) - 1 Deployed: Recruit a 'Phalanx' Card| Chain - 1 Ally Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then you can do Damage-1 to one Enemy Fighter",
+        "CardText": "Blood Cost(Enkrateia) - 2 Deployed: Reinforce-1| Blood Cost(Ira) - 1 Deployed: Do Damage-1 to an enemy combatant| Chain - 1 Ally Reinforce: Rally-1 All Ally Combatants| Chain - Deployment(Strike): Rally-1 Zeus then you can do Damage-1 to one Enemy Fighter",
         "CardFlavorText": "Petty, Arrogant, Selfish and Horny, feared and revered in equal amounts. The ideal king... and also a failure.",
         "Traits": [ "Weather", "HeadOfPantheon", "GreekPantheon" ],
         "Attunements": [ "Ira", "Enkrateia" ],

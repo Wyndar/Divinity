@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ public class PlayerManager : MonoBehaviour
     public List<Card> deckList = new();
     public List<Card> heroDeckList = new();
 
+    [NonSerialized]
     public List<CardLogic> handLogicList = new();
     public List<CardLogic> fieldLogicList = new();
     public List<CardLogic> deckLogicList = new();
@@ -113,7 +115,7 @@ public class PlayerManager : MonoBehaviour
             {
                 if (heroCardLogic.attunementRates.Count != 1)
                 {
-                    int attunementOdds = Random.Range(1, 101);
+                    int attunementOdds = UnityEngine.Random.Range(1, 101);
                     int rateOdds = 0;
                     for (int i = 0; i < heroCardLogic.attunementRates.Count; i++)
                     {

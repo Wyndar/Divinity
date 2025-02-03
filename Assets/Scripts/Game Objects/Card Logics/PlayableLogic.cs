@@ -195,7 +195,7 @@ public class PlayableLogic : MonoBehaviour
     }
 
     public void MoveToGrave()
-    {
+    { 
         logic.dataLogic.ControllerSwap(logic.dataLogic.cardOwner);
         transform.position = logic.dataLogic.cardOwner.shield.transform.position;
         logic.dataLogic.cardOwner.graveLogicList.Add(logic);

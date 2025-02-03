@@ -24,7 +24,7 @@ public class GameBattleManager : GameManager
 
     public PlayerManager BluePlayerManager, RedPlayerManager, turnPlayer, turnOpponent;
 
-    public bool isNotFirstDraw, hasFinishedDrawEffect, isPlayingCard, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo, isShowingLog;
+    public bool isNotFirstDraw, isPlayingCard, isActivatingEffect, isChecking, isWaitingForResponse, isShowingInfo, isShowingLog;
 
     public GameState gameState;
     public Phase currentPhase;
@@ -127,187 +127,19 @@ public class GameBattleManager : GameManager
 
     public void LoadToolTips() => ToolTipManager.tooltipInfos.AddRange(SaveManager.LoadToolTipInfoDatabase());
 
-    public IEnumerator DrawCard(int drawAmount, PlayerManager player)
-    {
-        hasFinishedDrawEffect = false;
-        //if hand is full, yeet
-        if (player.handSize >= 10)
-        {
-            hasFinishedDrawEffect = true;
-            yield break;
-        }
-
-        bool drewCards = false;
-        foreach (HandSlot handSlot in player.handSlots)
-        {
-            //if deck is empty, has drawn required amount or hand is full, break
-            if (player.deckLogicList.Count <= 0 || drawAmount <= 0 || player.handSize >= 10)
-                break;
-            //checking for empty handslots
-            if (handSlot.cardInZone != null)
-                continue;
-            //get random card and activate it
-            int randomNumber = UnityEngine.Random.Range(0, player.deckLogicList.Count);
-            CardLogic randomCardDraw = player.deckLogicList[randomNumber];
-            randomCardDraw.gameObject.SetActive(true);
-
-            //implementing a game log
-            randomCardDraw.LocationChange(Location.Hand, player.handSize);
-            randomCardDraw.transform.SetParent(handSlot.transform, false);
-            randomCardDraw.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
-            //when playing with another player on same device flip face up only if you draw on your turn...
-            //might implement more to support this
-            randomCardDraw.visualsLogic.Flip(!player.isLocal || player.isAI 
-                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
-            handSlot.cardInZone = randomCardDraw;
-            player.deckLogicList.Remove(randomCardDraw);
-            player.handLogicList.Add(randomCardDraw);
-            drawAmount--;
-            player.handSize = player.handLogicList.Count;
-            drewCards = true;
-            OnPhaseChange+=randomCardDraw.GetPhaseTriggers;
-            OnEffectTrigger += randomCardDraw.GetEffectTriggers;
-            OnStateChange += randomCardDraw.GetStateTriggers;
-            yield return new WaitUntil(() => drawSound == null);
-        }
-        //ensures that unnecessary chains and shuffles don't occur on unresolved draws
-        hasFinishedDrawEffect = true;
-        if (drewCards)
-        {
-            ShuffleHand(player);
-            if (isNotFirstDraw)
-                StateChange(GameState.Reinforcement);
-            if (currentFocusCardLogic != null && isActivatingEffect)
-                currentFocusCardLogic.FinishResolution(currentFocusCardLogic.effectLogic.focusSubEffect);
-            else
-                ChainResolution();
-        }
-        yield break;
-    }
-
-    public IEnumerator SearchCard(CardLogic searchedCard, CardLogic activatingCard)
-    {
-        PlayerManager player = activatingCard.dataLogic.cardOwner;
-        if (player.handSize >= 10)
-            yield break;
-        bool drewCards = false;
-        foreach (HandSlot handSlot in player.handSlots)
-        {
-            if (handSlot.cardInZone != null)
-                continue;
-            if (player.handSize >= 10)
-                break;
-            searchedCard.gameObject.SetActive(true);
-
-            //implementing a battle log
-            searchedCard.LocationChange(Location.Hand, player.handSize);
-            searchedCard.transform.SetParent(handSlot.transform, false);
-            searchedCard.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            //when playing with another player on same device flip face up only if you draw on your turn...
-            //might implement more to support this
-            searchedCard.visualsLogic.Flip(!player.isLocal || player.isAI
-                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
-            handSlot.cardInZone = searchedCard;
-            player.deckLogicList.Remove(searchedCard);
-            player.handLogicList.Add(searchedCard);
-            player.handSize = player.handLogicList.Count;
-            AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
-            drewCards = true;
-            OnPhaseChange += searchedCard.GetPhaseTriggers;
-            OnEffectTrigger += searchedCard.GetEffectTriggers;
-            OnStateChange += searchedCard.GetStateTriggers;
-            yield return new WaitUntil(() => drawSound == null);
-            break;
-        }
-        if (drewCards)
-        {
-            ShuffleHand(player);
-            StateChange(GameState.Reinforcement);
-            activatingCard.FinishResolution(activatingCard.effectLogic.focusSubEffect);
-        }
-        yield break;
-    }
-
-    public IEnumerator RecoverCard(CardLogic logic, CardLogic activatingCard)
-    {
-        PlayerManager player = logic.dataLogic.cardOwner;
-        if (player.handSize >= 10)
-            yield break;
-        bool drewCards = false;
-        foreach (HandSlot handSlot in player.handSlots)
-        {
-            if (handSlot.cardInZone != null)
-                continue;
-            if (player.handSize >= 10)
-                break;
-            logic.gameObject.SetActive(true);
-
-            //implementing a battle log
-            logic.LocationChange(Location.Hand, player.handSize);
-            logic.dataLogic.ControllerSwap(player);
-            logic.transform.SetParent(handSlot.transform, false);
-            logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            //when playing with another player on same device flip face up only if you draw on your turn...
-            //might implement more to support this
-            logic.visualsLogic.Flip(!player.isLocal || player.isAI 
-                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
-            handSlot.cardInZone = logic;
-            logic.dataLogic.cardOwner.graveLogicList.Remove(logic);
-            player.handLogicList.Add(logic);
-            player.handSize = player.handLogicList.Count;
-            drewCards = true;
-            break;
-        }
-        AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
-        yield return new WaitUntil(() => drawSound == null);
-
-        if (drewCards)
-        {
-            ShuffleHand(player);
-            StateChange(GameState.Reinforcement);
-            activatingCard.FinishResolution(activatingCard.effectLogic.focusSubEffect);
-        }
-        yield break;
-    }
-
     public IEnumerator GetShieldCard(int drawAmount, PlayerManager player)
     {
-        if (player.handSize >= 10)
-            yield break;
-
-        foreach (HandSlot handSlot in player.handSlots)
+        if (player.handSize >= 10 || player.deckLogicList.Count <= 0) yield break;
+        bool drewCards = false;
+        while (drawAmount > 0 && player.deckLogicList.Count > 0)
         {
-            if (handSlot.cardInZone != null)
-                continue;
-            if (player.heroDeckLogicList.Count <= 0 || drawAmount <= 0 || player.handSize >= 10)
-                break;
-            int randomNumber = UnityEngine.Random.Range(0, player.heroDeckLogicList.Count);
-            CardLogic randomCardDraw = player.heroDeckLogicList[randomNumber];
-            randomCardDraw.gameObject.SetActive(true);
-
-            //implementing a battle log
-            randomCardDraw.LocationChange(Location.Hand, player.handSize);
-            randomCardDraw.transform.SetParent(handSlot.transform, false);
-            randomCardDraw.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            //when playing with another player on same device flip face up only if you draw on your turn...
-            //might implement more to support this
-            randomCardDraw.visualsLogic.Flip(!player.isLocal || player.isAI 
-                || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
-            handSlot.cardInZone = randomCardDraw;
-            player.heroDeckLogicList.Remove(randomCardDraw);
-            player.handLogicList.Add(randomCardDraw);
+            CardLogic randomCard = player.deckLogicList[UnityEngine.Random.Range(0, player.heroDeckLogicList.Count)];
+            yield return StartCoroutine(AddCardToHand(randomCard, player));
+            player.heroDeckLogicList.Remove(randomCard);
+            drewCards = true;
             drawAmount--;
-            player.handSize = player.handLogicList.Count;
-            OnPhaseChange += randomCardDraw.GetPhaseTriggers;
-            OnEffectTrigger += randomCardDraw.GetEffectTriggers;
-            OnStateChange += randomCardDraw.GetStateTriggers;
         }
-        AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
-        yield return new WaitUntil(() => drawSound == null);
-
-        ShuffleHand(player);
-        StateChange(GameState.Reinforcement);
+        FinalizeCardDraw(player, drewCards);
         if (!isWaitingForResponse)
             ChainResolution();
         yield break;
@@ -410,6 +242,7 @@ public class GameBattleManager : GameManager
             case GameState.EffectActivation:
             case GameState.Targeting:
             case GameState.ChainResolution:
+            case GameState.Moving:
                 return;
         }
         OnStateChange?.Invoke(gameState, currentFocusCardLogic);
@@ -423,7 +256,6 @@ public class GameBattleManager : GameManager
     }
 
     public void InvokeEffectTrigger(SubEffect subEffect, CardLogic cardLogic) => OnEffectTrigger?.Invoke(subEffect, cardLogic);
-
     public void ChainResolution()
     {
         //nothing to do if in middle of effect
@@ -700,10 +532,7 @@ public class GameBattleManager : GameManager
         MainUIManager.EnableCardScrollScreen(cardLogics, shouldShowButton);
 
     public void DisableCardScrollScreen() => MainUIManager.DisableCardScrollScreen();
-    public void StartDrawCard(int drawAmount, PlayerManager player) =>
-        StartCoroutine(DrawCard(drawAmount, player));
-    public void StartSearchCard(CardLogic target, CardLogic caster) =>
-       StartCoroutine(SearchCard(target, caster));
+
     public void ForceBloodgain(string attunement)
     {
         BluePlayerManager.BloodGain(Enum.Parse<Attunement>(attunement), 1);
@@ -713,5 +542,82 @@ public class GameBattleManager : GameManager
     {
         RedPlayerManager.BloodGain(Enum.Parse<Attunement>(attunement), 1);
         StateReset();
+    }
+    // Helper Method to Add Cards to Hand using Coroutines
+    private IEnumerator AddCardToHand(CardLogic card, PlayerManager player)
+    {
+        foreach (HandSlot handSlot in player.handSlots)
+        {
+            if (handSlot.cardInZone != null) continue;
+            if (player.handSize >= 10) yield break;
+
+            card.gameObject.SetActive(true);
+            card.LocationChange(Location.Hand, player.handSize);
+            card.transform.SetParent(handSlot.transform, false);
+            card.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            card.visualsLogic.Flip(!player.isLocal || player.isAI || player != turnPlayer && !player.enemy.isAI && player.enemy.isLocal);
+
+            AudioSource drawSound = AudioManager.NewAudioPrefab(AudioManager.draw);
+            yield return new WaitUntil(() => drawSound == null || !drawSound.isPlaying);
+
+            handSlot.cardInZone = card;
+            player.handLogicList.Add(card);
+            player.handSize = player.handLogicList.Count;
+            RegisterCardEvents(card);
+            yield break;
+        }
+    }
+
+    private void RegisterCardEvents(CardLogic card)
+    {
+        OnPhaseChange += card.GetPhaseTriggers;
+        OnEffectTrigger += card.GetEffectTriggers;
+        OnStateChange += card.GetStateTriggers;
+    }
+
+    public IEnumerator DrawCard(int drawAmount, PlayerManager player)
+    {
+        if (player.handSize >= 10 || player.deckLogicList.Count <= 0) yield break;
+
+        bool drewCards = false;
+        while (drawAmount > 0 && player.deckLogicList.Count > 0)
+        {
+            CardLogic randomCard = player.deckLogicList[UnityEngine.Random.Range(0, player.deckLogicList.Count)];
+            yield return StartCoroutine(AddCardToHand(randomCard, player));
+            drewCards = true;
+            player.deckLogicList.Remove(randomCard);
+            drawAmount--;
+        }
+        FinalizeCardDraw(player, drewCards);
+        yield break;
+    }
+
+    public IEnumerator SearchCard(CardLogic card, CardLogic activatingCard)
+    {
+        if (activatingCard.dataLogic.cardOwner.handSize >= 10) yield break;
+        yield return StartCoroutine(AddCardToHand(card, activatingCard.dataLogic.cardOwner));
+        card.dataLogic.cardController.deckLogicList.Remove(card);
+        FinalizeCardDraw(activatingCard.dataLogic.cardOwner, true);
+        yield break;
+    }
+
+    public IEnumerator RecoverCard(CardLogic card)
+    {
+        PlayerManager player = card.dataLogic.cardOwner;
+        if (player.handSize >= 10) yield break;
+        yield return StartCoroutine(AddCardToHand(card, player));
+        player.graveLogicList.Remove(card);
+        FinalizeCardDraw(player, true);
+        yield break;
+    }
+
+    private void FinalizeCardDraw(PlayerManager player, bool drewCards)
+    {
+        if (drewCards)
+        {
+            ShuffleHand(player);
+            if (isNotFirstDraw)
+                StateChange(GameState.Reinforcement);
+        }
     }
 }

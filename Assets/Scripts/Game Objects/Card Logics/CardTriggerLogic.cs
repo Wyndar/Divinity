@@ -19,6 +19,7 @@ public class CardTriggerLogic : MonoBehaviour
             if (!AddEffectToChain(effect))
                 continue;
         }
+        cardLogic.gameManager.ChainResolution();
     }
 
     public void GetEffectTriggers(SubEffect subEffect, CardLogic triggerCard)
@@ -37,6 +38,7 @@ public class CardTriggerLogic : MonoBehaviour
             if (!AddEffectToChain(effect))
                 continue;
         }
+        cardLogic.gameManager.ChainResolution();
     }
 
     public void GetStateTriggers(GameState gameState, CardLogic triggerCardLogic)
@@ -53,8 +55,8 @@ public class CardTriggerLogic : MonoBehaviour
                 continue;
             if (!AddEffectToChain(triggeredEffect))
                 continue;
-            return;
         }
+        cardLogic.gameManager.ChainResolution();
     }
 
     private bool GenericTriggerChecks(Effect effect, CardLogic triggerCardLogic)
