@@ -99,7 +99,3 @@ public enum DependentEffectParameter
 {
     Undefined, EffectType, EffectUsed, TargetLocations, EffectTargetController, TargetingTypes, EffectTargetTypes, EffectAmount, EffectTargetAmount
 }
-public enum StatusType
-{
-    Undefined, Armor, Barrier, Burn, Poison, Stun, Taunt, Silence, Spot, Provoke, Bomb, Sleep, Disarm
-}

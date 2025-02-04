@@ -49,69 +49,54 @@ public class GameBattleManager : GameManager
     public event Action<SubEffect, CardLogic> OnEffectTrigger;
     public event Action<GameState, CardLogic> OnStateChange;
 
-    private Queue<(CardLogic, SubEffect)> effectQueue = new Queue<(CardLogic, SubEffect)>();
-    private bool isProcessingEffects = false;
     private void Start()
-    {
-        InitializeGame();
-        InitializePlayers();
-        InitializeBoard();
-        InitializeUI();
-        DebugLoadTime();
-        StartCoroutine(TurnManager.ChooseFirstPlayer());
-    }
-
-    private void InitializeGame()
     {
         loadStartTime = Time.realtimeSinceStartup;
         AudioManager.FindBattleOBJ();
         AudioManager.LoadSFX();
+        LoadPlayers(BluePlayerManager, BluePlayerPath);
+        LoadPlayers(RedPlayerManager, RedPlayerPath);
         LoadToolTips();
-    }
-
-    private void InitializeUI()
-    {
+        //after it's back from the cross country hike, we can move on
         popUpPanelText = popUpPanel.GetComponentInChildren<TMP_Text>();
         phaseChangeButtonText = phaseChangeButton.GetComponentInChildren<TMP_Text>();
         UIManager.UIUpdate(BluePlayerManager);
         UIManager.UIUpdate(RedPlayerManager);
-    }
-
-    private void InitializePlayers()
-    {
-        LoadPlayers(BluePlayerManager, BluePlayerPath);
-        LoadPlayers(RedPlayerManager, RedPlayerPath);
         BluePlayerManager.SetShield(0, BluePlayerManager.shieldCount);
         RedPlayerManager.SetShield(0, RedPlayerManager.shieldCount);
-    }
-
-    private void InitializeBoard()
-    {
-        RedPlayerManager.cardSlots = new();
-        BluePlayerManager.cardSlots = new();
-        InitializeSlots(Row1, RedPlayerManager, true);
-        InitializeSlots(Row2, RedPlayerManager, false);
-        InitializeSlots(Row3, BluePlayerManager, false);
-        InitializeSlots(Row4, BluePlayerManager, true);
+        foreach (CardSlot slot in Row1)
+        {
+            slot.InitializeSlot(this);
+            slot.ChangeController(RedPlayerManager);
+        }
+        RedPlayerManager.cardSlots = new(Row1);
+        foreach (CardSlot slot in Row2)
+        {
+            slot.InitializeSlot(this);
+            slot.ChangeController(RedPlayerManager);
+            slot.isFrontline = true;
+        }
+        RedPlayerManager.cardSlots.AddRange(Row2);
+        foreach (CardSlot slot in Row3)
+        {
+            slot.InitializeSlot(this);
+            slot.ChangeController(BluePlayerManager);
+            slot.isFrontline = true;
+        }
+        BluePlayerManager.cardSlots = new(Row3);
+        foreach (CardSlot slot in Row4)
+        {
+            slot.InitializeSlot(this);
+            slot.ChangeController(BluePlayerManager);
+        }
+        BluePlayerManager.cardSlots.AddRange(Row4);
         for (int i = 0; i < BluePlayerManager.hand.transform.childCount; i++)
             BluePlayerManager.handSlots.Add(BluePlayerManager.hand.transform.GetChild(i).GetComponent<HandSlot>());
         for (int i = 0; i < RedPlayerManager.hand.transform.childCount; i++)
             RedPlayerManager.handSlots.Add(RedPlayerManager.hand.transform.GetChild(i).GetComponent<HandSlot>());
-    }
-    private void InitializeSlots(CardSlot[] row, PlayerManager player, bool isFrontline)
-    {
-        foreach (CardSlot slot in row)
-        {
-            slot.InitializeSlot(this);
-            slot.ChangeController(player);
-            slot.isFrontline = isFrontline;
-        }
-        player.cardSlots.AddRange(row);
-    }
-    private void DebugLoadTime()
-    {
         loadEndTime = Time.realtimeSinceStartup;
         Debug.Log($"Card Load time is : {loadEndTime - loadStartTime} seconds");
+        StartCoroutine(TurnManager.ChooseFirstPlayer());
     }
 
     //will remove this later
@@ -141,41 +126,94 @@ public class GameBattleManager : GameManager
     }
 
     public void LoadToolTips() => ToolTipManager.tooltipInfos.AddRange(SaveManager.LoadToolTipInfoDatabase());
+
+    public IEnumerator GetShieldCard(int drawAmount, PlayerManager player)
+    {
+        if (player.handSize >= 10 || player.deckLogicList.Count <= 0) yield break;
+        bool drewCards = false;
+        while (drawAmount > 0 && player.deckLogicList.Count > 0)
+        {
+            CardLogic randomCard = player.deckLogicList[UnityEngine.Random.Range(0, player.heroDeckLogicList.Count)];
+            yield return StartCoroutine(AddCardToHand(randomCard, player));
+            player.heroDeckLogicList.Remove(randomCard);
+            drewCards = true;
+            drawAmount--;
+        }
+        FinalizeCardDraw(player, drewCards);
+        if (!isWaitingForResponse)
+            ChainResolution();
+        yield break;
+    }
+
+
     public void ShuffleHand(PlayerManager player)
     {
         AudioManager.NewAudioPrefab(AudioManager.shuffleHand);
-        player.handLogicList = player.handLogicList.OrderBy(x => UnityEngine.Random.value).ToList();
+        //resets hand to zero transform and empty
+        foreach (HandSlot handSlot in player.handSlots)
+        {
+            handSlot.transform.localPosition = Vector3.zero;
+            handSlot.cardInZone = null;
+        }
+
+        //gets list of all cards in player hand then set parent to null and hold a reference to it;
+        System.Random random = new();
+        IOrderedEnumerable<CardLogic> shuffledHandCards = player.handLogicList.OrderBy(x => random.Next());
+        List<CardLogic> handCards = new(shuffledHandCards);
+        player.handLogicList.Clear();
+        foreach (CardLogic logic in handCards)
+            logic.transform.SetParent(null);
+        ReattachShuffledHand(player, handCards);
         ArrangeHand(player);
     }
 
     private static void ArrangeHand(PlayerManager player)
     {
+        //do not fuck with this, DO NOT FUCK WITH THIS!
         float xDist = 2.1f;
         float yDist = -0.82f;
         float cardSize = 0.511f;
+        int count = 0;
         int topCount = Mathf.FloorToInt(player.handSize / 2 + 0.5f);
         int bottomCount = player.handSize - topCount;
 
-        for (int i = 0; i < player.handSlots.Count; i++)
+        foreach (HandSlot handSlot in player.handSlots)
         {
-            HandSlot slot = player.handSlots[i];
-            if (slot.cardInZone == null) continue;
-
-            slot.transform.localPosition = CalculateCardPosition(i, player.handSize, topCount, bottomCount, xDist, yDist, cardSize);
+            if (handSlot.cardInZone == null)
+                continue;
+            count++;
+            int trueCount = count - topCount;
+            float yPosition = player.handSize < 4 ? yDist / 2 : count <= player.handSize / 2 ? 0 : yDist;
+            float xPosition = player.handSize < 4
+                ? xDist / (player.handSize + 1) * count
+                : (trueCount <= 0 && topCount < 4) || (trueCount > 0 && bottomCount < 4)
+                    ? trueCount <= 0 ? xDist / (topCount + 1) * count : xDist / (bottomCount + 1) * trueCount
+                    : count == 1 || trueCount == 1 ? 0 : trueCount <= 0 ? cardSize * (count - 1) : cardSize * (trueCount - 1);
+            if (trueCount <= 0 && topCount == 4 || trueCount > 0 && bottomCount == 4)
+                xPosition += 0.11f * (trueCount <= 0 ? count : trueCount);
+            handSlot.transform.localPosition += new Vector3(xPosition, yPosition, 0);
         }
     }
 
-    private static Vector3 CalculateCardPosition(int index, int handSize, int topCount, int bottomCount, float xDist, float yDist, float cardSize)
+    private static void ReattachShuffledHand(PlayerManager player, List<CardLogic> handCards)
     {
-        int trueCount = index - topCount + 1;
-        float yPos = handSize < 4 ? yDist / 2 : index < topCount ? 0 : yDist;
-        float xPos = handSize < 4 ? xDist / (handSize + 1) * (index + 1) :
-                      (trueCount <= 0 ? cardSize * index : cardSize * (trueCount - 1));
-
-        if ((trueCount <= 0 && topCount == 4) || (trueCount > 0 && bottomCount == 4))
-            xPos += 0.11f * (trueCount <= 0 ? index + 1 : trueCount);
-
-        return new Vector3(xPos, yPos, 0);
+        //reattaches cards to handslots
+        foreach (CardLogic logic in handCards)
+        {
+            foreach (HandSlot handSlot in player.handSlots)
+            {
+                if (handSlot.cardInZone != null)
+                    continue;
+                logic.dataLogic.locationOrderNumber = player.handSize;
+                logic.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                logic.transform.localScale = new(4, 3, 1);
+                logic.transform.SetParent(handSlot.transform, false);
+                handSlot.cardInZone = logic;
+                player.handLogicList.Add(logic);
+                player.handSize = player.handLogicList.Count;
+                break;
+            }
+        }
     }
 
     public void StateReset()
@@ -368,7 +406,7 @@ public class GameBattleManager : GameManager
                 {
                     if (subEffect.effectType != EffectTypes.Deployed)
                         continue;
-                    if (subEffect.effectUsed != EffectsUsed.BloodCost
+                    if (subEffect.effectUsed != EffectsUsed.BloodCost 
                         && cardLogic.targetingLogic.GetValidTargets(subEffect, false).Count == 0)
                     {
                         if (!subEffect.EffectActivationIsMandatory) continue;
@@ -399,7 +437,7 @@ public class GameBattleManager : GameManager
             {
                 if (subEffect.effectType != EffectTypes.Deployed)
                     continue;
-                if (subEffect.effectUsed != EffectsUsed.BloodCost
+                if (subEffect.effectUsed != EffectsUsed.BloodCost 
                     && player.heroCardLogic.targetingLogic.GetValidTargets(subEffect, false).Count == 0)
                 {
                     if (!subEffect.EffectActivationIsMandatory) continue;
@@ -463,7 +501,7 @@ public class GameBattleManager : GameManager
         AudioManager.GameOverSequence(winner == BluePlayerManager);
         MainUIManager.GameOver(winner);
         isNotFirstDraw = false;
-
+        
     }
 
     public void ClearAttackTargetImages()
@@ -537,21 +575,21 @@ public class GameBattleManager : GameManager
         OnStateChange += card.GetStateTriggers;
     }
 
-    public IEnumerator RandomCardDraw(List<CardLogic> sourceDeck, int drawAmount, PlayerManager player)
+    public IEnumerator DrawCard(int drawAmount, PlayerManager player)
     {
-        if (player.handSize >= 10 || sourceDeck.Count == 0) yield break;
+        if (player.handSize >= 10 || player.deckLogicList.Count <= 0) yield break;
+
         bool drewCards = false;
-
-        while (drawAmount > 0 && sourceDeck.Count > 0)
+        while (drawAmount > 0 && player.deckLogicList.Count > 0)
         {
-            CardLogic randomCard = sourceDeck[UnityEngine.Random.Range(0, sourceDeck.Count)];
+            CardLogic randomCard = player.deckLogicList[UnityEngine.Random.Range(0, player.deckLogicList.Count)];
             yield return StartCoroutine(AddCardToHand(randomCard, player));
-            sourceDeck.Remove(randomCard);
-            drawAmount--;
             drewCards = true;
+            player.deckLogicList.Remove(randomCard);
+            drawAmount--;
         }
-
         FinalizeCardDraw(player, drewCards);
+        yield break;
     }
 
     public IEnumerator SearchCard(CardLogic card, CardLogic activatingCard)
@@ -581,32 +619,5 @@ public class GameBattleManager : GameManager
             if (isNotFirstDraw)
                 StateChange(GameState.Reinforcement);
         }
-    }
-
-    public void QueueEffect(CardLogic caster, SubEffect subEffect)
-    {
-        effectQueue.Enqueue((caster, subEffect));
-        if (!isProcessingEffects)
-        {
-            StartCoroutine(ProcessEffectQueue());
-        }
-    }
-
-    private IEnumerator ProcessEffectQueue()
-    {
-        isProcessingEffects = true;
-        while (effectQueue.Count > 0)
-        {
-            var (caster, subEffect) = effectQueue.Dequeue();
-            ExecuteEffect(caster, subEffect);
-            yield return new WaitForSeconds(0.1f); //delay for frame freeze avoidance, can add animation here
-        }
-        isProcessingEffects = false;
-    }
-
-    private void ExecuteEffect(CardLogic caster, SubEffect subEffect)
-    {
-        //IEffectStrategy effectStrategy = EffectFactory.CreateEffect(subEffect);
-        //effectStrategy.Execute(subEffect, caster, caster.gameManager.currentFocusCardLogic);
     }
 }

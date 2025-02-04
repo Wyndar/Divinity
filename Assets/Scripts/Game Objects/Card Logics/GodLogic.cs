@@ -53,7 +53,7 @@ public class GodLogic : CardLogic
         hasUsedShield = true;
         hasUsedShieldThisTurn = true;
         shieldUsesLeft -= 1;
-        StartCoroutine(gm.RandomCardDraw(dataLogic.cardOwner.deckLogicList, 1, dataLogic.cardOwner));
+        StartCoroutine(gm.GetShieldCard(1, dataLogic.cardOwner));
         if (!wasAttack)
             gm.isWaitingForResponse = false;
     }

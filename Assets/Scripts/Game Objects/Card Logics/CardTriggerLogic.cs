@@ -115,7 +115,7 @@ public class CardTriggerLogic : MonoBehaviour
         bool addCard = true;
         if (cardLogic.gameManager.activationChainList.Contains(cardLogic))
             foreach (var _ in cardLogic.gameManager.activationChainList.FindAllIndexof<CardLogic>(cardLogic)
-                .Where(index => cardLogic.gameManager.activationChainSubEffectList[index].ParentEffect == triggeredEffect)
+                .Where(index => cardLogic.gameManager.activationChainSubEffectList[index].parentEffect == triggeredEffect)
                 .Select(index => new { }))
                 addCard = false;
         if (addCard)

@@ -181,8 +181,8 @@ public class CardEffectLogic : MonoBehaviour
     private void EffectActivationAfterAnimation(SubEffect subEffect)
     {
         focusSubEffect = subEffect;
-        if (subEffect.ParentEffect.activationLocations == null 
-            || subEffect.ParentEffect.activationLocations.Contains(cardLogic.dataLogic.currentLocation))
+        if (subEffect.parentEffect.activationLocations == null 
+            || subEffect.parentEffect.activationLocations.Contains(cardLogic.dataLogic.currentLocation))
             cardLogic.targetingLogic.TargetCheck(subEffect);
     }
 
@@ -212,8 +212,8 @@ public class CardEffectLogic : MonoBehaviour
     {
         if (!ResolveSubsequentSubeffects(subEffect))
             return;
-        if (resolvedPreviousSubEffect && subEffect.ParentEffect.currentActivations < subEffect.ParentEffect.maxActivations)
-            subEffect.ParentEffect.currentActivations++;
+        if (resolvedPreviousSubEffect && subEffect.parentEffect.currentActivations < subEffect.parentEffect.maxActivations)
+            subEffect.parentEffect.currentActivations++;
         cardLogic.gameManager.ClearEffectTargetImages();
         cardLogic.targetingLogic.targets?.Clear();
         cardLogic.targetingLogic.validTargets?.Clear();
@@ -228,10 +228,10 @@ public class CardEffectLogic : MonoBehaviour
 
     private bool ResolveSubsequentSubeffects(SubEffect subEffect)
     {
-        int subCount = subEffect.ParentEffect.SubEffects.FindIndex(a => a == subEffect);
-        if (subCount+1 >= subEffect.ParentEffect.SubEffects.Count)
+        int subCount = subEffect.parentEffect.SubEffects.FindIndex(a => a == subEffect);
+        if (subCount+1 >= subEffect.parentEffect.SubEffects.Count)
             return true;
-        SubEffect nextSubEffect = subEffect.ParentEffect.SubEffects[subCount+1];
+        SubEffect nextSubEffect = subEffect.parentEffect.SubEffects[subCount+1];
         if (subEffect.effectType != nextSubEffect.effectType)
             return true;
         if (nextSubEffect.EffectActivationIsMandatory == false)
@@ -291,7 +291,7 @@ public class CardEffectLogic : MonoBehaviour
     }
     private void EffectLogger(SubEffect subEffect, List<CardLogic> cards)
     {
-        Effect effect = subEffect.ParentEffect;
+        Effect effect = subEffect.parentEffect;
         EffectLogHistoryEntry effectLogHistoryEntry = new(effect, subEffect.effectUsed, cards)
         {
             logIndex = cardLogic.gameManager.gameLogHistoryEntries.Count,

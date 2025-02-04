@@ -50,8 +50,8 @@ public class TurnManager : MonoBehaviour
         gm.RedPlayerManager.playerColor = enemyColor;
         gm.phaseChangeButtonText.text = "COMBAT";
 
-        yield return StartCoroutine(gm.RandomCardDraw(gm.RedPlayerManager.deckLogicList, 5, gm.RedPlayerManager));
-        yield return StartCoroutine(gm.RandomCardDraw(gm.BluePlayerManager.deckLogicList, 5, gm.BluePlayerManager));
+        yield return StartCoroutine(gm.DrawCard(5, gm.RedPlayerManager));
+        yield return StartCoroutine(gm.DrawCard(5, gm.BluePlayerManager));
 
         gm.isNotFirstDraw = true;
         if (gm.currentFocusCardLogic != null)
@@ -75,7 +75,7 @@ public class TurnManager : MonoBehaviour
 
         gm.PhaseChange(Phase.DrawPhase);
         yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
-        yield return StartCoroutine(gm.RandomCardDraw(player.deckLogicList, 1, player));
+        yield return StartCoroutine(gm.DrawCard(1, player));
         yield return new WaitUntil(() => gm.activationChainList.Count == 0 && gm.gameState == GameState.Open);
 
         if (gm.currentFocusCardLogic != null)

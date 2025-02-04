@@ -1,83 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 
-[Serializable]
+[System.Serializable]
 public class SubEffect
 {
-    // Fixed values from JSON loading
-    public EffectsUsed EffectUsed { get; private set; }
+    //this is just a reference, we don't want to break the code with some weird infinite recursion now, do we?
+    [NonSerialized] public Effect parentEffect;
+    public EffectTypes effectType;
+    public EffectsUsed effectUsed;
+    public List<Location> targetLocations = new();
+    public Controller effectTargetController;
+    public TargetingTypes targetingType;
+    public List<Type> effectTargetTypes = new();
+
+    public int effectAmount;
+    public int effectTargetAmount;
+    public int duration;
+
     public EffectTypes EffectType { get; private set; }
+    public EffectsUsed EffectUsed { get; private set; }
     public int EffectAmount { get; private set; }
     public bool EffectActivationIsMandatory { get; private set; }
     public int Duration { get; private set; }
-    public List<Location> TargetLocations { get; private set; }
-    public Controller EffectTargetController { get; private set; }
+
+    //if needs targets
     public TargetingTypes TargetingType { get; private set; }
     public List<Type> EffectTargetTypes { get; private set; }
+    public Controller EffectTargetController { get; private set; }
+    public List<Location> TargetLocations { get; private set; }
     public int EffectTargetAmount { get; private set; }
     public bool AllowSelfTarget { get; private set; }
+
+    //if should count target
+    public float TargetCountModifier { get; private set; }
+
+    //if needs target stats
     public List<string> TargetStats { get; private set; }
     public List<string> TargetStatConditions { get; private set; }
     public List<int> TargetStatAmounts { get; private set; }
-    public int TargetCountModifier { get; private set; }
-    public List<int> DependentIndices { get; private set; }
-    public List<DependentEffectParameter> DependentEffectParameters { get; private set; }
-    [NonSerialized]
-    public Effect ParentEffect;
 
-    // Editable values for runtime modification
-    public EffectsUsed effectUsed;
-    public EffectTypes effectType;
-    public int duration;
-    public int effectAmount;
-    public List<Location> targetLocations;
-    public Controller effectTargetController;
-    public TargetingTypes targetingType;
-    public List<Type> effectTargetTypes;
-    public int effectTargetAmount;
-    public bool allowSelfTarget;
-    public List<string> targetStats;
-    public List<string> targetStatConditions;
-    public List<int> targetStatAmounts;
-    public List<int> dependentIndices;
-    public List<DependentEffectParameter> dependentEffectParameters;
-
-    public SubEffect(EffectsUsed effectUsed, int effectAmount, int duration, Effect parentEffect, List<Location> targetLocations = null,
-        Controller effectTargetController = default, TargetingTypes targetingType = default, List<Type> effectTargetTypes = null,
-        int effectTargetAmount = 0, bool allowSelfTarget = false, List<string> targetStats = null, List<string> targetStatConditions = null,
-        List<int> targetStatAmounts = null, List<int> dependentIndices = null, List<DependentEffectParameter> dependentEffectParameters = null)
-    {
-        // Assign fixed values
-        EffectUsed = effectUsed;
-        Duration = duration;
-        TargetLocations = targetLocations ?? new List<Location>();
-        EffectTargetController = effectTargetController;
-        TargetingType = targetingType;
-        EffectTargetTypes = effectTargetTypes ?? new List<Type>();
-        EffectTargetAmount = effectTargetAmount;
-        AllowSelfTarget = allowSelfTarget;
-        TargetStats = targetStats ?? new List<string>();
-        TargetStatConditions = targetStatConditions ?? new List<string>();
-        TargetStatAmounts = targetStatAmounts ?? new List<int>();
-        DependentIndices = dependentIndices ?? new List<int>();
-        DependentEffectParameters = dependentEffectParameters ?? new List<DependentEffectParameter>();
-        this.ParentEffect = parentEffect;
-
-        // Assign editable values
-        this.effectAmount = effectAmount;
-        this.duration = duration;
-        this.targetLocations = new List<Location>(TargetLocations);
-        this.effectTargetController = EffectTargetController;
-        this.targetingType = TargetingType;
-        this.effectTargetTypes = new List<Type>(EffectTargetTypes);
-        this.effectTargetAmount = EffectTargetAmount;
-        this.allowSelfTarget = AllowSelfTarget;
-        this.targetStats = new List<string>(TargetStats);
-        this.targetStatConditions = new List<string>(TargetStatConditions);
-        this.targetStatAmounts = new List<int>(TargetStatAmounts);
-        this.dependentIndices = new List<int>(DependentIndices);
-        this.dependentEffectParameters = new List<DependentEffectParameter>(DependentEffectParameters);
-    }
+    public List<int> DependentIndices;
+    public List<DependentEffectParameter> DependentEffectParameters { get; private set;}
 
     //empty constructor for newtonsoft to hide the internal one for our deckbuilder
     public SubEffect()
@@ -102,7 +65,7 @@ public class SubEffect
         TargetStatConditions = subEffect.TargetStatConditions;
         TargetStatAmounts = subEffect.TargetStatAmounts;
         duration = subEffect.Duration;
-        ParentEffect = parent;
+        parentEffect = parent;
         effectAmount = subEffect.EffectAmount;
         effectTargetAmount = subEffect.EffectTargetAmount;
         effectUsed = subEffect.EffectUsed;
@@ -116,7 +79,7 @@ public class SubEffect
         targetingType = subEffect.TargetingType;
         if (subEffect.TargetLocations != null)
             targetLocations = new(subEffect.TargetLocations);
-        if (subEffect.EffectTargetTypes != null)
-            effectTargetTypes = new(subEffect.EffectTargetTypes);
+        if(subEffect.EffectTargetTypes!= null)
+        effectTargetTypes = new(subEffect.EffectTargetTypes);
     }
 }
