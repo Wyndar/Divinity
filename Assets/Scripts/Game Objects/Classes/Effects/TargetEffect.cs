@@ -8,11 +8,11 @@ internal class TargetEffect : IEffectStrategy
 
     public void Execute(SubEffect subEffect, CardLogic caster, CardLogic target)
     {
-        int subEffectIndex = subEffect.parentEffect.SubEffects.FindIndex(a => a == subEffect);
+        int subEffectIndex = subEffect.ParentEffect.SubEffects.FindIndex(a => a == subEffect);
         //use big E cos small e is supposed to be editable and change
-        foreach (SubEffect sub in subEffect.parentEffect.SubEffects)
+        foreach (SubEffect sub in subEffect.ParentEffect.SubEffects)
         {
-            int subIndex = subEffect.parentEffect.SubEffects.FindIndex(a => a == sub);
+            int subIndex = subEffect.ParentEffect.SubEffects.FindIndex(a => a == sub);
             if (sub.DependentEffectParameters == null || subIndex <= subEffectIndex)
                 continue;
             float mod = sub.TargetCountModifier > 0 ? sub.TargetCountModifier : 1;
