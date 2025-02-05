@@ -1,24 +1,30 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class DeckManager : MonoBehaviour
+public class DeckManager : GameManager
 {
-    [SerializeField] public ScrollingDeckPanelHandler godScrollView, cardScrollView;
+    [SerializeField] private ScrollingGodsPanelHandler godScrollView;
+    [SerializeField] private ScrollingDecksPanelHandler deckScrollView;
+    [SerializeField] private DeckEditManager deckEditManager;
+    public Sprite lockSprite, unlockSprite;
     private SaveManager SaveManager;
     [SerializeField] private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
+#pragma warning disable IDE0044 // Add readonly modifier
     private List<Card> database = new();
     private List<Card> godDatabase = new();
-    private List<string> decks = new();
+#pragma warning restore IDE0044 // Add readonly modifier
+    private List<CardOwnedID> unlockedCardIDs = new();
+    private List<CardOwnedID> unlockedGodIDs = new();
+    private List<Deck> decks = new();
 
     private void Start()
     {
         SaveManager = GetComponent<SaveManager>();
         LoadDeck();
         DisplayGods();
+        deckEditManager.InitializeDeckEdit();
     }
 
     //loads both deck and shield cards... for now
@@ -28,20 +34,29 @@ public class DeckManager : MonoBehaviour
             database.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/cardDatabase"));
         if (godDatabase.Count == 0)
             godDatabase.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/divineDatabase"));
-        string json;
         try
         {
-            json = File.ReadAllText(Application.persistentDataPath + "decks");
+            unlockedCardIDs = SaveManager.LoadIDFromJson("Load Data/Player Data/unlockedCards");
+            unlockedGodIDs = SaveManager.LoadIDFromJson("Load Data/Player Data/unlockedGods");
         }
         catch
         {
-            return;
+            unlockedCardIDs = SaveManager.ReadIDFromJson("Load Data/Starter Info/StarterCardsUnlockedIDs");
+            unlockedGodIDs = SaveManager.ReadIDFromJson("Load Data/Starter Info/StarterGodsUnlockedIDs");
+            SaveManager.SaveIDToJson("unlockedCards", unlockedCardIDs);
+            SaveManager.SaveIDToJson("unlockedGods", unlockedGodIDs);
+            Debug.Log("did not find unlocked cards, loaded starter cards");
         }
-        decks = JsonConvert.DeserializeObject<List<string>>(json, new JsonSerializerSettings()
+        try
         {
-            ContractResolver = new PrivateResolver(),
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
-        });
+            decks = SaveManager.LoadDecksFromJson("decks");
+        }
+        catch
+        {
+            decks = SaveManager.ReadDecksFromJson("Load Data/Starter Info/decks");
+            SaveManager.SaveDecksToJson("decks", decks);
+            Debug.Log("did not find decks, loaded starter decks");
+        }
     }
 
     private void DisplayGods()
@@ -49,14 +64,44 @@ public class DeckManager : MonoBehaviour
         List<Card> sendList = new();
         foreach (Card card in godDatabase)
         {
-            if (card.Id.Any(x => char.IsDigit(x)))
+            if (card.Id.Any(x => char.IsDigit(x)) || !unlockedGodIDs.Any(x => x.ID == card.Id))
                 continue;
             sendList.Add(card);
+            //we need this for regular cards but not for gods
+            //for (int i = 0; i < unlockedGodIDs.First(x => x.ID == card.Id).Count; i++)
+            //    sendList.Add(card);
         }
         godScrollView.AddCardListToScrollCards(CreateCardScroll(sendList));
-        godScrollView.AddContentCards();
+        godScrollView.AddGodCards(this);
     }
+    public void DisplayDeckScroll (CardLogic godLogic)
+    {
+        deckScrollView.gameObject.SetActive(true);
+        deckScrollView.RemoveContentDecks();
+        deckScrollView.ClearScrollDecksList();
+        foreach (Deck deck in decks)
+            if(deck.GodID == godLogic.dataLogic.id)
+                deckScrollView.AddDeckToScrollDecks(deck);
+        deckScrollView.AddDecks(this);
+    }
+    public void OpenDeckEdit(Deck deck)
+    {
+        deckEditManager.gameObject.SetActive(true);
+        GodLogic godLogic = (GodLogic)godScrollView.GetScrollCards().Find(x => x.dataLogic.id == deck.GodID);
 
+        List<Card> sendList = new();
+        foreach (Card card in godDatabase)
+        {
+            if (card.Id.Any(x => char.IsDigit(x)) && card.Id.Contains(godLogic.dataLogic.id))
+            sendList.Add(card);
+        }
+        CardLogic[] powers = CreateCardScroll(sendList).ToArray();
+        deckEditManager.SetDeck(godLogic, powers, deck);
+    }
+    public void CloseDeckEdit() => deckEditManager.gameObject.SetActive(false);
+    public void UpdateDeck() => SaveManager.SaveDecksToJson("decks", decks);
+    public void UpdateUnlockedCards() => SaveManager.SaveIDToJson("unlockedCards", unlockedCardIDs);
+    public void UpdateUnlockedGods() => SaveManager.SaveIDToJson("unlockedGods", unlockedGodIDs);
 
     //parses instance of card (data) into instance of cardLogic (gameplay)
     public List<CardLogic> CreateCardScroll(List<Card> cards)
@@ -90,7 +135,18 @@ public class DeckManager : MonoBehaviour
                     cardCloneCardLogic = cardClone.AddComponent<CardLogic>();
                     break;
             }
+            //adds additional components of the card logics to the card instance
+            cardCloneCardLogic.dataLogic = cardClone.AddComponent<CardDataLogic>();
+            cardCloneCardLogic.visualsLogic = cardClone.AddComponent<CardVisualsLogic>();
+            cardCloneCardLogic.targetingLogic = cardClone.AddComponent<CardTargetingLogic>();
+            cardCloneCardLogic.effectLogic = cardClone.AddComponent<CardEffectLogic>();
+            cardCloneCardLogic.triggerLogic = cardClone.AddComponent<CardTriggerLogic>();
 
+            //intitializes the cardlogic var of the components except effect
+            cardCloneCardLogic.visualsLogic.Initialize();
+            cardCloneCardLogic.targetingLogic.Initialize();
+            cardCloneCardLogic.triggerLogic.Initialize();
+            cardCloneCardLogic.dataLogic.Initialize();
             //activates and adds logic to empty then references the logic
             cardClone.SetActive(true);
 
@@ -170,7 +226,8 @@ public class DeckManager : MonoBehaviour
                     cardCloneGodLogic.attunementRates = new(card.AttunementRates);
                     break;
             }
-
+            cardCloneCardLogic.effectLogic.Initialize();
+            cardCloneCardLogic.effectLogic.effects = new();
             cardCloneCardLogic.effectLogic.effects = new();
             foreach (Effect effect in card.Effects)
             {
@@ -178,6 +235,7 @@ public class DeckManager : MonoBehaviour
                 cardCloneCardLogic.effectLogic.effects.Add(effectInstance);
             }
             returnList.Add(cardCloneCardLogic);
+            cardClone.SetActive(false);
         }
         return returnList;
     }

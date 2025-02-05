@@ -64,7 +64,7 @@ public class AudioManager : MonoBehaviour
         BGMSource.volume = BGMVolume;
     }
 
-    public void SelectRandomBGM(List<AudioClip> clips)
+    public void SelectRandomBGM(List<AudioClip> clips = null)
     {
         clips ??= BGAudioClips;
         if (clips.Count == 0)

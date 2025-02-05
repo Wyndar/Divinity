@@ -117,8 +117,8 @@ public class GameBattleManager : GameManager
 
     public void LoadDeckID(PlayerManager playerManager)
     {
-        playerManager.deckListID.AddRange(SaveManager.LoadIDFromJson(playerManager.DeckPath));
-        playerManager.heroDeckListID.AddRange(SaveManager.LoadIDFromJson(playerManager.HeroDeckPath));
+        playerManager.deckListID.AddRange(SaveManager.ReadIDFromJson(playerManager.DeckPath));
+        playerManager.heroDeckListID.AddRange(SaveManager.ReadIDFromJson(playerManager.HeroDeckPath));
         playerManager.deckLogicList.AddRange(DeckManager.LoadDeck(playerManager.deckListID, playerManager.deckList,
             playerManager.deck, playerManager, false));
         playerManager.heroDeckLogicList.AddRange(DeckManager.LoadDeck(playerManager.heroDeckListID,

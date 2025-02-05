@@ -1,2 +1,10 @@
 Effect Target Amount 98 means the effect is dependent on the targets of the previous effect
 99 means target all valid targets
+
+Ira Penalty: opponent gains maxHP equal to the cost of the card, fighters do half damage for 1 turn
+Amyna Penalty: lose maxHP equal to the cost of the card, fighters take double damage for 1 turn
+Enkrateia Penalty: card draw deficit equal to the cost of the card, locks deployment for 1 turn
+Katara Penalty: debuff and detonate block deficit equal to the cost of the card, locks stat reduction for 1 turn 
+Eulogia Penalty: buff and heal block deficit equal to the cost of the card, locks gy for 1 turn
+Areta Penalty: card mill,bounce and recovery deficit equal to the cost of the card, locks location changes for 1 turn
+*/

@@ -1,1 +1,26 @@
-["GP-Z","GP-Z1","GP-Z2","GP-Z3","GP-Z4","GP-Z5"]
+[
+    {
+        "ID": "GP-Z",
+        "Count": 1
+    },
+    {
+        "ID": "GP-Z1",
+        "Count": 1
+    },
+    {
+        "ID": "GP-Z2",
+        "Count": 1
+    },
+    {
+        "ID": "GP-Z3",
+        "Count": 1
+    },
+    {
+        "ID": "GP-Z4",
+        "Count": 1
+    },
+    {
+        "ID": "GP-Z5",
+        "Count": 1
+    }
+]

@@ -16,11 +16,13 @@ public class GameManager : MonoBehaviour
         InputManager = GetComponent<InputManager>();
         AudioManager = GetComponent<AudioManager>();
         AudioManager.FindBGOBJ();
-        AudioManager.SelectRandomBGM(null);
+        AudioManager.SelectRandomBGM();
         AudioManager.LoadVolumeSettings();
         LoadVFXSettings();
-        BGMSlider.value = PlayerPrefs.GetFloat("BGM Volume", 0.5f);
-        SFXSlider.value = PlayerPrefs.GetFloat("SFX Volume", 0.5f);
+        if(BGMSlider != null)
+            BGMSlider.value = PlayerPrefs.GetFloat("BGM Volume", 0.5f);
+        if (SFXSlider != null)
+            SFXSlider.value = PlayerPrefs.GetFloat("SFX Volume", 0.5f);
         trail.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume", 0.5f);
         InputManager.OnStartTouch += TouchStart;
         InputManager.OnEndTouch += TouchEnd;

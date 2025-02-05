@@ -14,33 +14,27 @@ public class DeckLoaderManager : MonoBehaviour
     private List<Card> godDatabase = new();
 
     //loads both deck and shield cards... for now
-    public List<CardLogic> LoadDeck(List<string> strings, List<Card> cards, GameObject deckObject, PlayerManager playerManager, bool isHeroDeck)
+    public List<CardLogic> LoadDeck(List<CardOwnedID> cardsOwned, List<Card> cards, GameObject deckObject, PlayerManager playerManager, bool isHeroDeck)
     {
         if (!isHeroDeck)
         {
             if (database.Count == 0)
                 database.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/cardDatabase"));
-            foreach (string cardID in strings)
+            foreach (CardOwnedID cardOwned in cardsOwned)
             {
-                //try faster direct lookup first
+                //try faster direct lookup first, then fallback to slower find, then throw exception if not found
                 try
                 {
-                    Card c = database[int.Parse(cardID.Split("-")[1]) - 1];
-                    if (c.Id == cardID)
-                    {
+                    Card c = database[int.Parse(cardOwned.ID.Split("-")[1]) - 1];
+                    if (c.Id != cardOwned.ID)
+                        c = database.Find(x => x.Id == cardOwned.ID);
+                    for (int i = 0; i < cardOwned.Count; i++)
                         cards.Add(c);
-                        continue;
-                    }
+                    continue;
                 }
                 catch
                 {
-                    foreach (Card card in database)
-                        if (card.Id == cardID)
-                        {
-                            cards.Add(card);
-                            break;
-                        }
-                    continue;
+                    throw new MissingReferenceException("Card not found in database");
                 }
             }
         }
@@ -48,13 +42,8 @@ public class DeckLoaderManager : MonoBehaviour
         {
             if (godDatabase.Count == 0)
                 godDatabase.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/divineDatabase"));
-            foreach (string cardID in strings)
-                foreach (Card card in godDatabase)
-                    if (cardID == card.Id)
-                    {
-                        cards.Add(card);
-                        break;
-                    }
+            foreach (CardOwnedID cardOwned in cardsOwned)
+                cards.Add(godDatabase.Find(x => x.Id == cardOwned.ID));
         }
         return CreateDeck(cards, deckObject, playerManager, isHeroDeck);
     }

@@ -16,8 +16,8 @@ public class PlayerManager : MonoBehaviour
 
     public bool isAI, isLocal, wentFirst;
 
-    public List<string> deckListID = new();
-    public List<string> heroDeckListID = new();
+    public List<CardOwnedID> deckListID = new();
+    public List<CardOwnedID> heroDeckListID = new();
 
     public List<Card> deckList = new();
     public List<Card> heroDeckList = new();
