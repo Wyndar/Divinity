@@ -24,7 +24,7 @@ public class DeckManager : GameManager
         DisplayGods();
         deckEditManager.InitializeDeckEdit();
         InitializeDatabase();
-        deckEditManager.SortDatabase();
+        deckEditManager.SortCards(deckEditManager.databaseCards);
     }
 
     //loads both deck and shield cards... for now
@@ -114,10 +114,8 @@ public class DeckManager : GameManager
         deckEditManager.SetDeckCards(CreateCardScroll(sendList));
     }
     public void CloseDeckEdit() => deckEditManager.gameObject.SetActive(false);
-    public void UpdateDeck(Deck deck)
+    public void UpdateDeck()
     {
-        decks.Remove(decks.Find(x => x.DeckName == deck.DeckName));
-        decks.Add(deck);
         SaveManager.SaveDecksToJson("decks", decks);
         LoadDeck();
     }

@@ -134,29 +134,21 @@ public class DeckEditManager : MonoBehaviour
     }
     public void AddCardToDeckScroll(CardLogic cardLogic)
     {
-        DeckEditCardImage deckCard;
-        CardOwnedID cardOwnedInDeck;
-        try
+        DeckEditCardImage deckCard = Array.Find(deckCards, x => x != null && x.cardLogic != null
+        && x.cardLogic.dataLogic != null && x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
+        CardOwnedID cardOwnedInDeck = deck.DeckList?.Find(x => x != null && x.ID == cardLogic.dataLogic.id);
+        if (cardOwnedInDeck == null)
         {
-            deckCard = Array.Find(deckCards, x => x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
-            cardOwnedInDeck = deck.DeckList.Find(x => x.ID == cardLogic.dataLogic.id);
-        }
-        catch
-        {
-            deckCard = null;
-            cardOwnedInDeck = null;
-        }
-        CardOwnedID cardOwnedInDatabase = deckManager.unlockedCardIDs.Find(x => x.ID == cardLogic.dataLogic.id);
-        if (cardOwnedInDatabase == null)
-            return;
-        if (deckCard == null)
-        {
-            deckCard = Array.Find(deckCards, x => !x.gameObject.activeSelf);
-            if (deckCard == null)
-                return;
             cardOwnedInDeck = new CardOwnedID();
             cardOwnedInDeck.SetID(cardLogic.dataLogic.id);
             deck.DeckList.Add(cardOwnedInDeck);
+        }
+        CardOwnedID cardOwnedInDatabase = deckManager.unlockedCardIDs.Find(x => x.ID == cardLogic.dataLogic.id);
+        if (cardOwnedInDatabase == null) return;
+        if (deckCard == null)
+        {
+            deckCard = Array.Find(deckCards, x => !x.gameObject.activeSelf);
+            if (deckCard == null) return;
             deckCard.gameObject.name = cardLogic.dataLogic.cardName;
             deckCard.cardLogic = cardLogic;
             deckCard.amountOwned = cardOwnedInDatabase.Count;
@@ -169,8 +161,7 @@ public class DeckEditManager : MonoBehaviour
         else
         {
             deckCard.ToggleAddRemoveButtons(false);
-            if (deckCard.amountOwned <= deckCard.cardCount)
-                return;
+            if (deckCard.amountOwned <= deckCard.cardCount) return;
             deckCard.cardCount++;
             deckCard.shouldShowAddButton = deckCard.amountOwned > deckCard.cardCount;
 
@@ -183,20 +174,15 @@ public class DeckEditManager : MonoBehaviour
     }
     public void RemoveCardFromDeckScroll(CardLogic cardLogic)
     {
-        DeckEditCardImage deckCard;
-        CardOwnedID cardOwnedInDeck;
-        try
-        {
-            deckCard = Array.Find(deckCards, x => x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
-            cardOwnedInDeck = deck.DeckList.Find(x => x.ID == cardLogic.dataLogic.id);
-        }
-        catch
+        DeckEditCardImage deckCard = Array.Find(deckCards, x => x != null && x.cardLogic != null
+       && x.cardLogic.dataLogic != null && x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
+        CardOwnedID cardOwnedInDeck = deck.DeckList?.Find(x => x != null && x.ID == cardLogic.dataLogic.id);
+        if (deckCard == null)
         {
             Debug.Log("Card not found in deck cards");
             return;
         }
-        if (deckCard.cardCount <= 0)
-            return;
+        if (deckCard.cardCount <= 0) return;
         deckCard.cardCount--;
         cardOwnedInDeck.SetCount(deckCard.cardCount);
         if (cardOwnedInDeck.Count <= 0)
@@ -209,16 +195,10 @@ public class DeckEditManager : MonoBehaviour
     }
     public void AddCardToDatabaseScroll(CardLogic cardLogic)
     {
-        DeckEditCardImage databaseCard;
-        try
-        {
-            databaseCard = Array.Find(databaseCards, x => x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
-            databaseCard.gameObject.SetActive(true);
-        }
-        catch
-        {
-            databaseCard = null;
-        }
+        DeckEditCardImage databaseCard = Array.Find(databaseCards, x =>
+            x != null && x.cardLogic != null && x.cardLogic.dataLogic != null &&
+            x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
+
         CardOwnedID cardOwnedInDatabase = deckManager.unlockedCardIDs.Find(x => x.ID == cardLogic.dataLogic.id);
 
         if (databaseCard == null)
@@ -238,8 +218,7 @@ public class DeckEditManager : MonoBehaviour
         }
         else
         {
-            if (databaseCard.amountOwned <= databaseCard.cardCount)
-                return;
+            if (databaseCard.amountOwned <= databaseCard.cardCount) return;
             databaseCard.cardCount++;
             databaseCard.shouldShowRemoveButton = databaseCard.amountOwned > databaseCard.cardCount;
         }
@@ -249,34 +228,31 @@ public class DeckEditManager : MonoBehaviour
     }
     public void RemoveCardFromDatabaseScroll(CardLogic cardLogic)
     {
-        DeckEditCardImage databaseCard = null;
-        try
-        {
-            databaseCard = Array.Find(databaseCards, x => x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
-        }
-        catch
+        DeckEditCardImage databaseCard = Array.Find(databaseCards, x =>
+            x != null && x.cardLogic != null && x.cardLogic.dataLogic != null &&
+            x.cardLogic.dataLogic.id == cardLogic.dataLogic.id);
+        if (databaseCard == null)
         {
             Debug.Log("Card not found in database cards");
             return;
         }
-        if (databaseCard.cardCount <= 0)
-            return;
+        if (databaseCard.cardCount <= 0) return;
         databaseCard.cardCount--;
         databaseCard.gameObject.SetActive(databaseCard.cardCount > 0);
         databaseCard.shouldShowRemoveButton = databaseCard.cardCount < databaseCard.amountOwned;
         databaseCard.cardCountText.transform.parent.gameObject.SetActive(databaseCard.cardCount > 1);
         databaseCard.cardCountText.text = "x" + databaseCard.cardCount.ToString();
     }
-    public void SortDatabase()
+    public void SortCards(DeckEditCardImage[] cards)
     {
-        Array.Sort(databaseCards, (a, b) =>
+        Array.Sort(cards, (a, b) =>
         {
             int countCompare = (a.amountOwned == 0).CompareTo(b.amountOwned == 0);
             if (countCompare != 0) return countCompare;
             return string.Compare(a.cardLogic.dataLogic.id, b.cardLogic.dataLogic.id, StringComparison.Ordinal);
         });
-        for (int i = 0; i < databaseCards.Length; i++)
-            databaseCards[i].transform.SetSiblingIndex(i);
+        for (int i = 0; i < cards.Length; i++)
+            cards[i].transform.SetSiblingIndex(i);
     }
-    public void UpdateDeck() => deckManager.UpdateDeck(deck);
+    public void UpdateDeck() => deckManager.UpdateDeck();
 }

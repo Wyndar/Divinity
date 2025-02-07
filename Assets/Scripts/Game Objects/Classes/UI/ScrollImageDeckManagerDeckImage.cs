@@ -42,7 +42,7 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
     public void ToggleDeckLock()
     {
         deck.ToggleLock();
-        deckManager.UpdateDeck(deck);
+        deckManager.UpdateDeck();
         lockImage.sprite = deck.Locked ? deckManager.lockSprite : deckManager.unlockSprite;
         deckImage.color = deck.Locked ? Color.grey : Color.white;
     }
