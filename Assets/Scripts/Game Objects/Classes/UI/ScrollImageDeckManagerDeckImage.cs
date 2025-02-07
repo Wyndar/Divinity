@@ -26,6 +26,7 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
         deckImage.sprite = Resources.Load($"Sprites And Visuals/Card Images/{deck.DisplayCardID}", typeof(Sprite)) as Sprite; ;
         this.deckManager = deckManager;
         lockImage.sprite = deck.Locked ? deckManager.lockSprite : deckManager.unlockSprite;
+        deckImage.color = deck.Locked ? Color.grey : Color.white;
         HighlightDeck(false);
     }
 
@@ -41,7 +42,8 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
     public void ToggleDeckLock()
     {
         deck.ToggleLock();
-        deckManager.UpdateDeck();
-        lockImage.sprite = !deck.Locked ? deckManager.unlockSprite : deckManager.lockSprite;
+        deckManager.UpdateDeck(deck);
+        lockImage.sprite = deck.Locked ? deckManager.lockSprite : deckManager.unlockSprite;
+        deckImage.color = deck.Locked ? Color.grey : Color.white;
     }
 }

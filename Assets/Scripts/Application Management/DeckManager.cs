@@ -11,13 +11,11 @@ public class DeckManager : GameManager
     public Sprite lockSprite, unlockSprite;
     private SaveManager SaveManager;
     [SerializeField] private GameObject emptyHeroCardPrefab, emptySpellCardPrefab, emptyMonsterCardPrefab;
-#pragma warning disable IDE0044 // Add readonly modifier
-    private List<Card> database = new();
-    private List<Card> godDatabase = new();
-#pragma warning restore IDE0044 // Add readonly modifier
-    private List<CardOwnedID> unlockedCardIDs = new();
-    private List<CardOwnedID> unlockedGodIDs = new();
-    private List<Deck> decks = new();
+    public List<Card> database = new();
+    public List<Card> godDatabase = new();
+    public List<CardOwnedID> unlockedCardIDs = new();
+    public List<CardOwnedID> unlockedGodIDs = new();
+    public List<Deck> decks = new();
 
     private void Start()
     {
@@ -25,6 +23,8 @@ public class DeckManager : GameManager
         LoadDeck();
         DisplayGods();
         deckEditManager.InitializeDeckEdit();
+        InitializeDatabase();
+        deckEditManager.SortDatabase();
     }
 
     //loads both deck and shield cards... for now
@@ -36,24 +36,24 @@ public class DeckManager : GameManager
             godDatabase.AddRange(SaveManager.LoadCardDatabase("Load Data/Card Database/divineDatabase"));
         try
         {
-            unlockedCardIDs = SaveManager.LoadIDFromJson("Load Data/Player Data/unlockedCards");
-            unlockedGodIDs = SaveManager.LoadIDFromJson("Load Data/Player Data/unlockedGods");
+            unlockedCardIDs = new(SaveManager.LoadIDFromJson("unlockedCards"));
+            unlockedGodIDs = new(SaveManager.LoadIDFromJson("unlockedGods"));
         }
         catch
         {
-            unlockedCardIDs = SaveManager.ReadIDFromJson("Load Data/Starter Info/StarterCardsUnlockedIDs");
-            unlockedGodIDs = SaveManager.ReadIDFromJson("Load Data/Starter Info/StarterGodsUnlockedIDs");
+            unlockedCardIDs = new(SaveManager.ReadIDFromJson("Load Data/Starter Info/StarterCardsUnlockedIDs"));
+            unlockedGodIDs = new(SaveManager.ReadIDFromJson("Load Data/Starter Info/StarterGodsUnlockedIDs"));
             SaveManager.SaveIDToJson("unlockedCards", unlockedCardIDs);
             SaveManager.SaveIDToJson("unlockedGods", unlockedGodIDs);
             Debug.Log("did not find unlocked cards, loaded starter cards");
         }
         try
         {
-            decks = SaveManager.LoadDecksFromJson("decks");
+            decks = new(SaveManager.LoadDecksFromJson("decks"));
         }
         catch
         {
-            decks = SaveManager.ReadDecksFromJson("Load Data/Starter Info/decks");
+            decks = new(SaveManager.ReadDecksFromJson("Load Data/Starter Info/decks"));
             SaveManager.SaveDecksToJson("decks", decks);
             Debug.Log("did not find decks, loaded starter decks");
         }
@@ -67,12 +67,18 @@ public class DeckManager : GameManager
             if (card.Id.Any(x => char.IsDigit(x)) || !unlockedGodIDs.Any(x => x.ID == card.Id))
                 continue;
             sendList.Add(card);
-            //we need this for regular cards but not for gods
-            //for (int i = 0; i < unlockedGodIDs.First(x => x.ID == card.Id).Count; i++)
-            //    sendList.Add(card);
         }
         godScrollView.AddCardListToScrollCards(CreateCardScroll(sendList));
         godScrollView.AddGodCards(this);
+    }
+    private void InitializeDatabase()
+    {
+        List<Card> sendList = new();
+        foreach (Card card in database)
+            sendList.Add(card);
+        List<CardLogic> cards = CreateCardScroll(sendList);
+        foreach (CardLogic card in cards)
+                deckEditManager.AddCardToDatabaseScroll(card);
     }
     public void DisplayDeckScroll (CardLogic godLogic)
     {
@@ -86,6 +92,7 @@ public class DeckManager : GameManager
     }
     public void OpenDeckEdit(Deck deck)
     {
+        deckScrollView.gameObject.SetActive(false);
         deckEditManager.gameObject.SetActive(true);
         GodLogic godLogic = (GodLogic)godScrollView.GetScrollCards().Find(x => x.dataLogic.id == deck.GodID);
 
@@ -97,11 +104,33 @@ public class DeckManager : GameManager
         }
         CardLogic[] powers = CreateCardScroll(sendList).ToArray();
         deckEditManager.SetDeck(godLogic, powers, deck);
+        sendList.Clear();
+        foreach (CardOwnedID card in deck.DeckList)
+        {
+            Card cardInstance = database.Find(x => x.Id == card.ID);
+            for (int i = 0; i < card.Count; i++)
+                sendList.Add(cardInstance);
+        }
+        deckEditManager.SetDeckCards(CreateCardScroll(sendList));
     }
     public void CloseDeckEdit() => deckEditManager.gameObject.SetActive(false);
-    public void UpdateDeck() => SaveManager.SaveDecksToJson("decks", decks);
-    public void UpdateUnlockedCards() => SaveManager.SaveIDToJson("unlockedCards", unlockedCardIDs);
-    public void UpdateUnlockedGods() => SaveManager.SaveIDToJson("unlockedGods", unlockedGodIDs);
+    public void UpdateDeck(Deck deck)
+    {
+        decks.Remove(decks.Find(x => x.DeckName == deck.DeckName));
+        decks.Add(deck);
+        SaveManager.SaveDecksToJson("decks", decks);
+        LoadDeck();
+    }
+    public void UpdateUnlockedCards()
+    {
+        SaveManager.SaveIDToJson("unlockedCards", unlockedCardIDs);
+        LoadDeck();
+    }
+    public void UpdateUnlockedGods() 
+    {
+        SaveManager.SaveIDToJson("unlockedGods", unlockedGodIDs);
+        LoadDeck();
+    }
 
     //parses instance of card (data) into instance of cardLogic (gameplay)
     public List<CardLogic> CreateCardScroll(List<Card> cards)

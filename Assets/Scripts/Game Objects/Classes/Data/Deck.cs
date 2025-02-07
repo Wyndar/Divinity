@@ -7,7 +7,7 @@ public class Deck
     public string GodID { get; private set; }
     public string DisplayCardID { get; private set; }
     public bool Locked { get; private set; }
-    public List<string> DeckList { get; private set; }
+    public List<CardOwnedID> DeckList { get; private set; }
 
     public void ToggleLock() => Locked = !Locked;
 }
