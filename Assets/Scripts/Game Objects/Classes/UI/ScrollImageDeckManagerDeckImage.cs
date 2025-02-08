@@ -6,16 +6,13 @@ using UnityEngine.UI;
 public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandler
 {
     public TMP_Text deckName;
-    public Image deckImage;
+    public Image deckImage, highlightImage, lockImage;
     public Deck deck;
-    public Image highlightImage;
-    public Image lockImage;
-    public GameObject deckEditButton;
-    public GameObject nameEditButton;
-
+    public TMP_InputField deckNameInput;
+    public GameObject deckEditButton, nameEditButton, deleteButton, lockButton;
+    public Sprite defaultImage;
     public DeckManager deckManager;
-    private const int maxSize = 27;
-    private const int setSize = 24;
+    private const int maxSize = 27, setSize = 24;
 
     public void SetDeckImage(Deck deck, DeckManager deckManager)
     {
@@ -23,10 +20,12 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
         deckName.text = deck.DeckName;
         if (deckName.text.Length > maxSize)
             deckName.text = deckName.text.Remove(setSize) + "...";
-        deckImage.sprite = Resources.Load($"Sprites And Visuals/Card Images/{deck.DisplayCardID}", typeof(Sprite)) as Sprite; ;
+        Sprite sprite = Resources.Load($"Sprites And Visuals/Card Images/{deck.DisplayCardID}", typeof(Sprite)) as Sprite;
+        deckImage.sprite = sprite != null ? sprite : defaultImage;
         this.deckManager = deckManager;
         lockImage.sprite = deck.Locked ? deckManager.lockSprite : deckManager.unlockSprite;
         deckImage.color = deck.Locked ? Color.grey : Color.white;
+        lockButton.SetActive(deck.Locked);
         HighlightDeck(false);
     }
 
@@ -35,8 +34,12 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
     public void OnPointerClick(PointerEventData eventData)
     {
         HighlightDeck(highlightImage.color == Color.yellow);
+        if(deck.Locked)
+            return;
         deckEditButton.SetActive(!deckEditButton.activeSelf);
         nameEditButton.SetActive(!nameEditButton.activeSelf);
+        deleteButton.SetActive(!deleteButton.activeSelf);
+        lockButton.SetActive(!lockButton.activeSelf);
     }
     public void EditDeck() => deckManager.OpenDeckEdit(deck);
     public void ToggleDeckLock()
@@ -45,5 +48,27 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
         deckManager.UpdateDeck();
         lockImage.sprite = deck.Locked ? deckManager.lockSprite : deckManager.unlockSprite;
         deckImage.color = deck.Locked ? Color.grey : Color.white;
+        DisableButtons();
     }
+    public void DeckNameUpdate()
+    { 
+        deckName.text = deckNameInput.text;
+        deck.SetDeckName(deckNameInput.text);
+        deckNameInput.gameObject.SetActive(false);
+        deckManager.UpdateDeck();
+    }
+    public void ActivateEdit() 
+    {
+        deckNameInput.gameObject.SetActive(true); 
+        DisableButtons();
+    }
+
+    private void DisableButtons()
+    {
+        deleteButton.SetActive(false);
+        lockButton.SetActive(deck.Locked);
+        deckEditButton.SetActive(false);
+        nameEditButton.SetActive(false);
+    }
+    public void DeleteDeck() => deckManager.DeleteDeck(deck);
 }

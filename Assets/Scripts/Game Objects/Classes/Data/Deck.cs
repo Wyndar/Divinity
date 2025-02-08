@@ -10,4 +10,8 @@ public class Deck
     public List<CardOwnedID> DeckList { get; private set; }
 
     public void ToggleLock() => Locked = !Locked;
+    public void SetDeckName(string name) => DeckName = name;
+    public void SetGodID(string godID) => GodID = godID;
+    public void SetDisplayCardID(string displayCardID) => DisplayCardID = displayCardID;
+    public void SetDeckList(List<CardOwnedID> deckList) => DeckList = deckList;
 }

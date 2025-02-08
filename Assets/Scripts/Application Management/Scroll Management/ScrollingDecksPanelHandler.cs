@@ -4,7 +4,7 @@ using UnityEngine;
 public class ScrollingDecksPanelHandler : MonoBehaviour
 {
     [SerializeField]
-    private Transform content;
+    private Transform content, addButton;
 
     [SerializeField]
     private List<GameObject> deckImages = new();
@@ -37,5 +37,6 @@ public class ScrollingDecksPanelHandler : MonoBehaviour
             ScrollImageDeckManagerDeckImage scrollCardImage = deckImage.GetComponent<ScrollImageDeckManagerDeckImage>();
             scrollCardImage.SetDeckImage(deck, deckManager);
         }
+        addButton.SetAsLastSibling();
     }
 }
