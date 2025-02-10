@@ -69,8 +69,8 @@ public class DeckManager : GameManager
                 continue;
             sendList.Add(card);
         }
-        godScrollView.AddCardListToScrollCards(CreateCardScroll(sendList));
-        godScrollView.AddGodCards(this);
+        godScrollView.AddItemList(CreateCardScroll(sendList));
+        godScrollView.AddContent();
     }
     private void InitializeDatabase()
     {
@@ -95,24 +95,25 @@ public class DeckManager : GameManager
     {
         decks.Remove(deck);
         UpdateDeck();
+        MessagePanel("Deck Deleted!");
         DisplayDeckScroll(godLogic);
     }   
     public void DisplayDeckScroll (CardLogic godLogic)
     {
         deckScrollView.gameObject.SetActive(true);
-        deckScrollView.RemoveContentDecks();
-        deckScrollView.ClearScrollDecksList();
+        deckScrollView.RemoveContent();
+        deckScrollView.ClearItems();
         foreach (Deck deck in decks)
             if(deck.GodID == godLogic.dataLogic.id)
-                deckScrollView.AddDeckToScrollDecks(deck);
-        deckScrollView.AddDecks(this);
+                deckScrollView.AddItem(deck);
+        deckScrollView.AddContent();
         this.godLogic = godLogic;
     }
     public void OpenDeckEdit(Deck deck)
     {
         deckScrollView.gameObject.SetActive(false);
         deckEditManager.gameObject.SetActive(true);
-        GodLogic godLogic = (GodLogic)godScrollView.GetScrollCards().Find(x => x.dataLogic.id == deck.GodID);
+        GodLogic godLogic = (GodLogic)godScrollView.GetItems().Find(x => x.dataLogic.id == deck.GodID);
 
         List<Card> sendList = new();
         foreach (Card card in godDatabase)

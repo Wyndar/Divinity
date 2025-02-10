@@ -1,7 +1,8 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class CardLogic : MonoBehaviour
+public class CardLogic : MonoBehaviour, IPointerClickHandler
 {
     public GameBattleManager gameManager;
     public AudioManager audioManager;
@@ -35,5 +36,10 @@ public class CardLogic : MonoBehaviour
         gameManager.currentFocusCardLogic = null;
         if (dataLogic.type != Type.God)
             visualsLogic.ToggleCardOutline(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log(dataLogic.cardName+ " was clicked");
     }
 }

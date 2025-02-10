@@ -5,11 +5,11 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public class PrimaryUIManager : MonoBehaviour
+public class GameBattleUIManager : UIManager
 {
     [SerializeField] private GameBattleManager gm;
 
-    [SerializeField] private InputManager InputManager;
+
 
     [SerializeField] private AudioManager audioManager;
 
@@ -26,7 +26,8 @@ public class PrimaryUIManager : MonoBehaviour
         cardScrollRayBlocker, statScrollRayBlocker, gameOverPanel, gameOverRayBlocker, gameLogButton;
 
     [SerializeField] private TMP_Text infoPanelNameText, infoPanelAtkText, infoPanelHpText, infoPanelCostText,
-        infoPanelEffectText, infoPanelFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText;
+        infoPanelEffectText, infoPanelFlavourText, effectPanelNameText, effectActivationPanelText, gameOverWinnerText, turnCountText,
+        turnPhaseText;
 
     [SerializeField] private Image infoPanelImage;
 
@@ -289,10 +290,10 @@ public class PrimaryUIManager : MonoBehaviour
             infoPanelStatusBar.SetActive(combatantLogic.cardStatuses.Count > 0);
             statScrollRayBlocker.SetActive(combatantLogic.cardStatuses.Count > 0);
             if (infoScrollingStatusPanelHandler != null)
-                infoScrollingStatusPanelHandler.RemoveStatusImages();
+                infoScrollingStatusPanelHandler.RemoveContent();
             if (combatantLogic.cardStatuses.Count > 0)
                 foreach (CardStatus cardStatus in combatantLogic.cardStatuses)
-                    infoScrollingStatusPanelHandler.AddStatusImage(cardStatus);
+                    infoScrollingStatusPanelHandler.AddItem(cardStatus);
         }
     }
 
@@ -415,17 +416,17 @@ public class PrimaryUIManager : MonoBehaviour
         cardScrollScreen.SetActive(true);
         cardScrollRayBlocker.SetActive(true);
         cardScrollScreenButton.SetActive(shouldShowButton);
-        scrollingCardPanelHandler.ClearScrollCardsList();
-        scrollingCardPanelHandler.RemoveContentCards();
-        scrollingCardPanelHandler.AddCardListToScrollCards(cardLogics);
-        scrollingCardPanelHandler.AddContentCards();
+        scrollingCardPanelHandler.ClearItems();
+        scrollingCardPanelHandler.RemoveContent();
+        scrollingCardPanelHandler.AddItemList(cardLogics);
+        scrollingCardPanelHandler.AddContent();
         gm.isChecking = false;
     }
 
     public void DisableCardScrollScreen()
     {
-        scrollingCardPanelHandler.ClearScrollCardsList();
-        scrollingCardPanelHandler.RemoveContentCards();
+        scrollingCardPanelHandler.ClearItems();
+        scrollingCardPanelHandler.RemoveContent();
         cardScrollScreen.SetActive(false);
         cardScrollRayBlocker.SetActive(false);
         gm.isChecking = false;
@@ -436,28 +437,28 @@ public class PrimaryUIManager : MonoBehaviour
         cardScrollScreen.SetActive(true);
         cardScrollRayBlocker.SetActive(true);
         cardScrollScreenButton.SetActive(false);
-        scrollingCardPanelHandler.ClearScrollCardsList();
-        scrollingCardPanelHandler.RemoveContentCards();
+        scrollingCardPanelHandler.ClearItems();
+        scrollingCardPanelHandler.RemoveContent();
         gm.isChecking = true;
         if (gameObject == gm.RedPlayerManager.deck)
         {
-            scrollingCardPanelHandler.AddCardListToScrollCards(gm.RedPlayerManager.deckLogicList);
-            scrollingCardPanelHandler.AddContentCards();
+            scrollingCardPanelHandler.AddItemList(gm.RedPlayerManager.deckLogicList);
+            scrollingCardPanelHandler.AddContent();
         }
         if (gameObject == gm.BluePlayerManager.deck)
         {
-            scrollingCardPanelHandler.AddCardListToScrollCards(gm.BluePlayerManager.deckLogicList);
-            scrollingCardPanelHandler.AddContentCards();
+            scrollingCardPanelHandler.AddItemList(gm.BluePlayerManager.deckLogicList);
+            scrollingCardPanelHandler.AddContent();
         }
         if (gameObject == gm.RedPlayerManager.grave)
         {
-            scrollingCardPanelHandler.AddCardListToScrollCards(gm.RedPlayerManager.graveLogicList);
-            scrollingCardPanelHandler.AddContentCards();
+            scrollingCardPanelHandler.AddItemList(gm.RedPlayerManager.graveLogicList);
+            scrollingCardPanelHandler.AddContent();
         }
         if (gameObject == gm.BluePlayerManager.grave)
         {
-            scrollingCardPanelHandler.AddCardListToScrollCards(gm.BluePlayerManager.graveLogicList);
-            scrollingCardPanelHandler.AddContentCards();
+            scrollingCardPanelHandler.AddItemList(gm.BluePlayerManager.graveLogicList);
+            scrollingCardPanelHandler.AddContent();
         }
         DisableDeckSearchButtons();
         return;
@@ -486,16 +487,16 @@ public class PrimaryUIManager : MonoBehaviour
     public void LoadLogScrollScreen()
     {
         EnableLog();
-        scrollingLogPanelHandler.ClearScrollEntries();
-        scrollingLogPanelHandler.RemoveContentLogs();
-        scrollingLogPanelHandler.AddEntriesToScrollEntries(gm.gameLogHistoryEntries);
-        scrollingLogPanelHandler.AddContentLogs();
+        scrollingLogPanelHandler.ClearItems();
+        scrollingLogPanelHandler.RemoveContent();
+        scrollingLogPanelHandler.AddItemList(gm.gameLogHistoryEntries);
+        scrollingLogPanelHandler.AddContent();
     }
 
     public void ClearLogScrollScreen()
     {
-        scrollingLogPanelHandler.ClearScrollEntries();
-        scrollingLogPanelHandler.RemoveContentLogs();
+        scrollingLogPanelHandler.ClearItems();
+        scrollingLogPanelHandler.RemoveContent();
         DisableLog();
         gm.isShowingLog = false;
     }

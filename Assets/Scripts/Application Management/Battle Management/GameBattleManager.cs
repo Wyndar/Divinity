@@ -14,7 +14,7 @@ public class GameBattleManager : GameManager
     [SerializeField]
     private SecondaryUIManager UIManager;
     [SerializeField]
-    private PrimaryUIManager MainUIManager;
+    private GameBattleUIManager MainUIManager;
     [SerializeField]
     private DeckLoaderManager DeckManager;
     [SerializeField]
@@ -45,6 +45,8 @@ public class GameBattleManager : GameManager
     public float loadStartTime;
     public float loadEndTime;
 
+    public static event Action<PlayerManager> OnUIUpdate;
+    public static event Action<int> OnTurnCountUpdated;
     public event Action<Phase> OnPhaseChange;
     public event Action<SubEffect, CardLogic> OnEffectTrigger;
     public event Action<GameState, CardLogic> OnStateChange;
@@ -229,6 +231,15 @@ public class GameBattleManager : GameManager
             ShowValidAttackers(turnPlayer);
         if (turnPlayer.isAI)
             turnPlayer.AIManager.MakeDecision();
+    }
+
+    public void UpdateUI(PlayerManager player) => OnUIUpdate?.Invoke(player);
+
+    public void ChangeTurn(PlayerManager player)
+    {
+        turnPlayer = player;
+        turnCount++;
+        OnTurnCountUpdated?.Invoke(turnCount);
     }
 
     public void StateChange(GameState state)

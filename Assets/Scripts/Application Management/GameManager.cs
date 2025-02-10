@@ -75,10 +75,15 @@ public class GameManager : MonoBehaviour
     {
         if (ShowError)
             return;
-        GameObject ep = Instantiate(errorPanel, errorPanel.transform.parent.transform);
+        MessagePanel(errorText);
+    }
+
+    public void MessagePanel(string message)
+    {
+        GameObject mp = Instantiate(errorPanel, errorPanel.transform.parent.transform);
+        mp.SetActive(true);
+        mp.GetComponentInChildren<TMP_Text>().text = message;
         AudioManager.NewAudioPrefab(AudioManager.error);
-        ep.SetActive(true);
-        ep.GetComponentInChildren<TMP_Text>().text = errorText;
     }
 
     private IEnumerator Trail()

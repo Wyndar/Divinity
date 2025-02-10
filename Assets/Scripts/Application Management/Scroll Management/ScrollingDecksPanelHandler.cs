@@ -1,42 +1,19 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollingDecksPanelHandler : MonoBehaviour
+public class ScrollingDecksPanelHandler : GenericScrollingPanelHandler<Deck>
 {
-    [SerializeField]
-    private Transform content, addButton;
+    [SerializeField] private Transform addButton;
+    [SerializeField] private DeckManager deckManager;
 
-    [SerializeField]
-    private List<GameObject> deckImages = new();
-
-    [SerializeField]
-    private GameObject spriteHolder;
-
-    [SerializeField]
-    private List<Deck> scrollDecks = new();
-
-    public void AddDeckToScrollDecks(Deck deck) => scrollDecks.Add(deck);
-
-    public void AddDeckListToScrollDecks(List<Deck> decks) => scrollDecks.AddRange(decks);
-
-    public void ClearScrollDecksList() => scrollDecks.Clear();
-
-    public void RemoveContentDecks()
+    protected override void SetupImage(GameObject imageObject, Deck deck)
     {
-        foreach (GameObject image in deckImages)
-            Destroy(image);
-        deckImages.Clear();
+        ScrollImageDeckManagerDeckImage scrollDeckImage = imageObject.GetComponent<ScrollImageDeckManagerDeckImage>();
+        scrollDeckImage.SetDeckImage(deck, deckManager);
     }
 
-    public void AddDecks(DeckManager deckManager)
+    public void AddDecks()
     {
-        foreach (Deck deck in scrollDecks)
-        {
-            GameObject deckImage = Instantiate(spriteHolder, content);
-            deckImages.Add(deckImage);
-            ScrollImageDeckManagerDeckImage scrollCardImage = deckImage.GetComponent<ScrollImageDeckManagerDeckImage>();
-            scrollCardImage.SetDeckImage(deck, deckManager);
-        }
+        AddContent();
         addButton.SetAsLastSibling();
     }
 }

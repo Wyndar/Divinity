@@ -1,43 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollingGodsPanelHandler : MonoBehaviour
+public class ScrollingGodsPanelHandler : GenericScrollingPanelHandler<CardLogic>
 {
-    [SerializeField]
-    private Transform content;
+    [SerializeField] private DeckManager deckManager;
 
-    [SerializeField]
-    private List<GameObject> cardImages = new();
-
-    [SerializeField]
-    private GameObject spriteHolder;
-
-    [SerializeField]
-    private List<CardLogic> scrollCards = new();
-
-    public void AddCardToScrollCards(CardLogic cardLogic) => scrollCards.Add(cardLogic);
-
-    public void AddCardListToScrollCards(List<CardLogic> cardLogics) => scrollCards.AddRange(cardLogics);
-
-    public List<CardLogic> GetScrollCards() => scrollCards;
-
-    public void ClearScrollCardsList() => scrollCards.Clear();
-
-    public void RemoveContentCards()
+    protected override void SetupImage(GameObject imageObject, CardLogic cardLogic)
     {
-        foreach (GameObject image in cardImages)
-            Destroy(image);
-        cardImages.Clear();
-    }
-
-    public void AddGodCards(DeckManager deckManager)
-    {
-        foreach (CardLogic cardLogic in scrollCards)
-        {
-            GameObject cardImage = Instantiate(spriteHolder, content);
-            cardImages.Add(cardImage);
-            ScrollImageDeckManagerGodImage scrollCardImage = cardImage.GetComponent<ScrollImageDeckManagerGodImage>();
-            scrollCardImage.SetGodImage(cardLogic, deckManager, true);
-        }
+        ScrollImageDeckManagerGodImage scrollGodImage = imageObject.GetComponent<ScrollImageDeckManagerGodImage>();
+        scrollGodImage.SetGodImage(cardLogic, deckManager, true);
     }
 }

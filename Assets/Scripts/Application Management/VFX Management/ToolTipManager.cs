@@ -5,7 +5,7 @@ public class ToolTipManager : MonoBehaviour
 {
     public GameBattleManager gm;
 
-    public PrimaryUIManager ux;
+    public GameBattleUIManager ux;
 
     public GameObject infoTextPanel, canvasGO;
 

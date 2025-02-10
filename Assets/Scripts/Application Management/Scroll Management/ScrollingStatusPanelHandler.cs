@@ -1,38 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollingStatusPanelHandler : MonoBehaviour
+public class ScrollingStatusPanelHandler : GenericScrollingPanelHandler<CardStatus>
 {
-    [SerializeField]
-    private GameBattleManager Game_Manager;
+    [SerializeField] private GameBattleManager Game_Manager;
+    [SerializeField] private ToolTipManager toolTipManager;
 
-    [SerializeField]
-    private Transform content;
-
-    [SerializeField]
-    private ToolTipManager toolTipManager;
-
-    [SerializeField]
-    private List<GameObject> statusImages = new();
-
-    [SerializeField]
-    private GameObject spriteHolder;
-
-    public void RemoveStatusImages()
+    protected override void SetupImage(GameObject imageObject, CardStatus status)
     {
-        statusImages.Clear();
-        List<GameObject> allChildren = new();
-        foreach (Transform child in content)
-            allChildren.Add(child.gameObject);
-        foreach (GameObject child in allChildren)
-            Destroy(child);
-    }
-
-    public void AddStatusImage(CardStatus status)
-    {
-        GameObject statusImageObject = Instantiate(spriteHolder, content);
-        statusImages.Add(statusImageObject);
-        ScrollStatusImage scrollStatusImage = statusImageObject.GetComponent<ScrollStatusImage>();
+        ScrollStatusImage scrollStatusImage = imageObject.GetComponent<ScrollStatusImage>();
         scrollStatusImage.Game_Manager = Game_Manager;
         scrollStatusImage.toolTipManager = toolTipManager;
         scrollStatusImage.currentStatus = status;

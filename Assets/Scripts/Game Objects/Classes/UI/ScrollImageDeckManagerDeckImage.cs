@@ -34,8 +34,13 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
     public void OnPointerClick(PointerEventData eventData)
     {
         HighlightDeck(highlightImage.color == Color.yellow);
-        if(deck.Locked)
+        if (deckNameInput.gameObject.activeSelf)
             return;
+        if (deck.Locked)
+        {
+            deckManager.MessagePanel("Deck is locked!\n Unlock to edit.");
+            return;
+        }
         deckEditButton.SetActive(!deckEditButton.activeSelf);
         nameEditButton.SetActive(!nameEditButton.activeSelf);
         deleteButton.SetActive(!deleteButton.activeSelf);
@@ -46,6 +51,7 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
     {
         deck.ToggleLock();
         deckManager.UpdateDeck();
+        deckManager.MessagePanel(deck.Locked ? "Deck is locked!" : "Deck is unlocked!");
         lockImage.sprite = deck.Locked ? deckManager.lockSprite : deckManager.unlockSprite;
         deckImage.color = deck.Locked ? Color.grey : Color.white;
         DisableButtons();
@@ -56,6 +62,7 @@ public class ScrollImageDeckManagerDeckImage : MonoBehaviour, IPointerClickHandl
         deck.SetDeckName(deckNameInput.text);
         deckNameInput.gameObject.SetActive(false);
         deckManager.UpdateDeck();
+        deckManager.MessagePanel("Deck name updated!");
     }
     public void ActivateEdit() 
     {
