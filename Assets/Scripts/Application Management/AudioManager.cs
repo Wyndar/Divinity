@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,8 +24,8 @@ public class AudioManager : MonoBehaviour
     {
         BattleMusicPlayer = GameObject.Find("Battle Phase Music");
         BattleMusicSource = BattleMusicPlayer.GetComponent<AudioSource>();
-        hyperBattleMusic = (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Hyper War Drums", typeof(AudioClip));
-        battleMusic = (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Basic War Drums", typeof(AudioClip));
+        //hyperBattleMusic = (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Hyper War Drums", typeof(AudioClip));
+        //battleMusic = (AudioClip)Resources.Load("Music/Battle Phase Loop Music/Basic War Drums", typeof(AudioClip));
     }
 
     public void FindBGOBJ()
@@ -36,8 +35,8 @@ public class AudioManager : MonoBehaviour
         BGAudioClips.Clear();
         victoryClips.Clear();
         defeatClips.Clear();
-        foreach (AudioClip audioClip in Resources.LoadAll($"Music/{SceneManager.GetActiveScene().name}", typeof(AudioClip)).Cast<AudioClip>())
-            BGAudioClips.Add(audioClip);
+        //foreach (AudioClip audioClip in Resources.LoadAll($"Music/{SceneManager.GetActiveScene().name}", typeof(AudioClip)).Cast<AudioClip>())
+          //  BGAudioClips.Add(audioClip);
     }
 
     public void BattlePhaseMusic(bool isHyper)
@@ -52,10 +51,10 @@ public class AudioManager : MonoBehaviour
     {
         DamageAudioClips.Clear();
         DeathAudioClips.Clear();
-        DamageAudioClips.AddRange(Resources.LoadAll("SFX/Generic Damage SFX", typeof(AudioClip)));
-        DeathAudioClips.AddRange(Resources.LoadAll("SFX/Generic Death SFX", typeof(AudioClip)));
-        victoryClips.AddRange(Resources.LoadAll($"Music/Victory", typeof(AudioClip)));
-        defeatClips.AddRange(Resources.LoadAll($"Music/Defeat", typeof(AudioClip)));
+       // DamageAudioClips.AddRange(Resources.LoadAll("SFX/Generic Damage SFX", typeof(AudioClip)));
+        //DeathAudioClips.AddRange(Resources.LoadAll("SFX/Generic Death SFX", typeof(AudioClip)));
+        //victoryClips.AddRange(Resources.LoadAll($"Music/Victory", typeof(AudioClip)));
+        //defeatClips.AddRange(Resources.LoadAll($"Music/Defeat", typeof(AudioClip)));
     }
 
     public void EndBattlePhaseMusic()

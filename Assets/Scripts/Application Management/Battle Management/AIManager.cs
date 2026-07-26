@@ -33,7 +33,6 @@ public class AIManager : MonoBehaviour
         }
         //implement response to opponent action here
         isPerformingAction = false;
-        yield break;
     }
 
     public void MakeDecision()
@@ -69,7 +68,6 @@ public class AIManager : MonoBehaviour
         isPerformingAction = false;
         yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open || gm.isPlayingCard || gm.isActivatingEffect);
         turnManager.TriggerPhaseChange();
-        yield break;
     }
 
     private bool MovedMonster()
@@ -89,12 +87,14 @@ public class AIManager : MonoBehaviour
                 if (monster.combatLogic.currentAtk == 0 && cardSlot.isFrontline)
                     continue;
                 if (monster.combatLogic.currentAtk > 0 && cardSlot.isFrontline)
-                    foreach (CardLogic enemy in AIPlayer.enemy.fieldLogicList)
-                        if (enemy.GetComponent<MonsterLogic>().currentSlot.column == cardSlot.column)
-                        {
-                            isBlocked = true;
-                            break;
-                        }
+                    foreach (CardLogic enemyCard in AIPlayer.enemy.fieldLogicList)
+                    {
+                        if (enemyCard is not MonsterLogic enemyMonster ||
+                            enemyMonster.currentSlot.column != cardSlot.column) continue;
+                        isBlocked = true;
+                        break;
+                    }
+
                 if (isBlocked)
                     continue;
                 monster.Move(cardSlot);
@@ -122,20 +122,23 @@ public class AIManager : MonoBehaviour
             isPerformingAction = false;
         yield return new WaitWhile(() => gm.activationChainList.Count > 0 || gm.gameState != GameState.Open || gm.isPlayingCard || gm.isActivatingEffect);
         turnManager.TriggerPhaseChange();
-        yield break;
     }
 
     private void PlayLegalCard()
     {
         CardLogic cardToPlay = BestAtkSort(AIPlayer.playableLogicList) ?? BestCostSort(AIPlayer.playableLogicList);
         List<int> blockedColumns = new();
-        foreach (MonsterLogic logic in AIPlayer.enemy.fieldLogicList)
+        foreach (var cardLogic in AIPlayer.enemy.fieldLogicList)
+        {
+            var logic = (MonsterLogic)cardLogic;
             if (!blockedColumns.Contains(logic.currentSlot.column))
                 blockedColumns.Add(logic.currentSlot.column);
+        }
+
         if (blockedColumns.Count < 4)
             foreach (CardSlot slot in AIPlayer.cardSlots)
             {
-                if (blockedColumns.Contains(slot.column) || slot.isFrontline || slot.cardInZone != null)
+                if (blockedColumns.Contains(slot.column) || slot.isFrontline || slot.cardInZone)
                     continue;
                 if ((slot.column == 1 || slot.column == 4) && (!blockedColumns.Contains(2) || !blockedColumns.Contains(3)))
                     continue;
@@ -195,14 +198,14 @@ public class AIManager : MonoBehaviour
         {
             cardLogic.TryGetComponent(out CombatantLogic combatantLogic);
             //ignore non combatants
-            if (combatantLogic == null)
+            if (!combatantLogic)
                 continue;
             //ignore lower atk than highest
             if (highestAtk > combatantLogic.currentAtk)
                 continue;
             //in event of a tie, use higher hp as fallback
             if (highestAtk == combatantLogic.currentAtk)
-                if (bestStats.GetComponent<CombatantLogic>().maxHp > combatantLogic.maxHp)
+                if (bestStats != null && bestStats.GetComponent<CombatantLogic>().maxHp > combatantLogic.maxHp)
                     continue;
             //if hp of new card is higher or tied, it's safe to swap...
             highestAtk = combatantLogic.currentAtk;
@@ -236,7 +239,7 @@ public class AIManager : MonoBehaviour
         foreach (CardLogic cardLogic in sortList)
         {
             cardLogic.TryGetComponent(out PlayableLogic playableLogic);
-            if (playableLogic == null)
+            if (!playableLogic)
                 continue;
             if (highestCost >= playableLogic.cost)
                 continue;

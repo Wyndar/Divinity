@@ -50,7 +50,7 @@ MonoBehaviour:
     atlasHeight: 512
     characterSetSelectionMode: 6
     characterSequence: 20-7E,A0,200B,2026,25A1
-    referencedFontAssetGUID: 4659c5941b9e74c4488ec54f6dfcf809
+    referencedFontAssetGUID: 85430c4f5a200af968cb030f194c3f40
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
@@ -203030,15 +203030,15 @@ MonoBehaviour:
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
   - regularTypeface: {fileID: 0}
-    italicTypeface: {fileID: 11400000, guid: 54534e37a2b09764dbf5c8a1c6c8da76, type: 2}
-  - regularTypeface: {fileID: 11400000, guid: 9f067d530bf81d34285bf0c0a4e53964, type: 2}
-    italicTypeface: {fileID: 11400000, guid: d265e725e3a5ec04aa81e721ad857e78, type: 2}
-  - regularTypeface: {fileID: 11400000, guid: dbf94331fdff39b4db8be9a4328a214f, type: 2}
-    italicTypeface: {fileID: 11400000, guid: 81546fae82b5fe044be1a47a0184cf18, type: 2}
-  - regularTypeface: {fileID: 11400000, guid: 7ea0059a3ae977e419dee47979d9c707, type: 2}
-    italicTypeface: {fileID: 11400000, guid: 978e1721a4237e04289bd46af03d363f, type: 2}
-  - regularTypeface: {fileID: 11400000, guid: e860e6800da2dc94c885ec3dbdeb28b1, type: 2}
-    italicTypeface: {fileID: 11400000, guid: f7807629c8b333d4d8ff46948d5b07fc, type: 2}
+    italicTypeface: {fileID: 11400000, guid: 980a57131244bde9f96d9e9a7df22cb3, type: 2}
+  - regularTypeface: {fileID: 11400000, guid: e23c56b395553595fa073a7d4e97b98a, type: 2}
+    italicTypeface: {fileID: 11400000, guid: e6ae6c9e61fe6b1dd8fcab46d92d50a9, type: 2}
+  - regularTypeface: {fileID: 11400000, guid: 3a16ecdcf96d78d84b61fa4754e4cb1a, type: 2}
+    italicTypeface: {fileID: 11400000, guid: 1f58803f78bdd1056b49b6a74164f5e7, type: 2}
+  - regularTypeface: {fileID: 11400000, guid: 8c8153a5f9ab374a494d8f751e18b0ad, type: 2}
+    italicTypeface: {fileID: 11400000, guid: 746532f7ef3ff88c893704791e4147a5, type: 2}
+  - regularTypeface: {fileID: 11400000, guid: a4e0afed2ba3ec96587a4990580303dd, type: 2}
+    italicTypeface: {fileID: 11400000, guid: 755d26f5c77440e3990f812dc6946f72, type: 2}
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
   fontWeights: []
