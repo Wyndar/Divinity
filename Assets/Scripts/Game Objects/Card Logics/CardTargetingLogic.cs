@@ -9,7 +9,7 @@ public class CardTargetingLogic: MonoBehaviour
     public void Initialize() => cardLogic = GetComponent<CardLogic>();
     public List<CardLogic> GetValidTargets(SubEffect subEffect, bool shouldShowError)
     {
-        List<CardLogic> allTargetsList = new(FindObjectsByType<CardLogic>(FindObjectsSortMode.None));
+        List<CardLogic> allTargetsList = new(FindObjectsByType<CardLogic>());
         List<CardLogic> returnList = new();
         if (subEffect.targetLocations.Count == 0)
             return returnList;

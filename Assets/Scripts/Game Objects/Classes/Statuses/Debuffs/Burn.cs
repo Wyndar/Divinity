@@ -4,8 +4,8 @@ public class Burn : Debuff
 {
     public Burn(CardLogic debufferLogic, CardLogic debuffedLogic, int timer)
     {
-        toolTipManager = GameObject.FindFirstObjectByType<ToolTipManager>();
-        uIManager = GameObject.FindFirstObjectByType<SecondaryUIManager>();
+        toolTipManager = GameObject.FindAnyObjectByType<ToolTipManager>();
+        uIManager = GameObject.FindAnyObjectByType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Burn");
         debuff = Debuffs.Burned;
         applierLogic = debufferLogic;

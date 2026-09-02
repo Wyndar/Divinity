@@ -4,8 +4,8 @@ public class Camouflage : Buff
 {
     public Camouflage(CardLogic bufferLogic, CardLogic buffedLogic, int duration)
     {
-        toolTipManager = GameObject.FindFirstObjectByType<ToolTipManager>();
-        uIManager = GameObject.FindFirstObjectByType<SecondaryUIManager>();
+        toolTipManager = GameObject.FindAnyObjectByType<ToolTipManager>();
+        uIManager = GameObject.FindAnyObjectByType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Camouflage");
         buff = Buffs.Camouflage;
         applierLogic = bufferLogic;

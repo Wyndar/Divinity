@@ -5,8 +5,8 @@ public class Barrier : Buff
 {
     public Barrier(CardLogic bufferLogic, CardLogic buffedLogic, int amount, int duration)
     {
-        toolTipManager = GameObject.FindFirstObjectByType<ToolTipManager>();
-        uIManager = GameObject.FindFirstObjectByType<SecondaryUIManager>();
+        toolTipManager = GameObject.FindAnyObjectByType<ToolTipManager>();
+        uIManager = GameObject.FindAnyObjectByType<SecondaryUIManager>();
         toolTipInfo = toolTipManager.tooltipInfos.Find(a => a.key == "Barrier");
         buff = Buffs.Barrier;
         applierLogic = bufferLogic;
